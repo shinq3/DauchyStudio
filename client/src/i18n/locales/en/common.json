@@ -9,7 +9,8 @@
     "next": "Next",
     "previous": "Previous",
     "contact": "Contact",
-    "learnMore": "Learn More"
+    "learnMore": "Learn More",
+    "viewAllProducts": "View All Products"
   },
   "status": {
     "loading": "Loading...",

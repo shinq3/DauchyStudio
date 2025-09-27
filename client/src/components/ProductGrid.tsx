@@ -18,7 +18,7 @@ export default function ProductGrid({
   ctaHref,
   showCta = true,
 }: ProductGridProps) {
-  const { t } = useTranslation('products');
+  const { t } = useTranslation('common');
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -84,7 +84,7 @@ export default function ProductGrid({
               data-testid="button-view-all-products"
             >
               <Link href={ctaHref}>
-                {t('title')}を見る
+                {t('buttons.viewAllProducts')}
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
