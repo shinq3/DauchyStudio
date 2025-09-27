@@ -23,7 +23,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-700 bg-gray-800/95 backdrop-blur supports-[backdrop-filter]:bg-gray-800/90">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
@@ -32,7 +32,7 @@ export default function Header() {
               <div className="h-8 w-8 rounded-md bg-gradient-to-br from-primary to-orange-600 flex items-center justify-center">
                 <span className="text-sm font-bold text-primary-foreground">D</span>
               </div>
-              <span className="font-bold text-xl">D'achy.Studio</span>
+              <span className="font-bold text-xl text-white">D'achy.Studio</span>
             </div>
           </Link>
 
@@ -43,7 +43,7 @@ export default function Header() {
                 key={item.href}
                 href={item.href}
                 className={`text-sm font-medium transition-colors hover:text-primary ${
-                  location === item.href ? "text-primary" : "text-muted-foreground"
+                  location === item.href ? "text-primary" : "text-gray-300"
                 }`}
                 data-testid={`link-${item.name.toLowerCase()}`}
               >
@@ -58,6 +58,7 @@ export default function Header() {
               variant="ghost"
               size="icon"
               onClick={toggleTheme}
+              className="text-gray-300 hover:text-white hover:bg-gray-700"
               data-testid="button-theme-toggle"
             >
               {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
@@ -73,6 +74,7 @@ export default function Header() {
               variant="ghost"
               size="icon"
               onClick={toggleTheme}
+              className="text-gray-300 hover:text-white hover:bg-gray-700"
               data-testid="button-theme-toggle-mobile"
             >
               {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
@@ -81,6 +83,7 @@ export default function Header() {
               variant="ghost"
               size="icon"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="text-gray-300 hover:text-white hover:bg-gray-700"
               data-testid="button-mobile-menu"
             >
               {isMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -96,7 +99,7 @@ export default function Header() {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
               transition={{ duration: 0.2 }}
-              className="md:hidden border-t"
+              className="md:hidden border-t border-gray-700"
             >
               <nav className="py-4 space-y-2">
                 {navigation.map((item) => (
@@ -104,7 +107,7 @@ export default function Header() {
                     key={item.href}
                     href={item.href}
                     className={`block px-4 py-2 text-sm font-medium transition-colors hover:text-primary ${
-                      location === item.href ? "text-primary bg-primary/10" : "text-muted-foreground"
+                      location === item.href ? "text-primary bg-primary/10" : "text-gray-300"
                     }`}
                     onClick={() => setIsMenuOpen(false)}
                     data-testid={`link-mobile-${item.name.toLowerCase()}`}
