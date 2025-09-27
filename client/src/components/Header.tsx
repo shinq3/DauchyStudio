@@ -18,6 +18,7 @@ export default function Header() {
   const navigation = [
     { name: t('navigation.home'), href: linkTo('/', locale) },
     { name: t('navigation.products'), href: linkTo('/products', locale) },
+    { name: t('navigation.about'), href: linkTo('/about', locale) },
     { name: t('navigation.news'), href: linkTo('/news', locale) },
     { name: t('navigation.contact'), href: linkTo('/contact', locale) },
   ];
