@@ -4,6 +4,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 
 export interface ProductCardProps {
   id: string;
@@ -24,17 +25,12 @@ export default function ProductCard({
   href,
 }: ProductCardProps) {
   const [, setLocation] = useLocation();
+  const { t } = useTranslation('common');
   
   const statusColors = {
     released: "bg-green-500/10 text-green-600 dark:text-green-400",
     beta: "bg-primary/10 text-primary",
     coming_soon: "bg-muted text-muted-foreground",
-  };
-
-  const statusLabels = {
-    released: "リリース済み",
-    beta: "ベータ版",
-    coming_soon: "近日公開",
   };
 
   const handleCardClick = () => {
@@ -65,7 +61,7 @@ export default function ProductCard({
                 className={`${statusColors[status]} font-medium`}
                 data-testid={`badge-status-${status}`}
               >
-                {statusLabels[status]}
+                {t(`productStatus.${status}`)}
               </Badge>
             </div>
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
@@ -106,7 +102,7 @@ export default function ProductCard({
               }
             }}
           >
-            詳細を見る
+            {t('buttons.viewDetails')}
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Button>
         </CardFooter>

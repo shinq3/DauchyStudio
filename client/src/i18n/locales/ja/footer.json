@@ -1,12 +1,23 @@
 {
   "company": {
     "name": "D'achy.Studio",
+    "description": "AIプロダクトの開発・提供を通じて、未来のテクノロジーソリューションを創造します。",
     "tagline": "日常からビジネスまで、人に寄り添うAIソリューション",
-    "copyright": "© 2024 D'achy.Studio. All rights reserved."
+    "copyright": "© 2024 D'achy.Studio. All rights reserved.",
+    "contact": {
+      "email": "contact@dachy.studio",
+      "phone": "+81-3-1234-5678"
+    }
+  },
+  "sections": {
+    "products": "プロダクト",
+    "company": "会社情報",
+    "follow": "フォローする"
   },
   "links": {
     "privacy": "プライバシーポリシー",
     "terms": "利用規約",
+    "sitemap": "サイトマップ",
     "support": "サポート"
   }
 }

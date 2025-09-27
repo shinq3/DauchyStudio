@@ -10,7 +10,10 @@
     "previous": "Previous",
     "contact": "Contact",
     "learnMore": "Learn More",
-    "viewAllProducts": "View All Products"
+    "viewAllProducts": "View All Products",
+    "viewDetails": "View Details",
+    "readMore": "Read More",
+    "viewAllNews": "View All News"
   },
   "status": {
     "loading": "Loading...",
@@ -26,6 +29,12 @@
     "message": "Message",
     "company": "Company/Organization",
     "required": "Required",
-    "optional": "Optional"
+    "optional": "Optional",
+    "externalLink": "External Link"
+  },
+  "productStatus": {
+    "released": "Released",
+    "beta": "Beta",
+    "coming_soon": "Coming Soon"
   }
 }

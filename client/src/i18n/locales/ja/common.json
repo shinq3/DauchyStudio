@@ -10,7 +10,10 @@
     "previous": "前へ",
     "contact": "お問い合わせ",
     "learnMore": "詳しく見る",
-    "viewAllProducts": "すべてのプロダクトを見る"
+    "viewAllProducts": "すべてのプロダクトを見る",
+    "viewDetails": "詳細を見る",
+    "readMore": "続きを読む",
+    "viewAllNews": "すべてのニュースを見る"
   },
   "status": {
     "loading": "読み込み中...",
@@ -26,6 +29,12 @@
     "message": "メッセージ",
     "company": "会社名・組織名",
     "required": "必須",
-    "optional": "任意"
+    "optional": "任意",
+    "externalLink": "外部リンク"
+  },
+  "productStatus": {
+    "released": "リリース済み",
+    "beta": "ベータ版",
+    "coming_soon": "近日公開"
   }
 }

@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import NewsCard, { type NewsCardProps } from "./NewsCard";
 import { motion } from "framer-motion";
 import { ArrowRight, Newspaper } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface NewsSectionProps {
   title: string;
@@ -10,6 +11,7 @@ interface NewsSectionProps {
 }
 
 export default function NewsSection({ title, items, ctaHref }: NewsSectionProps) {
+  const { t } = useTranslation(['home', 'common']);
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -46,7 +48,7 @@ export default function NewsSection({ title, items, ctaHref }: NewsSectionProps)
             </h2>
           </div>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            AIとテクノロジーの最新動向をお届けします
+            {t('home:sections.news.subtitle')}
           </p>
           <div className="w-20 h-1 bg-gradient-to-r from-primary to-orange-600 mx-auto mt-4" />
         </motion.div>
@@ -79,7 +81,7 @@ export default function NewsSection({ title, items, ctaHref }: NewsSectionProps)
             data-testid="button-view-all-news"
             onClick={() => console.log(`Navigate to ${ctaHref}`)}
           >
-            すべてのニュースを見る
+            {t('common:buttons.viewAllNews')}
             <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
           </Button>
         </motion.div>

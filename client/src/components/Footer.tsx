@@ -1,5 +1,7 @@
 import { Link } from "wouter";
 import { Github, Twitter, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { linkTo, useLocale } from "@/lib/i18n-utils";
 
 interface FooterProps {
   company: string;
@@ -16,6 +18,8 @@ interface FooterProps {
 }
 
 export default function Footer({ company, address, links, social }: FooterProps) {
+  const { t } = useTranslation('footer');
+  const { locale } = useLocale();
   return (
     <footer className="bg-gray-800 border-t border-gray-700">
       <div className="container mx-auto px-4 py-16">
@@ -29,8 +33,7 @@ export default function Footer({ company, address, links, social }: FooterProps)
               <span className="font-bold text-xl text-white">{company}</span>
             </div>
             <p className="text-gray-300 leading-relaxed">
-              AIプロダクトの開発・提供を通じて、
-              未来のテクノロジーソリューションを創造します。
+              {t('company.description')}
             </p>
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-sm text-gray-300">
@@ -39,11 +42,11 @@ export default function Footer({ company, address, links, social }: FooterProps)
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-300">
                 <Mail className="w-4 h-4" />
-                <span data-testid="text-email">contact@dachy.studio</span>
+                <span data-testid="text-email">{t('company.contact.email')}</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-300">
                 <Phone className="w-4 h-4" />
-                <span data-testid="text-phone">+81-3-1234-5678</span>
+                <span data-testid="text-phone">{t('company.contact.phone')}</span>
               </div>
             </div>
           </div>
@@ -72,7 +75,7 @@ export default function Footer({ company, address, links, social }: FooterProps)
 
           {/* Social Links */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-white">フォローする</h4>
+            <h4 className="font-semibold text-white">{t('sections.follow')}</h4>
             <div className="flex space-x-4">
               {social.map((item, index) => (
                 <a
@@ -87,22 +90,6 @@ export default function Footer({ company, address, links, social }: FooterProps)
                 </a>
               ))}
             </div>
-            <div className="space-y-2">
-              <p className="text-sm text-gray-300">
-                最新情報をお届けします
-              </p>
-              <div className="flex gap-2">
-                <input
-                  type="email"
-                  placeholder="メールアドレス"
-                  className="flex-1 px-3 py-2 text-sm rounded-md border border-gray-600 bg-gray-700 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
-                  data-testid="input-newsletter"
-                />
-                <button className="px-4 py-2 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors" data-testid="button-newsletter">
-                  登録
-                </button>
-              </div>
-            </div>
           </div>
         </div>
 
@@ -112,14 +99,14 @@ export default function Footer({ company, address, links, social }: FooterProps)
             © 2024 {company}. All rights reserved.
           </p>
           <div className="flex space-x-6 text-sm">
-            <Link href="/privacy" className="text-gray-300 hover:text-primary transition-colors" data-testid="link-privacy">
-              プライバシーポリシー
+            <Link href={linkTo("/privacy", locale)} className="text-gray-300 hover:text-primary transition-colors" data-testid="link-privacy">
+              {t('links.privacy')}
             </Link>
-            <Link href="/terms" className="text-gray-300 hover:text-primary transition-colors" data-testid="link-terms">
-              利用規約
+            <Link href={linkTo("/terms", locale)} className="text-gray-300 hover:text-primary transition-colors" data-testid="link-terms">
+              {t('links.terms')}
             </Link>
-            <Link href="/sitemap" className="text-gray-300 hover:text-primary transition-colors" data-testid="link-sitemap">
-              サイトマップ
+            <Link href={linkTo("/sitemap", locale)} className="text-gray-300 hover:text-primary transition-colors" data-testid="link-sitemap">
+              {t('links.sitemap')}
             </Link>
           </div>
         </div>

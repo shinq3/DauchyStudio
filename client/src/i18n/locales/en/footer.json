@@ -1,12 +1,23 @@
 {
   "company": {
     "name": "D'achy.Studio",
+    "description": "We create future technology solutions through the development and provision of AI products.",
     "tagline": "AI solutions that support people from daily life to business",
-    "copyright": "© 2024 D'achy.Studio. All rights reserved."
+    "copyright": "© 2024 D'achy.Studio. All rights reserved.",
+    "contact": {
+      "email": "contact@dachy.studio",
+      "phone": "+81-3-1234-5678"
+    }
+  },
+  "sections": {
+    "products": "Products",
+    "company": "Company",
+    "follow": "Follow Us"
   },
   "links": {
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
+    "sitemap": "Sitemap",
     "support": "Support"
   }
 }

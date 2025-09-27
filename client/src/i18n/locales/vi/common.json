@@ -10,7 +10,10 @@
     "previous": "Trước",
     "contact": "Liên hệ",
     "learnMore": "Tìm hiểu thêm",
-    "viewAllProducts": "Xem Tất Cả Sản Phẩm"
+    "viewAllProducts": "Xem Tất Cả Sản Phẩm",
+    "viewDetails": "Xem Chi Tiết",
+    "readMore": "Xem Thêm",
+    "viewAllNews": "Xem Tất Cả Tin Tức"
   },
   "status": {
     "loading": "Đang tải...",
@@ -26,6 +29,12 @@
     "message": "Tin nhắn",
     "company": "Công ty/Tổ chức",
     "required": "Bắt buộc",
-    "optional": "Tùy chọn"
+    "optional": "Tùy chọn",
+    "externalLink": "Liên Kết Ngoài"
+  },
+  "productStatus": {
+    "released": "Đã Phát Hành",
+    "beta": "Phiên Bản Beta",
+    "coming_soon": "Sắp Ra Mắt"
   }
 }

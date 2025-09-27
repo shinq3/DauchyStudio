@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { ExternalLink, Calendar } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export interface NewsCardProps {
   id: string;
@@ -23,6 +24,7 @@ export default function NewsCard({
   isExternal,
   href,
 }: NewsCardProps) {
+  const { t } = useTranslation('common');
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("ja-JP", {
       year: "numeric",
@@ -51,7 +53,7 @@ export default function NewsCard({
                 <div className="absolute top-4 right-4">
                   <Badge variant="secondary" className="bg-white/10 backdrop-blur-sm text-white">
                     <ExternalLink className="w-3 h-3 mr-1" />
-                    外部リンク
+                    {t('labels.externalLink')}
                   </Badge>
                 </div>
               )}
@@ -85,7 +87,7 @@ export default function NewsCard({
             onClick={() => console.log(`Navigate to ${href}`)}
             data-testid={`button-read-more`}
           >
-            続きを読む
+            {t('buttons.readMore')}
             {isExternal ? (
               <ExternalLink className="w-3 h-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             ) : (
