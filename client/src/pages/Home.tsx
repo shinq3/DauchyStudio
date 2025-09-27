@@ -124,7 +124,7 @@ export default function Home() {
       />
       
       <VisionBlock
-        heading="即日プロトタイプ作成からのシステム開発"
+        heading="プロトタイプ作成からのシステム開発"
         bullets={visionBullets}
       />
       
