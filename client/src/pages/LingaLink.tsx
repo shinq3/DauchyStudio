@@ -129,7 +129,7 @@ export default function LingaLink() {
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
                     <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">好きな先生のスケジュールを確認して、ワンタップで予約</p>
+                    <p className="text-gray-700">好きな講師のスケジュールを確認して、ワンタップで予約</p>
                   </div>
                   <div className="flex items-start gap-3">
                     <Video className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
@@ -196,7 +196,7 @@ export default function LingaLink() {
                   </div>
                   <div className="flex items-start gap-3">
                     <Users className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">受講生と先生が同時に操作できて、そのまま保存される</p>
+                    <p className="text-gray-700">受講生と講師が同時に操作できて、そのまま保存される</p>
                   </div>
                 </div>
               </CardContent>
