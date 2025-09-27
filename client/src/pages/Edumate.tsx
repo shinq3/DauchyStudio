@@ -161,7 +161,7 @@ export default function Edumate() {
           </h1>
           <div className="mb-8">
             <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800 mb-4">
-              勉強も、恋も、両立できる。
+              勉強も、友達も、大切にできる。
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-testid="text-description">
               ふたりで学んで、ちゃんと続く。保護者にも見える安心設計。
@@ -186,7 +186,7 @@ export default function Edumate() {
                 <h2 className="text-2xl lg:text-3xl font-bold">Edumateとは？</h2>
               </div>
               <p className="text-lg leading-relaxed mb-6 text-orange-100">
-                中高生のペア（例：あなたと彼女/彼氏）が今日の学びをAIで"要点カード"に自動変換。翌日のワンポイント復習と、ふたりだけの共有＆リアクションで学習を"続けやすく"します。
+                中高生のペア（例：あなたと友達）が今日の学びをAIで"要点カード"に自動変換。翌日のワンポイント復習と、ふたりだけの共有＆リアクションで学習を"続けやすく"します。
               </p>
               <div className="bg-orange-400/20 rounded-lg p-4">
                 <p className="text-orange-100">
@@ -213,7 +213,7 @@ export default function Edumate() {
             <Card className="hover-elevate text-center">
               <CardContent className="p-6">
                 <Heart className="w-16 h-16 text-orange-500 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">生徒B（彼女）</h3>
+                <h3 className="text-xl font-semibold mb-2">生徒B（友達）</h3>
                 <p className="text-gray-600">一緒に学習を続けるパートナー</p>
               </CardContent>
             </Card>
@@ -387,7 +387,7 @@ export default function Edumate() {
                 ふたりで始める、新しい学習スタイル
               </h2>
               <p className="text-xl text-orange-100 mb-8 max-w-2xl mx-auto">
-                勉強も恋愛も両立できる、安心の学習プラットフォームを体験してみませんか？
+                勉強も友情も大切にできる、安心の学習プラットフォームを体験してみませんか？
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button 
