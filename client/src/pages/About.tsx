@@ -235,10 +235,10 @@ export default function About() {
                 <div className="w-4 h-4 bg-primary rounded-full mt-2 flex-shrink-0" />
                 <div>
                   <h3 className="text-lg font-semibold mb-2" data-testid="text-milestone-1">
-                    2024年1月 - 会社設立
+                    2024年1月 - D'auchy-Studio設立
                   </h3>
                   <p className="text-muted-foreground">
-                    AI技術の民主化を目指し、D'achy.Studioを設立。教育分野からスタート。
+                    AI技術の民主化を目指し、D'achy.Studioを設立。
                   </p>
                 </div>
               </div>
@@ -246,7 +246,7 @@ export default function About() {
                 <div className="w-4 h-4 bg-primary rounded-full mt-2 flex-shrink-0" />
                 <div>
                   <h3 className="text-lg font-semibold mb-2" data-testid="text-milestone-2">
-                    2024年6月 - LingaLink リリース
+                    2025年5月 - LingaLink リリース
                   </h3>
                   <p className="text-muted-foreground">
                     初のプロダクトとなるオンライン学習コーチングサービス「LingaLink」を正式リリース。
@@ -257,7 +257,7 @@ export default function About() {
                 <div className="w-4 h-4 bg-primary rounded-full mt-2 flex-shrink-0" />
                 <div>
                   <h3 className="text-lg font-semibold mb-2" data-testid="text-milestone-3">
-                    2024年10月 - OfficeBrain リリース
+                    2025年8月 - OfficeBrain リリース
                   </h3>
                   <p className="text-muted-foreground">
                     企業向けRAGシステム「OfficeBrain」をリリース。エンタープライズ市場に参入。
@@ -268,7 +268,7 @@ export default function About() {
                 <div className="w-4 h-4 bg-orange-500 rounded-full mt-2 flex-shrink-0" />
                 <div>
                   <h3 className="text-lg font-semibold mb-2" data-testid="text-milestone-4">
-                    2024年12月 - 現在
+                    2025年10月 - 現在
                   </h3>
                   <p className="text-muted-foreground">
                     EduMateベータ版公開、Bayd-System開発中。さらなる革新的プロダクトを準備中。
