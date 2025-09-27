@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "react-i18next";
 import { 
   GraduationCap, 
   Users, 
@@ -22,6 +23,7 @@ import heroImage from "@assets/image_1758941074318.png";
 import onlineLearningImage from '@assets/stock_images/online_learning_educ_92e4c234.jpg';
 
 export default function LingaLink() {
+  const { t } = useTranslation('lingalink');
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -64,10 +66,10 @@ export default function LingaLink() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-4xl lg:text-5xl font-bold mb-6 text-white">
-              LingaLink
+              {t('hero.title')}
             </h1>
             <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-              オンラインレッスンでAIが自動レビューを行うコーチングサービス。パーソナライズされた学習体験を提供し、効果的なスキルアップをサポートします。
+              {t('hero.subtitle')}
             </p>
           </motion.div>
         </div>
@@ -83,20 +85,20 @@ export default function LingaLink() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
               <Badge className="mb-4 bg-orange-100 text-orange-700 border-orange-200" data-testid="badge-product">
-                AI学習プラットフォーム
+                {t('hero.badge')}
               </Badge>
               <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6" data-testid="text-title">
-                LingaLink
+                {t('hero.title')}
               </h1>
               <p className="text-xl text-gray-600 leading-relaxed mb-8" data-testid="text-description">
-                学ぶ・教えるの効率をAIがサポートするオンライン学習プラットフォーム
+                {t('hero.description')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 {/* <Button size="lg" className="bg-orange-500 hover:bg-orange-600" data-testid="button-hero-demo">
                   無料デモを試す
                 </Button> */}
                 <Button size="lg" variant="outline" data-testid="button-hero-learn-more">
-                  詳しく見る
+                  {t('hero.buttons.learnMore')}
                 </Button>
               </div>
             </div>

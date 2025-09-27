@@ -12,6 +12,7 @@ import jaHome from './locales/ja/pages/home.json';
 import jaProducts from './locales/ja/pages/products.json';
 import jaContact from './locales/ja/pages/contact.json';
 import jaNews from './locales/ja/pages/news.json';
+import jaLingaLink from './locales/ja/products/lingalink.json';
 
 import enCommon from './locales/en/common.json';
 import enHeader from './locales/en/header.json';
@@ -20,6 +21,7 @@ import enHome from './locales/en/pages/home.json';
 import enProducts from './locales/en/pages/products.json';
 import enContact from './locales/en/pages/contact.json';
 import enNews from './locales/en/pages/news.json';
+import enLingaLink from './locales/en/products/lingalink.json';
 
 import viCommon from './locales/vi/common.json';
 import viHeader from './locales/vi/header.json';
@@ -28,6 +30,7 @@ import viHome from './locales/vi/pages/home.json';
 import viProducts from './locales/vi/pages/products.json';
 import viContact from './locales/vi/pages/contact.json';
 import viNews from './locales/vi/pages/news.json';
+import viLingaLink from './locales/vi/products/lingalink.json';
 
 const resources = {
   ja: {
@@ -38,6 +41,7 @@ const resources = {
     products: jaProducts,
     contact: jaContact,
     news: jaNews,
+    lingalink: jaLingaLink,
   },
   en: {
     common: enCommon,
@@ -47,6 +51,7 @@ const resources = {
     products: enProducts,
     contact: enContact,
     news: enNews,
+    lingalink: enLingaLink,
   },
   vi: {
     common: viCommon,
@@ -56,6 +61,7 @@ const resources = {
     products: viProducts,
     contact: viContact,
     news: viNews,
+    lingalink: viLingaLink,
   },
 };
 
@@ -78,7 +84,7 @@ i18n
     
     // Namespace configuration
     defaultNS: 'common',
-    ns: ['common', 'header', 'footer', 'home', 'products', 'contact', 'news'],
+    ns: ['common', 'header', 'footer', 'home', 'products', 'contact', 'news', 'lingalink'],
     
     interpolation: {
       escapeValue: false, // React already escapes values

@@ -1,0 +1,12 @@
+{
+  "hero": {
+    "title": "LingaLink",
+    "subtitle": "An AI-powered coaching service that provides automated reviews in online lessons. Offering personalized learning experiences to support effective skill development.",
+    "badge": "AI Learning Platform",
+    "description": "An online learning platform where AI supports the efficiency of learning and teaching",
+    "buttons": {
+      "demo": "Try Free Demo",
+      "learnMore": "Learn More"
+    }
+  }
+}
