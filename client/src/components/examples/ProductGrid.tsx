@@ -36,7 +36,7 @@ export default function ProductGridExample() {
     {
       id: "bayd-system",
       name: "Bayd-System",
-      description: "音楽リハーサルスタジオ管理システム。予約から機材管理まで包括的にサポートします。",
+      description: "音楽リハーサルスタジオ管理システム。条件によりAIで最適なスタジオを検索、予約から機材管理まで包括的にサポートします。",
       image: baydSystemImage,
       status: "coming_soon" as const,
       tags: ["音楽", "スタジオ", "管理システム"],
