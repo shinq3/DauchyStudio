@@ -12,6 +12,7 @@ import Home from "@/pages/Home";
 import Products from "@/pages/Products";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
+import News from "@/pages/News";
 import LingaLink from "@/pages/LingaLink";
 import Edumate from "@/pages/Edumate";
 import OfficeBrain from "@/pages/OfficeBrain";
@@ -36,6 +37,7 @@ function Router() {
       <Route path="/products/enterprise-llm" component={EnterpriseLLM} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />
+      <Route path="/news" component={News} />
       {/* TODO: Add product detail, news pages when backend is ready */}
       <Route component={NotFound} />
     </Switch>
