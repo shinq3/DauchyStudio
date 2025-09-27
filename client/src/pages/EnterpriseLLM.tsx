@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -56,210 +57,58 @@ const itemVariants = {
 };
 
 export default function EnterpriseLLM() {
+  const { t } = useTranslation('enterprise-llm');
+  
   useEffect(() => {
-    document.title = "Enterprise LLM - 統合型企業プラットフォーム | D'achy.Studio";
+    document.title = t('meta.title');
     
     // Set meta description
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Enterprise LLM - プロジェクト管理・ナレッジ共有・AIアシスタントを統合したオールインワン企業プラットフォーム。チームの力を最大限に引き出す統合型ソリューション。');
+      metaDescription.setAttribute('content', t('meta.description'));
     } else {
       const meta = document.createElement('meta');
       meta.name = 'description';
-      meta.content = 'Enterprise LLM - プロジェクト管理・ナレッジ共有・AIアシスタントを統合したオールインワン企業プラットフォーム。チームの力を最大限に引き出す統合型ソリューション。';
+      meta.content = t('meta.description');
       document.head.appendChild(meta);
     }
-  }, []);
+  }, [t]);
 
-  const features = [
-    {
-      icon: <Shield className="w-8 h-8 text-orange-500" />,
-      title: "認証・アカウント管理",
-      description: "セキュアな認証環境でユーザー情報を安全に管理",
-      details: [
-        "多要素認証（MFA）対応でセキュリティ強化",
-        "ユーザープロフィール完全管理（名前・部署・写真）",
-        "日本語・英語・ベトナム語の多言語UI対応"
-      ]
-    },
-    {
-      icon: <Building className="w-8 h-8 text-orange-500" />,
-      title: "組織管理",
-      description: "会社情報からプラン管理まで一元化",
-      details: [
-        "会社情報・所在地・連絡先の統合管理",
-        "BasicからEnterpriseまでの柔軟プラン対応",
-        "管理者・メンバー権限のスムーズ設定"
-      ]
-    },
-    {
-      icon: <Target className="w-8 h-8 text-orange-500" />,
-      title: "プロジェクト管理",
-      description: "AI予測機能付きの高度なプロジェクト管理",
-      details: [
-        "進捗率・優先度・メンバーの直感的操作",
-        "マイルストーン管理で重要な節目を見える化",
-        "リスク管理と将来予測でプロジェクト成功率向上"
-      ]
-    },
-    {
-      icon: <CheckCircle className="w-8 h-8 text-orange-500" />,
-      title: "タスク管理",
-      description: "AI提案機能付きかんばんボードでタスクを効率化",
-      details: [
-        "ドラッグ&ドロップのかんばんボード",
-        "サブタスク機能で大きな仕事を細分化",
-        "AI提案でプロジェクト状況に応じた新タスク提案"
-      ]
-    },
-    {
-      icon: <MessageSquare className="w-8 h-8 text-orange-500" />,
-      title: "チャット・コミュニケーション",
-      description: "多言語対応のリアルタイムコミュニケーション",
-      details: [
-        "1対1・グループチャットでリアルタイム会話",
-        "@メンション機能と自動翻訳対応",
-        "過去の会話履歴を素早く検索"
-      ]
-    },
-    {
-      icon: <BookOpen className="w-8 h-8 text-orange-500" />,
-      title: "ナレッジベース",
-      description: "AI検索機能付きの社内Wiki環境",
-      details: [
-        "記事作成・タグ分類・履歴管理",
-        "リッチエディタで読みやすい記事作成",
-        "AI検索で関連ドキュメントを自動提示"
-      ]
-    },
-    {
-      icon: <Newspaper className="w-8 h-8 text-orange-500" />,
-      title: "ニュース統合",
-      description: "業界ニュースとプロジェクト関連情報の自動収集",
-      details: [
-        "ビジネス・テック分野の最新ニュース配信",
-        "進行中プロジェクトに関連するニュース自動収集",
-        "重要情報のアラート通知機能"
-      ]
-    },
-    {
-      icon: <Video className="w-8 h-8 text-orange-500" />,
-      title: "会議・議事録",
-      description: "AI要約機能付きの会議管理システム",
-      details: [
-        "会議スケジュール・参加者・URL管理",
-        "AI要約で会議内容を自動まとめ",
-        "議事録の多言語翻訳機能"
-      ]
-    },
-    {
-      icon: <Search className="w-8 h-8 text-orange-500" />,
-      title: "検索・問い合わせ",
-      description: "AI搭載の横断検索で情報を瞬時に発見",
-      details: [
-        "プロジェクト・タスク・ナレッジの一括検索",
-        "言葉の意味を理解するAI検索",
-        "社内Q&A履歴の一元管理"
-      ]
-    },
-    {
-      icon: <Bot className="w-8 h-8 text-orange-500" />,
-      title: "AIアシスタント",
-      description: "OpenAI & Gemini対応の高度なAI支援",
-      details: [
-        "用途に合わせてOpenAI・Geminiを切り替え",
-        "自動要約・翻訳・感情分析で業務効率化",
-        "RAG検索で社内データを活用した精度の高い回答"
-      ]
-    },
-    {
-      icon: <Languages className="w-8 h-8 text-orange-500" />,
-      title: "多言語対応",
-      description: "国際チーム向けの完全多言語対応",
-      details: [
-        "日本語・英語・ベトナム語に完全対応",
-        "チャット自動翻訳で国際チームも安心",
-        "タイムゾーン・通貨対応で海外拠点連携"
-      ]
-    },
-    {
-      icon: <BarChart3 className="w-8 h-8 text-orange-500" />,
-      title: "ダッシュボード・分析",
-      description: "進捗とパフォーマンスの可視化分析",
-      details: [
-        "プロジェクト・タスク状況のグラフ化",
-        "メンバーごとのパフォーマンス把握",
-        "カスタムレポートのExcel・PDF出力"
-      ]
-    }
-  ];
+  const featuresData = t('features', { returnObjects: true }) as any[];
+  const features = featuresData.map((feature, index) => ({
+    ...feature,
+    icon: [
+      <Shield className="w-8 h-8 text-orange-500" />,
+      <Building className="w-8 h-8 text-orange-500" />,
+      <Target className="w-8 h-8 text-orange-500" />,
+      <CheckCircle className="w-8 h-8 text-orange-500" />,
+      <MessageSquare className="w-8 h-8 text-orange-500" />,
+      <BookOpen className="w-8 h-8 text-orange-500" />,
+      <Newspaper className="w-8 h-8 text-orange-500" />,
+      <Video className="w-8 h-8 text-orange-500" />,
+      <Search className="w-8 h-8 text-orange-500" />,
+      <Bot className="w-8 h-8 text-orange-500" />,
+      <Languages className="w-8 h-8 text-orange-500" />,
+      <BarChart3 className="w-8 h-8 text-orange-500" />
+    ][index] || <Shield className="w-8 h-8 text-orange-500" />
+  }));
 
-  const systemFeatures = [
-    {
-      icon: <Settings className="w-6 h-6 text-orange-500" />,
-      title: "権限管理",
-      description: "きめ細かいアクセスコントロール"
-    },
-    {
-      icon: <Monitor className="w-6 h-6 text-orange-500" />,
-      title: "監査ログ",
-      description: "すべての操作履歴を追跡"
-    },
-    {
-      icon: <Key className="w-6 h-6 text-orange-500" />,
-      title: "AI利用管理",
-      description: "APIキーや使用量を一括管理"
-    },
-    {
-      icon: <Lock className="w-6 h-6 text-orange-500" />,
-      title: "データ保護",
-      description: "暗号化と定期バックアップ"
-    }
-  ];
+  const systemFeaturesData = t('systemFeatures', { returnObjects: true }) as any[];
+  const systemFeatures = systemFeaturesData.map((feature, index) => ({
+    ...feature,
+    icon: [
+      <Settings className="w-6 h-6 text-orange-500" />,
+      <Monitor className="w-6 h-6 text-orange-500" />,
+      <Key className="w-6 h-6 text-orange-500" />,
+      <Lock className="w-6 h-6 text-orange-500" />
+    ][index] || <Settings className="w-6 h-6 text-orange-500" />
+  }));
 
-  const plans = [
-    {
-      name: "Basic",
-      price: "¥9,800",
-      period: "月額 / 5ユーザー",
-      features: [
-        "基本的なプロジェクト管理",
-        "タスク管理",
-        "チャット機能",
-        "基本的なナレッジベース",
-        "メール・チャットサポート"
-      ],
-      recommended: false
-    },
-    {
-      name: "Professional",
-      price: "¥19,800",
-      period: "月額 / 15ユーザー",
-      features: [
-        "Basicの全機能",
-        "AI検索・要約機能",
-        "会議管理・議事録AI要約",
-        "ニュース統合",
-        "多言語翻訳",
-        "電話・Zoom・チャットサポート"
-      ],
-      recommended: true
-    },
-    {
-      name: "Enterprise",
-      price: "お問い合わせ",
-      period: "カスタム価格",
-      features: [
-        "Professionalの全機能",
-        "カスタムAIモデル統合",
-        "専用サーバー・VPN接続",
-        "カスタム権限設定",
-        "専任カスタマーサクセス",
-        "オンサイト導入支援"
-      ],
-      recommended: false
-    }
-  ];
+  const pricingData = t('pricing', { returnObjects: true }) as any;
+  const plans = pricingData.plans.map((plan: any, index: number) => ({
+    ...plan,
+    recommended: index === 1 // Professional plan (second plan) is recommended
+  }));
 
   return (
     <main className="min-h-screen bg-background">
@@ -283,18 +132,17 @@ export default function EnterpriseLLM() {
             transition={{ duration: 0.8 }}
           >
             <Badge className="mb-4 bg-orange-100 text-orange-800 border-orange-200" data-testid="badge-status">
-              統合型プラットフォーム
+              {t('hero.badge')}
             </Badge>
             <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 text-white" data-testid="text-title">
-              Enterprise LLM
+              {t('hero.title')}
             </h1>
             <p className="text-xl lg:text-2xl mb-8 text-white/90 max-w-3xl mx-auto">
-              プロジェクト管理 × ナレッジ共有 × AIアシスタント<br />
-              企業の仕事をもっとスマートにする、統合型プラットフォーム
+              {t('hero.subtitle')}<br />
+              {t('hero.tagline')}
             </p>
             <p className="text-lg mb-8 text-white/80 max-w-4xl mx-auto">
-              このシステムは、プロジェクト管理・コミュニケーション・ナレッジ共有・AI支援をひとつにまとめたオールインワン環境です。<br />
-              日常の業務から大規模プロジェクトまで、チームの力を最大限に引き出します。
+              {t('hero.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               {/* <Button asChild size="lg" className="bg-primary hover:bg-primary/90" data-testid="button-demo">
@@ -304,7 +152,7 @@ export default function EnterpriseLLM() {
               </Button> */}
               <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white/10" data-testid="button-more-info">
                 <Link href="/contact">
-                  詳細を問い合わせ
+                  {t('hero.buttons.contact')}
                 </Link>
               </Button>
             </div>
@@ -323,11 +171,10 @@ export default function EnterpriseLLM() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl lg:text-4xl font-bold mb-6" data-testid="text-features-title">
-              オールインワン機能で業務を効率化
+              {t('coreFeatures.title')}
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              プロジェクト管理からAIアシスタントまで、企業が必要とするすべての機能を統合。
-              チームの生産性を最大化します。
+              {t('coreFeatures.subtitle')}
             </p>
           </motion.div>
           
@@ -376,10 +223,10 @@ export default function EnterpriseLLM() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-              企業レベルのシステム管理
+              {t('systemManagement.title')}
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              セキュリティとガバナンスを最優先に設計された管理機能
+              {t('systemManagement.subtitle')}
             </p>
           </motion.div>
           
@@ -421,10 +268,10 @@ export default function EnterpriseLLM() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl lg:text-4xl font-bold mb-6" data-testid="text-pricing-title">
-              チームサイズに合わせた柔軟なプラン
+              {pricingData.title}
             </h2>
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              スタートアップから大企業まで、規模に応じて最適なプランをご用意
+              {pricingData.subtitle}
             </p>
           </motion.div>
           
@@ -440,7 +287,7 @@ export default function EnterpriseLLM() {
                 <Card className={`h-full relative ${plan.recommended ? 'border-primary shadow-lg' : ''} hover-elevate`}>
                   {plan.recommended && (
                     <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                      <Badge className="bg-primary text-primary-foreground">おすすめ</Badge>
+                      <Badge className="bg-primary text-primary-foreground">{pricingData.recommendedBadge}</Badge>
                     </div>
                   )}
                   <CardHeader className="text-center pb-8">
@@ -465,7 +312,7 @@ export default function EnterpriseLLM() {
                       data-testid={`button-plan-${plan.name.toLowerCase()}`}
                     >
                       <Link href="/contact">
-                        {plan.name === "Enterprise" ? "お問い合わせ" : "プランを選択"}
+                        {plan.buttonText}
                       </Link>
                     </Button>
                   </CardContent>
@@ -487,16 +334,15 @@ export default function EnterpriseLLM() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-              チームの可能性を最大化しませんか？
+              {t('cta.title')}
             </h2>
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Enterprise LLMで、プロジェクト管理から AI活用まで、すべてを統合。
-              企業の生産性を最大化する統合プラットフォームをご体験ください。
+              {t('cta.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className="bg-primary hover:bg-primary/90" data-testid="button-contact">
                 <Link href="/contact">
-                  お問い合わせ
+                  {t('cta.buttons.contact')}
                 </Link>
               </Button>
               {/* <Button asChild variant="outline" size="lg" data-testid="button-demo-schedule">
