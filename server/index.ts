@@ -6,6 +6,27 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Locale detection middleware for SEO
+app.use((req: any, res, next) => {
+  // Extract locale from URL path (e.g., /ja/products -> ja)
+  const pathSegments = req.path.split('/').filter(Boolean);
+  const localeFromPath = pathSegments[0];
+  const supportedLocales = ['ja', 'en', 'vi'];
+  
+  if (supportedLocales.includes(localeFromPath)) {
+    // Set Content-Language header for SEO
+    res.set('Content-Language', localeFromPath);
+    // Store locale in request for potential API use
+    req.locale = localeFromPath;
+  } else {
+    // Default to Japanese if no valid locale in path
+    res.set('Content-Language', 'ja');
+    req.locale = 'ja';
+  }
+  
+  next();
+});
+
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
