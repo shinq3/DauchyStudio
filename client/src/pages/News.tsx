@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -37,20 +38,22 @@ const itemVariants = {
 };
 
 export default function News() {
+  const { t } = useTranslation('news');
+  
   useEffect(() => {
-    document.title = "AI・テクノロジーニュース | D'achy.Studio";
+    document.title = t('meta.title') || "AI・テクノロジーニュース | D'achy.Studio";
     
     // Set meta description
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'AI・テクノロジー業界の最新ニュースとトレンドをお届け。生成AI、企業DX、教育技術など幅広い分野の情報を発信しています。');
+      metaDescription.setAttribute('content', t('meta.description') || 'AI・テクノロジー業界の最新ニュースとトレンドをお届け。生成AI、企業DX、教育技術など幅広い分野の情報を発信しています。');
     } else {
       const meta = document.createElement('meta');
       meta.name = 'description';
-      meta.content = 'AI・テクノロジー業界の最新ニュースとトレンドをお届け。生成AI、企業DX、教育技術など幅広い分野の情報を発信しています。';
+      meta.content = t('meta.description') || 'AI・テクノロジー業界の最新ニュースとトレンドをお届け。生成AI、企業DX、教育技術など幅広い分野の情報を発信しています。';
       document.head.appendChild(meta);
     }
-  }, []);
+  }, [t]);
 
   // TODO: remove mock functionality - replace with API calls
   const allNews = [
@@ -147,13 +150,13 @@ export default function News() {
   ];
 
   const categories = [
-    "すべて",
-    "AI技術", 
-    "企業システム",
-    "エンターテイメント",
-    "ビジネスAI",
-    "開発ツール",
-    "デザイン・アート"
+    t('categories.all') || "すべて",
+    t('categories.ai-tech') || "AI技術",
+    t('categories.enterprise') || "企業システム",
+    t('categories.entertainment') || "エンターテイメント",
+    t('categories.business-ai') || "ビジネスAI",
+    t('categories.dev-tools') || "開発ツール",
+    t('categories.design-art') || "デザイン・アート"
   ];
 
   const formatDate = (dateString: string) => {
@@ -187,17 +190,21 @@ export default function News() {
             transition={{ duration: 0.8 }}
           >
             <Badge className="mb-4 bg-orange-100 text-orange-800 border-orange-200" data-testid="badge-news">
-              最新ニュース
+              {t('hero.badge') || "最新ニュース"}
             </Badge>
             <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-6 text-white" data-testid="text-title">
-              AI・テクノロジーニュース
+              {t('hero.title') || "AI・テクノロジーニュース"}
             </h1>
             <p className="text-xl lg:text-2xl mb-8 text-white/90 max-w-3xl mx-auto">
-              生成AI、企業DX、教育技術など<br />
-              最新のテクノロジートレンドをお届け
+              {(t('hero.subtitle') || "生成AI、企業DX、教育技術など\n最新のテクノロジートレンドをお届け").split('\n').map((line, index) => (
+                <span key={index}>
+                  {line}
+                  {index === 0 && <br />}
+                </span>
+              ))}
             </p>
             <p className="text-lg mb-8 text-white/80 max-w-4xl mx-auto">
-              業界の動向から実践的な活用事例まで、技術革新の最前線をわかりやすく解説します。
+              {t('hero.description') || "業界の動向から実践的な活用事例まで、技術革新の最前線をわかりやすく解説します。"}
             </p>
           </motion.div>
         </div>
@@ -257,7 +264,7 @@ export default function News() {
                       <div className="absolute top-3 right-3">
                         <Badge variant="outline" className="bg-white/90 border-orange-200 text-orange-800">
                           <ExternalLink className="w-3 h-3 mr-1" />
-                          外部記事
+                          {t('article.external_badge') || "外部記事"}
                         </Badge>
                       </div>
                     )}
@@ -299,7 +306,7 @@ export default function News() {
 
                     {/* Author and Source */}
                     <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
-                      <span>by {article.author}</span>
+                      <span>{t('article.by') || "by"} {article.author}</span>
                       <span>{article.source}</span>
                     </div>
 
@@ -313,12 +320,12 @@ export default function News() {
                     >
                       {article.isExternal ? (
                         <a href={article.href} target="_blank" rel="noopener noreferrer">
-                          記事を読む
+                          {t('article.read_article') || "記事を読む"}
                           <ExternalLink className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
                         </a>
                       ) : (
                         <Link href={article.href}>
-                          記事を読む
+                          {t('article.read_article') || "記事を読む"}
                           <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
                         </Link>
                       )}
@@ -342,21 +349,20 @@ export default function News() {
           >
             <Newspaper className="w-12 h-12 text-primary mx-auto mb-6" />
             <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-              最新ニュースをお見逃しなく
+              {t('newsletter.title') || "最新ニュースをお見逃しなく"}
             </h2>
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              AI・テクノロジー業界の重要なニュースや分析記事を
-              定期的にお届けします。
+              {t('newsletter.description') || "AI・テクノロジー業界の重要なニュースや分析記事を定期的にお届けします。"}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className="bg-primary hover:bg-primary/90" data-testid="button-newsletter">
                 <Link href="/contact">
-                  ニュースレター登録
+                  {t('newsletter.subscribe_button') || "ニュースレター登録"}
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg" data-testid="button-rss">
                 <Link href="/rss">
-                  RSSフィード
+                  {t('newsletter.rss_button') || "RSSフィード"}
                 </Link>
               </Button>
             </div>
