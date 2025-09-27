@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import customerServiceImage from "@assets/stock_images/professional_custome_9f6415d1.jpg";
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -81,17 +82,28 @@ export default function Contact() {
   return (
     <main className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="py-16 lg:py-24 bg-gradient-to-br from-primary/5 to-orange-600/5">
-        <div className="container mx-auto px-4 text-center">
+      <section className="py-16 lg:py-24 relative">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src={customerServiceImage}
+            alt="Customer service background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-primary/20"></div>
+        </div>
+        
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6" data-testid="text-page-title">
+            <h1 className="text-4xl lg:text-5xl font-bold mb-6 text-white" data-testid="text-page-title">
               お問い合わせ
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-white/90 max-w-2xl mx-auto">
               プロダクトに関するご質問や導入のご相談など、お気軽にお問い合わせください。
             </p>
           </motion.div>
