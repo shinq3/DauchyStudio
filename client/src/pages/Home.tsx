@@ -1,7 +1,6 @@
 import HeroSection from "@/components/HeroSection";
 import ProductGrid from "@/components/ProductGrid";
 import NewsSection from "@/components/NewsSection";
-import VisionBlock from "@/components/VisionBlock";
 import CTASection from "@/components/CTASection";
 import { MessageCircle, Heart, Building, GraduationCap } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -76,11 +75,6 @@ export default function Home() {
     href: item.isExternal ? item.href : linkTo(item.href, locale)
   }));
 
-  const visionBullets = [
-    t('home:hero.features.rapid'),
-    t('home:hero.features.development'),
-    t('home:hero.features.expertise')
-  ];
 
   const ctaActions = [
     {
@@ -157,11 +151,6 @@ export default function Home() {
         ctaHref={linkTo("/products", locale)}
       />
       
-      <VisionBlock
-        heading={t('home:sections.vision.title')}
-        bullets={visionBullets}
-      />
-      
       {/* Development Achievements Section */}
       <section className="py-16 lg:py-24 bg-muted/30">
         <div className="container mx-auto px-4">
@@ -173,13 +162,35 @@ export default function Home() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl lg:text-4xl font-bold mb-6" data-testid="text-achievements-title">
-              プロトタイプ作成からシステム開発
+              {t('home:sections.vision.title')}
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-primary to-orange-600 mx-auto mb-8" />
-            <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-              私たちは幅広い業界において、プロトタイプ作成から本格的なシステム開発まで、<br/>
-              包括的なソリューションを提供しています。
-            </p>
+            <div className="max-w-4xl mx-auto mb-8">
+              <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+                私たちは幅広い業界において、プロトタイプ作成から本格的なシステム開発まで、
+                包括的なソリューションを提供しています。
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0" />
+                  <span className="text-muted-foreground">
+                    {t('home:hero.features.rapid')}
+                  </span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0" />
+                  <span className="text-muted-foreground">
+                    {t('home:hero.features.development')}
+                  </span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0" />
+                  <span className="text-muted-foreground">
+                    {t('home:hero.features.expertise')}
+                  </span>
+                </div>
+              </div>
+            </div>
           </motion.div>
 
           <motion.div
