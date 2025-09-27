@@ -3,9 +3,9 @@
     "title": "Từ Tạo Mẫu đến Phát Triển Hệ Thống",
     "subtitle": "D'achy.Studio cung cấp các giải pháp sáng tạo kết nối giáo dục, doanh nghiệp và ngành công nghiệp sáng tạo với công nghệ AI tiên tiến.",
     "features": {
-      "rapid": "Hoàn thiện mẫu thử trong ngày",
-      "development": "Hỗ trợ nhất quán từ mẫu thử đến phát triển hệ thống",
-      "expertise": "Thực hiện tầm nhìn của bạn với kinh nghiệm và chuyên môn phong phú"
+      "rapid": "Chúng tôi sẽ trình bày mẫu thử hoạt động trong ngày họp và ngay lập tức biến yêu cầu của bạn thành hiện thực",
+      "development": "Chuyển đổi mượt mà với khung phát triển nhất quán từ mẫu thử đến hệ thống hoàn chỉnh",
+      "expertise": "Xây dựng hệ thống thực tế, có tính hữu dụng cao với giải pháp AI được tùy chỉnh cho các thách thức kinh doanh thực tế"
     }
   },
   "sections": {
@@ -17,5 +17,9 @@
       "title": "Tin Tức Mới Nhất",
       "subtitle": "Cập nhật thông tin mới nhất từ D'achy.Studio"
     }
+  },
+  "cta": {
+    "title": "Sẵn sàng khám phá tiềm năng của AI cùng chúng tôi?",
+    "newsletter": "Đăng ký nhận bản tin"
   }
 }

@@ -4,6 +4,8 @@ import NewsSection from "@/components/NewsSection";
 import VisionBlock from "@/components/VisionBlock";
 import CTASection from "@/components/CTASection";
 import { Mail, MessageCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
+import { linkTo, useLocale } from "@/lib/i18n-utils";
 
 // TODO: remove mock functionality - replace with real data from API
 import lingaLinkImage from "@assets/generated_images/LingaLink_learning_dashboard_mockup_3e4a3eec.png";
@@ -13,52 +15,55 @@ import enterpriseLLMImage from "@assets/stock_images/enterprise_ai_dashbo_34de58
 import baydSystemImage from "@assets/generated_images/Bayd-System_studio_dashboard_36de2e47.png";
 
 export default function Home() {
+  const { t } = useTranslation(['home', 'products', 'common']);
+  const { locale } = useLocale();
+
   // TODO: remove mock functionality - replace with API calls
   const featuredProducts = [
     {
       id: "lingalink",
-      name: "LingaLink",
-      description: "オンラインレッスンでAIが自動レビューを行うコーチングサービス。パーソナライズされた学習体験を提供します。",
+      name: t('products:lingalink.name'),
+      description: t('products:lingalink.description'),
       image: lingaLinkImage,
       status: "released" as const,
-      tags: ["教育", "AI", "オンライン学習"],
-      href: "/products/lingalink"
+      tags: t('products:lingalink.tags', { returnObjects: true }) as string[],
+      href: linkTo("/products/lingalink", locale)
     },
     {
       id: "edumate",
-      name: "EduMate",
-      description: "友達と一緒に授業の復習や共同勉強を進めて、親へのレポートも作成できるサービスです。",
+      name: t('products:edumate.name'),
+      description: t('products:edumate.description'),
       image: eduMateImage,
       status: "beta" as const,
-      tags: ["教育", "協働学習", "レポート"],
-      href: "/products/edumate"
+      tags: t('products:edumate.tags', { returnObjects: true }) as string[],
+      href: linkTo("/products/edumate", locale)
     },
     {
       id: "officebrain",
-      name: "OfficeBrain",
-      description: "組織内のファイルを共有して権限を管理できるRAGシステム。セキュアな情報共有を実現します。",
+      name: t('products:officebrain.name'),
+      description: t('products:officebrain.description'),
       image: officeBrainImage,
       status: "released" as const,
-      tags: ["企業", "RAG", "ファイル管理"],
-      href: "/products/officebrain"
+      tags: t('products:officebrain.tags', { returnObjects: true }) as string[],
+      href: linkTo("/products/officebrain", locale)
     },
     {
       id: "enterprise-llm",
-      name: "Enterprise LLM",
-      description: "プロジェクト管理・ナレッジ共有・AIアシスタントを統合したオールインワン企業プラットフォーム。",
+      name: t('products:enterprisellm.name'),
+      description: t('products:enterprisellm.description'),
       image: enterpriseLLMImage,
       status: "released" as const,
-      tags: ["企業", "LLM", "統合プラットフォーム"],
-      href: "/products/enterprise-llm"
+      tags: t('products:enterprisellm.tags', { returnObjects: true }) as string[],
+      href: linkTo("/products/enterprise-llm", locale)
     },
     {
       id: "bayd-system",
-      name: "Bayd-System",
-      description: "音楽リハーサルスタジオ管理システム。条件によりAIで最適なスタジオを検索、予約から機材管理まで包括的にサポートします。",
+      name: t('products:baydsystem.name'),
+      description: t('products:baydsystem.description'),
       image: baydSystemImage,
       status: "coming_soon" as const,
-      tags: ["音楽", "スタジオ", "管理システム"],
-      href: "/products/bayd-system"
+      tags: t('products:baydsystem.tags', { returnObjects: true }) as string[],
+      href: linkTo("/products/bayd-system", locale)
     }
   ];
 
@@ -97,22 +102,21 @@ export default function Home() {
   ];
 
   const visionBullets = [
-    "お打ち合わせ当日に動作するプロトタイプをお見せし、ご要望を即座に形にします",
-    "プロトタイプから本格システムまで一貫した開発体制で、スムーズな移行を実現します",
-    "実際のビジネス課題に即したAIソリューションで、実用性の高いシステムを構築します",
-    "迅速な開発サイクルにより、市場投入までの時間を大幅に短縮します"
+    t('home:hero.features.rapid'),
+    t('home:hero.features.development'),
+    t('home:hero.features.expertise')
   ];
 
   const ctaActions = [
     {
-      label: "お問い合わせ",
-      href: "/contact",
+      label: t('common:buttons.contact'),
+      href: linkTo("/contact", locale),
       variant: "secondary" as const,
       icon: <MessageCircle className="w-4 h-4" />
     },
     {
-      label: "ニュースレター登録",
-      href: "/newsletter",
+      label: t('home:cta.newsletter'),
+      href: linkTo("/newsletter", locale),
       variant: "outline" as const,
       icon: <Mail className="w-4 h-4" />
     }
@@ -121,31 +125,37 @@ export default function Home() {
   return (
     <main>
       <HeroSection
-        title="D'achy.Studio"
-        subtitle="AIの力で未来を創造する。革新的なプロダクトとソリューションを通じて、テクノロジーの可能性を実現します。"
-        primaryCta={{ label: "プロダクトを見る", href: "/products" }}
-        secondaryCta={{ label: "詳しく知る", href: "/about" }}
+        title={t('home:hero.title')}
+        subtitle={t('home:hero.subtitle')}
+        primaryCta={{ 
+          label: t('header:navigation.products'), 
+          href: linkTo("/products", locale) 
+        }}
+        secondaryCta={{ 
+          label: t('common:buttons.learnMore'), 
+          href: linkTo("/about", locale) 
+        }}
       />
       
       <ProductGrid
-        title="日常からビジネスまで、人に寄り添うAIソリューション"
+        title={t('home:sections.products.subtitle')}
         products={featuredProducts}
-        ctaHref="/products"
+        ctaHref={linkTo("/products", locale)}
       />
       
       <VisionBlock
-        heading="プロトタイプ作成からのシステム開発"
+        heading={t('home:hero.title')}
         bullets={visionBullets}
       />
       
       <NewsSection
-        title="最新AIニュース"
+        title={t('home:sections.news.title')}
         items={latestNews}
-        ctaHref="/news"
+        ctaHref={linkTo("/news", locale)}
       />
       
       <CTASection
-        title="AIの可能性を一緒に探求しませんか？"
+        title={t('home:cta.title')} 
         actions={ctaActions}
       />
     </main>

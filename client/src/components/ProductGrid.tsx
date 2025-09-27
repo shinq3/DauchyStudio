@@ -3,6 +3,7 @@ import ProductCard, { type ProductCardProps } from "./ProductCard";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "wouter";
+import { useTranslation } from "react-i18next";
 
 interface ProductGridProps {
   title: string;
@@ -17,6 +18,7 @@ export default function ProductGrid({
   ctaHref,
   showCta = true,
 }: ProductGridProps) {
+  const { t } = useTranslation('products');
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -82,7 +84,7 @@ export default function ProductGrid({
               data-testid="button-view-all-products"
             >
               <Link href={ctaHref}>
-                すべてのプロダクトを見る
+                {t('title')}を見る
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
               </Link>
             </Button>
