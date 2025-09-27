@@ -96,7 +96,7 @@ export default function Footer({ company, address, links, social }: FooterProps)
         {/* Bottom Bar */}
         <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <p className="text-sm text-gray-300" data-testid="text-copyright">
-            © 2024 {company}. All rights reserved.
+            {t('company.copyright')}
           </p>
           <div className="flex space-x-6 text-sm">
             <Link href={linkTo("/privacy", locale)} className="text-gray-300 hover:text-primary transition-colors" data-testid="link-privacy">

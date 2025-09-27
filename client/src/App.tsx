@@ -19,7 +19,7 @@ import Edumate from "@/pages/Edumate";
 import OfficeBrain from "@/pages/OfficeBrain";
 import EnterpriseLLM from "@/pages/EnterpriseLLM";
 import { Github, Twitter, Linkedin, Mail } from "lucide-react";
-import { extractLocaleFromPath, linkTo } from "@/lib/i18n-utils";
+import { extractLocaleFromPath, linkTo, useLocale } from "@/lib/i18n-utils";
 import { defaultLocale, isValidLocale, type Locale } from "@shared/i18n";
 
 function Router() {
@@ -122,25 +122,28 @@ function Router() {
 }
 
 function App() {
+  const { t } = useTranslation('footer');
+  const { locale } = useLocale();
+  
   // TODO: remove mock functionality - replace with real data from CMS
   const footerLinks = [
     {
-      title: "プロダクト",
+      title: t('sections.products'),
       items: [
-        { name: "LingaLink", href: "/products/lingalink" },
-        { name: "EduMate", href: "/products/edumate" },
-        { name: "OfficeBrain", href: "/products/officebrain" },
-        { name: "Enterprise LLM", href: "/products/enterprise-llm" },
-        { name: "Bayd-System", href: "/products/bayd-system" }
+        { name: "LingaLink", href: linkTo("/products/lingalink", locale) },
+        { name: "EduMate", href: linkTo("/products/edumate", locale) },
+        { name: "OfficeBrain", href: linkTo("/products/officebrain", locale) },
+        { name: "Enterprise LLM", href: linkTo("/products/enterprise-llm", locale) },
+        { name: "Bayd-System", href: linkTo("/products/bayd-system", locale) }
       ]
     },
     {
-      title: "会社情報",
+      title: t('sections.company'),
       items: [
-        { name: "私たちについて", href: "/about" },
-        { name: "ニュース", href: "/news" },
-        { name: "キャリア", href: "/careers" },
-        { name: "お問い合わせ", href: "/contact" }
+        { name: t('links.about'), href: linkTo("/about", locale) },
+        { name: t('links.news'), href: linkTo("/news", locale) },
+        { name: t('links.careers'), href: linkTo("/careers", locale) },
+        { name: t('links.contact'), href: linkTo("/contact", locale) }
       ]
     }
   ];
@@ -162,8 +165,8 @@ function App() {
               <Router />
             </main>
             <Footer
-              company="D'achy.Studio"
-              address="東京都渋谷区恵比寿1-1-1"
+              company={t('company.name')}
+              address={t('company.address')}
               links={footerLinks}
               social={socialLinks}
             />

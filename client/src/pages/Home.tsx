@@ -3,7 +3,7 @@ import ProductGrid from "@/components/ProductGrid";
 import NewsSection from "@/components/NewsSection";
 import VisionBlock from "@/components/VisionBlock";
 import CTASection from "@/components/CTASection";
-import { Mail, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { linkTo, useLocale } from "@/lib/i18n-utils";
 
@@ -86,12 +86,6 @@ export default function Home() {
       href: linkTo("/contact", locale),
       variant: "secondary" as const,
       icon: <MessageCircle className="w-4 h-4" />
-    },
-    {
-      label: t('home:cta.newsletter'),
-      href: linkTo("/newsletter", locale),
-      variant: "outline" as const,
-      icon: <Mail className="w-4 h-4" />
     }
   ];
 
