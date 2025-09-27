@@ -7,6 +7,7 @@ import businessTechImage from '@assets/stock_images/business_technology_ac90df27
 import lingaLinkImage from "@assets/generated_images/LingaLink_learning_dashboard_mockup_3e4a3eec.png";
 import eduMateImage from "@assets/generated_images/EduMate_collaboration_interface_5d5ed6fd.png";
 import officeBrainImage from "@assets/generated_images/OfficeBrain_file_system_interface_be3ae664.png";
+import enterpriseLLMImage from "@assets/stock_images/enterprise_ai_dashbo_34de58a9.jpg";
 import baydSystemImage from "@assets/generated_images/Bayd-System_studio_dashboard_36de2e47.png";
 
 export default function Products() {
@@ -38,6 +39,15 @@ export default function Products() {
       status: "released" as const,
       tags: ["企業", "RAG", "ファイル管理", "セキュリティ"],
       href: "/products/officebrain"
+    },
+    {
+      id: "enterprise-llm",
+      name: "Enterprise LLM",
+      description: "プロジェクト管理・ナレッジ共有・AIアシスタントを統合したオールインワン企業プラットフォーム。チームの力を最大限に引き出します。",
+      image: enterpriseLLMImage,
+      status: "released" as const,
+      tags: ["企業", "プロジェクト管理", "AI", "統合プラットフォーム"],
+      href: "/products/enterprise-llm"
     },
     {
       id: "bayd-system",

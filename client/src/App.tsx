@@ -15,6 +15,7 @@ import Contact from "@/pages/Contact";
 import LingaLink from "@/pages/LingaLink";
 import Edumate from "@/pages/Edumate";
 import OfficeBrain from "@/pages/OfficeBrain";
+import EnterpriseLLM from "@/pages/EnterpriseLLM";
 import { Github, Twitter, Linkedin, Mail } from "lucide-react";
 
 function Router() {
@@ -32,6 +33,7 @@ function Router() {
       <Route path="/products/lingalink" component={LingaLink} />
       <Route path="/products/edumate" component={Edumate} />
       <Route path="/products/officebrain" component={OfficeBrain} />
+      <Route path="/products/enterprise-llm" component={EnterpriseLLM} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />
       {/* TODO: Add product detail, news pages when backend is ready */}
@@ -49,6 +51,7 @@ function App() {
         { name: "LingaLink", href: "/products/lingalink" },
         { name: "EduMate", href: "/products/edumate" },
         { name: "OfficeBrain", href: "/products/officebrain" },
+        { name: "Enterprise LLM", href: "/products/enterprise-llm" },
         { name: "Bayd-System", href: "/products/bayd-system" }
       ]
     },
