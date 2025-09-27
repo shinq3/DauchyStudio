@@ -94,7 +94,7 @@ export default function LingaLink() {
               <div className="grid md:grid-cols-3 gap-6 text-center">
                 <div>
                   <GraduationCap className="w-12 h-12 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">学生向け</h3>
+                  <h3 className="text-lg font-semibold mb-2">受講生向け</h3>
                   <p className="text-orange-100">授業に集中すれば、あとでAIが要点を整理してくれる</p>
                 </div>
                 <div>
@@ -115,7 +115,7 @@ export default function LingaLink() {
         {/* Student Features */}
         <motion.div className="mb-16" variants={itemVariants}>
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900" data-testid="text-student-features">
-            🎯 学生が使える機能
+            🎯 受講生が使える機能
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             <Card className="hover-elevate">
@@ -196,7 +196,7 @@ export default function LingaLink() {
                   </div>
                   <div className="flex items-start gap-3">
                     <Users className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">学生と先生が同時に操作できて、そのまま保存される</p>
+                    <p className="text-gray-700">受講生と先生が同時に操作できて、そのまま保存される</p>
                   </div>
                 </div>
               </CardContent>
