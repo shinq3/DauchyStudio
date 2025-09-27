@@ -102,7 +102,7 @@ i18n
     
     // Namespace configuration
     defaultNS: 'common',
-    ns: ['common', 'header', 'footer', 'home', 'products', 'contact', 'news', 'lingalink', 'edumate', 'officebrain', 'enterprise-llm'],
+    ns: ['common', 'header', 'footer', 'home', 'products', 'contact', 'news', 'lingalink', 'edumate', 'officebrain'],
     
     interpolation: {
       escapeValue: false, // React already escapes values

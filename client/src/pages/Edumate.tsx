@@ -149,7 +149,7 @@ export default function Edumate() {
               EduMate
             </h1>
             <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-              友達と一緒に授業の復習や共同勉強を進めて、親へのレポートも作成できるサービスです。協働学習を通じて理解を深めます。
+              {t('heroDescription')}
             </p>
           </motion.div>
         </div>
@@ -170,7 +170,7 @@ export default function Edumate() {
           </h1>
           <div className="mb-8">
             <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800 mb-4">
-              勉強も、友達も、大切にできる。
+              {t('subtitle')}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-testid="text-description">
               {t('description')}
@@ -192,14 +192,14 @@ export default function Edumate() {
             <CardContent className="p-8 lg:p-12">
               <div className="flex items-center gap-4 mb-6">
                 <Users className="w-12 h-12" />
-                <h2 className="text-2xl lg:text-3xl font-bold">Edumateとは？</h2>
+                <h2 className="text-2xl lg:text-3xl font-bold">{t('whatIsEdumate.title')}</h2>
               </div>
               <p className="text-lg leading-relaxed mb-6 text-orange-100">
-                中高生のペア（例：あなたと友達）が今日の学びをAIで"要点カード"に自動変換。翌日のワンポイント復習と、ふたりだけの共有＆リアクションで学習を"続けやすく"します。
+                {t('whatIsEdumate.description')}
               </p>
               <div className="bg-orange-400/20 rounded-lg p-4">
                 <p className="text-orange-100">
-                  保護者向けに「学習時間・復習達成率・継続日数」だけを見られる<strong>"ママログイン"</strong>を用意。やり取りの中身は見えません。
+                  {t('whatIsEdumate.note')}
                 </p>
               </div>
             </CardContent>
@@ -209,28 +209,28 @@ export default function Edumate() {
         {/* Target Users Section */}
         <motion.div className="mb-16" variants={itemVariants}>
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900" data-testid="text-target-users">
-            想定ユーザー
+            {t('targetUsers.title')}
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <Card className="hover-elevate text-center">
               <CardContent className="p-6">
                 <Users className="w-16 h-16 text-orange-500 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">生徒A（息子）</h3>
-                <p className="text-gray-600">ペアで使う学習アプリのメインユーザー</p>
+                <h3 className="text-xl font-semibold mb-2">{t('targetUsers.studentA.title')}</h3>
+                <p className="text-gray-600">{t('targetUsers.studentA.description')}</p>
               </CardContent>
             </Card>
             <Card className="hover-elevate text-center">
               <CardContent className="p-6">
                 <UserPlus className="w-16 h-16 text-orange-500 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">生徒B（友達）</h3>
-                <p className="text-gray-600">一緒に学習を続けるパートナー</p>
+                <h3 className="text-xl font-semibold mb-2">{t('targetUsers.studentB.title')}</h3>
+                <p className="text-gray-600">{t('targetUsers.studentB.description')}</p>
               </CardContent>
             </Card>
             <Card className="hover-elevate text-center">
               <CardContent className="p-6">
                 <Shield className="w-16 h-16 text-orange-500 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">保護者（ママログイン）</h3>
-                <p className="text-gray-600">学習の「続き具合」だけを確認</p>
+                <h3 className="text-xl font-semibold mb-2">{t('targetUsers.parent.title')}</h3>
+                <p className="text-gray-600">{t('targetUsers.parent.description')}</p>
               </CardContent>
             </Card>
           </div>
@@ -239,7 +239,7 @@ export default function Edumate() {
         {/* How to Use Section */}
         <motion.div className="mb-16" variants={itemVariants}>
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900" data-testid="text-how-to-use">
-            使い方（3ステップ）
+            {t('howToUse.title')}
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {steps.map((step, index) => (
@@ -264,7 +264,7 @@ export default function Edumate() {
             <Card className="bg-gray-50 inline-block">
               <CardContent className="p-4">
                 <p className="text-sm text-gray-600">
-                  <strong>UI例：</strong> [＋新しい学び] [ファイルを追加] [ペアに共有] [明日のリマインドON]
+                  {t('howToUse.uiExample')}
                 </p>
               </CardContent>
             </Card>
@@ -274,7 +274,7 @@ export default function Edumate() {
         {/* Main Features Section */}
         <motion.div className="mb-16" variants={itemVariants}>
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900" data-testid="text-main-features">
-            主要機能
+            {t('mainFeatures.title')}
           </h2>
           <div className="grid gap-8">
             {features.map((feature, index) => (
@@ -310,28 +310,28 @@ export default function Edumate() {
         {/* Problems Solved Section */}
         <motion.div className="mb-16" variants={itemVariants}>
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900" data-testid="text-problems-solved">
-            こんな課題を解決します
+            {t('problemsSolved.title')}
           </h2>
           <div className="grid md:grid-cols-3 gap-6">
             <Card className="hover-elevate">
               <CardContent className="p-6">
                 <Target className="w-12 h-12 text-orange-500 mb-4" />
-                <h3 className="font-semibold mb-2">続かない問題</h3>
-                <p className="text-gray-600 text-sm">翌日1問の「超ミニ復習」で、やるハードルを極小化</p>
+                <h3 className="font-semibold mb-2">{t('problemsSolved.continuity.title')}</h3>
+                <p className="text-gray-600 text-sm">{t('problemsSolved.continuity.description')}</p>
               </CardContent>
             </Card>
             <Card className="hover-elevate">
               <CardContent className="p-6">
                 <Lightbulb className="w-12 h-12 text-orange-500 mb-4" />
-                <h3 className="font-semibold mb-2">意味が見えない問題</h3>
-                <p className="text-gray-600 text-sm">活用例で「学ぶ理由」を可視化</p>
+                <h3 className="font-semibold mb-2">{t('problemsSolved.meaning.title')}</h3>
+                <p className="text-gray-600 text-sm">{t('problemsSolved.meaning.description')}</p>
               </CardContent>
             </Card>
             <Card className="hover-elevate">
               <CardContent className="p-6">
                 <Shield className="w-12 h-12 text-orange-500 mb-4" />
-                <h3 className="font-semibold mb-2">保護者の不安</h3>
-                <p className="text-gray-600 text-sm">「本当に勉強してるの？」→数字で見える安心（中身は非公開）</p>
+                <h3 className="font-semibold mb-2">{t('problemsSolved.parentAnxiety.title')}</h3>
+                <p className="text-gray-600 text-sm">{t('problemsSolved.parentAnxiety.description')}</p>
               </CardContent>
             </Card>
           </div>
@@ -340,25 +340,25 @@ export default function Edumate() {
         {/* Safety & Privacy Section */}
         <motion.div className="mb-16" variants={itemVariants}>
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900" data-testid="text-safety-privacy">
-            安全・プライバシー
+            {t('safetyPrivacy.title')}
           </h2>
           <Card className="bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
             <CardContent className="p-8">
               <div className="grid md:grid-cols-3 gap-6 text-center">
                 <div>
                   <Lock className="w-12 h-12 text-green-600 mx-auto mb-4" />
-                  <h3 className="font-semibold mb-2">限定共有</h3>
-                  <p className="text-sm text-gray-600">ペア共有は当人どうし限定。保護者に見えるのは数値サマリのみ</p>
+                  <h3 className="font-semibold mb-2">{t('safetyPrivacy.limitedSharing.title')}</h3>
+                  <p className="text-sm text-gray-600">{t('safetyPrivacy.limitedSharing.description')}</p>
                 </div>
                 <div>
                   <Shield className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-                  <h3 className="font-semibold mb-2">プライバシー保護</h3>
-                  <p className="text-sm text-gray-600">学校・学年名などの個人情報は入力不要（任意）</p>
+                  <h3 className="font-semibold mb-2">{t('safetyPrivacy.privacyProtection.title')}</h3>
+                  <p className="text-sm text-gray-600">{t('safetyPrivacy.privacyProtection.description')}</p>
                 </div>
                 <div>
                   <FileText className="w-12 h-12 text-purple-600 mx-auto mb-4" />
-                  <h3 className="font-semibold mb-2">データ管理</h3>
-                  <p className="text-sm text-gray-600">データは暗号化保存。退会時のデータ削除に対応</p>
+                  <h3 className="font-semibold mb-2">{t('safetyPrivacy.dataManagement.title')}</h3>
+                  <p className="text-sm text-gray-600">{t('safetyPrivacy.dataManagement.description')}</p>
                 </div>
               </div>
             </CardContent>
@@ -368,7 +368,7 @@ export default function Edumate() {
         {/* FAQ Section */}
         <motion.div className="mb-16" variants={itemVariants}>
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900" data-testid="text-faq">
-            よくある質問
+            {t('faq.title')}
           </h2>
           <div className="grid gap-4 max-w-3xl mx-auto">
             {(faqs as Array<{question: string, answer: string}>).map((faq: {question: string, answer: string}, index: number) => (
@@ -393,10 +393,10 @@ export default function Edumate() {
             <CardContent className="p-12">
               <Users className="w-16 h-16 mx-auto mb-6" />
               <h2 className="text-3xl font-bold mb-6" data-testid="text-cta-title">
-                ふたりで始める、新しい学習スタイル
+                {t('cta.title')}
               </h2>
               <p className="text-xl text-orange-100 mb-8 max-w-2xl mx-auto">
-                勉強も友情も大切にできる、安心の学習プラットフォームを体験してみませんか？
+                {t('cta.description')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 {/* <Button 

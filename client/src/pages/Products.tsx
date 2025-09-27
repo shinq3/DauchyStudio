@@ -20,40 +20,40 @@ export default function Products() {
   const allProducts = [
     {
       id: "lingalink",
-      name: t('products.lingalink.name'),
-      description: t('products.lingalink.description'),
+      name: t('lingalink.name'),
+      description: t('lingalink.description'),
       image: lingaLinkImage,
       status: "released" as const,
       href: `/${locale}/products/lingalink`
     },
     {
       id: "edumate",
-      name: t('products.edumate.name'),
-      description: t('products.edumate.description'),
+      name: t('edumate.name'),
+      description: t('edumate.description'),
       image: eduMateImage,
       status: "beta" as const,
       href: `/${locale}/products/edumate`
     },
     {
       id: "officebrain",
-      name: t('products.officebrain.name'),
-      description: t('products.officebrain.description'),
+      name: t('officebrain.name'),
+      description: t('officebrain.description'),
       image: officeBrainImage,
       status: "released" as const,
       href: `/${locale}/products/officebrain`
     },
     {
       id: "enterprise-llm",
-      name: t('products.enterprise-llm.name'),
-      description: t('products.enterprise-llm.description'),
+      name: t('enterprise-llm.name'),
+      description: t('enterprise-llm.description'),
       image: enterpriseLLMImage,
       status: "released" as const,
       href: `/${locale}/products/enterprise-llm`
     },
     {
       id: "bayd-system",
-      name: t('products.bayd-system.name'),
-      description: t('products.bayd-system.description'),
+      name: t('bayd-system.name'),
+      description: t('bayd-system.description'),
       image: baydSystemImage,
       status: "coming_soon" as const,
       href: `/${locale}/products/bayd-system`
