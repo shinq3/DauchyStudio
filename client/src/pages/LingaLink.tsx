@@ -92,9 +92,9 @@ export default function LingaLink() {
                 学ぶ・教えるの効率をAIがサポートするオンライン学習プラットフォーム
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Button size="lg" className="bg-orange-500 hover:bg-orange-600" data-testid="button-hero-demo">
+                {/* <Button size="lg" className="bg-orange-500 hover:bg-orange-600" data-testid="button-hero-demo">
                   無料デモを試す
-                </Button>
+                </Button> */}
                 <Button size="lg" variant="outline" data-testid="button-hero-learn-more">
                   詳しく見る
                 </Button>
@@ -349,14 +349,14 @@ export default function LingaLink() {
                 AIが支援する効率的な学習と教育を体験してみませんか？
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button 
+                {/* <Button 
                   size="lg" 
                   variant="outline" 
                   className="bg-white text-orange-600 border-white hover:bg-orange-50"
                   data-testid="button-demo"
                 >
                   無料デモを試す
-                </Button>
+                </Button> */}
                 <Button 
                   size="lg" 
                   variant="outline" 

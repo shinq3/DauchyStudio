@@ -105,7 +105,7 @@ export default function Home() {
 
   const ctaActions = [
     {
-      label: "無料相談を予約",
+      label: "お問い合わせ",
       href: "/contact",
       variant: "secondary" as const,
       icon: <MessageCircle className="w-4 h-4" />

@@ -197,12 +197,12 @@ export default function Edumate() {
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-orange-500 hover:bg-orange-600" data-testid="button-free-trial">
+            {/* <Button size="lg" className="bg-orange-500 hover:bg-orange-600" data-testid="button-free-trial">
               無料で使ってみる
             </Button>
             <Button size="lg" variant="outline" data-testid="button-demo">
               デモを見る
-            </Button>
+            </Button> */}
           </div>
         </motion.div>
 
@@ -419,7 +419,7 @@ export default function Edumate() {
                 勉強も友情も大切にできる、安心の学習プラットフォームを体験してみませんか？
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button 
+                {/* <Button 
                   size="lg" 
                   variant="outline" 
                   className="bg-white text-orange-600 border-white hover:bg-orange-50"
@@ -434,7 +434,7 @@ export default function Edumate() {
                   data-testid="button-cta-demo"
                 >
                   デモを見る
-                </Button>
+                </Button> */}
               </div>
             </CardContent>
           </Card>
