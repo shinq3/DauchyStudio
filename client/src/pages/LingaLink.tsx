@@ -19,6 +19,7 @@ import {
   CheckCircle
 } from "lucide-react";
 import heroImage from "@assets/image_1758941074318.png";
+import onlineLearningImage from '@assets/stock_images/online_learning_educ_92e4c234.jpg';
 
 export default function LingaLink() {
   const containerVariants = {
@@ -43,13 +44,41 @@ export default function LingaLink() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
+      {/* Hero Section with Background Image */}
+      <section className="py-16 lg:py-24 relative">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src={onlineLearningImage}
+            alt="Online learning background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-primary/20"></div>
+        </div>
+        
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-4xl lg:text-5xl font-bold mb-6 text-white">
+              LingaLink
+            </h1>
+            <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+              オンラインレッスンでAIが自動レビューを行うコーチングサービス。パーソナライズされた学習体験を提供し、効果的なスキルアップをサポートします。
+            </p>
+          </motion.div>
+        </div>
+      </section>
       <motion.div
         className="container mx-auto px-4 py-12"
         variants={containerVariants}
         initial="hidden"
         animate="visible"
       >
-        {/* Hero Section */}
+        {/* Product Overview */}
         <motion.div className="mb-16" variants={itemVariants}>
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">

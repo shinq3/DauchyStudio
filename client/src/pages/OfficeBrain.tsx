@@ -26,6 +26,7 @@ import {
   FileCheck,
   Monitor
 } from "lucide-react";
+import modernOfficeImage from '@assets/stock_images/modern_office_meetin_f1d8354c.jpg';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -243,6 +244,34 @@ export default function OfficeBrain() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
+      {/* Hero Section with Background Image */}
+      <section className="py-16 lg:py-24 relative">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src={modernOfficeImage}
+            alt="Modern office meeting background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-primary/20"></div>
+        </div>
+        
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-4xl lg:text-5xl font-bold mb-6 text-white">
+              OfficeBrain
+            </h1>
+            <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+              組織内のファイルを共有して権限を管理できるRAGシステム。セキュアな情報共有を実現し、業務効率を向上させます。
+            </p>
+          </motion.div>
+        </div>
+      </section>
       <motion.div
         className="container mx-auto px-4 py-12"
         variants={containerVariants}

@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import ProductCard from "@/components/ProductCard";
 import { motion } from "framer-motion";
+import businessTechImage from '@assets/stock_images/business_technology_ac90df27.jpg';
 
 // TODO: remove mock functionality - replace with real data from API
 import lingaLinkImage from "@assets/generated_images/LingaLink_learning_dashboard_mockup_3e4a3eec.png";
@@ -71,17 +72,28 @@ export default function Products() {
   return (
     <main className="min-h-screen bg-background">
       {/* Header Section */}
-      <section className="py-16 lg:py-24 bg-gradient-to-br from-primary/5 to-orange-600/5">
-        <div className="container mx-auto px-4 text-center">
+      <section className="py-16 lg:py-24 relative">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src={businessTechImage}
+            alt="Business technology background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-primary/20"></div>
+        </div>
+        
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6" data-testid="text-page-title">
+            <h1 className="text-4xl lg:text-5xl font-bold mb-6 text-white" data-testid="text-page-title">
               プロダクト一覧
             </h1>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl text-white/90 max-w-2xl mx-auto">
               D'achy.Studioが開発する革新的なAIプロダクトをご覧ください
             </p>
           </motion.div>
