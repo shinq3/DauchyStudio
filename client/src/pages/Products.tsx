@@ -94,7 +94,7 @@ export default function Products() {
               プロダクト一覧
             </h1>
             <p className="text-xl text-white/90 max-w-2xl mx-auto">
-              D'achy.Studioが開発する革新的なAIプロダクトをご覧ください
+              D'achy.Studioが開発する日常からビジネスまで、人に寄り添うAIソリューションをご覧ください
             </p>
           </motion.div>
         </div>

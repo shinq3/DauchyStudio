@@ -46,7 +46,7 @@ export default function ProductGridExample() {
 
   return (
     <ProductGrid
-      title="革新的なAIプロダクト"
+      title="日常からビジネスまで、人に寄り添うAIソリューション"
       products={products}
       ctaHref="/products"
     />

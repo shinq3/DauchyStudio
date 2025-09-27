@@ -3,7 +3,7 @@ import ProductGrid from "@/components/ProductGrid";
 import NewsSection from "@/components/NewsSection";
 import VisionBlock from "@/components/VisionBlock";
 import CTASection from "@/components/CTASection";
-import { Mail, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 
 // TODO: remove mock functionality - replace with real data from API
 import lingaLinkImage from "@assets/generated_images/LingaLink_learning_dashboard_mockup_3e4a3eec.png";
@@ -99,12 +99,6 @@ export default function Home() {
       href: "/contact",
       variant: "secondary" as const,
       icon: <MessageCircle className="w-4 h-4" />
-    },
-    {
-      label: "ニュースレター登録",
-      href: "/newsletter",
-      variant: "outline" as const,
-      icon: <Mail className="w-4 h-4" />
     }
   ];
 
@@ -118,7 +112,7 @@ export default function Home() {
       />
       
       <ProductGrid
-        title="革新的なAIプロダクト"
+        title="日常からビジネスまで、人に寄り添うAIソリューション"
         products={featuredProducts}
         ctaHref="/products"
       />
