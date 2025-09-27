@@ -295,12 +295,12 @@ export default function OfficeBrain() {
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild size="lg" data-testid="button-trial">
-              <Link href="/contact">無料トライアル開始</Link>
+            <Button asChild size="lg" data-testid="button-contact">
+              <Link href="/contact">お問い合わせ</Link>
             </Button>
-            <Button asChild size="lg" variant="outline" data-testid="button-demo">
+            {/* <Button asChild size="lg" variant="outline" data-testid="button-demo">
               <Link href="/contact">デモを見る</Link>
-            </Button>
+            </Button> */}
           </div>
         </motion.div>
 
@@ -453,9 +453,9 @@ export default function OfficeBrain() {
                 <Button asChild size="lg" variant="secondary" data-testid="button-contact-officebrain">
                   <Link href="/contact">お問い合わせ</Link>
                 </Button>
-                <Button asChild size="lg" variant="outline" data-testid="button-trial-cta">
+                {/* <Button asChild size="lg" variant="outline" data-testid="button-trial-cta">
                   <Link href="/contact">無料トライアル</Link>
-                </Button>
+                </Button> */}
               </div>
             </CardContent>
           </Card>

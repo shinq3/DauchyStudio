@@ -177,7 +177,7 @@ export default function Contact() {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="product-inquiry">プロダクトに関するお問い合わせ</SelectItem>
-                          <SelectItem value="demo-request">デモのご依頼</SelectItem>
+                          {/* <SelectItem value="demo-request">デモのご依頼</SelectItem> */}
                           <SelectItem value="pricing">料金に関するお問い合わせ</SelectItem>
                           <SelectItem value="partnership">パートナーシップ</SelectItem>
                           <SelectItem value="support">サポート</SelectItem>

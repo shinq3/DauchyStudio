@@ -297,11 +297,11 @@ export default function EnterpriseLLM() {
               日常の業務から大規模プロジェクトまで、チームの力を最大限に引き出します。
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="bg-primary hover:bg-primary/90" data-testid="button-demo">
+              {/* <Button asChild size="lg" className="bg-primary hover:bg-primary/90" data-testid="button-demo">
                 <Link href="/contact">
                   デモを予約
                 </Link>
-              </Button>
+              </Button> */}
               <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white/10" data-testid="button-more-info">
                 <Link href="/contact">
                   詳細を問い合わせ
@@ -491,19 +491,19 @@ export default function EnterpriseLLM() {
             </h2>
             <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
               Enterprise LLMで、プロジェクト管理から AI活用まで、すべてを統合。
-              30日間の無料トライアルで効果を実感してください。
+              企業の生産性を最大化する統合プラットフォームをご体験ください。
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="bg-primary hover:bg-primary/90" data-testid="button-trial">
+              <Button asChild size="lg" className="bg-primary hover:bg-primary/90" data-testid="button-contact">
                 <Link href="/contact">
-                  無料トライアルを開始
+                  お問い合わせ
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" data-testid="button-demo-schedule">
+              {/* <Button asChild variant="outline" size="lg" data-testid="button-demo-schedule">
                 <Link href="/contact">
                   デモンストレーション予約
                 </Link>
-              </Button>
+              </Button> */}
             </div>
           </motion.div>
         </div>
