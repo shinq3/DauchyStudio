@@ -35,8 +35,22 @@
     "email": "Email",
     "phone": "Điện thoại",
     "address": "Địa chỉ",
-    "hours": "Giờ làm việc"
+    "addressValue": "1-1-1 Ebisu, Shibuya-ku, Tokyo",
+    "hours": "Giờ làm việc",
+    "hoursValue": "Thứ 2-6: 9:00-18:00"
   },
+  "submit": "Gửi Tin Nhắn",
+  "submitting": "Đang gửi...",
   "success": "Tin nhắn đã được gửi thành công. Cảm ơn bạn đã liên hệ với chúng tôi.",
-  "error": "Gửi tin nhắn thất bại. Vui lòng thử lại sau ít phút."
+  "error": "Gửi tin nhắn thất bại. Vui lòng thử lại sau ít phút.",
+  "response": {
+    "title": "Thời Gian Phản Hồi",
+    "description": "Chúng tôi thường phản hồi trong vòng 24 giờ. Đối với các yêu cầu khẩn cấp, vui lòng liên hệ với chúng tôi qua điện thoại."
+  },
+  "quickLinks": {
+    "title": "Liên Kết Liên Quan",
+    "products": "Sản Phẩm",
+    "about": "Về Chúng Tôi",
+    "news": "Tin Tức Mới Nhất"
+  }
 }

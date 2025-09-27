@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,9 +8,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 import customerServiceImage from "@assets/stock_images/professional_custome_9f6415d1.jpg";
 
 export default function Contact() {
+  const { t } = useTranslation('contact');
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -20,6 +22,21 @@ export default function Contact() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+
+  useEffect(() => {
+    document.title = `${t('title') || "お問い合わせ"} | D'achy.Studio`;
+    
+    // Set meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', t('subtitle') || 'お気軽にお問い合わせください。私たちがお手伝いできることをお聞かせください。');
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'description';
+      meta.content = t('subtitle') || 'お気軽にお問い合わせください。私たちがお手伝いできることをお聞かせください。';
+      document.head.appendChild(meta);
+    }
+  }, [t]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,7 +49,7 @@ export default function Contact() {
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     toast({
-      title: "お問い合わせを受け付けました",
+      title: t('success') || "お問い合わせを受け付けました",
       description: "24時間以内にご連絡いたします。",
     });
     
@@ -55,26 +72,26 @@ export default function Contact() {
   const contactInfo = [
     {
       icon: <Mail className="w-5 h-5" />,
-      label: "メール",
+      label: t('contactInfo.email') || "メール",
       value: "contact@dachy.studio",
       link: "mailto:contact@dachy.studio"
     },
     {
       icon: <Phone className="w-5 h-5" />,
-      label: "電話",
+      label: t('contactInfo.phone') || "電話",
       value: "+81-3-1234-5678",
       link: "tel:+81-3-1234-5678"
     },
     {
       icon: <MapPin className="w-5 h-5" />,
-      label: "住所",
-      value: "東京都渋谷区恵比寿1-1-1",
+      label: t('contactInfo.address') || "住所",
+      value: t('contactInfo.addressValue') || "東京都渋谷区恵比寿1-1-1",
       link: null
     },
     {
       icon: <Clock className="w-5 h-5" />,
-      label: "営業時間",
-      value: "平日 9:00-18:00",
+      label: t('contactInfo.hours') || "営業時間",
+      value: t('contactInfo.hoursValue') || "平日 9:00-18:00",
       link: null
     }
   ];
@@ -101,10 +118,10 @@ export default function Contact() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-4xl lg:text-5xl font-bold mb-6 text-white" data-testid="text-page-title">
-              お問い合わせ
+              {t('title') || "お問い合わせ"}
             </h1>
             <p className="text-xl text-white/90 max-w-2xl mx-auto">
-              プロダクトに関するご質問や導入のご相談など、お気軽にお問い合わせください。
+              {t('subtitle') || "プロダクトに関するご質問や導入のご相談など、お気軽にお問い合わせください。"}
             </p>
           </motion.div>
         </div>
@@ -124,14 +141,14 @@ export default function Contact() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Send className="w-5 h-5 text-primary" />
-                    お問い合わせフォーム
+                    {t('title') || "お問い合わせフォーム"}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <Label htmlFor="name">お名前 *</Label>
+                        <Label htmlFor="name">{t('form.name.label') || "お名前"} *</Label>
                         <Input
                           id="name"
                           type="text"
@@ -142,7 +159,7 @@ export default function Contact() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="email">メールアドレス *</Label>
+                        <Label htmlFor="email">{t('form.email.label') || "メールアドレス"} *</Label>
                         <Input
                           id="email"
                           type="email"
@@ -155,7 +172,7 @@ export default function Contact() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="company">会社名・組織名</Label>
+                      <Label htmlFor="company">{t('form.company.label') || "会社名・組織名"}</Label>
                       <Input
                         id="company"
                         type="text"
@@ -166,33 +183,33 @@ export default function Contact() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="inquiry-type">お問い合わせの種類 *</Label>
+                      <Label htmlFor="inquiry-type">{t('form.inquiryType.label') || "お問い合わせの種類"} *</Label>
                       <Select 
                         required 
                         value={formData.inquiryType} 
                         onValueChange={(value) => handleInputChange("inquiryType", value)}
                       >
                         <SelectTrigger data-testid="select-inquiry-type">
-                          <SelectValue placeholder="お問い合わせの種類を選択してください" />
+                          <SelectValue placeholder={t('form.inquiryType.placeholder') || "お問い合わせの種類を選択してください"} />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="product-inquiry">プロダクトに関するお問い合わせ</SelectItem>
+                          <SelectItem value="product-inquiry">{t('form.inquiryType.options.product-inquiry') || "プロダクトに関するお問い合わせ"}</SelectItem>
                           {/* <SelectItem value="demo-request">デモのご依頼</SelectItem> */}
-                          <SelectItem value="pricing">料金に関するお問い合わせ</SelectItem>
-                          <SelectItem value="partnership">パートナーシップ</SelectItem>
-                          <SelectItem value="support">サポート</SelectItem>
-                          <SelectItem value="other">その他</SelectItem>
+                          <SelectItem value="pricing">{t('form.inquiryType.options.pricing') || "料金に関するお問い合わせ"}</SelectItem>
+                          <SelectItem value="partnership">{t('form.inquiryType.options.partnership') || "パートナーシップ"}</SelectItem>
+                          <SelectItem value="support">{t('form.inquiryType.options.support') || "サポート"}</SelectItem>
+                          <SelectItem value="other">{t('form.inquiryType.options.other') || "その他"}</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="message">メッセージ *</Label>
+                      <Label htmlFor="message">{t('form.message.label') || "メッセージ"} *</Label>
                       <Textarea
                         id="message"
                         required
                         rows={6}
-                        placeholder="詳細なご質問やご要望をお書きください"
+                        placeholder={t('form.message.placeholder') || "詳細なご質問やご要望をお書きください"}
                         value={formData.message}
                         onChange={(e) => handleInputChange("message", e.target.value)}
                         data-testid="textarea-message"
@@ -205,7 +222,7 @@ export default function Contact() {
                       disabled={isSubmitting}
                       data-testid="button-submit"
                     >
-                      {isSubmitting ? "送信中..." : "送信する"}
+                      {isSubmitting ? (t('submitting') || "送信中...") : (t('submit') || "送信する")}
                     </Button>
                   </form>
                 </CardContent>
@@ -221,7 +238,7 @@ export default function Contact() {
             >
               <div>
                 <h2 className="text-2xl font-bold mb-6" data-testid="text-contact-info-title">
-                  お問い合わせ先
+                  {t('contactInfo.title') || "お問い合わせ先"}
                 </h2>
                 <div className="space-y-4">
                   {contactInfo.map((info, index) => (
@@ -257,10 +274,10 @@ export default function Contact() {
                 <CardContent className="p-6">
                   <h3 className="font-semibold mb-2 flex items-center gap-2">
                     <Clock className="w-4 h-4 text-primary" />
-                    レスポンス時間
+                    {t('response.title') || "レスポンス時間"}
                   </h3>
                   <p className="text-muted-foreground text-sm leading-relaxed">
-                    通常、24時間以内にご返信いたします。緊急のお問い合わせの場合は、お電話でご連絡ください。
+                    {t('response.description') || "通常、24時間以内にご返信いたします。緊急のお問い合わせの場合は、お電話でご連絡ください。"}
                   </p>
                 </CardContent>
               </Card>
@@ -268,28 +285,28 @@ export default function Contact() {
               {/* Quick Links */}
               <Card>
                 <CardContent className="p-6">
-                  <h3 className="font-semibold mb-4">関連リンク</h3>
+                  <h3 className="font-semibold mb-4">{t('quickLinks.title') || "関連リンク"}</h3>
                   <div className="space-y-2">
                     <a
                       href="/products"
                       className="block text-sm text-muted-foreground hover:text-primary transition-colors"
                       data-testid="link-products"
                     >
-                      → プロダクト一覧
+                      → {t('quickLinks.products') || "プロダクト一覧"}
                     </a>
                     <a
                       href="/about"
                       className="block text-sm text-muted-foreground hover:text-primary transition-colors"
                       data-testid="link-about"
                     >
-                      → 会社概要
+                      → {t('quickLinks.about') || "会社概要"}
                     </a>
                     <a
                       href="/news"
                       className="block text-sm text-muted-foreground hover:text-primary transition-colors"
                       data-testid="link-news"
                     >
-                      → 最新ニュース
+                      → {t('quickLinks.news') || "最新ニュース"}
                     </a>
                   </div>
                 </CardContent>

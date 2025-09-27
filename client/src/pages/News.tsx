@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -38,6 +38,9 @@ const itemVariants = {
 
 export default function News() {
   const { t } = useTranslation('news');
+  
+  // Category filter state
+  const [selectedCategory, setSelectedCategory] = useState<string>(t('categories.all') || "すべて");
   
   useEffect(() => {
     document.title = t('meta.title') || "AI・テクノロジーニュース | D'achy.Studio";
@@ -158,6 +161,30 @@ export default function News() {
     t('categories.design-art') || "デザイン・アート"
   ];
 
+  // Function to translate category from Japanese to current language
+  const translateCategory = (category: string) => {
+    const categoryMap: { [key: string]: string } = {
+      "すべて": t('categories.all') || "すべて",
+      "AI技術": t('categories.ai-tech') || "AI技術",
+      "企業システム": t('categories.enterprise') || "企業システム",
+      "エンターテイメント": t('categories.entertainment') || "エンターテイメント",
+      "ビジネスAI": t('categories.business-ai') || "ビジネスAI",
+      "開発ツール": t('categories.dev-tools') || "開発ツール",
+      "デザイン・アート": t('categories.design-art') || "デザイン・アート"
+    };
+    return categoryMap[category] || category;
+  };
+
+  // Filter articles based on selected category
+  const filteredNews = selectedCategory === (t('categories.all') || "すべて") 
+    ? allNews 
+    : allNews.filter(article => translateCategory(article.category) === selectedCategory);
+
+  // Handle category selection
+  const handleCategoryClick = (category: string) => {
+    setSelectedCategory(category);
+  };
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('ja-JP', {
@@ -222,7 +249,8 @@ export default function News() {
             {categories.map((category, index) => (
               <Button
                 key={category}
-                variant={index === 0 ? "default" : "outline"}
+                onClick={() => handleCategoryClick(category)}
+                variant={selectedCategory === category ? "default" : "outline"}
                 size="sm"
                 className="rounded-full"
                 data-testid={`button-category-${category}`}
@@ -244,7 +272,7 @@ export default function News() {
             viewport={{ once: true }}
             className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8"
           >
-            {allNews.map((article, index) => (
+            {filteredNews.map((article, index) => (
               <motion.div key={article.id} variants={itemVariants}>
                 <Card className="h-full hover-elevate group">
                   {/* Article Image */}
@@ -256,7 +284,7 @@ export default function News() {
                     />
                     <div className="absolute top-3 left-3">
                       <Badge variant="secondary" className="bg-white/90 text-gray-900">
-                        {article.category}
+                        {translateCategory(article.category)}
                       </Badge>
                     </div>
                     {article.isExternal && (
