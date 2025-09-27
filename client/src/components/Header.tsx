@@ -1,21 +1,25 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import { motion, AnimatePresence } from "framer-motion";
+import { LanguageSwitcher } from "./LanguageSwitcher";
+import { linkTo, useLocale } from "@/lib/i18n-utils";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [location] = useLocation();
   const { theme, setTheme } = useTheme();
+  const { t } = useTranslation('header');
+  const { locale } = useLocale();
 
   const navigation = [
-    { name: "ホーム", href: "/" },
-    { name: "プロダクト", href: "/products" },
-    { name: "ニュース", href: "/news" },
-    { name: "私たちについて", href: "/about" },
-    { name: "お問い合わせ", href: "/contact" },
+    { name: t('navigation.home'), href: linkTo('/', locale) },
+    { name: t('navigation.products'), href: linkTo('/products', locale) },
+    { name: t('navigation.news'), href: linkTo('/news', locale) },
+    { name: t('navigation.contact'), href: linkTo('/contact', locale) },
   ];
 
   const toggleTheme = () => {
@@ -27,12 +31,12 @@ export default function Header() {
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2" data-testid="link-home">
+          <Link href={linkTo('/', locale)} className="flex items-center space-x-2" data-testid="link-home">
             <div className="flex items-center space-x-2">
               <div className="h-8 w-8 rounded-md bg-gradient-to-br from-primary to-orange-600 flex items-center justify-center">
                 <span className="text-sm font-bold text-primary-foreground">D</span>
               </div>
-              <span className="font-bold text-xl text-white">D'achy.Studio</span>
+              <span className="font-bold text-xl text-white">{t('company.name')}</span>
             </div>
           </Link>
 
@@ -54,6 +58,7 @@ export default function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-4">
+            <LanguageSwitcher />
             <Button
               variant="ghost"
               size="icon"
@@ -63,13 +68,14 @@ export default function Header() {
             >
               {theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
             </Button>
-            <Button variant="default" data-testid="button-contact">
-              お問い合わせ
+            <Button asChild variant="default" data-testid="button-contact">
+              <Link href={linkTo('/contact', locale)}>{t('navigation.contact')}</Link>
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center space-x-2">
+            <LanguageSwitcher />
             <Button
               variant="ghost"
               size="icon"
@@ -116,8 +122,8 @@ export default function Header() {
                   </Link>
                 ))}
                 <div className="px-4 pt-2">
-                  <Button variant="default" className="w-full" data-testid="button-contact-mobile">
-                    お問い合わせ
+                  <Button asChild variant="default" className="w-full" data-testid="button-contact-mobile">
+                    <Link href={linkTo('/contact', locale)}>{t('navigation.contact')}</Link>
                   </Button>
                 </div>
               </nav>

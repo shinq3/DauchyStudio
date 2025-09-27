@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { Switch, Route, useLocation } from "wouter";
+import { Switch, Route, useLocation, Redirect } from "wouter";
+import { useTranslation } from "react-i18next";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
@@ -18,9 +19,22 @@ import Edumate from "@/pages/Edumate";
 import OfficeBrain from "@/pages/OfficeBrain";
 import EnterpriseLLM from "@/pages/EnterpriseLLM";
 import { Github, Twitter, Linkedin, Mail } from "lucide-react";
+import { extractLocaleFromPath, linkTo } from "@/lib/i18n-utils";
+import { defaultLocale, isValidLocale, type Locale } from "@shared/i18n";
 
 function Router() {
   const [location] = useLocation();
+  const { i18n } = useTranslation();
+  
+  // Extract locale and clean path from current location
+  const { locale, cleanPath } = extractLocaleFromPath(location);
+  
+  // Update i18n language when locale changes in URL
+  useEffect(() => {
+    if (locale && i18n.language !== locale) {
+      i18n.changeLanguage(locale);
+    }
+  }, [locale, i18n]);
   
   // Scroll to top on route change
   useEffect(() => {
@@ -29,16 +43,79 @@ function Router() {
 
   return (
     <Switch>
-      <Route path="/" component={Home} />
-      <Route path="/products" component={Products} />
-      <Route path="/products/lingalink" component={LingaLink} />
-      <Route path="/products/edumate" component={Edumate} />
-      <Route path="/products/officebrain" component={OfficeBrain} />
-      <Route path="/products/enterprise-llm" component={EnterpriseLLM} />
-      <Route path="/about" component={About} />
-      <Route path="/contact" component={Contact} />
-      <Route path="/news" component={News} />
-      {/* TODO: Add product detail, news pages when backend is ready */}
+      {/* Root redirect to default locale */}
+      <Route path="/">
+        <Redirect to={linkTo('/', defaultLocale)} />
+      </Route>
+      
+      {/* Locale-prefixed routes */}
+      <Route path="/:locale">
+        {(params) => {
+          const localeParam = params.locale;
+          if (!isValidLocale(localeParam)) {
+            return <NotFound />;
+          }
+          return <Home />;
+        }}
+      </Route>
+      
+      <Route path="/:locale/products">
+        {(params) => {
+          if (!isValidLocale(params.locale)) return <NotFound />;
+          return <Products />;
+        }}
+      </Route>
+      
+      <Route path="/:locale/products/lingalink">
+        {(params) => {
+          if (!isValidLocale(params.locale)) return <NotFound />;
+          return <LingaLink />;
+        }}
+      </Route>
+      
+      <Route path="/:locale/products/edumate">
+        {(params) => {
+          if (!isValidLocale(params.locale)) return <NotFound />;
+          return <Edumate />;
+        }}
+      </Route>
+      
+      <Route path="/:locale/products/officebrain">
+        {(params) => {
+          if (!isValidLocale(params.locale)) return <NotFound />;
+          return <OfficeBrain />;
+        }}
+      </Route>
+      
+      <Route path="/:locale/products/enterprise-llm">
+        {(params) => {
+          if (!isValidLocale(params.locale)) return <NotFound />;
+          return <EnterpriseLLM />;
+        }}
+      </Route>
+      
+      <Route path="/:locale/about">
+        {(params) => {
+          if (!isValidLocale(params.locale)) return <NotFound />;
+          return <About />;
+        }}
+      </Route>
+      
+      <Route path="/:locale/contact">
+        {(params) => {
+          if (!isValidLocale(params.locale)) return <NotFound />;
+          return <Contact />;
+        }}
+      </Route>
+      
+      <Route path="/:locale/news">
+        {(params) => {
+          if (!isValidLocale(params.locale)) return <NotFound />;
+          return <News />;
+        }}
+      </Route>
+      
+      {/* Catch-all for invalid routes */}
       <Route component={NotFound} />
     </Switch>
   );
