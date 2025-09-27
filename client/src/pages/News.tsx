@@ -11,7 +11,6 @@ import {
   Clock,
   Eye,
   ArrowRight,
-  Newspaper,
   Tag
 } from "lucide-react";
 import newsroomImage from '@assets/stock_images/modern_newsroom_with_a0f99684.jpg';
@@ -338,37 +337,6 @@ export default function News() {
         </div>
       </section>
 
-      {/* Newsletter CTA */}
-      <section className="py-16 lg:py-24 bg-muted/30">
-        <div className="container mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            <Newspaper className="w-12 h-12 text-primary mx-auto mb-6" />
-            <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-              {t('newsletter.title') || "最新ニュースをお見逃しなく"}
-            </h2>
-            <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-              {t('newsletter.description') || "AI・テクノロジー業界の重要なニュースや分析記事を定期的にお届けします。"}
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="bg-primary hover:bg-primary/90" data-testid="button-newsletter">
-                <Link href="/contact">
-                  {t('newsletter.subscribe_button') || "ニュースレター登録"}
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" data-testid="button-rss">
-                <Link href="/rss">
-                  {t('newsletter.rss_button') || "RSSフィード"}
-                </Link>
-              </Button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
     </main>
   );
 }

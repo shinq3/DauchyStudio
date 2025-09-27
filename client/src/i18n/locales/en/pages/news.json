@@ -22,11 +22,5 @@
     "external_badge": "External Article",
     "read_article": "Read Article",
     "by": "by"
-  },
-  "newsletter": {
-    "title": "Don't Miss the Latest News",
-    "description": "We regularly deliver important news and analytical articles from the AI and technology industry.",
-    "subscribe_button": "Subscribe to Newsletter",
-    "rss_button": "RSS Feed"
   }
 }

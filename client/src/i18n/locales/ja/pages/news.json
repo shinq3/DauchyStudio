@@ -22,11 +22,5 @@
     "external_badge": "外部記事",
     "read_article": "記事を読む",
     "by": "by"
-  },
-  "newsletter": {
-    "title": "最新ニュースをお見逃しなく",
-    "description": "AI・テクノロジー業界の重要なニュースや分析記事を定期的にお届けします。",
-    "subscribe_button": "ニュースレター登録",
-    "rss_button": "RSSフィード"
   }
 }

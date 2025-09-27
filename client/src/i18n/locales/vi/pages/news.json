@@ -22,11 +22,5 @@
     "external_badge": "Bài Viết Bên Ngoài",
     "read_article": "Đọc Bài Viết",
     "by": "bởi"
-  },
-  "newsletter": {
-    "title": "Đừng Bỏ Lỡ Tin Tức Mới Nhất",
-    "description": "Chúng tôi thường xuyên cung cấp tin tức quan trọng và các bài viết phân tích từ ngành AI và công nghệ.",
-    "subscribe_button": "Đăng Ký Bản Tin",
-    "rss_button": "RSS Feed"
   }
 }
