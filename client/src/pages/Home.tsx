@@ -202,7 +202,7 @@ export default function Home() {
           >
             {developmentAchievements.map((category, index) => (
               <motion.div key={index} variants={itemVariants}>
-                <Card className="h-full hover-elevate" data-testid={`card-achievement-category-${index}`}>
+                <Card className="h-full hover-elevate bg-white dark:bg-white" data-testid={`card-achievement-category-${index}`}>
                   <CardContent className="p-6">
                     <div className="mb-6 text-center">
                       <div className="w-16 h-16 bg-orange-50 dark:bg-orange-950 rounded-full flex items-center justify-center mx-auto mb-4">
