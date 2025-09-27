@@ -38,7 +38,9 @@ export default function ProductCard({
   };
 
   const handleCardClick = () => {
-    setLocation(href);
+    if (status !== 'coming_soon') {
+      setLocation(href);
+    }
   };
 
   return (
@@ -47,7 +49,9 @@ export default function ProductCard({
       transition={{ duration: 0.2 }}
       className="h-full"
     >
-      <Card className="h-full flex flex-col overflow-hidden hover-elevate border-border hover:border-primary/20 transition-colors duration-300 cursor-pointer" onClick={handleCardClick}>
+      <Card className={`h-full flex flex-col overflow-hidden hover-elevate border-border hover:border-primary/20 transition-colors duration-300 ${
+        status !== 'coming_soon' ? 'cursor-pointer' : 'cursor-default'
+      }`} onClick={handleCardClick}>
         <CardHeader className="p-0">
           <div className="relative aspect-video overflow-hidden">
             <img
@@ -94,9 +98,12 @@ export default function ProductCard({
             variant="ghost"
             className="w-full group justify-between"
             data-testid={`button-view-details`}
+            disabled={status === 'coming_soon'}
             onClick={(e) => {
               e.stopPropagation();
-              setLocation(href);
+              if (status !== 'coming_soon') {
+                setLocation(href);
+              }
             }}
           >
             詳細を見る

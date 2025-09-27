@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import ProductCard, { type ProductCardProps } from "./ProductCard";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { Link } from "wouter";
 
 interface ProductGridProps {
   title: string;
@@ -74,14 +75,16 @@ export default function ProductGrid({
             className="text-center"
           >
             <Button
+              asChild
               variant="outline"
               size="lg"
               className="group"
               data-testid="button-view-all-products"
-              onClick={() => console.log(`Navigate to ${ctaHref}`)}
             >
-              すべてのプロダクトを見る
-              <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              <Link href={ctaHref}>
+                すべてのプロダクトを見る
+                <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+              </Link>
             </Button>
           </motion.div>
         )}
