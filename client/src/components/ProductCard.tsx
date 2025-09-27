@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { useLocation } from "wouter";
 
 export interface ProductCardProps {
   id: string;
@@ -22,6 +23,8 @@ export default function ProductCard({
   tags,
   href,
 }: ProductCardProps) {
+  const [, setLocation] = useLocation();
+  
   const statusColors = {
     released: "bg-green-500/10 text-green-600 dark:text-green-400",
     beta: "bg-primary/10 text-primary",
@@ -34,13 +37,17 @@ export default function ProductCard({
     coming_soon: "近日公開",
   };
 
+  const handleCardClick = () => {
+    setLocation(href);
+  };
+
   return (
     <motion.div
       whileHover={{ scale: 1.02, y: -4 }}
       transition={{ duration: 0.2 }}
       className="h-full"
     >
-      <Card className="h-full flex flex-col overflow-hidden hover-elevate border-border hover:border-primary/20 transition-colors duration-300">
+      <Card className="h-full flex flex-col overflow-hidden hover-elevate border-border hover:border-primary/20 transition-colors duration-300 cursor-pointer" onClick={handleCardClick}>
         <CardHeader className="p-0">
           <div className="relative aspect-video overflow-hidden">
             <img
@@ -87,7 +94,10 @@ export default function ProductCard({
             variant="ghost"
             className="w-full group justify-between"
             data-testid={`button-view-details`}
-            onClick={() => console.log(`Navigate to ${href}`)}
+            onClick={(e) => {
+              e.stopPropagation();
+              setLocation(href);
+            }}
           >
             詳細を見る
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
