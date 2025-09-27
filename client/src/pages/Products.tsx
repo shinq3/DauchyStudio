@@ -1,9 +1,5 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import ProductCard from "@/components/ProductCard";
-import { Search, Filter } from "lucide-react";
 import { motion } from "framer-motion";
 
 // TODO: remove mock functionality - replace with real data from API
@@ -13,9 +9,6 @@ import officeBrainImage from "@assets/generated_images/OfficeBrain_file_system_i
 import baydSystemImage from "@assets/generated_images/Bayd-System_studio_dashboard_36de2e47.png";
 
 export default function Products() {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-
   // TODO: remove mock functionality - replace with API calls
   const allProducts = [
     {
@@ -56,24 +49,6 @@ export default function Products() {
     }
   ];
 
-  const allTags = Array.from(new Set(allProducts.flatMap(product => product.tags)));
-
-  const filteredProducts = allProducts.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesTags = selectedTags.length === 0 || 
-                       selectedTags.some(tag => product.tags.includes(tag));
-    return matchesSearch && matchesTags;
-  });
-
-  const toggleTag = (tag: string) => {
-    setSelectedTags(prev => 
-      prev.includes(tag) 
-        ? prev.filter(t => t !== tag)
-        : [...prev, tag]
-    );
-  };
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -113,109 +88,22 @@ export default function Products() {
         </div>
       </section>
 
-      {/* Filters Section */}
-      <section className="py-8 border-b bg-background/50 backdrop-blur">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-6 items-start lg:items-center">
-            {/* Search */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
-              <Input
-                placeholder="プロダクトを検索..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10"
-                data-testid="input-search"
-              />
-            </div>
-
-            {/* Tags Filter */}
-            <div className="flex items-center gap-2">
-              <Filter className="w-4 h-4 text-muted-foreground" />
-              <span className="text-sm font-medium text-muted-foreground">フィルター:</span>
-              <div className="flex flex-wrap gap-2">
-                {allTags.map(tag => (
-                  <Button
-                    key={tag}
-                    variant={selectedTags.includes(tag) ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => toggleTag(tag)}
-                    data-testid={`button-filter-${tag}`}
-                  >
-                    {tag}
-                  </Button>
-                ))}
-              </div>
-            </div>
-
-            {/* Clear Filters */}
-            {(selectedTags.length > 0 || searchQuery) && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setSelectedTags([]);
-                  setSearchQuery("");
-                }}
-                data-testid="button-clear-filters"
-              >
-                フィルターをクリア
-              </Button>
-            )}
-          </div>
-        </div>
-      </section>
 
       {/* Products Grid */}
       <section className="py-16 lg:py-24">
         <div className="container mx-auto px-4">
-          {filteredProducts.length === 0 ? (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-center py-16"
-            >
-              <p className="text-lg text-muted-foreground mb-4">
-                条件に一致するプロダクトが見つかりませんでした
-              </p>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setSelectedTags([]);
-                  setSearchQuery("");
-                }}
-                data-testid="button-reset-search"
-              >
-                フィルターをリセット
-              </Button>
-            </motion.div>
-          ) : (
-            <>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="mb-8"
-              >
-                <p className="text-muted-foreground" data-testid="text-results-count">
-                  {filteredProducts.length}件のプロダクトが見つかりました
-                </p>
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          >
+            {allProducts.map((product) => (
+              <motion.div key={product.id} variants={itemVariants}>
+                <ProductCard {...product} />
               </motion.div>
-
-              <motion.div
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-              >
-                {filteredProducts.map((product) => (
-                  <motion.div key={product.id} variants={itemVariants}>
-                    <ProductCard {...product} />
-                  </motion.div>
-                ))}
-              </motion.div>
-            </>
-          )}
+            ))}
+          </motion.div>
         </div>
       </section>
     </main>

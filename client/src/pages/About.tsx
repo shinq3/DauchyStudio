@@ -73,8 +73,8 @@ export default function About() {
             <h1 className="text-4xl lg:text-5xl font-bold mb-6" data-testid="text-page-title">
               私たちについて
             </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              D'achy.Studioは、AIの力を活用して人々の生活や仕事をより豊かにするプロダクトを開発しています。
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed text-left">
+              D'achy.Studioは、AIの力を活用して人々の生活や仕事をより豊かにするプロダクトを開発しています。<br></br>
               私たちは技術と創造性を組み合わせ、真に価値のあるソリューションを提供することを使命としています。
             </p>
           </motion.div>
@@ -95,8 +95,8 @@ export default function About() {
               私たちのミッション
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-primary to-orange-600 mx-auto mb-8" />
-            <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed">
-              私たちは、AIテクノロジーを通じて教育、企業、クリエイティブ分野に革新をもたらします。
+            <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed text-left">
+              私たちは、AIテクノロジーを通じて教育、企業、クリエイティブ分野に革新をもたらします。<br></br>
               ユーザーとの共創を大切にし、実用的で持続可能なソリューションを開発することで、
               社会全体のデジタルトランスフォーメーションに貢献していきます。
             </p>
@@ -129,9 +129,9 @@ export default function About() {
           >
             {values.map((value, index) => (
               <motion.div key={index} variants={itemVariants}>
-                <Card className="h-full text-center hover-elevate">
+                <Card className="h-full hover-elevate">
                   <CardContent className="p-6">
-                    <div className="mb-4 flex justify-center">
+                    <div className="mb-4">
                       <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center">
                         {value.icon}
                       </div>
@@ -164,7 +164,7 @@ export default function About() {
               チーム
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-primary to-orange-600 mx-auto mb-8" />
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-left">
               多様なバックグラウンドを持つ専門家チームが、革新的なプロダクト開発に取り組んでいます。
             </p>
           </motion.div>
