@@ -1,0 +1,13 @@
+{
+  "title": "Tin Tức",
+  "subtitle": "Cập nhật thông tin mới nhất từ D'achy.Studio và tin tức ngành",
+  "filter": {
+    "all": "Tất cả",
+    "internal": "Tin tức công ty",
+    "external": "Tin tức ngành"
+  },
+  "date": "Ngày",
+  "source": "Nguồn",
+  "readMore": "Đọc thêm",
+  "noNews": "Hiện tại không có tin tức nào để hiển thị."
+}

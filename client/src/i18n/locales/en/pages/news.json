@@ -1,0 +1,13 @@
+{
+  "title": "News",
+  "subtitle": "Stay updated with the latest information from D'achy.Studio and industry news",
+  "filter": {
+    "all": "All",
+    "internal": "Company News",
+    "external": "Industry News"
+  },
+  "date": "Date",
+  "source": "Source",
+  "readMore": "Read More",
+  "noNews": "No news available to display at the moment."
+}

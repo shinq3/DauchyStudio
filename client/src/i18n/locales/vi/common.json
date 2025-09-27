@@ -1,0 +1,30 @@
+{
+  "buttons": {
+    "submit": "Gửi",
+    "cancel": "Hủy",
+    "save": "Lưu",
+    "edit": "Chỉnh sửa",
+    "delete": "Xóa",
+    "back": "Quay lại",
+    "next": "Tiếp theo",
+    "previous": "Trước",
+    "contact": "Liên hệ",
+    "learnMore": "Tìm hiểu thêm"
+  },
+  "status": {
+    "loading": "Đang tải...",
+    "saving": "Đang lưu...",
+    "submitting": "Đang gửi...",
+    "success": "Thành công",
+    "error": "Lỗi",
+    "notFound": "Không tìm thấy"
+  },
+  "labels": {
+    "name": "Tên",
+    "email": "Địa chỉ email",
+    "message": "Tin nhắn",
+    "company": "Công ty/Tổ chức",
+    "required": "Bắt buộc",
+    "optional": "Tùy chọn"
+  }
+}

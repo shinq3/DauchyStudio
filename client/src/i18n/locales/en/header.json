@@ -1,0 +1,11 @@
+{
+  "navigation": {
+    "home": "Home",
+    "products": "Products",
+    "news": "News",
+    "contact": "Contact"
+  },
+  "company": {
+    "name": "D'achy.Studio"
+  }
+}

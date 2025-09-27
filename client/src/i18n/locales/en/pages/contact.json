@@ -1,0 +1,42 @@
+{
+  "title": "Contact Us",
+  "subtitle": "Feel free to reach out to us. Let us know how we can help you.",
+  "form": {
+    "name": {
+      "label": "Name",
+      "placeholder": "John Doe"
+    },
+    "email": {
+      "label": "Email Address",
+      "placeholder": "your.email@example.com"
+    },
+    "company": {
+      "label": "Company/Organization",
+      "placeholder": "ABC Corporation"
+    },
+    "inquiryType": {
+      "label": "Inquiry Type",
+      "placeholder": "Please select inquiry type",
+      "options": {
+        "product-inquiry": "Product Inquiry",
+        "pricing": "Pricing Inquiry",
+        "partnership": "Partnership",
+        "support": "Support",
+        "other": "Other"
+      }
+    },
+    "message": {
+      "label": "Message",
+      "placeholder": "Please write your detailed questions or requirements"
+    }
+  },
+  "contactInfo": {
+    "title": "Contact Information",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "hours": "Business Hours"
+  },
+  "success": "Message sent successfully. Thank you for contacting us.",
+  "error": "Failed to send message. Please try again in a few moments."
+}

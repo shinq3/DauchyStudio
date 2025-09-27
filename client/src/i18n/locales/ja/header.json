@@ -1,0 +1,11 @@
+{
+  "navigation": {
+    "home": "ホーム",
+    "products": "プロダクト",
+    "news": "ニュース",
+    "contact": "お問い合わせ"
+  },
+  "company": {
+    "name": "D'achy.Studio"
+  }
+}

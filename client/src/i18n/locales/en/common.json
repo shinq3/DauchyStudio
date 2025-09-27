@@ -1,0 +1,30 @@
+{
+  "buttons": {
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "contact": "Contact",
+    "learnMore": "Learn More"
+  },
+  "status": {
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "submitting": "Submitting...",
+    "success": "Success",
+    "error": "Error",
+    "notFound": "Not Found"
+  },
+  "labels": {
+    "name": "Name",
+    "email": "Email Address",
+    "message": "Message",
+    "company": "Company/Organization",
+    "required": "Required",
+    "optional": "Optional"
+  }
+}

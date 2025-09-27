@@ -1,0 +1,13 @@
+{
+  "title": "ニュース",
+  "subtitle": "D'achy.Studioの最新情報や業界ニュースをお届けします",
+  "filter": {
+    "all": "すべて",
+    "internal": "社内ニュース",
+    "external": "業界ニュース"
+  },
+  "date": "日付",
+  "source": "情報源",
+  "readMore": "続きを読む",
+  "noNews": "現在表示できるニュースはありません。"
+}

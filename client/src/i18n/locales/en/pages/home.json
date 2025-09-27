@@ -1,0 +1,21 @@
+{
+  "hero": {
+    "title": "From Prototype Creation to System Development",
+    "subtitle": "D'achy.Studio provides innovative solutions that connect education, enterprise, and creative industries with cutting-edge AI technology.",
+    "features": {
+      "rapid": "Prototype completion on the same day",
+      "development": "Consistent support from prototype to system development",
+      "expertise": "Realize your vision with extensive experience and expertise"
+    }
+  },
+  "sections": {
+    "products": {
+      "title": "Our Products",
+      "subtitle": "AI solutions that support people from daily life to business"
+    },
+    "news": {
+      "title": "Latest News",
+      "subtitle": "Stay updated with the latest from D'achy.Studio"
+    }
+  }
+}
