@@ -18,6 +18,7 @@ import {
   Sparkles,
   CheckCircle
 } from "lucide-react";
+import heroImage from "@assets/image_1758941074318.png";
 
 export default function LingaLink() {
   const containerVariants = {
@@ -49,16 +50,41 @@ export default function LingaLink() {
         animate="visible"
       >
         {/* Hero Section */}
-        <motion.div className="text-center mb-16" variants={itemVariants}>
-          <Badge className="mb-4 bg-orange-100 text-orange-700 border-orange-200" data-testid="badge-product">
-            AI学習プラットフォーム
-          </Badge>
-          <h1 className="text-5xl font-bold text-gray-900 mb-6" data-testid="text-title">
-            LingaLink
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-testid="text-description">
-            学ぶ・教えるの効率をAIがサポートするオンライン学習プラットフォーム
-          </p>
+        <motion.div className="mb-16" variants={itemVariants}>
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="text-center lg:text-left">
+              <Badge className="mb-4 bg-orange-100 text-orange-700 border-orange-200" data-testid="badge-product">
+                AI学習プラットフォーム
+              </Badge>
+              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6" data-testid="text-title">
+                LingaLink
+              </h1>
+              <p className="text-xl text-gray-600 leading-relaxed mb-8" data-testid="text-description">
+                学ぶ・教えるの効率をAIがサポートするオンライン学習プラットフォーム
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                <Button size="lg" className="bg-orange-500 hover:bg-orange-600" data-testid="button-hero-demo">
+                  無料デモを試す
+                </Button>
+                <Button size="lg" variant="outline" data-testid="button-hero-learn-more">
+                  詳しく見る
+                </Button>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="relative overflow-hidden rounded-2xl shadow-2xl" data-testid="img-hero">
+                <img 
+                  src={heroImage} 
+                  alt="LingaLink - 英語でつながる、新しい毎日へ" 
+                  className="w-full h-auto object-cover rounded-2xl"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl" />
+              </div>
+              {/* Floating elements for visual enhancement */}
+              <div className="absolute -top-4 -right-4 w-20 h-20 bg-orange-500 rounded-full opacity-20 animate-pulse" />
+              <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-orange-400 rounded-full opacity-30 animate-pulse delay-700" />
+            </div>
+          </div>
         </motion.div>
 
         {/* Summary Section */}
