@@ -9,7 +9,6 @@ import { Mail, MessageCircle } from "lucide-react";
 import lingaLinkImage from "@assets/generated_images/LingaLink_learning_dashboard_mockup_3e4a3eec.png";
 import eduMateImage from "@assets/generated_images/EduMate_collaboration_interface_5d5ed6fd.png";
 import officeBrainImage from "@assets/generated_images/OfficeBrain_file_system_interface_be3ae664.png";
-import enterpriseLLMImage from "@assets/stock_images/enterprise_ai_dashbo_34de58a9.jpg";
 import baydSystemImage from "@assets/generated_images/Bayd-System_studio_dashboard_36de2e47.png";
 
 export default function Home() {
@@ -41,15 +40,6 @@ export default function Home() {
       status: "released" as const,
       tags: ["企業", "RAG", "ファイル管理"],
       href: "/products/officebrain"
-    },
-    {
-      id: "enterprise-llm",
-      name: "Enterprise LLM",
-      description: "プロジェクト管理・ナレッジ共有・AIアシスタントを統合したオールインワン企業プラットフォーム。",
-      image: enterpriseLLMImage,
-      status: "released" as const,
-      tags: ["企業", "プロジェクト管理", "AI"],
-      href: "/products/enterprise-llm"
     },
     {
       id: "bayd-system",
@@ -97,10 +87,10 @@ export default function Home() {
   ];
 
   const visionBullets = [
-    "素早い検証とプロトタイピングにより、アイデアを迅速に実現します",
-    "ユーザーとの共創を通じて、真に価値のあるソリューションを開発します",
-    "現実的な課題に対するDXソリューションで、実用性を重視します",
-    "継続的な改善とイノベーションで、常に最先端の技術を提供します"
+    "お打ち合わせ当日に動作するプロトタイプをお見せし、ご要望を即座に形にします",
+    "プロトタイプから本格システムまで一貫した開発体制で、スムーズな移行を実現します",
+    "実際のビジネス課題に即したAIソリューションで、実用性の高いシステムを構築します",
+    "迅速な開発サイクルにより、市場投入までの時間を大幅に短縮します"
   ];
 
   const ctaActions = [
@@ -134,7 +124,7 @@ export default function Home() {
       />
       
       <VisionBlock
-        heading="なぜAIプロトタイピングなのか"
+        heading="即日プロトタイプ作成からのシステム開発"
         bullets={visionBullets}
       />
       
