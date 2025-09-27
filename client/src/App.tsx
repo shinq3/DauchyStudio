@@ -11,6 +11,7 @@ import Home from "@/pages/Home";
 import Products from "@/pages/Products";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
+import LingaLink from "@/pages/LingaLink";
 import { Github, Twitter, Linkedin, Mail } from "lucide-react";
 
 function Router() {
@@ -18,6 +19,7 @@ function Router() {
     <Switch>
       <Route path="/" component={Home} />
       <Route path="/products" component={Products} />
+      <Route path="/products/lingalink" component={LingaLink} />
       <Route path="/about" component={About} />
       <Route path="/contact" component={Contact} />
       {/* TODO: Add product detail, news pages when backend is ready */}
