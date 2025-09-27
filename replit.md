@@ -51,7 +51,6 @@ Currently uses mock data with clear TODO comments for future CMS integration:
 ## Core Dependencies
 - **@neondatabase/serverless**: PostgreSQL database connection for serverless environments
 - **drizzle-orm**: Type-safe database ORM with PostgreSQL dialect
-- **@sendgrid/mail**: Email service integration for contact forms and notifications
 
 ## UI Framework
 - **@radix-ui/***: Comprehensive accessible component primitives for forms, navigation, and overlays
