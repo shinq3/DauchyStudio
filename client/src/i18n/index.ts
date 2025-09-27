@@ -73,7 +73,6 @@ i18n
     detection: {
       order: ['path', 'localStorage', 'navigator'],
       lookupFromPathIndex: 0,
-      checkWhitelist: true,
       caches: ['localStorage'],
     },
     
