@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -30,6 +31,17 @@ import studentsStudyingImage from '@assets/stock_images/students_studying_to_590
 
 export default function Edumate() {
   const { t } = useTranslation('edumate');
+  
+  useEffect(() => {
+    document.title = t('meta.title');
+    
+    // Set meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', t('meta.description'));
+    }
+  }, [t]);
+  
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -151,7 +163,7 @@ export default function Edumate() {
         {/* Hero Section */}
         <motion.div className="text-center mb-16" variants={itemVariants}>
           <Badge className="mb-4 bg-orange-100 text-orange-700 border-orange-200" data-testid="badge-product">
-            学習継続支援プラットフォーム
+            {t('badge')}
           </Badge>
           <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6" data-testid="text-title">
             Edumate
@@ -161,7 +173,7 @@ export default function Edumate() {
               勉強も、友達も、大切にできる。
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-testid="text-description">
-              ふたりで学んで、ちゃんと続く。保護者にも見える安心設計。
+              {t('description')}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
