@@ -9,6 +9,7 @@ import jaCommon from './locales/ja/common.json';
 import jaHeader from './locales/ja/header.json';
 import jaFooter from './locales/ja/footer.json';
 import jaHome from './locales/ja/pages/home.json';
+import jaAbout from './locales/ja/pages/about.json';
 import jaProducts from './locales/ja/pages/products.json';
 import jaContact from './locales/ja/pages/contact.json';
 import jaNews from './locales/ja/pages/news.json';
@@ -21,6 +22,7 @@ import enCommon from './locales/en/common.json';
 import enHeader from './locales/en/header.json';
 import enFooter from './locales/en/footer.json';
 import enHome from './locales/en/pages/home.json';
+import enAbout from './locales/en/pages/about.json';
 import enProducts from './locales/en/pages/products.json';
 import enContact from './locales/en/pages/contact.json';
 import enNews from './locales/en/pages/news.json';
@@ -33,6 +35,7 @@ import viCommon from './locales/vi/common.json';
 import viHeader from './locales/vi/header.json';
 import viFooter from './locales/vi/footer.json';
 import viHome from './locales/vi/pages/home.json';
+import viAbout from './locales/vi/pages/about.json';
 import viProducts from './locales/vi/pages/products.json';
 import viContact from './locales/vi/pages/contact.json';
 import viNews from './locales/vi/pages/news.json';
@@ -47,6 +50,7 @@ const resources = {
     header: jaHeader,
     footer: jaFooter,
     home: jaHome,
+    about: jaAbout,
     products: jaProducts,
     contact: jaContact,
     news: jaNews,
@@ -60,6 +64,7 @@ const resources = {
     header: enHeader,
     footer: enFooter,
     home: enHome,
+    about: enAbout,
     products: enProducts,
     contact: enContact,
     news: enNews,
@@ -73,6 +78,7 @@ const resources = {
     header: viHeader,
     footer: viFooter,
     home: viHome,
+    about: viAbout,
     products: viProducts,
     contact: viContact,
     news: viNews,
@@ -102,7 +108,7 @@ i18n
     
     // Namespace configuration
     defaultNS: 'common',
-    ns: ['common', 'header', 'footer', 'home', 'products', 'contact', 'news', 'lingalink', 'edumate', 'officebrain'],
+    ns: ['common', 'header', 'footer', 'home', 'about', 'products', 'contact', 'news', 'lingalink', 'edumate', 'officebrain'],
     
     interpolation: {
       escapeValue: false, // React already escapes values

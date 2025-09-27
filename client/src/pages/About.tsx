@@ -2,48 +2,67 @@ import { motion } from "framer-motion";
 import { Target, Users, Lightbulb, TrendingUp } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import teamCollaborationImage from '@assets/stock_images/team_collaboration_o_e582d717.jpg';
+import { useTranslation } from "react-i18next";
+import { useEffect } from "react";
 
 export default function About() {
+  const { t } = useTranslation('about');
+  
+  useEffect(() => {
+    document.title = t('meta.title') || "私たちについて | D'achy.Studio";
+    
+    // Set meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', t('meta.description') || 'D\'achy.Studioの会社情報、ミッション、価値観、チーム、歩みについて紹介します。');
+    } else {
+      const meta = document.createElement('meta');
+      meta.name = 'description';
+      meta.content = t('meta.description') || 'D\'achy.Studioの会社情報、ミッション、価値観、チーム、歩みについて紹介します。';
+      document.head.appendChild(meta);
+    }
+  }, [t]);
+
   const values = [
     {
       icon: <Target className="w-8 h-8 text-primary" />,
-      title: "イノベーション",
-      description: "最新のAI技術を活用し、従来の課題を解決する革新的なソリューションを提供します。"
+      title: t('values.items.0.title', { returnObjects: false }) || "イノベーション",
+      description: t('values.items.0.description', { returnObjects: false }) || "最新のAI技術を活用し、従来の課題を解決する革新的なソリューションを提供します。"
     },
     {
       icon: <Users className="w-8 h-8 text-primary" />,
-      title: "ユーザー中心",
-      description: "ユーザーのニーズを深く理解し、真に価値のある体験を設計・開発します。"
+      title: t('values.items.1.title', { returnObjects: false }) || "ユーザー中心", 
+      description: t('values.items.1.description', { returnObjects: false }) || "ユーザーのニーズを深く理解し、真に価値のある体験を設計・開発します。"
     },
     {
       icon: <Lightbulb className="w-8 h-8 text-primary" />,
-      title: "創造性",
-      description: "クリエイティブな思考とテクノロジーを組み合わせ、新しい可能性を切り開きます。"
+      title: t('values.items.2.title', { returnObjects: false }) || "創造性",
+      description: t('values.items.2.description', { returnObjects: false }) || "クリエイティブな思考とテクノロジーを組み合わせ、新しい可能性を切り開きます。"
     },
     {
       icon: <TrendingUp className="w-8 h-8 text-primary" />,
-      title: "持続的成長",
-      description: "継続的な学習と改善を通じて、長期的な価値を創造し続けます。"
+      title: t('values.items.3.title', { returnObjects: false }) || "持続的成長",
+      description: t('values.items.3.description', { returnObjects: false }) || "継続的な学習と改善を通じて、長期的な価値を創造し続けます。"
     }
   ];
 
   const team = [
     {
-      name: "田中 太郎",
-      role: "創設者・CEO",
-      description: "AI研究歴10年、複数のスタートアップ創業経験を持つエンジニア。",
+      name: t('team.members.0.name', { returnObjects: false }) || "田中 太郎",
+      role: t('team.members.0.role', { returnObjects: false }) || "創設者・CEO",
+      description: t('team.members.0.description', { returnObjects: false }) || "AI研究歴10年、複数のスタートアップ創業経験を持つエンジニア。",
       image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
     },
     {
-      name: "佐藤 花子",
-      role: "CTO",
-      description: "機械学習エンジニアとして大手企業で10年間の開発経験。",
+      name: t('team.members.1.name', { returnObjects: false }) || "佐藤 花子",
+      role: t('team.members.1.role', { returnObjects: false }) || "CTO",
+      description: t('team.members.1.description', { returnObjects: false }) || "機械学習エンジニアとして大手企業で10年間の開発経験。",
       image: "https://images.unsplash.com/photo-1494790108755-2616b612b0e0?w=150&h=150&fit=crop&crop=face"
     },
     {
-      name: "山田 次郎",
-      role: "プロダクトマネージャー",
-      description: "教育分野でのプロダクト開発とユーザー体験設計のスペシャリスト。",
+      name: t('team.members.2.name', { returnObjects: false }) || "山田 次郎",
+      role: t('team.members.2.role', { returnObjects: false }) || "プロダクトマネージャー",
+      description: t('team.members.2.description', { returnObjects: false }) || "教育分野でのプロダクト開発とユーザー体験設計のスペシャリスト。",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
     }
   ];
@@ -83,11 +102,10 @@ export default function About() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-4xl lg:text-5xl font-bold mb-6 text-white" data-testid="text-page-title">
-              私たちについて
+              {t('hero.title') || "私たちについて"}
             </h1>
             <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed text-left">
-              D'achy.Studioは、AIの力を活用して人々の生活や仕事をより豊かにするプロダクトを開発しています。<br></br>
-              私たちは技術と創造性を組み合わせ、真に価値のあるソリューションを提供することを使命としています。
+              {t('hero.description') || "D'achy.Studioは、AIの力を活用して人々の生活や仕事をより豊かにするプロダクトを開発しています。私たちは技術と創造性を組み合わせ、真に価値のあるソリューションを提供することを使命としています。"}
             </p>
           </motion.div>
         </div>
@@ -104,13 +122,11 @@ export default function About() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl lg:text-4xl font-bold mb-6" data-testid="text-mission-title">
-              私たちのミッション
+              {t('mission.title') || "私たちのミッション"}
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-primary to-orange-600 mx-auto mb-8" />
             <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed text-left">
-              私たちは、AIテクノロジーを通じて教育、企業、クリエイティブ分野に革新をもたらします。<br></br>
-              ユーザーとの共創を大切にし、実用的で持続可能なソリューションを開発することで、
-              社会全体のデジタルトランスフォーメーションに貢献していきます。
+              {t('mission.description') || "私たちは、AIテクノロジーを通じて教育、企業、クリエイティブ分野に革新をもたらします。ユーザーとの共創を大切にし、実用的で持続可能なソリューションを開発することで、社会全体のデジタルトランスフォーメーションに貢献していきます。"}
             </p>
           </motion.div>
         </div>
@@ -127,7 +143,7 @@ export default function About() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl lg:text-4xl font-bold mb-6" data-testid="text-values-title">
-              私たちの価値観
+              {t('values.title') || "私たちの価値観"}
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-primary to-orange-600 mx-auto" />
           </motion.div>
@@ -173,11 +189,11 @@ export default function About() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl lg:text-4xl font-bold mb-6" data-testid="text-team-title">
-              チーム
+              {t('team.title') || "チーム"}
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-primary to-orange-600 mx-auto mb-8" />
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-left">
-              多様なバックグラウンドを持つ専門家チームが、革新的なプロダクト開発に取り組んでいます。
+              {t('team.description') || "多様なバックグラウンドを持つ専門家チームが、革新的なプロダクト開発に取り組んでいます。"}
             </p>
           </motion.div>
 
@@ -228,17 +244,17 @@ export default function About() {
             className="max-w-4xl mx-auto"
           >
             <h2 className="text-3xl lg:text-4xl font-bold mb-12 text-center" data-testid="text-history-title">
-              私たちの歩み
+              {t('history.title') || "私たちの歩み"}
             </h2>
             <div className="space-y-8">
               <div className="flex items-start gap-4">
                 <div className="w-4 h-4 bg-primary rounded-full mt-2 flex-shrink-0" />
                 <div>
                   <h3 className="text-lg font-semibold mb-2" data-testid="text-milestone-1">
-                    2024年1月 - D'auchy-Studio設立
+                    {t('history.milestones.0.title', { returnObjects: false }) || "2024年1月 - D'auchy-Studio設立"}
                   </h3>
                   <p className="text-muted-foreground">
-                    AI技術の民主化を目指し、D'achy.Studioを設立。
+                    {t('history.milestones.0.description', { returnObjects: false }) || "AI技術の民主化を目指し、D'achy.Studioを設立。"}
                   </p>
                 </div>
               </div>
@@ -246,10 +262,10 @@ export default function About() {
                 <div className="w-4 h-4 bg-primary rounded-full mt-2 flex-shrink-0" />
                 <div>
                   <h3 className="text-lg font-semibold mb-2" data-testid="text-milestone-2">
-                    2025年5月 - LingaLink リリース
+                    {t('history.milestones.1.title', { returnObjects: false }) || "2025年5月 - LingaLink リリース"}
                   </h3>
                   <p className="text-muted-foreground">
-                    初のプロダクトとなるオンライン学習コーチングサービス「LingaLink」を正式リリース。
+                    {t('history.milestones.1.description', { returnObjects: false }) || "初のプロダクトとなるオンライン学習コーチングサービス「LingaLink」を正式リリース。"}
                   </p>
                 </div>
               </div>
@@ -257,10 +273,10 @@ export default function About() {
                 <div className="w-4 h-4 bg-primary rounded-full mt-2 flex-shrink-0" />
                 <div>
                   <h3 className="text-lg font-semibold mb-2" data-testid="text-milestone-3">
-                    2025年8月 - OfficeBrain リリース
+                    {t('history.milestones.2.title', { returnObjects: false }) || "2025年8月 - OfficeBrain リリース"}
                   </h3>
                   <p className="text-muted-foreground">
-                    企業向けRAGシステム「OfficeBrain」をリリース。エンタープライズ市場に参入。
+                    {t('history.milestones.2.description', { returnObjects: false }) || "企業向けRAGシステム「OfficeBrain」をリリース。エンタープライズ市場に参入。"}
                   </p>
                 </div>
               </div>
@@ -268,10 +284,10 @@ export default function About() {
                 <div className="w-4 h-4 bg-orange-500 rounded-full mt-2 flex-shrink-0" />
                 <div>
                   <h3 className="text-lg font-semibold mb-2" data-testid="text-milestone-4">
-                    2025年10月 - 現在
+                    {t('history.milestones.3.title', { returnObjects: false }) || "2025年10月 - 現在"}
                   </h3>
                   <p className="text-muted-foreground">
-                    EduMateベータ版公開、Bayd-System開発中。さらなる革新的プロダクトを準備中。
+                    {t('history.milestones.3.description', { returnObjects: false }) || "EduMateベータ版公開、Bayd-System開発中。さらなる革新的プロダクトを準備中。"}
                   </p>
                 </div>
               </div>

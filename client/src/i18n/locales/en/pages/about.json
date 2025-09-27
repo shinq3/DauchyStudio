@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "title": "About Us | D'achy.Studio",
+    "description": "Learn about D'achy.Studio's company information, mission, values, team, and journey in AI innovation."
+  },
+  "hero": {
+    "title": "About Us",
+    "description": "D'achy.Studio develops products that harness the power of AI to enrich people's lives and work. We combine technology and creativity to provide truly valuable solutions as our mission."
+  },
+  "mission": {
+    "title": "Our Mission",
+    "description": "We bring innovation to education, enterprise, and creative fields through AI technology. By valuing co-creation with users and developing practical and sustainable solutions, we contribute to the digital transformation of society as a whole."
+  },
+  "values": {
+    "title": "Our Values",
+    "items": [
+      {
+        "title": "Innovation",
+        "description": "We provide innovative solutions that leverage cutting-edge AI technology to solve conventional challenges."
+      },
+      {
+        "title": "User-Centered",
+        "description": "We deeply understand user needs and design and develop truly valuable experiences."
+      },
+      {
+        "title": "Creativity",
+        "description": "We combine creative thinking and technology to open up new possibilities."
+      },
+      {
+        "title": "Sustainable Growth",
+        "description": "Through continuous learning and improvement, we continue to create long-term value."
+      }
+    ]
+  },
+  "team": {
+    "title": "Team",
+    "description": "Our diverse team of experts is working on innovative product development.",
+    "members": [
+      {
+        "name": "Taro Tanaka",
+        "role": "Founder & CEO",
+        "description": "Engineer with 10 years of AI research experience and multiple startup founding experience."
+      },
+      {
+        "name": "Hanako Sato",
+        "role": "CTO",
+        "description": "10 years of development experience as a machine learning engineer at major companies."
+      },
+      {
+        "name": "Jiro Yamada",
+        "role": "Product Manager",
+        "description": "Specialist in product development and user experience design in the education field."
+      }
+    ]
+  },
+  "history": {
+    "title": "Our Journey",
+    "milestones": [
+      {
+        "title": "January 2024 - D'achy Studio Founded",
+        "description": "Founded D'achy.Studio with the goal of democratizing AI technology."
+      },
+      {
+        "title": "May 2025 - LingaLink Release",
+        "description": "Officially released 'LingaLink', our first product, an online learning coaching service."
+      },
+      {
+        "title": "August 2025 - OfficeBrain Release",
+        "description": "Released 'OfficeBrain', an enterprise RAG system. Entered the enterprise market."
+      },
+      {
+        "title": "October 2025 - Present",
+        "description": "EduMate beta released, Bayd-System in development. More innovative products in preparation."
+      }
+    ]
+  }
+}

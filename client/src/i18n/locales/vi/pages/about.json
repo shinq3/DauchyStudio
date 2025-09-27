@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "title": "Về Chúng Tôi | D'achy.Studio",
+    "description": "Tìm hiểu về thông tin công ty, sứ mệnh, giá trị, đội ngũ và hành trình đổi mới AI của D'achy.Studio."
+  },
+  "hero": {
+    "title": "Về Chúng Tôi",
+    "description": "D'achy.Studio phát triển các sản phẩm khai thác sức mạnh của AI để làm phong phú cuộc sống và công việc của mọi người. Chúng tôi kết hợp công nghệ và sự sáng tạo để cung cấp các giải pháp thực sự có giá trị như sứ mệnh của mình."
+  },
+  "mission": {
+    "title": "Sứ Mệnh Của Chúng Tôi",
+    "description": "Chúng tôi mang đổi mới đến các lĩnh vực giáo dục, doanh nghiệp và sáng tạo thông qua công nghệ AI. Bằng cách coi trọng đồng sáng tạo với người dùng và phát triển các giải pháp thực tế và bền vững, chúng tôi đóng góp vào chuyển đổi số của toàn xã hội."
+  },
+  "values": {
+    "title": "Giá Trị Của Chúng Tôi",
+    "items": [
+      {
+        "title": "Đổi Mới",
+        "description": "Chúng tôi cung cấp các giải pháp sáng tạo tận dụng công nghệ AI tiên tiến để giải quyết những thách thức thông thường."
+      },
+      {
+        "title": "Lấy Người Dùng Làm Trung Tâm",
+        "description": "Chúng tôi hiểu sâu nhu cầu của người dùng và thiết kế, phát triển những trải nghiệm thực sự có giá trị."
+      },
+      {
+        "title": "Sáng Tạo",
+        "description": "Chúng tôi kết hợp tư duy sáng tạo và công nghệ để mở ra những khả năng mới."
+      },
+      {
+        "title": "Tăng Trưởng Bền Vững",
+        "description": "Thông qua học hỏi và cải tiến liên tục, chúng tôi tiếp tục tạo ra giá trị dài hạn."
+      }
+    ]
+  },
+  "team": {
+    "title": "Đội Ngũ",
+    "description": "Đội ngũ chuyên gia đa dạng của chúng tôi đang làm việc trong việc phát triển sản phẩm đổi mới.",
+    "members": [
+      {
+        "name": "Taro Tanaka",
+        "role": "Nhà Sáng Lập & CEO",
+        "description": "Kỹ sư có 10 năm kinh nghiệm nghiên cứu AI và kinh nghiệm thành lập nhiều startup."
+      },
+      {
+        "name": "Hanako Sato",
+        "role": "CTO",
+        "description": "10 năm kinh nghiệm phát triển với tư cách kỹ sư machine learning tại các công ty lớn."
+      },
+      {
+        "name": "Jiro Yamada",
+        "role": "Quản Lý Sản Phẩm",
+        "description": "Chuyên gia về phát triển sản phẩm và thiết kế trải nghiệm người dùng trong lĩnh vực giáo dục."
+      }
+    ]
+  },
+  "history": {
+    "title": "Hành Trình Của Chúng Tôi",
+    "milestones": [
+      {
+        "title": "Tháng 1/2024 - Thành Lập D'achy Studio",
+        "description": "Thành lập D'achy.Studio với mục tiêu dân chủ hóa công nghệ AI."
+      },
+      {
+        "title": "Tháng 5/2025 - Ra Mắt LingaLink",
+        "description": "Chính thức ra mắt 'LingaLink', sản phẩm đầu tiên của chúng tôi, một dịch vụ huấn luyện học tập trực tuyến."
+      },
+      {
+        "title": "Tháng 8/2025 - Ra Mắt OfficeBrain",
+        "description": "Ra mắt 'OfficeBrain', một hệ thống RAG doanh nghiệp. Tham gia thị trường doanh nghiệp."
+      },
+      {
+        "title": "Tháng 10/2025 - Hiện Tại",
+        "description": "EduMate beta được phát hành, Bayd-System đang trong quá trình phát triển. Nhiều sản phẩm sáng tạo đang được chuẩn bị."
+      }
+    ]
+  }
+}
