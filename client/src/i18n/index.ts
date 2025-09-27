@@ -14,6 +14,7 @@ import jaContact from './locales/ja/pages/contact.json';
 import jaNews from './locales/ja/pages/news.json';
 import jaLingaLink from './locales/ja/products/lingalink.json';
 import jaEdumate from './locales/ja/products/edumate.json';
+import jaOfficeBrain from './locales/ja/products/officebrain.json';
 
 import enCommon from './locales/en/common.json';
 import enHeader from './locales/en/header.json';
@@ -24,6 +25,7 @@ import enContact from './locales/en/pages/contact.json';
 import enNews from './locales/en/pages/news.json';
 import enLingaLink from './locales/en/products/lingalink.json';
 import enEdumate from './locales/en/products/edumate.json';
+import enOfficeBrain from './locales/en/products/officebrain.json';
 
 import viCommon from './locales/vi/common.json';
 import viHeader from './locales/vi/header.json';
@@ -34,6 +36,7 @@ import viContact from './locales/vi/pages/contact.json';
 import viNews from './locales/vi/pages/news.json';
 import viLingaLink from './locales/vi/products/lingalink.json';
 import viEdumate from './locales/vi/products/edumate.json';
+import viOfficeBrain from './locales/vi/products/officebrain.json';
 
 const resources = {
   ja: {
@@ -46,6 +49,7 @@ const resources = {
     news: jaNews,
     lingalink: jaLingaLink,
     edumate: jaEdumate,
+    officebrain: jaOfficeBrain,
   },
   en: {
     common: enCommon,
@@ -57,6 +61,7 @@ const resources = {
     news: enNews,
     lingalink: enLingaLink,
     edumate: enEdumate,
+    officebrain: enOfficeBrain,
   },
   vi: {
     common: viCommon,
@@ -68,6 +73,7 @@ const resources = {
     news: viNews,
     lingalink: viLingaLink,
     edumate: viEdumate,
+    officebrain: viOfficeBrain,
   },
 };
 
@@ -90,7 +96,7 @@ i18n
     
     // Namespace configuration
     defaultNS: 'common',
-    ns: ['common', 'header', 'footer', 'home', 'products', 'contact', 'news', 'lingalink', 'edumate'],
+    ns: ['common', 'header', 'footer', 'home', 'products', 'contact', 'news', 'lingalink', 'edumate', 'officebrain'],
     
     interpolation: {
       escapeValue: false, // React already escapes values

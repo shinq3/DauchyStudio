@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -50,20 +51,22 @@ const itemVariants = {
 };
 
 export default function OfficeBrain() {
+  const { t } = useTranslation('officebrain');
+  
   useEffect(() => {
-    document.title = "Office Brain - 企業向けAIプラットフォーム | D'achy.Studio";
+    document.title = t('meta.title');
     
     // Set meta description
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Office Brain - AIチャット＋ファイル管理＋安全な共有＋検索＋画像生成を統合した企業向けAIアシスタント。セキュリティとガバナンスを保ちながらAI活用を実現。');
+      metaDescription.setAttribute('content', t('meta.description'));
     } else {
       const meta = document.createElement('meta');
       meta.name = 'description';
-      meta.content = 'Office Brain - AIチャット＋ファイル管理＋安全な共有＋検索＋画像生成を統合した企業向けAIアシスタント。セキュリティとガバナンスを保ちながらAI活用を実現。';
+      meta.content = t('meta.description');
       document.head.appendChild(meta);
     }
-  }, []);
+  }, [t]);
   const features = [
     {
       icon: <Users className="w-8 h-8 text-orange-500" />,
@@ -264,10 +267,10 @@ export default function OfficeBrain() {
             transition={{ duration: 0.8 }}
           >
             <h1 className="text-4xl lg:text-5xl font-bold mb-6 text-white">
-              OfficeBrain
+              {t('hero.title')}
             </h1>
             <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-              組織内のファイルを共有して権限を管理できるRAGシステム。セキュアな情報共有を実現し、業務効率を向上させます。
+              {t('hero.subtitle')}
             </p>
           </motion.div>
         </div>
@@ -281,22 +284,22 @@ export default function OfficeBrain() {
         {/* Hero Section */}
         <motion.div className="text-center mb-16" variants={itemVariants}>
           <Badge className="mb-4 bg-orange-100 text-orange-700 border-orange-200" data-testid="badge-product">
-            企業向けAIプラットフォーム
+            {t('hero.badge')}
           </Badge>
           <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6" data-testid="text-title">
-            Office Brain
+            {t('hero.mainTitle')}
           </h1>
           <div className="mb-8">
             <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800 mb-4">
-              会社の「頭脳」をAIで拡張する
+              {t('hero.tagline')}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-testid="text-description">
-              AIチャット＋ファイル管理＋安全な共有＋検索＋画像生成を統合した企業向けAIアシスタント
+              {t('hero.description')}
             </p>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" data-testid="button-contact">
-              <Link href="/contact">お問い合わせ</Link>
+              <Link href="/contact">{t('hero.buttons.contact')}</Link>
             </Button>
             {/* <Button asChild size="lg" variant="outline" data-testid="button-demo">
               <Link href="/contact">デモを見る</Link>
@@ -310,14 +313,14 @@ export default function OfficeBrain() {
             <CardContent className="p-8 lg:p-12">
               <div className="flex items-center gap-4 mb-6">
                 <Brain className="w-12 h-12" />
-                <h2 className="text-2xl lg:text-3xl font-bold">Office Brainとは？</h2>
+                <h2 className="text-2xl lg:text-3xl font-bold">{t('whatIs.title')}</h2>
               </div>
               <p className="text-lg leading-relaxed mb-6 text-orange-100">
-                「Office Brain」は、企業内でAIをより便利に、安心して活用するための統合プラットフォームです。複数のAIエンジンを使ったチャット、社内資料の意味検索、セキュアなファイル管理、承認フロー付きの情報共有など、企業が求める機能を一つのシステムに集約しました。
+                {t('whatIs.description')}
               </p>
               <div className="bg-orange-400/20 rounded-lg p-4">
                 <p className="font-semibold text-orange-100">
-                  💡 AIを活用した業務効率化を、セキュリティとガバナンスを保ちながら実現
+                  {t('whatIs.note')}
                 </p>
               </div>
             </CardContent>
@@ -326,7 +329,7 @@ export default function OfficeBrain() {
 
         {/* Benefits Section */}
         <motion.div className="mb-16" variants={itemVariants}>
-          <h2 className="text-3xl font-bold text-center mb-12">なぜOffice Brainなのか</h2>
+          <h2 className="text-3xl font-bold text-center mb-12">{t('benefits.title')}</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {benefits.map((benefit, index) => (
               <motion.div key={index} variants={itemVariants}>

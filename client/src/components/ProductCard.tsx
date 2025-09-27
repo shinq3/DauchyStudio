@@ -12,7 +12,6 @@ export interface ProductCardProps {
   description: string;
   image: string;
   status: "released" | "beta" | "coming_soon";
-  tags: string[];
   href: string;
 }
 
@@ -21,7 +20,6 @@ export default function ProductCard({
   description,
   image,
   status,
-  tags,
   href,
 }: ProductCardProps) {
   const [, setLocation] = useLocation();
@@ -75,18 +73,6 @@ export default function ProductCard({
           <p className="text-muted-foreground mb-4 line-clamp-3 leading-relaxed" data-testid={`text-product-description`}>
             {description}
           </p>
-          <div className="flex flex-wrap gap-2">
-            {tags.map((tag, index) => (
-              <Badge
-                key={index}
-                variant="outline"
-                className="text-xs"
-                data-testid={`badge-tag-${tag}`}
-              >
-                {tag}
-              </Badge>
-            ))}
-          </div>
         </CardContent>
 
         <CardFooter className="p-6 pt-0">

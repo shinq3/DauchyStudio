@@ -24,9 +24,6 @@ export default function Products() {
       description: t('products.lingalink.description'),
       image: lingaLinkImage,
       status: "released" as const,
-      tags: Array.isArray(t('products.lingalink.tags', { returnObjects: true })) 
-        ? t('products.lingalink.tags', { returnObjects: true }) as string[]
-        : ["教育", "AI", "オンライン学習", "コーチング"],
       href: `/${locale}/products/lingalink`
     },
     {
@@ -35,9 +32,6 @@ export default function Products() {
       description: t('products.edumate.description'),
       image: eduMateImage,
       status: "beta" as const,
-      tags: Array.isArray(t('products.edumate.tags', { returnObjects: true })) 
-        ? t('products.edumate.tags', { returnObjects: true }) as string[]
-        : ["教育", "協働学習", "レポート", "学習管理"],
       href: `/${locale}/products/edumate`
     },
     {
@@ -46,9 +40,6 @@ export default function Products() {
       description: t('products.officebrain.description'),
       image: officeBrainImage,
       status: "released" as const,
-      tags: Array.isArray(t('products.officebrain.tags', { returnObjects: true })) 
-        ? t('products.officebrain.tags', { returnObjects: true }) as string[]
-        : ["企業", "RAG", "ファイル管理", "セキュリティ"],
       href: `/${locale}/products/officebrain`
     },
     {
@@ -57,9 +48,6 @@ export default function Products() {
       description: t('products.enterprise-llm.description'),
       image: enterpriseLLMImage,
       status: "released" as const,
-      tags: Array.isArray(t('products.enterprise-llm.tags', { returnObjects: true })) 
-        ? t('products.enterprise-llm.tags', { returnObjects: true }) as string[]
-        : ["企業", "LLM", "統合プラットフォーム", "プロジェクト管理"],
       href: `/${locale}/products/enterprise-llm`
     },
     {
@@ -68,9 +56,6 @@ export default function Products() {
       description: t('products.bayd-system.description'),
       image: baydSystemImage,
       status: "coming_soon" as const,
-      tags: Array.isArray(t('products.bayd-system.tags', { returnObjects: true })) 
-        ? t('products.bayd-system.tags', { returnObjects: true }) as string[]
-        : ["音楽", "スタジオ", "管理システム", "予約管理"],
       href: `/${locale}/products/bayd-system`
     }
   ];

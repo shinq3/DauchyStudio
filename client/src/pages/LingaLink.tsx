@@ -125,18 +125,18 @@ export default function LingaLink() {
               <div className="grid md:grid-cols-3 gap-6 text-center">
                 <div>
                   <GraduationCap className="w-12 h-12 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">受講生向け</h3>
-                  <p className="text-orange-100">授業に集中すれば、あとでAIが要点を整理してくれる</p>
+                  <h3 className="text-lg font-semibold mb-2">{t('summary.students.title')}</h3>
+                  <p className="text-orange-100">{t('summary.students.description')}</p>
                 </div>
                 <div>
                   <Users className="w-12 h-12 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">講師向け</h3>
-                  <p className="text-orange-100">ニュースや記事からAIが教材作りを手伝ってくれる</p>
+                  <h3 className="text-lg font-semibold mb-2">{t('summary.teachers.title')}</h3>
+                  <p className="text-orange-100">{t('summary.teachers.description')}</p>
                 </div>
                 <div>
                   <Sparkles className="w-12 h-12 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">AI支援</h3>
-                  <p className="text-orange-100">学習と教育の両方を効率化する革新的なツール</p>
+                  <h3 className="text-lg font-semibold mb-2">{t('summary.ai.title')}</h3>
+                  <p className="text-orange-100">{t('summary.ai.description')}</p>
                 </div>
               </div>
             </CardContent>
@@ -146,25 +146,25 @@ export default function LingaLink() {
         {/* Student Features */}
         <motion.div className="mb-16" variants={itemVariants}>
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900" data-testid="text-student-features">
-            🎯 受講生が使える機能
+            🎯 {t('studentFeatures.title')}
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             <Card className="hover-elevate">
               <CardHeader>
                 <div className="flex items-center gap-3">
                   <Calendar className="w-8 h-8 text-orange-500" />
-                  <CardTitle>レッスン予約・参加</CardTitle>
+                  <CardTitle>{t('studentFeatures.booking.title')}</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
                     <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">好きな講師のスケジュールを確認して、ワンタップで予約</p>
+                    <p className="text-gray-700">{t('studentFeatures.booking.description1')}</p>
                   </div>
                   <div className="flex items-start gap-3">
                     <Video className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">ビデオ通話や画面共有でオンライン授業を受けられる</p>
+                    <p className="text-gray-700">{t('studentFeatures.booking.description2')}</p>
                   </div>
                 </div>
               </CardContent>
@@ -174,18 +174,18 @@ export default function LingaLink() {
               <CardHeader>
                 <div className="flex items-center gap-3">
                   <Brain className="w-8 h-8 text-orange-500" />
-                  <CardTitle>AIによる自動まとめ</CardTitle>
+                  <CardTitle>{t('studentFeatures.aiSummary.title')}</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
                     <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">レッスンが終わると、AIが授業内容を自動で要約</p>
+                    <p className="text-gray-700">{t('studentFeatures.aiSummary.description1')}</p>
                   </div>
                   <div className="flex items-start gap-3">
                     <FileText className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">要点をまとめた「復習レビュー」が自動生成され、効率よく復習できる</p>
+                    <p className="text-gray-700">{t('studentFeatures.aiSummary.description2')}</p>
                   </div>
                 </div>
               </CardContent>
@@ -195,18 +195,18 @@ export default function LingaLink() {
               <CardHeader>
                 <div className="flex items-center gap-3">
                   <Clock className="w-8 h-8 text-orange-500" />
-                  <CardTitle>学習記録の保存</CardTitle>
+                  <CardTitle>{t('studentFeatures.learningRecord.title')}</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
                     <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">過去のレッスン内容・要約・レビューをいつでも見返せる</p>
+                    <p className="text-gray-700">{t('studentFeatures.learningRecord.description1')}</p>
                   </div>
                   <div className="flex items-start gap-3">
                     <Mic className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">音声は自動で文字起こしされるので、聞き逃しゼロ</p>
+                    <p className="text-gray-700">{t('studentFeatures.learningRecord.description2')}</p>
                   </div>
                 </div>
               </CardContent>
@@ -216,18 +216,18 @@ export default function LingaLink() {
               <CardHeader>
                 <div className="flex items-center gap-3">
                   <MessageSquare className="w-8 h-8 text-orange-500" />
-                  <CardTitle>共同作業ツール</CardTitle>
+                  <CardTitle>{t('studentFeatures.collaboration.title')}</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
                     <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">レッスン中にホワイトボード感覚で書いたり描いたりできる</p>
+                    <p className="text-gray-700">{t('studentFeatures.collaboration.description1')}</p>
                   </div>
                   <div className="flex items-start gap-3">
                     <Users className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">受講生と講師が同時に操作できて、そのまま保存される</p>
+                    <p className="text-gray-700">{t('studentFeatures.collaboration.description2')}</p>
                   </div>
                 </div>
               </CardContent>
@@ -238,20 +238,20 @@ export default function LingaLink() {
         {/* Teacher Features */}
         <motion.div className="mb-16" variants={itemVariants}>
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900" data-testid="text-teacher-features">
-            👩‍🏫 講師が使える機能
+            👩‍🏫 {t('teacherFeatures.title')}
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
             <Card className="hover-elevate">
               <CardHeader>
                 <div className="flex items-center gap-3">
                   <Calendar className="w-8 h-8 text-orange-500" />
-                  <CardTitle>スケジュール管理</CardTitle>
+                  <CardTitle>{t('teacherFeatures.schedule.title')}</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                  <p className="text-gray-700">自分の空き時間を登録して、生徒がそこから予約</p>
+                  <p className="text-gray-700">{t('teacherFeatures.schedule.description')}</p>
                 </div>
               </CardContent>
             </Card>
@@ -260,18 +260,18 @@ export default function LingaLink() {
               <CardHeader>
                 <div className="flex items-center gap-3">
                   <BookOpen className="w-8 h-8 text-orange-500" />
-                  <CardTitle>オリジナル教材の作成（AIサポート）</CardTitle>
+                  <CardTitle>{t('teacherFeatures.materialCreation.title')}</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
                   <div className="flex items-start gap-3">
                     <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">ニュース記事を検索して教材に変換</p>
+                    <p className="text-gray-700">{t('teacherFeatures.materialCreation.description1')}</p>
                   </div>
                   <div className="flex items-start gap-3">
                     <Sparkles className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">内容を要約し、イラストもAIで生成してオリジナル教材をすぐ作れる</p>
+                    <p className="text-gray-700">{t('teacherFeatures.materialCreation.description2')}</p>
                   </div>
                 </div>
               </CardContent>
@@ -281,18 +281,18 @@ export default function LingaLink() {
               <CardHeader>
                 <div className="flex items-center gap-3">
                   <FileText className="w-8 h-8 text-orange-500" />
-                  <CardTitle>教材の保存・編集</CardTitle>
+                  <CardTitle>{t('teacherFeatures.materialManagement.title')}</CardTitle>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="flex items-start gap-3">
                     <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">作った教材を一覧で管理、修正・更新も可能</p>
+                    <p className="text-gray-700">{t('teacherFeatures.materialManagement.description1')}</p>
                   </div>
                   <div className="flex items-start gap-3">
                     <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">難易度をレベル別に設定して、生徒に合わせられる</p>
+                    <p className="text-gray-700">{t('teacherFeatures.materialManagement.description2')}</p>
                   </div>
                 </div>
               </CardContent>
@@ -303,38 +303,38 @@ export default function LingaLink() {
         {/* Common Features */}
         <motion.div className="mb-16" variants={itemVariants}>
           <h2 className="text-3xl font-bold text-center mb-12 text-gray-900" data-testid="text-common-features">
-            🤝 共通の便利機能
+            🤝 {t('commonFeatures.title')}
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             <Card className="hover-elevate text-center">
               <CardContent className="p-6">
                 <Globe className="w-12 h-12 text-orange-500 mx-auto mb-4" />
-                <h3 className="font-semibold mb-2">多言語対応</h3>
-                <p className="text-gray-600 text-sm">日本語・英語を切り替えて使える</p>
+                <h3 className="font-semibold mb-2">{t('commonFeatures.multilingual.title')}</h3>
+                <p className="text-gray-600 text-sm">{t('commonFeatures.multilingual.description')}</p>
               </CardContent>
             </Card>
 
             <Card className="hover-elevate text-center">
               <CardContent className="p-6">
                 <Video className="w-12 h-12 text-orange-500 mx-auto mb-4" />
-                <h3 className="font-semibold mb-2">高品質なビデオ通話</h3>
-                <p className="text-gray-600 text-sm">安定した接続で映像・音声のやりとり</p>
+                <h3 className="font-semibold mb-2">{t('commonFeatures.videoCall.title')}</h3>
+                <p className="text-gray-600 text-sm">{t('commonFeatures.videoCall.description')}</p>
               </CardContent>
             </Card>
 
             <Card className="hover-elevate text-center">
               <CardContent className="p-6">
                 <Share2 className="w-12 h-12 text-orange-500 mx-auto mb-4" />
-                <h3 className="font-semibold mb-2">スクリーン共有・録音</h3>
-                <p className="text-gray-600 text-sm">授業を画面付きで共有でき、録音も自動保存</p>
+                <h3 className="font-semibold mb-2">{t('commonFeatures.screenShare.title')}</h3>
+                <p className="text-gray-600 text-sm">{t('commonFeatures.screenShare.description')}</p>
               </CardContent>
             </Card>
 
             <Card className="hover-elevate text-center">
               <CardContent className="p-6">
                 <Clock className="w-12 h-12 text-orange-500 mx-auto mb-4" />
-                <h3 className="font-semibold mb-2">復習リマインド</h3>
-                <p className="text-gray-600 text-sm">後から要約やレビューを元に学習し直せる</p>
+                <h3 className="font-semibold mb-2">{t('commonFeatures.reminder.title')}</h3>
+                <p className="text-gray-600 text-sm">{t('commonFeatures.reminder.description')}</p>
               </CardContent>
             </Card>
           </div>
@@ -345,10 +345,10 @@ export default function LingaLink() {
           <Card className="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
             <CardContent className="p-12">
               <h2 className="text-3xl font-bold mb-6" data-testid="text-cta-title">
-                LingaLinkで始める新しい学習体験
+                {t('cta.title')}
               </h2>
               <p className="text-xl text-orange-100 mb-8 max-w-2xl mx-auto">
-                AIが支援する効率的な学習と教育を体験してみませんか？
+                {t('cta.description')}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 {/* <Button 
@@ -365,7 +365,7 @@ export default function LingaLink() {
                   className="border-white text-white hover:bg-white hover:text-orange-600"
                   data-testid="button-contact"
                 >
-                  お問い合わせ
+                  {t('cta.buttons.contact')}
                 </Button>
               </div>
             </CardContent>
