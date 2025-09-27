@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import heroImage from "@assets/generated_images/Orange_tech_hero_background_d4f3686e.png";
+import heroImage from "@assets/dauchy_1759015692370.png";
 
 interface HeroSectionProps {
   title: string;
