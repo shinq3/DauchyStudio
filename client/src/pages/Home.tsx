@@ -88,9 +88,9 @@ export default function Home() {
   // Development achievements data
   const developmentAchievements = [
     {
-      title: "医療・ヘルスケア",
+      title: t('home:sections.achievements.categories.healthcare.title') || "医療・ヘルスケア",
       icon: <Heart className="w-8 h-8 text-orange-500" />,
-      systems: [
+      systems: (t('home:sections.achievements.categories.healthcare.systems', { returnObjects: true }) as string[]) || [
         "医療材料管理システム（トレーサビリティ対応）",
         "電子カルテ連携システム",
         "スマホ診療（遠隔医療）システム",
@@ -98,9 +98,9 @@ export default function Home() {
       ]
     },
     {
-      title: "ブランド・顧客サービス",
+      title: t('home:sections.achievements.categories.business.title') || "ブランド・顧客サービス",
       icon: <Building className="w-8 h-8 text-orange-500" />,
-      systems: [
+      systems: (t('home:sections.achievements.categories.business.systems', { returnObjects: true }) as string[]) || [
         "飲料メーカーアミューズメントサイト",
         "自動車メーカー顧客サービスアプリ",
         "買い取り業会員サービスシステム",
@@ -108,9 +108,9 @@ export default function Home() {
       ]
     },
     {
-      title: "文化・教育・その他",
+      title: t('home:sections.achievements.categories.culture.title') || "文化・教育・その他",
       icon: <GraduationCap className="w-8 h-8 text-orange-500" />,
-      systems: [
+      systems: (t('home:sections.achievements.categories.culture.systems', { returnObjects: true }) as string[]) || [
         "美術館（ビーコン展示案内システム）",
         "美術館ECサイト連携在庫管理システム"
       ]
@@ -152,7 +152,7 @@ export default function Home() {
       />
       
       {/* Development Achievements Section */}
-      <section className="py-16 lg:py-24 bg-muted/30">
+      <section className="py-16 lg:py-24 bg-white dark:bg-gray-50">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -167,8 +167,7 @@ export default function Home() {
             <div className="w-20 h-1 bg-gradient-to-r from-primary to-orange-600 mx-auto mb-8" />
             <div className="max-w-4xl mx-auto mb-8">
               <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                私たちは幅広い業界において、プロトタイプ作成から本格的なシステム開発まで、
-                包括的なソリューションを提供しています。
+                {t('home:sections.vision.description') || "私たちは幅広い業界において、プロトタイプ作成から本格的なシステム開発まで、包括的なソリューションを提供しています。"}
               </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
                 <div className="flex items-start gap-3">
@@ -202,7 +201,7 @@ export default function Home() {
           >
             {developmentAchievements.map((category, index) => (
               <motion.div key={index} variants={itemVariants}>
-                <Card className="h-full hover-elevate bg-white dark:bg-white" data-testid={`card-achievement-category-${index}`}>
+                <Card className="h-full hover-elevate bg-white dark:bg-white border-gray-200 shadow-sm" data-testid={`card-achievement-category-${index}`}>
                   <CardContent className="p-6">
                     <div className="mb-6 text-center">
                       <div className="w-16 h-16 bg-orange-50 dark:bg-orange-950 rounded-full flex items-center justify-center mx-auto mb-4">

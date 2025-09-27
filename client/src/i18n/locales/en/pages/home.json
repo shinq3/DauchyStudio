@@ -14,7 +14,37 @@
       "subtitle": "AI solutions that support people from daily life to business"
     },
     "vision": {
-      "title": "From Prototype Creation to System Development"
+      "title": "From Prototype Creation to System Development",
+      "description": "We provide comprehensive solutions across a wide range of industries, from prototype creation to full-scale system development."
+    },
+    "achievements": {
+      "categories": {
+        "healthcare": {
+          "title": "Healthcare & Medical",
+          "systems": [
+            "Medical Material Management System (Traceability Compatible)",
+            "Electronic Medical Record Integration System",
+            "Mobile Medical Consultation (Telemedicine) System",
+            "Member & Document Management System (e.g., Prefecture Medical Association)"
+          ]
+        },
+        "business": {
+          "title": "Brand & Customer Service",
+          "systems": [
+            "Beverage Manufacturer Amusement Site",
+            "Automotive Manufacturer Customer Service App",
+            "Purchase Business Member Service System",
+            "Telecommunications Member Information Management System"
+          ]
+        },
+        "culture": {
+          "title": "Culture, Education & Others",
+          "systems": [
+            "Museum (Beacon Exhibition Guide System)",
+            "Museum E-commerce Site Integrated Inventory Management System"
+          ]
+        }
+      }
     },
     "news": {
       "title": "Latest News",

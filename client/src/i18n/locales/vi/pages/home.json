@@ -14,7 +14,37 @@
       "subtitle": "Giải pháp AI đồng hành từ cuộc sống hàng ngày đến kinh doanh"
     },
     "vision": {
-      "title": "Từ Tạo Mẫu đến Phát Triển Hệ Thống"
+      "title": "Từ Tạo Mẫu đến Phát Triển Hệ Thống",
+      "description": "Chúng tôi cung cấp các giải pháp toàn diện trên nhiều ngành công nghiệp, từ tạo mẫu thử đến phát triển hệ thống quy mô lớn."
+    },
+    "achievements": {
+      "categories": {
+        "healthcare": {
+          "title": "Y Tế & Chăm Sóc Sức Khỏe",
+          "systems": [
+            "Hệ Thống Quản Lý Vật Liệu Y Tế (Hỗ Trợ Truy Xuất)",
+            "Hệ Thống Tích Hợp Hồ Sơ Y Tế Điện Tử",
+            "Hệ Thống Khám Bệnh Qua Di Động (Y Tế Từ Xa)",
+            "Hệ Thống Quản Lý Thành Viên & Tài Liệu (VD: Hiệp Hội Y Khoa Tỉnh)"
+          ]
+        },
+        "business": {
+          "title": "Thương Hiệu & Dịch Vụ Khách Hàng",
+          "systems": [
+            "Trang Web Giải Trí Nhà Sản Xuất Đồ Uống",
+            "Ứng Dụng Dịch Vụ Khách Hàng Nhà Sản Xuất Ô Tô",
+            "Hệ Thống Dịch Vụ Thành Viên Ngành Thu Mua",
+            "Hệ Thống Quản Lý Thông Tin Thành Viên Viễn Thông"
+          ]
+        },
+        "culture": {
+          "title": "Văn Hóa, Giáo Dục & Khác",
+          "systems": [
+            "Bảo Tàng (Hệ Thống Hướng Dẫn Triển Lãm Beacon)",
+            "Hệ Thống Quản Lý Tồn Kho Tích Hợp Trang Web Thương Mại Điện Tử Bảo Tàng"
+          ]
+        }
+      }
     },
     "news": {
       "title": "Tin Tức Mới Nhất",
