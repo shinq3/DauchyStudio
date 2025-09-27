@@ -1,6 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import ProductCard from "@/components/ProductCard";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
+import { useLocale } from "@/lib/i18n-utils";
 import businessTechImage from '@assets/stock_images/business_technology_ac90df27.jpg';
 
 // TODO: remove mock functionality - replace with real data from API
@@ -11,52 +13,65 @@ import enterpriseLLMImage from "@assets/stock_images/enterprise_ai_dashbo_34de58
 import baydSystemImage from "@assets/generated_images/Bayd-System_studio_dashboard_36de2e47.png";
 
 export default function Products() {
+  const { t } = useTranslation('products');
+  const { locale } = useLocale();
+  
   // TODO: remove mock functionality - replace with API calls
   const allProducts = [
     {
       id: "lingalink",
-      name: "LingaLink",
-      description: "オンラインレッスンでAIが自動レビューを行うコーチングサービス。パーソナライズされた学習体験を提供し、効果的なスキルアップをサポートします。",
+      name: t('products.lingalink.name'),
+      description: t('products.lingalink.description'),
       image: lingaLinkImage,
       status: "released" as const,
-      tags: ["教育", "AI", "オンライン学習", "コーチング"],
-      href: "/products/lingalink"
+      tags: Array.isArray(t('products.lingalink.tags', { returnObjects: true })) 
+        ? t('products.lingalink.tags', { returnObjects: true }) as string[]
+        : ["教育", "AI", "オンライン学習", "コーチング"],
+      href: `/${locale}/products/lingalink`
     },
     {
       id: "edumate",
-      name: "EduMate",
-      description: "友達と一緒に授業の復習や共同勉強を進めて、親へのレポートも作成できるサービスです。協働学習を通じて理解を深めます。",
+      name: t('products.edumate.name'),
+      description: t('products.edumate.description'),
       image: eduMateImage,
       status: "beta" as const,
-      tags: ["教育", "協働学習", "レポート", "学習管理"],
-      href: "/products/edumate"
+      tags: Array.isArray(t('products.edumate.tags', { returnObjects: true })) 
+        ? t('products.edumate.tags', { returnObjects: true }) as string[]
+        : ["教育", "協働学習", "レポート", "学習管理"],
+      href: `/${locale}/products/edumate`
     },
     {
       id: "officebrain",
-      name: "OfficeBrain",
-      description: "組織内のファイルを共有して権限を管理できるRAGシステム。セキュアな情報共有を実現し、業務効率を向上させます。",
+      name: t('products.officebrain.name'),
+      description: t('products.officebrain.description'),
       image: officeBrainImage,
       status: "released" as const,
-      tags: ["企業", "RAG", "ファイル管理", "セキュリティ"],
-      href: "/products/officebrain"
+      tags: Array.isArray(t('products.officebrain.tags', { returnObjects: true })) 
+        ? t('products.officebrain.tags', { returnObjects: true }) as string[]
+        : ["企業", "RAG", "ファイル管理", "セキュリティ"],
+      href: `/${locale}/products/officebrain`
     },
     {
       id: "enterprise-llm",
-      name: "Enterprise LLM",
-      description: "プロジェクト管理・ナレッジ共有・AIアシスタントを統合したオールインワン企業プラットフォーム。チームの力を最大限に引き出す統合型ソリューション。",
+      name: t('products.enterprise-llm.name'),
+      description: t('products.enterprise-llm.description'),
       image: enterpriseLLMImage,
       status: "released" as const,
-      tags: ["企業", "LLM", "統合プラットフォーム", "プロジェクト管理"],
-      href: "/products/enterprise-llm"
+      tags: Array.isArray(t('products.enterprise-llm.tags', { returnObjects: true })) 
+        ? t('products.enterprise-llm.tags', { returnObjects: true }) as string[]
+        : ["企業", "LLM", "統合プラットフォーム", "プロジェクト管理"],
+      href: `/${locale}/products/enterprise-llm`
     },
     {
       id: "bayd-system",
-      name: "Bayd-System",
-      description: "音楽リハーサルスタジオ管理システム。条件によりAIで最適なスタジオを検索、予約から機材管理まで包括的にサポートします。",
+      name: t('products.bayd-system.name'),
+      description: t('products.bayd-system.description'),
       image: baydSystemImage,
       status: "coming_soon" as const,
-      tags: ["音楽", "スタジオ", "管理システム", "予約管理"],
-      href: "/products/bayd-system"
+      tags: Array.isArray(t('products.bayd-system.tags', { returnObjects: true })) 
+        ? t('products.bayd-system.tags', { returnObjects: true }) as string[]
+        : ["音楽", "スタジオ", "管理システム", "予約管理"],
+      href: `/${locale}/products/bayd-system`
     }
   ];
 
@@ -101,10 +116,10 @@ export default function Products() {
             transition={{ duration: 0.6 }}
           >
             <h1 className="text-4xl lg:text-5xl font-bold mb-6 text-white" data-testid="text-page-title">
-              プロダクト一覧
+              {t('title')}
             </h1>
             <p className="text-xl text-white/90 max-w-2xl mx-auto">
-              D'achy.Studioが開発する日常からビジネスまで、人に寄り添うAIソリューションをご覧ください
+              {t('subtitle')}
             </p>
           </motion.div>
         </div>

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,7 @@ import {
 import studentsStudyingImage from '@assets/stock_images/students_studying_to_59088470.jpg';
 
 export default function Edumate() {
+  const { t } = useTranslation('edumate');
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -51,98 +53,64 @@ export default function Edumate() {
   const features = [
     {
       icon: <Upload className="w-8 h-8 text-orange-500" />,
-      title: "学習内容の投入（テキスト / ファイル）",
-      description: "ノートの写真やPDF、打ち込んだテキストから「勉強の核」を抽出。難しい整形は不要。",
-      details: ["ドラッグ＆ドロップ対応", "画像→テキスト抽出", "PDF読み込み"]
+      title: t('mainFeatures.upload.title'),
+      description: t('mainFeatures.upload.description'),
+      details: t('mainFeatures.upload.details', { returnObjects: true })
     },
     {
       icon: <Brain className="w-8 h-8 text-orange-500" />,
-      title: "AIによる変換（要点カード）",
-      description: "学習内容を4つの要素で構造化して、理解しやすく変換します。",
-      details: [
-        "3行要約：授業の芯だけを短く",
-        "覚えるべき5ポイント：テストに出る核をリスト化",
-        "社会での活用例：学ぶ意味が腹落ちする実例",
-        "ミニクイズ：1〜2分で解ける小テスト"
-      ]
+      title: t('mainFeatures.aiConversion.title'),
+      description: t('mainFeatures.aiConversion.description'),
+      details: t('mainFeatures.aiConversion.details', { returnObjects: true })
     },
     {
       icon: <Bell className="w-8 h-8 text-orange-500" />,
-      title: "翌日リマインド（1問＋活用例再掲）",
-      description: "翌日に1問だけ。短いから必ず続く。活用例の再掲で記憶を「つなぎ直し」。",
-      details: ["プッシュ通知", "LINE風バナー通知", "1〜2分で完了"]
+      title: t('mainFeatures.reminder.title'),
+      description: t('mainFeatures.reminder.description'),
+      details: t('mainFeatures.reminder.details', { returnObjects: true })
     },
     {
       icon: <Share2 className="w-8 h-8 text-orange-500" />,
-      title: "共有（ペア間のみ）",
-      description: "作った要点カードをワンタップ共有。相手はリアクションや簡単なクイズ回答で参加。",
-      details: [
-        "👍/💡/質問でリアクション", 
-        "ふたりだけの空間", 
-        "保護者には中身は見えません"
-      ]
+      title: t('mainFeatures.sharing.title'),
+      description: t('mainFeatures.sharing.description'),
+      details: t('mainFeatures.sharing.details', { returnObjects: true })
     },
     {
       icon: <BarChart3 className="w-8 h-8 text-orange-500" />,
-      title: "学習ログの可視化",
-      description: "勉強時間・正答率・連続学習日数を自動記録。",
-      details: [
-        "カレンダーにスタンプ",
-        "連続日数バッジ（7日/30日/100日）",
-        "進捗グラフ"
-      ]
+      title: t('mainFeatures.analytics.title'),
+      description: t('mainFeatures.analytics.description'),
+      details: t('mainFeatures.analytics.details', { returnObjects: true })
     },
     {
       icon: <Eye className="w-8 h-8 text-orange-500" />,
-      title: "ママログイン（閲覧専用）",
-      description: "見えるのは学習時間 / 復習達成率 / 継続日数のみ。やり取りの中身は非表示。",
-      details: [
-        "数字で見える安心",
-        "プライバシー保護",
-        "週・月の推移グラフ"
-      ]
+      title: t('mainFeatures.parentLogin.title'),
+      description: t('mainFeatures.parentLogin.description'),
+      details: t('mainFeatures.parentLogin.details', { returnObjects: true })
     }
   ];
 
   const steps = [
     {
       number: "1",
-      title: "インプット",
-      description: "授業ノートや配布プリントの要点をコピペ、またはファイルをアップロード",
+      title: t('howToUse.steps.input.title'),
+      description: t('howToUse.steps.input.description'),
       icon: <Upload className="w-6 h-6" />
     },
     {
       number: "2", 
-      title: "AIがカード化",
-      description: "3行要約、覚えるべき5ポイント、社会での活用例、ミニクイズを自動生成",
+      title: t('howToUse.steps.ai.title'),
+      description: t('howToUse.steps.ai.description'),
       icon: <Brain className="w-6 h-6" />
     },
     {
       number: "3",
-      title: "翌日リマインド",
-      description: "1問＋活用例が通知。サッと解いて定着",
+      title: t('howToUse.steps.reminder.title'),
+      description: t('howToUse.steps.reminder.description'),
       icon: <Bell className="w-6 h-6" />
     }
   ];
 
-  const faqs = [
-    {
-      question: "ふたりが別々の教科でも使える？",
-      answer: "はい。科目ごとにカード化します。得意・苦手も自動で見える化。"
-    },
-    {
-      question: "クイズはどれくらいの時間？",
-      answer: "1〜2分を想定。次の日に「1問だけ」が基本です。"
-    },
-    {
-      question: "保護者は内容まで見られる？", 
-      answer: "いいえ。学習時間・復習率・継続日数のみ表示します。"
-    },
-    {
-      question: "テスト前にまとめて復習できる？",
-      answer: "できます。単元や日付で要点カードを一括復習できます。"
-    }
-  ];
+  const faqs = t('faq.questions', { returnObjects: true });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
@@ -311,7 +279,7 @@ export default function Edumate() {
                       </div>
                       <div className="lg:col-span-2">
                         <div className="grid sm:grid-cols-2 gap-3">
-                          {feature.details.map((detail, detailIndex) => (
+                          {(feature.details as string[]).map((detail: string, detailIndex: number) => (
                             <div key={detailIndex} className="flex items-start gap-2">
                               <CheckCircle className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
                               <span className="text-sm text-gray-700">{detail}</span>
@@ -391,7 +359,7 @@ export default function Edumate() {
             よくある質問
           </h2>
           <div className="grid gap-4 max-w-3xl mx-auto">
-            {faqs.map((faq, index) => (
+            {(faqs as Array<{question: string, answer: string}>).map((faq: {question: string, answer: string}, index: number) => (
               <Card key={index} className="hover-elevate">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-3">
