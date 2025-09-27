@@ -3,9 +3,11 @@ import ProductGrid from "@/components/ProductGrid";
 import NewsSection from "@/components/NewsSection";
 import VisionBlock from "@/components/VisionBlock";
 import CTASection from "@/components/CTASection";
-import { MessageCircle } from "lucide-react";
+import { MessageCircle, Heart, Building, GraduationCap } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { linkTo, useLocale } from "@/lib/i18n-utils";
+import { motion } from "framer-motion";
+import { Card, CardContent } from "@/components/ui/card";
 
 // TODO: remove mock functionality - replace with real data from API
 import lingaLinkImage from "@assets/generated_images/LingaLink_learning_dashboard_mockup_3e4a3eec.png";
@@ -89,6 +91,51 @@ export default function Home() {
     }
   ];
 
+  // Development achievements data
+  const developmentAchievements = [
+    {
+      title: "医療・ヘルスケア",
+      icon: <Heart className="w-8 h-8 text-orange-500" />,
+      systems: [
+        "医療材料管理システム（トレーサビリティ対応）",
+        "電子カルテ連携システム",
+        "スマホ診療（遠隔医療）システム",
+        "会員・文書管理システム（例：県医師会）"
+      ]
+    },
+    {
+      title: "ブランド・顧客サービス",
+      icon: <Building className="w-8 h-8 text-orange-500" />,
+      systems: [
+        "飲料メーカーアミューズメントサイト",
+        "自動車メーカー顧客サービスアプリ",
+        "買い取り業会員サービスシステム",
+        "通信業者会員情報管理システム"
+      ]
+    },
+    {
+      title: "文化・教育・その他",
+      icon: <GraduationCap className="w-8 h-8 text-orange-500" />,
+      systems: [
+        "美術館（ビーコン展示案内システム）",
+        "美術館ECサイト連携在庫管理システム"
+      ]
+    }
+  ];
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  };
+
   return (
     <main>
       <HeroSection
@@ -114,6 +161,65 @@ export default function Home() {
         heading={t('home:sections.vision.title')}
         bullets={visionBullets}
       />
+      
+      {/* Development Achievements Section */}
+      <section className="py-16 lg:py-24 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl lg:text-4xl font-bold mb-6" data-testid="text-achievements-title">
+              プロトタイプ作成からシステム開発
+            </h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-primary to-orange-600 mx-auto mb-8" />
+            <p className="text-lg text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+              私たちは幅広い業界において、プロトタイプ作成から本格的なシステム開発まで、<br/>
+              包括的なソリューションを提供しています。
+            </p>
+          </motion.div>
+
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {developmentAchievements.map((category, index) => (
+              <motion.div key={index} variants={itemVariants}>
+                <Card className="h-full hover-elevate" data-testid={`card-achievement-category-${index}`}>
+                  <CardContent className="p-6">
+                    <div className="mb-6 text-center">
+                      <div className="w-16 h-16 bg-orange-50 dark:bg-orange-950 rounded-full flex items-center justify-center mx-auto mb-4">
+                        {category.icon}
+                      </div>
+                      <h3 className="text-xl font-semibold mb-4" data-testid={`text-category-title-${index}`}>
+                        {category.title}
+                      </h3>
+                    </div>
+                    <ul className="space-y-3">
+                      {category.systems.map((system, systemIndex) => (
+                        <li 
+                          key={systemIndex} 
+                          className="text-muted-foreground text-sm leading-relaxed flex items-start gap-2"
+                          data-testid={`text-system-${index}-${systemIndex}`}
+                        >
+                          <div className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-2 flex-shrink-0" />
+                          {system}
+                        </li>
+                      ))}
+                    </ul>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
       
       <NewsSection
         title={t('home:sections.news.title')}
