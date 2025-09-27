@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { 
-  Heart,
+  UserPlus,
   Users,
   BookOpen,
   Upload,
@@ -182,7 +182,7 @@ export default function Edumate() {
           <Card className="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
             <CardContent className="p-8 lg:p-12">
               <div className="flex items-center gap-4 mb-6">
-                <Heart className="w-12 h-12" />
+                <Users className="w-12 h-12" />
                 <h2 className="text-2xl lg:text-3xl font-bold">Edumateとは？</h2>
               </div>
               <p className="text-lg leading-relaxed mb-6 text-orange-100">
@@ -212,7 +212,7 @@ export default function Edumate() {
             </Card>
             <Card className="hover-elevate text-center">
               <CardContent className="p-6">
-                <Heart className="w-16 h-16 text-orange-500 mx-auto mb-4" />
+                <UserPlus className="w-16 h-16 text-orange-500 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold mb-2">生徒B（友達）</h3>
                 <p className="text-gray-600">一緒に学習を続けるパートナー</p>
               </CardContent>
@@ -382,7 +382,7 @@ export default function Edumate() {
         <motion.div className="text-center" variants={itemVariants}>
           <Card className="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
             <CardContent className="p-12">
-              <Heart className="w-16 h-16 mx-auto mb-6" />
+              <Users className="w-16 h-16 mx-auto mb-6" />
               <h2 className="text-3xl font-bold mb-6" data-testid="text-cta-title">
                 ふたりで始める、新しい学習スタイル
               </h2>
