@@ -8,8 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
-import { Eye, Mail, Phone, Globe, Calendar, User } from "lucide-react";
+import { Eye, Mail, Globe, Calendar, User } from "lucide-react";
 import { formatDistanceToNow, format } from "date-fns";
 import type { Contact } from "@shared/schema";
 
@@ -118,14 +117,14 @@ export default function ContactManager() {
                   <CardDescription className="flex items-center gap-4 mt-1">
                     <span className="flex items-center gap-1">
                       <Mail className="w-3 h-3" />
-                      {contact.email}
+                      <a 
+                        href={`mailto:${contact.email}`} 
+                        className="text-primary hover:underline"
+                        data-testid={`link-email-${contact.id}`}
+                      >
+                        {contact.email}
+                      </a>
                     </span>
-                    {contact.phone && (
-                      <span className="flex items-center gap-1">
-                        <Phone className="w-3 h-3" />
-                        {contact.phone}
-                      </span>
-                    )}
                     {contact.company && (
                       <span className="flex items-center gap-1">
                         <Globe className="w-3 h-3" />
@@ -216,16 +215,14 @@ function ContactDetails({ contact }: { contact: Contact }) {
               <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 Email
               </label>
-              <p className="text-sm">{contact.email}</p>
+              <a 
+                href={`mailto:${contact.email}`} 
+                className="text-sm text-primary hover:underline block"
+                data-testid="link-contact-email"
+              >
+                {contact.email}
+              </a>
             </div>
-            {contact.phone && (
-              <div>
-                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
-                  Phone
-                </label>
-                <p className="text-sm">{contact.phone}</p>
-              </div>
-            )}
             {contact.company && (
               <div>
                 <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
@@ -260,7 +257,7 @@ function ContactDetails({ contact }: { contact: Contact }) {
                 Submitted
               </label>
               <p className="text-sm">
-                {format(new Date(contact.createdAt), "PPp")}
+                {contact.createdAt ? format(new Date(contact.createdAt), "PPp") : "Unknown"}
               </p>
               <p className="text-xs text-muted-foreground">
                 {contact.createdAt ? formatDistanceToNow(new Date(contact.createdAt)) : "Unknown"} ago
