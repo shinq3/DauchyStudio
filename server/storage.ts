@@ -1,11 +1,14 @@
 import { 
   users, 
+  adminUsers,
   news, 
   newsUpdates,
   contacts,
   uploads,
   type User, 
-  type UpsertUser, 
+  type UpsertUser,
+  type AdminUser,
+  type InsertAdminUser,
   type News, 
   type InsertNews,
   type NewsUpdate,
@@ -22,6 +25,15 @@ export interface IStorage {
   // User operations - required for Replit Auth
   getUser(id: string): Promise<User | undefined>;
   upsertUser(user: UpsertUser): Promise<User>;
+  
+  // Admin User operations - for custom authentication
+  getAdminUser(id: string): Promise<AdminUser | undefined>;
+  getAdminUserByUsername(username: string): Promise<AdminUser | undefined>;
+  getAdminUserByEmail(email: string): Promise<AdminUser | undefined>;
+  createAdminUser(adminUser: InsertAdminUser): Promise<AdminUser>;
+  updateAdminUser(id: string, adminUser: Partial<InsertAdminUser>): Promise<AdminUser | undefined>;
+  updateAdminUserLoginTime(id: string): Promise<void>;
+  getAllAdminUsers(): Promise<AdminUser[]>;
   
   // News operations
   getNews(id: string): Promise<News | undefined>;
@@ -69,6 +81,47 @@ export class DatabaseStorage implements IStorage {
       })
       .returning();
     return user;
+  }
+
+  // Admin User operations - for custom authentication
+  async getAdminUser(id: string): Promise<AdminUser | undefined> {
+    const [adminUser] = await db.select().from(adminUsers).where(eq(adminUsers.id, id));
+    return adminUser;
+  }
+
+  async getAdminUserByUsername(username: string): Promise<AdminUser | undefined> {
+    const [adminUser] = await db.select().from(adminUsers).where(eq(adminUsers.username, username));
+    return adminUser;
+  }
+
+  async getAdminUserByEmail(email: string): Promise<AdminUser | undefined> {
+    const [adminUser] = await db.select().from(adminUsers).where(eq(adminUsers.email, email));
+    return adminUser;
+  }
+
+  async createAdminUser(adminUserData: InsertAdminUser): Promise<AdminUser> {
+    const [adminUser] = await db.insert(adminUsers).values(adminUserData).returning();
+    return adminUser;
+  }
+
+  async updateAdminUser(id: string, adminUserData: Partial<InsertAdminUser>): Promise<AdminUser | undefined> {
+    const [adminUser] = await db
+      .update(adminUsers)
+      .set({ ...adminUserData, updatedAt: new Date() })
+      .where(eq(adminUsers.id, id))
+      .returning();
+    return adminUser;
+  }
+
+  async updateAdminUserLoginTime(id: string): Promise<void> {
+    await db
+      .update(adminUsers)
+      .set({ lastLoginAt: new Date() })
+      .where(eq(adminUsers.id, id));
+  }
+
+  async getAllAdminUsers(): Promise<AdminUser[]> {
+    return db.select().from(adminUsers).orderBy(desc(adminUsers.createdAt));
   }
 
   // News operations
