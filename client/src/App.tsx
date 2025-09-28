@@ -18,6 +18,7 @@ import LingaLink from "@/pages/LingaLink";
 import Edumate from "@/pages/Edumate";
 import OfficeBrain from "@/pages/OfficeBrain";
 import EnterpriseLLM from "@/pages/EnterpriseLLM";
+import Admin from "@/pages/Admin";
 import { Github, Twitter, Linkedin, Mail } from "lucide-react";
 import { extractLocaleFromPath, linkTo, useLocale } from "@/lib/i18n-utils";
 import { defaultLocale, isValidLocale, type Locale } from "@shared/i18n";
@@ -151,6 +152,9 @@ function Router() {
       <Route path="/news">
         <Redirect to={linkTo('/news', defaultLocale)} />
       </Route>
+
+      {/* Admin routes - no locale prefix */}
+      <Route path="/admin" component={Admin} />
 
       {/* Catch-all for invalid routes */}
       <Route component={NotFound} />

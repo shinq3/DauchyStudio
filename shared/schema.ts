@@ -32,25 +32,23 @@ export type User = typeof users.$inferSelect;
 export const news = pgTable("news", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   title: text("title").notNull(),
-  slug: text("slug").notNull().unique(),
   excerpt: text("excerpt"),
   content: text("content").notNull(),
-  category: text("category").notNull().default('internal'),
-  tags: json("tags").$type<string[]>().default([]),
-  featuredImage: text("featured_image"),
-  isExternal: boolean("is_external").default(false),
-  externalUrl: text("external_url"),
+  category: text("category").notNull().default('company'), // product, company, technology
   status: text("status").notNull().default('draft'), // draft, published, archived
+  thumbnailUrl: text("thumbnail_url"),
+  sourceUrl: text("source_url"),
+  sourceAttribution: text("source_attribution"),
+  isInternal: boolean("is_internal").default(false),
   publishedAt: timestamp("published_at"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
-  authorId: varchar("author_id").references(() => users.id)
+  authorId: varchar("author_id").references(() => users.id).notNull()
 });
 
 export const newsUpdates = pgTable("news_updates", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   newsId: varchar("news_id").references(() => news.id).notNull(),
-  title: text("title").notNull(),
   content: text("content").notNull(),
   authorId: varchar("author_id").references(() => users.id).notNull(),
   createdAt: timestamp("created_at").defaultNow(),
@@ -61,10 +59,10 @@ export const contacts = pgTable("contacts", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
   name: text("name").notNull(),
   email: text("email").notNull(),
+  phone: text("phone"),
   company: text("company"),
-  inquiryType: text("inquiry_type").notNull(),
   message: text("message").notNull(),
-  status: text("status").notNull().default('unread'), // unread, read, replied, archived
+  status: text("status").notNull().default('new'), // new, in-progress, resolved, closed
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow()
 });
@@ -83,30 +81,26 @@ export const uploads = pgTable("uploads", {
 // Insert schemas
 export const insertNewsSchema = createInsertSchema(news).pick({
   title: true,
-  slug: true,
   excerpt: true,
   content: true,
   category: true,
-  tags: true,
-  featuredImage: true,
-  isExternal: true,
-  externalUrl: true,
   status: true,
-  publishedAt: true
+  thumbnailUrl: true,
+  sourceUrl: true,
+  sourceAttribution: true,
+  isInternal: true,
 });
 
 export const insertNewsUpdateSchema = createInsertSchema(newsUpdates).pick({
-  newsId: true,
-  title: true,
-  content: true
+  content: true,
 });
 
 export const insertContactSchema = createInsertSchema(contacts).pick({
   name: true,
   email: true,
+  phone: true,
   company: true,
-  inquiryType: true,
-  message: true
+  message: true,
 });
 
 export const insertUploadSchema = createInsertSchema(uploads).pick({
