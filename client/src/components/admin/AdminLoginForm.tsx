@@ -8,10 +8,12 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { useAdminAuth, adminLoginSchema, type AdminLoginForm } from "@/hooks/useAdminAuth";
+import { useTranslation } from "react-i18next";
 
 export default function AdminLoginForm() {
   const [showPassword, setShowPassword] = useState(false);
   const { login, loginPending } = useAdminAuth();
+  const { t } = useTranslation('admin');
 
   const form = useForm<AdminLoginForm>({
     resolver: zodResolver(adminLoginSchema),
@@ -40,10 +42,10 @@ export default function AdminLoginForm() {
             </div>
             <div className="space-y-2">
               <CardTitle className="text-2xl font-bold tracking-tight">
-                Admin Access
+                {t('login.title')}
               </CardTitle>
               <CardDescription className="text-base text-muted-foreground">
-                Sign in to the D'achy.Studio CMS Dashboard
+                {t('login.subtitle')}
               </CardDescription>
             </div>
           </CardHeader>
@@ -56,14 +58,14 @@ export default function AdminLoginForm() {
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium">Username</FormLabel>
+                      <FormLabel className="text-sm font-medium">{t('login.username')}</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                           <Input
                             {...field}
                             type="text"
-                            placeholder="Enter your username"
+                            placeholder={t('login.usernamePlaceholder')}
                             className="pl-10 h-12 border-border focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all"
                             data-testid="input-username"
                             disabled={loginPending}
@@ -80,14 +82,14 @@ export default function AdminLoginForm() {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-sm font-medium">Password</FormLabel>
+                      <FormLabel className="text-sm font-medium">{t('login.password')}</FormLabel>
                       <FormControl>
                         <div className="relative">
                           <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                           <Input
                             {...field}
                             type={showPassword ? "text" : "password"}
-                            placeholder="Enter your password"
+                            placeholder={t('login.passwordPlaceholder')}
                             className="pl-10 pr-12 h-12 border-border focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all"
                             data-testid="input-password"
                             disabled={loginPending}
@@ -122,10 +124,10 @@ export default function AdminLoginForm() {
                   {loginPending ? (
                     <>
                       <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" />
-                      Signing In...
+                      {t('login.signingIn')}
                     </>
                   ) : (
-                    "Sign In"
+                    t('login.signIn')
                   )}
                 </Button>
               </form>

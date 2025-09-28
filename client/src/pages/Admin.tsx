@@ -1,5 +1,6 @@
 import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -13,13 +14,14 @@ import { Link } from "wouter";
 export default function Admin() {
   const { toast } = useToast();
   const { isAuthenticated, isLoading, user, logout, logoutPending } = useAdminAuth();
+  const { t } = useTranslation(['admin', 'common']);
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-50 dark:from-orange-950 dark:to-amber-950 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600 mx-auto mb-4"></div>
-          <p className="text-sm text-muted-foreground">Loading...</p>
+          <p className="text-sm text-muted-foreground">{t('common:loading')}</p>
         </div>
       </div>
     );
@@ -47,9 +49,9 @@ export default function Admin() {
                   </span>
                 </div>
                 <div>
-                  <CardTitle className="text-lg">CMS Admin Dashboard</CardTitle>
+                  <CardTitle className="text-lg">{t('dashboard')}</CardTitle>
                   <p className="text-sm text-muted-foreground">
-                    Welcome, {user?.username}
+                    {t('welcome', { username: user?.username })}
                   </p>
                 </div>
               </div>
@@ -57,7 +59,7 @@ export default function Admin() {
                 <Button variant="outline" asChild data-testid="button-home">
                   <Link href="/">
                     <Home className="w-4 h-4 mr-2" />
-                    Home
+                    {t('home')}
                   </Link>
                 </Button>
                 <Button 
@@ -67,7 +69,7 @@ export default function Admin() {
                   data-testid="button-logout"
                 >
                   <LogOut className="w-4 h-4 mr-2" />
-                  {logoutPending ? "Signing Out..." : "Logout"}
+                  {logoutPending ? t('login.signingIn') : t('logout')}
                 </Button>
               </div>
             </div>
@@ -79,16 +81,16 @@ export default function Admin() {
           <TabsList className={`grid w-full ${user?.role === 'superadmin' ? 'grid-cols-3' : 'grid-cols-2'} lg:w-600`}>
             <TabsTrigger value="news" data-testid="tab-news">
               <Newspaper className="w-4 h-4 mr-2" />
-              News Management
+              {t('tabs.news')}
             </TabsTrigger>
             <TabsTrigger value="contacts" data-testid="tab-contacts">
               <MessageSquare className="w-4 h-4 mr-2" />
-              Contact Management
+              {t('tabs.contacts')}
             </TabsTrigger>
             {user?.role === 'superadmin' && (
               <TabsTrigger value="users" data-testid="tab-users">
                 <Users className="w-4 h-4 mr-2" />
-                User Management
+                {t('tabs.users')}
               </TabsTrigger>
             )}
           </TabsList>

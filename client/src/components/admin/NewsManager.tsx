@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useTranslation } from "react-i18next";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -19,6 +20,7 @@ import type { News, InsertNews } from "@shared/schema";
 export default function NewsManager() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const { t } = useTranslation('admin');
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [editingNews, setEditingNews] = useState<News | null>(null);
   const [selectedNewsForUpdates, setSelectedNewsForUpdates] = useState<News | null>(null);
@@ -40,14 +42,14 @@ export default function NewsManager() {
       queryClient.invalidateQueries({ queryKey: ["/api/news"] });
       setIsCreateOpen(false);
       toast({
-        title: "News Created",
-        description: "News article has been created successfully.",
+        title: t('news.messages.created'),
+        description: t('news.messages.created'),
       });
     },
     onError: (error) => {
       toast({
-        title: "Error",
-        description: error.message || "Failed to create news",
+        title: t('common.error'),
+        description: error.message || t('news.messages.createError'),
         variant: "destructive",
       });
     },
@@ -66,14 +68,14 @@ export default function NewsManager() {
       queryClient.invalidateQueries({ queryKey: ["/api/news"] });
       setEditingNews(null);
       toast({
-        title: "News Updated",
-        description: "News article has been updated successfully.",
+        title: t('news.messages.updated'),
+        description: t('news.messages.updated'),
       });
     },
     onError: (error) => {
       toast({
-        title: "Error",
-        description: error.message || "Failed to update news",
+        title: t('common.error'),
+        description: error.message || t('news.messages.updateError'),
         variant: "destructive",
       });
     },
@@ -89,14 +91,14 @@ export default function NewsManager() {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/news"] });
       queryClient.invalidateQueries({ queryKey: ["/api/news"] });
       toast({
-        title: "News Deleted",
-        description: "News article has been deleted successfully.",
+        title: t('news.messages.deleted'),
+        description: t('news.messages.deleted'),
       });
     },
     onError: (error) => {
       toast({
-        title: "Error",
-        description: error.message || "Failed to delete news",
+        title: t('common.error'),
+        description: error.message || t('news.messages.deleteError'),
         variant: "destructive",
       });
     },
@@ -129,7 +131,7 @@ export default function NewsManager() {
   };
 
   const handleDelete = (news: News) => {
-    if (window.confirm(`Are you sure you want to delete "${news.title}"?`)) {
+    if (window.confirm(t('news.confirmDelete.message', { title: news.title }))) {
       deleteMutation.mutate(news.id);
     }
   };
@@ -147,19 +149,19 @@ export default function NewsManager() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-foreground">News Management</h2>
-          <p className="text-muted-foreground">Create and manage news articles</p>
+          <h2 className="text-2xl font-bold text-foreground">{t('news.title')}</h2>
+          <p className="text-muted-foreground">{t('news.description')}</p>
         </div>
         <Dialog open={isCreateOpen} onOpenChange={setIsCreateOpen}>
           <DialogTrigger asChild>
             <Button data-testid="button-create-news">
               <Plus className="w-4 h-4 mr-2" />
-              Create News
+{t('news.createNews')}
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Create New News Article</DialogTitle>
+              <DialogTitle>{t('news.createNews')}</DialogTitle>
             </DialogHeader>
             <NewsEditor
               onSave={(data) => createMutation.mutate(data)}
@@ -178,13 +180,13 @@ export default function NewsManager() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-2">
                     <Badge variant={getStatusBadgeVariant(news.status)}>
-                      {news.status}
+                      {t(`news.status.${news.status}` as any)}
                     </Badge>
                     <Badge variant={getCategoryBadgeVariant(news.category)}>
-                      {news.category}
+                      {t(`news.categories.${news.category}` as any)}
                     </Badge>
-                    {news.isInternal && (
-                      <Badge variant="outline">Internal</Badge>
+                    {news.isExternal && (
+                      <Badge variant="outline">{t('news.form.isExternal')}</Badge>
                     )}
                   </div>
                   <CardTitle className="text-lg">{news.title}</CardTitle>
