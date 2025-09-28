@@ -209,7 +209,7 @@ export default function About() {
           >
             {team.map((member, index) => (
               <motion.div key={index} variants={itemVariants}>
-                <Card className="text-center hover-elevate">
+                <Card className="text-center hover-elevate team-card-height">
                   <CardContent className="p-6">
                     <div className="mb-4">
                       <img
