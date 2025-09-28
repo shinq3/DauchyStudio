@@ -73,7 +73,7 @@ export default function Contact() {
     {
       icon: <MapPin className="w-5 h-5" />,
       label: t('contactInfo.address') || "住所",
-      value: t('contactInfo.addressValue') || "東京都渋谷区恵比寿1-1-1",
+      value: t('contactInfo.addressValue') || "千葉県船橋市上山町3-531-9",
       link: null
     },
     {

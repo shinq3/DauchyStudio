@@ -33,7 +33,7 @@ export default function FooterExample() {
   return (
     <Footer
       company="D'achy.Studio"
-      address="東京都渋谷区恵比寿1-1-1"
+      address="千葉県船橋市上山町3-531-9"
       links={links}
       social={social}
     />

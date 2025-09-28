@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Github, Twitter, Linkedin, Mail, MapPin, Phone } from "lucide-react";
+import { Github, Twitter, Linkedin, MapPin } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { linkTo, useLocale } from "@/lib/i18n-utils";
 
@@ -39,14 +39,6 @@ export default function Footer({ company, address, links, social }: FooterProps)
               <div className="flex items-center gap-2 text-sm text-gray-300">
                 <MapPin className="w-4 h-4" />
                 <span data-testid="text-address">{address}</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-gray-300">
-                <Mail className="w-4 h-4" />
-                <span data-testid="text-email">{t('company.contact.email')}</span>
-              </div>
-              <div className="flex items-center gap-2 text-sm text-gray-300">
-                <Phone className="w-4 h-4" />
-                <span data-testid="text-phone">{t('company.contact.phone')}</span>
               </div>
             </div>
           </div>
