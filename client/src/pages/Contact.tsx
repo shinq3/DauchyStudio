@@ -42,27 +42,47 @@ export default function Contact() {
     e.preventDefault();
     setIsSubmitting(true);
     
-    // TODO: remove mock functionality - integrate with actual contact form API
-    console.log("Form submitted:", formData);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast({
-      title: t('success') || "お問い合わせを受け付けました",
-      description: "24時間以内にご連絡いたします。",
-    });
-    
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      company: "",
-      inquiryType: "",
-      message: ""
-    });
-    
-    setIsSubmitting(false);
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || 'フォームの送信に失敗しました');
+      }
+      
+      const result = await response.json();
+      console.log("Contact submitted successfully:", result);
+      
+      toast({
+        title: t('success') || "お問い合わせを受け付けました",
+        description: "24時間以内にご連絡いたします。",
+      });
+      
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        company: "",
+        inquiryType: "",
+        message: ""
+      });
+      
+    } catch (error) {
+      console.error("Contact submission error:", error);
+      toast({
+        title: "エラー",
+        description: error instanceof Error ? error.message : "お問い合わせの送信に失敗しました。しばらくしてから再度お試しください。",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (field: string, value: string) => {
