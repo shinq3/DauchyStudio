@@ -17,6 +17,7 @@ import jaLingaLink from './locales/ja/products/lingalink.json';
 import jaEdumate from './locales/ja/products/edumate.json';
 import jaOfficeBrain from './locales/ja/products/officebrain.json';
 import jaEnterpriseLLM from './locales/ja/products/enterprise-llm.json';
+import jaBaydSystem from './locales/ja/products/bayd-system.json';
 
 import enCommon from './locales/en/common.json';
 import enHeader from './locales/en/header.json';
@@ -30,6 +31,7 @@ import enLingaLink from './locales/en/products/lingalink.json';
 import enEdumate from './locales/en/products/edumate.json';
 import enOfficeBrain from './locales/en/products/officebrain.json';
 import enEnterpriseLLM from './locales/en/products/enterprise-llm.json';
+import enBaydSystem from './locales/en/products/bayd-system.json';
 
 import viCommon from './locales/vi/common.json';
 import viHeader from './locales/vi/header.json';
@@ -43,6 +45,7 @@ import viLingaLink from './locales/vi/products/lingalink.json';
 import viEdumate from './locales/vi/products/edumate.json';
 import viOfficeBrain from './locales/vi/products/officebrain.json';
 import viEnterpriseLLM from './locales/vi/products/enterprise-llm.json';
+import viBaydSystem from './locales/vi/products/bayd-system.json';
 
 const resources = {
   ja: {
@@ -58,6 +61,7 @@ const resources = {
     edumate: jaEdumate,
     officebrain: jaOfficeBrain,
     'enterprise-llm': jaEnterpriseLLM,
+    'bayd-system': jaBaydSystem,
   },
   en: {
     common: enCommon,
@@ -72,6 +76,7 @@ const resources = {
     edumate: enEdumate,
     officebrain: enOfficeBrain,
     'enterprise-llm': enEnterpriseLLM,
+    'bayd-system': enBaydSystem,
   },
   vi: {
     common: viCommon,
@@ -86,6 +91,7 @@ const resources = {
     edumate: viEdumate,
     officebrain: viOfficeBrain,
     'enterprise-llm': viEnterpriseLLM,
+    'bayd-system': viBaydSystem,
   },
 };
 
@@ -108,7 +114,7 @@ i18n
     
     // Namespace configuration
     defaultNS: 'common',
-    ns: ['common', 'header', 'footer', 'home', 'about', 'products', 'contact', 'news', 'lingalink', 'edumate', 'officebrain'],
+    ns: ['common', 'header', 'footer', 'home', 'about', 'products', 'contact', 'news', 'lingalink', 'edumate', 'officebrain', 'enterprise-llm', 'bayd-system'],
     
     interpolation: {
       escapeValue: false, // React already escapes values
