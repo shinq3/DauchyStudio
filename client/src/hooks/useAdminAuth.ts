@@ -28,6 +28,28 @@ export function useAdminAuth() {
   // Query for current admin user
   const { data: user, isLoading, error } = useQuery({
     queryKey: ["/api/admin/auth/me"],
+    queryFn: async () => {
+      try {
+        const response = await fetch("/api/admin/auth/me", {
+          credentials: "include",
+        });
+        
+        if (response.status === 401) {
+          // Not authenticated - return null instead of throwing
+          return null;
+        }
+        
+        if (!response.ok) {
+          throw new Error(`${response.status}: ${response.statusText}`);
+        }
+        
+        return response.json();
+      } catch (error) {
+        // Handle network errors etc.
+        console.error("Auth check failed:", error);
+        return null;
+      }
+    },
     retry: false,
     refetchOnWindowFocus: false,
   });
