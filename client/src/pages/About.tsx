@@ -3,6 +3,8 @@ import { Target, Users, Lightbulb, TrendingUp } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import teamCollaborationImage from '@assets/stock_images/team_collaboration_o_e582d717.jpg';
 import uchidaShinImage from '@assets/45dd2b2a-daa0-413c-9b50-18ba952cf12a_1759047618144.png';
+import michaelItoImage from '@assets/stock_images/professional_busines_529ac1e4.jpg';
+import johnKanekoImage from '@assets/stock_images/professional_busines_595a2b8e.jpg';
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 
@@ -53,6 +55,18 @@ export default function About() {
       role: t('team.members.0.role', { returnObjects: false }) || "AIシステムプロデューサー",
       description: t('team.members.0.description', { returnObjects: false }) || "30年以上の経験からあらゆるシステムの構築を行う。",
       image: uchidaShinImage
+    },
+    {
+      name: t('team.members.1.name', { returnObjects: false }) || "Michael Ito",
+      role: t('team.members.1.role', { returnObjects: false }) || "企画・コンサルタント",
+      description: t('team.members.1.description', { returnObjects: false }) || "システム・アプリの企画から運用までをご提案。",
+      image: michaelItoImage
+    },
+    {
+      name: t('team.members.2.name', { returnObjects: false }) || "John Kaneko",
+      role: t('team.members.2.role', { returnObjects: false }) || "プロジェクト・マネージャー",
+      description: t('team.members.2.description', { returnObjects: false }) || "プロジェクト成功を導く案内人。",
+      image: johnKanekoImage
     }
   ];
 
@@ -191,7 +205,7 @@ export default function About() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="flex justify-center max-w-5xl mx-auto"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto"
           >
             {team.map((member, index) => (
               <motion.div key={index} variants={itemVariants}>
