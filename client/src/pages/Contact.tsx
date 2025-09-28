@@ -71,18 +71,6 @@ export default function Contact() {
 
   const contactInfo = [
     {
-      icon: <Mail className="w-5 h-5" />,
-      label: t('contactInfo.email') || "メール",
-      value: "contact@dachy.studio",
-      link: "mailto:contact@dachy.studio"
-    },
-    {
-      icon: <Phone className="w-5 h-5" />,
-      label: t('contactInfo.phone') || "電話",
-      value: "+81-3-1234-5678",
-      link: "tel:+81-3-1234-5678"
-    },
-    {
       icon: <MapPin className="w-5 h-5" />,
       label: t('contactInfo.address') || "住所",
       value: t('contactInfo.addressValue') || "東京都渋谷区恵比寿1-1-1",
