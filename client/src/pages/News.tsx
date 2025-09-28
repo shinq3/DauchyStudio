@@ -43,7 +43,7 @@ export default function News() {
   const [selectedCategory, setSelectedCategory] = useState<string>(t('categories.all') || "すべて");
   
   useEffect(() => {
-    document.title = t('meta.title') || "AI・テクノロジーニュース | D'achy.Studio";
+    document.title = t('meta.title') || "AI・テクノロジーニュース | D'auchy.Studio";
     
     // Set meta description
     const metaDescription = document.querySelector('meta[name="description"]');

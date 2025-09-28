@@ -135,7 +135,7 @@ export default function AdminLoginForm() {
 
             <div className="text-center">
               <p className="text-sm text-muted-foreground">
-                D'achy.Studio CMS • Secure Admin Access
+                D'auchy.Studio CMS • Secure Admin Access
               </p>
             </div>
           </CardContent>

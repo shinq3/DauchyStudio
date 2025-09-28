@@ -1,11 +1,11 @@
 {
   "meta": {
-    "title": "About Us | D'achy.Studio",
-    "description": "Learn about D'achy.Studio's company information, mission, values, team, and journey in AI innovation."
+    "title": "About Us | D'auchy.Studio",
+    "description": "Learn about D'auchy.Studio's company information, mission, values, team, and journey in AI innovation."
   },
   "hero": {
     "title": "About Us",
-    "description": "D'achy.Studio develops products that harness the power of AI to enrich people's lives and work. We combine technology and creativity to provide truly valuable solutions as our mission."
+    "description": "D'auchy.Studio develops products that harness the power of AI to enrich people's lives and work. We combine technology and creativity to provide truly valuable solutions as our mission."
   },
   "mission": {
     "title": "Our Mission",
@@ -57,8 +57,8 @@
     "title": "Our Journey",
     "milestones": [
       {
-        "title": "January 2024 - D'achy Studio Founded",
-        "description": "Founded D'achy.Studio with the goal of democratizing AI technology."
+        "title": "January 2024 - D'auchy Studio Founded",
+        "description": "Founded D'auchy.Studio with the goal of democratizing AI technology."
       },
       {
         "title": "March 2025 - Enterprise LLM Release",

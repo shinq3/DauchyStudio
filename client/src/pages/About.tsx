@@ -12,7 +12,7 @@ export default function About() {
   const { t } = useTranslation('about');
   
   useEffect(() => {
-    document.title = t('meta.title') || "私たちについて | D'achy.Studio";
+    document.title = t('meta.title') || "私たちについて | D'auchy.Studio";
     
     // Set meta description
     const metaDescription = document.querySelector('meta[name="description"]');
@@ -108,7 +108,7 @@ export default function About() {
               {t('hero.title') || "私たちについて"}
             </h1>
             <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed text-left">
-              {t('hero.description') || "D'achy.Studioは、AIの力を活用して人々の生活や仕事をより豊かにするプロダクトを開発しています。私たちは技術と創造性を組み合わせ、真に価値のあるソリューションを提供することを使命としています。"}
+              {t('hero.description') || "D'auchy.Studioは、AIの力を活用して人々の生活や仕事をより豊かにするプロダクトを開発しています。私たちは技術と創造性を組み合わせ、真に価値のあるソリューションを提供することを使命としています。"}
             </p>
           </motion.div>
         </div>
@@ -257,7 +257,7 @@ export default function About() {
                     {t('history.milestones.0.title', { returnObjects: false }) || "2024年1月 - D'auchy-Studio設立"}
                   </h3>
                   <p className="text-muted-foreground">
-                    {t('history.milestones.0.description', { returnObjects: false }) || "AI技術の民主化を目指し、D'achy.Studioを設立。"}
+                    {t('history.milestones.0.description', { returnObjects: false }) || "AI技術の民主化を目指し、D'auchy.Studioを設立。"}
                   </p>
                 </div>
               </div>

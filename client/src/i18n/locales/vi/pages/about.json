@@ -1,11 +1,11 @@
 {
   "meta": {
-    "title": "Về Chúng Tôi | D'achy.Studio",
-    "description": "Tìm hiểu về thông tin công ty, sứ mệnh, giá trị, đội ngũ và hành trình đổi mới AI của D'achy.Studio."
+    "title": "Về Chúng Tôi | D'auchy.Studio",
+    "description": "Tìm hiểu về thông tin công ty, sứ mệnh, giá trị, đội ngũ và hành trình đổi mới AI của D'auchy.Studio."
   },
   "hero": {
     "title": "Về Chúng Tôi",
-    "description": "D'achy.Studio phát triển các sản phẩm khai thác sức mạnh của AI để làm phong phú cuộc sống và công việc của mọi người. Chúng tôi kết hợp công nghệ và sự sáng tạo để cung cấp các giải pháp thực sự có giá trị như sứ mệnh của mình."
+    "description": "D'auchy.Studio phát triển các sản phẩm khai thác sức mạnh của AI để làm phong phú cuộc sống và công việc của mọi người. Chúng tôi kết hợp công nghệ và sự sáng tạo để cung cấp các giải pháp thực sự có giá trị như sứ mệnh của mình."
   },
   "mission": {
     "title": "Sứ Mệnh Của Chúng Tôi",
@@ -57,8 +57,8 @@
     "title": "Hành Trình Của Chúng Tôi",
     "milestones": [
       {
-        "title": "Tháng 1/2024 - Thành Lập D'achy Studio",
-        "description": "Thành lập D'achy.Studio với mục tiêu dân chủ hóa công nghệ AI."
+        "title": "Tháng 1/2024 - Thành Lập D'auchy Studio",
+        "description": "Thành lập D'auchy.Studio với mục tiêu dân chủ hóa công nghệ AI."
       },
       {
         "title": "Tháng 3/2025 - Ra Mắt Enterprise LLM",

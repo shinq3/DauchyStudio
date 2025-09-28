@@ -1,4 +1,4 @@
-# Design Guidelines for D'achy.Studio
+# Design Guidelines for D'acuhy.Studio
 
 ## Design Approach
 **Reference-Based Approach**: Drawing inspiration from modern tech product showcases like Notion, Linear, and Vercel, focusing on clean aesthetics with strategic use of orange theming and smooth animations.

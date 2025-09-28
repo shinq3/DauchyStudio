@@ -7,7 +7,7 @@
   
   "login": {
     "title": "Admin Access",
-    "subtitle": "Sign in to the D'achy.Studio CMS Dashboard",
+    "subtitle": "Sign in to the D'auchy.Studio CMS Dashboard",
     "username": "Username",
     "password": "Password",
     "usernamePlaceholder": "Enter your username",

@@ -1,11 +1,11 @@
 {
   "meta": {
-    "title": "私たちについて | D'achy.Studio",
-    "description": "D'achy.Studioの会社情報、ミッション、価値観、チーム、歩みについて紹介します。"
+    "title": "私たちについて | D'auchy.Studio",
+    "description": "D'auchy.Studioの会社情報、ミッション、価値観、チーム、歩みについて紹介します。"
   },
   "hero": {
     "title": "私たちについて",
-    "description": "D'achy.Studioは、AIの力を活用して人々の生活や仕事をより豊かにするプロダクトを開発しています。私たちは技術と創造性を組み合わせ、真に価値のあるソリューションを提供することを使命としています。"
+    "description": "D'auchy.Studioは、AIの力を活用して人々の生活や仕事をより豊かにするプロダクトを開発しています。私たちは技術と創造性を組み合わせ、真に価値のあるソリューションを提供することを使命としています。"
   },
   "mission": {
     "title": "私たちのミッション",
@@ -58,7 +58,7 @@
     "milestones": [
       {
         "title": "2024年1月 - D'auchy-Studio設立",
-        "description": "AI技術の民主化を目指し、D'achy.Studioを設立。"
+        "description": "AI技術の民主化を目指し、D'auchy.Studioを設立。"
       },
       {
         "title": "2025年3月 - Enterprise LLMリリース",

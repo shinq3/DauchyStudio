@@ -24,7 +24,7 @@ export default function Contact() {
   const { toast } = useToast();
 
   useEffect(() => {
-    document.title = `${t('title') || "お問い合わせ"} | D'achy.Studio`;
+    document.title = `${t('title') || "お問い合わせ"} | D'auchy.Studio`;
     
     // Set meta description
     const metaDescription = document.querySelector('meta[name="description"]');
