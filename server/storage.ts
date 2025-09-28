@@ -34,6 +34,9 @@ export interface IStorage {
   updateAdminUser(id: string, adminUser: Partial<InsertAdminUser>): Promise<AdminUser | undefined>;
   updateAdminUserLoginTime(id: string): Promise<void>;
   getAllAdminUsers(): Promise<AdminUser[]>;
+  countAdminsByRole(role: string): Promise<number>;
+  deleteAdminUser(id: string): Promise<void>;
+  setAdminPassword(id: string, passwordHash: string): Promise<void>;
   
   // News operations
   getNews(id: string): Promise<News | undefined>;
@@ -122,6 +125,21 @@ export class DatabaseStorage implements IStorage {
 
   async getAllAdminUsers(): Promise<AdminUser[]> {
     return db.select().from(adminUsers).orderBy(desc(adminUsers.createdAt));
+  }
+
+  async countAdminsByRole(role: string): Promise<number> {
+    const result = await db.select().from(adminUsers).where(eq(adminUsers.role, role));
+    return result.length;
+  }
+
+  async deleteAdminUser(id: string): Promise<void> {
+    await db.delete(adminUsers).where(eq(adminUsers.id, id));
+  }
+
+  async setAdminPassword(id: string, passwordHash: string): Promise<void> {
+    await db.update(adminUsers)
+      .set({ passwordHash, updatedAt: new Date() })
+      .where(eq(adminUsers.id, id));
   }
 
   // News operations

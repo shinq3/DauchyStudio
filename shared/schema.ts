@@ -21,6 +21,10 @@ export const users = pgTable("users", {
   firstName: varchar("first_name"),
   lastName: varchar("last_name"),
   profileImageUrl: varchar("profile_image_url"),
+  role: varchar("role").notNull().default('user'), // guest, user, premium, moderator
+  permissions: json("permissions"), // specific permissions array for granular control
+  isActive: boolean("is_active").default(true),
+  lastLoginAt: timestamp("last_login_at"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -34,7 +38,9 @@ export const adminUsers = pgTable("admin_users", {
   username: varchar("username").unique().notNull(),
   email: varchar("email").unique().notNull(),
   passwordHash: varchar("password_hash").notNull(),
-  role: varchar("role").notNull().default('admin'), // admin, superadmin
+  role: varchar("role").notNull().default('admin'), // admin, superadmin, editor, viewer
+  permissions: json("permissions"), // specific admin permissions array for granular control
+  departmentAccess: json("department_access"), // which departments/modules they can access
   isActive: boolean("is_active").default(true),
   lastLoginAt: timestamp("last_login_at"),
   createdAt: timestamp("created_at").defaultNow(),
@@ -43,6 +49,95 @@ export const adminUsers = pgTable("admin_users", {
 
 export type AdminUser = typeof adminUsers.$inferSelect;
 export type InsertAdminUser = typeof adminUsers.$inferInsert;
+
+// Permission and Role Management Schema
+export const userRoleSchema = z.enum(['guest', 'user', 'premium', 'moderator']);
+export const adminRoleSchema = z.enum(['admin', 'superadmin', 'editor', 'viewer']);
+
+export const userPermissionSchema = z.array(z.enum([
+  'view_public_content',
+  'create_comments', 
+  'upload_files',
+  'access_premium_content',
+  'moderate_comments',
+  'manage_basic_content'
+]));
+
+export const adminPermissionSchema = z.array(z.enum([
+  'view_admin_dashboard',
+  'manage_news',
+  'manage_contacts', 
+  'manage_users',
+  'manage_admin_users',
+  'manage_uploads',
+  'view_analytics',
+  'system_configuration',
+  'user_impersonation',
+  'delete_content',
+  'manage_permissions'
+]));
+
+export const departmentAccessSchema = z.array(z.enum([
+  'news_management',
+  'user_management', 
+  'contact_management',
+  'content_management',
+  'analytics_dashboard',
+  'system_settings',
+  'security_management'
+]));
+
+// Enhanced insert schemas for users and admin users
+export const insertUserSchema = createInsertSchema(users).pick({
+  email: true,
+  firstName: true,
+  lastName: true,
+  profileImageUrl: true,
+  role: true,
+  permissions: true,
+  isActive: true
+}).extend({
+  role: userRoleSchema.optional(),
+  permissions: userPermissionSchema.optional()
+});
+
+export const insertAdminUserSchema = createInsertSchema(adminUsers).pick({
+  username: true,
+  email: true,
+  role: true,
+  permissions: true,
+  departmentAccess: true,
+  isActive: true
+}).extend({
+  password: z.string().min(8, 'Password must be at least 8 characters'),
+  role: adminRoleSchema.optional(),
+  permissions: adminPermissionSchema.optional(),
+  departmentAccess: departmentAccessSchema.optional()
+});
+
+export const updateAdminUserSchema = insertAdminUserSchema.partial().omit({
+  password: true
+});
+
+export const changePasswordSchema = z.object({
+  currentPassword: z.string().optional(), // Required for self-change, optional for superadmin reset
+  newPassword: z.string().min(8, 'Password must be at least 8 characters'),
+  confirmPassword: z.string()
+}).refine((data) => data.newPassword === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"]
+});
+
+// Types for permissions and roles
+export type UserRole = z.infer<typeof userRoleSchema>;
+export type AdminRole = z.infer<typeof adminRoleSchema>;
+export type UserPermission = z.infer<typeof userPermissionSchema>;
+export type AdminPermission = z.infer<typeof adminPermissionSchema>;
+export type DepartmentAccess = z.infer<typeof departmentAccessSchema>;
+export type InsertUserData = z.infer<typeof insertUserSchema>;
+export type InsertAdminUserData = z.infer<typeof insertAdminUserSchema>;
+export type UpdateAdminUserData = z.infer<typeof updateAdminUserSchema>;
+export type ChangePasswordData = z.infer<typeof changePasswordSchema>;
 
 // CMS Tables - matching existing database schema
 export const news = pgTable("news", {
