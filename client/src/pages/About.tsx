@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Target, Users, Lightbulb, TrendingUp } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import teamCollaborationImage from '@assets/stock_images/team_collaboration_o_e582d717.jpg';
+import uchidaShinImage from '@assets/45dd2b2a-daa0-413c-9b50-18ba952cf12a_1759047618144.png';
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 
@@ -48,22 +49,10 @@ export default function About() {
 
   const team = [
     {
-      name: t('team.members.0.name', { returnObjects: false }) || "田中 太郎",
-      role: t('team.members.0.role', { returnObjects: false }) || "創設者・CEO",
-      description: t('team.members.0.description', { returnObjects: false }) || "AI研究歴10年、複数のスタートアップ創業経験を持つエンジニア。",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
-    },
-    {
-      name: t('team.members.1.name', { returnObjects: false }) || "佐藤 花子",
-      role: t('team.members.1.role', { returnObjects: false }) || "CTO",
-      description: t('team.members.1.description', { returnObjects: false }) || "機械学習エンジニアとして大手企業で10年間の開発経験。",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b0e0?w=150&h=150&fit=crop&crop=face"
-    },
-    {
-      name: t('team.members.2.name', { returnObjects: false }) || "山田 次郎",
-      role: t('team.members.2.role', { returnObjects: false }) || "プロダクトマネージャー",
-      description: t('team.members.2.description', { returnObjects: false }) || "教育分野でのプロダクト開発とユーザー体験設計のスペシャリスト。",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+      name: t('team.members.0.name', { returnObjects: false }) || "内田 伸",
+      role: t('team.members.0.role', { returnObjects: false }) || "AIシステムプロデューサー",
+      description: t('team.members.0.description', { returnObjects: false }) || "30年以上の経験からあらゆるシステムの構築を行う。",
+      image: uchidaShinImage
     }
   ];
 
@@ -202,7 +191,7 @@ export default function About() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto"
+            className="flex justify-center max-w-5xl mx-auto"
           >
             {team.map((member, index) => (
               <motion.div key={index} variants={itemVariants}>

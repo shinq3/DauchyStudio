@@ -34,22 +34,12 @@
   },
   "team": {
     "title": "Team",
-    "description": "Our diverse team of experts is working on innovative product development.",
+    "description": "An experienced expert working on innovative product development.",
     "members": [
       {
-        "name": "Taro Tanaka",
-        "role": "Founder & CEO",
-        "description": "Engineer with 10 years of AI research experience and multiple startup founding experience."
-      },
-      {
-        "name": "Hanako Sato",
-        "role": "CTO",
-        "description": "10 years of development experience as a machine learning engineer at major companies."
-      },
-      {
-        "name": "Jiro Yamada",
-        "role": "Product Manager",
-        "description": "Specialist in product development and user experience design in the education field."
+        "name": "Shin Uchida",
+        "role": "AI System Producer",
+        "description": "Builds all kinds of systems with over 30 years of experience."
       }
     ]
   },

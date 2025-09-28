@@ -34,22 +34,12 @@
   },
   "team": {
     "title": "Đội Ngũ",
-    "description": "Đội ngũ chuyên gia đa dạng của chúng tôi đang làm việc trong việc phát triển sản phẩm đổi mới.",
+    "description": "Chuyên gia giàu kinh nghiệm đang làm việc trong việc phát triển sản phẩm đổi mới.",
     "members": [
       {
-        "name": "Taro Tanaka",
-        "role": "Nhà Sáng Lập & CEO",
-        "description": "Kỹ sư có 10 năm kinh nghiệm nghiên cứu AI và kinh nghiệm thành lập nhiều startup."
-      },
-      {
-        "name": "Hanako Sato",
-        "role": "CTO",
-        "description": "10 năm kinh nghiệm phát triển với tư cách kỹ sư machine learning tại các công ty lớn."
-      },
-      {
-        "name": "Jiro Yamada",
-        "role": "Quản Lý Sản Phẩm",
-        "description": "Chuyên gia về phát triển sản phẩm và thiết kế trải nghiệm người dùng trong lĩnh vực giáo dục."
+        "name": "Shin Uchida",
+        "role": "Nhà Sản Xuất Hệ Thống AI",
+        "description": "Xây dựng mọi loại hệ thống với hơn 30 năm kinh nghiệm."
       }
     ]
   },
