@@ -65,6 +65,9 @@ export default function UsersManager() {
   const createUserMutation = useMutation({
     mutationFn: (data: CreateUserForm) => apiRequest('/api/admin/users', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(data),
     }),
     onSuccess: () => {
@@ -90,6 +93,9 @@ export default function UsersManager() {
     mutationFn: ({ id, data }: { id: string; data: UpdateUserForm }) => 
       apiRequest(`/api/admin/users/${id}`, {
         method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(data),
       }),
     onSuccess: () => {
@@ -137,6 +143,9 @@ export default function UsersManager() {
     mutationFn: ({ id, data }: { id: string; data: { newPassword: string } }) => 
       apiRequest(`/api/admin/users/${id}/password`, {
         method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify(data),
       }),
     onSuccess: () => {
@@ -339,7 +348,7 @@ export default function UsersManager() {
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Role</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                          <Select onValueChange={field.onChange} value={field.value}>
                             <FormControl>
                               <SelectTrigger data-testid="select-create-role">
                                 <SelectValue placeholder="Select a role" />
