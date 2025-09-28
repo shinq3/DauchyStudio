@@ -1,32 +1,17 @@
-import { useState, useEffect } from "react";
-import { useAuth } from "@/hooks/useAuth";
+import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import NewsManager from "@/components/admin/NewsManager";
 import ContactManager from "@/components/admin/ContactManager";
+import AdminLoginForm from "@/components/admin/AdminLoginForm";
 import { LogOut, Newspaper, MessageSquare, Home } from "lucide-react";
 import { Link } from "wouter";
 
 export default function Admin() {
   const { toast } = useToast();
-  const { isAuthenticated, isLoading, user } = useAuth();
-
-  // Redirect to home if not authenticated
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      toast({
-        title: "Unauthorized",
-        description: "You are logged out. Logging in again...",
-        variant: "destructive",
-      });
-      setTimeout(() => {
-        window.location.href = "/login";
-      }, 500);
-      return;
-    }
-  }, [isAuthenticated, isLoading, toast]);
+  const { isAuthenticated, isLoading, user, logout, logoutPending } = useAdminAuth();
 
   if (isLoading) {
     return (
@@ -40,11 +25,11 @@ export default function Admin() {
   }
 
   if (!isAuthenticated) {
-    return null;
+    return <AdminLoginForm />;
   }
 
   const handleLogout = () => {
-    window.location.href = "/api/logout";
+    logout();
   };
 
   return (
@@ -57,13 +42,13 @@ export default function Admin() {
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center">
                   <span className="text-white font-medium">
-                    {(user as any)?.firstName?.charAt(0) || (user as any)?.email?.charAt(0) || 'A'}
+                    {user?.firstName?.charAt(0) || user?.username?.charAt(0) || 'A'}
                   </span>
                 </div>
                 <div>
                   <CardTitle className="text-lg">CMS Admin Dashboard</CardTitle>
                   <p className="text-sm text-muted-foreground">
-                    Welcome, {(user as any)?.firstName || (user as any)?.email}
+                    Welcome, {user?.firstName || user?.username}
                   </p>
                 </div>
               </div>
@@ -77,10 +62,11 @@ export default function Admin() {
                 <Button 
                   variant="outline" 
                   onClick={handleLogout}
+                  disabled={logoutPending}
                   data-testid="button-logout"
                 >
                   <LogOut className="w-4 h-4 mr-2" />
-                  Logout
+                  {logoutPending ? "Signing Out..." : "Logout"}
                 </Button>
               </div>
             </div>

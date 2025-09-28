@@ -47,13 +47,7 @@ function Router() {
       {/* Admin routes - must be before locale routes */}
       <Route path="/admin" component={Admin} />
       
-      {/* Auth callback routes */}
-      <Route path="/login">
-        {() => {
-          window.location.href = "/api/auth/login";
-          return null;
-        }}
-      </Route>
+      {/* Login is now handled within the Admin component */}
       
       {/* Root redirect to default locale */}
       <Route path="/">
