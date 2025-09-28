@@ -191,7 +191,7 @@ export default function NewsManager() {
                   </div>
                   <CardTitle className="text-lg">{news.title}</CardTitle>
                   <CardDescription>
-                    Created {formatDistanceToNow(new Date(news.createdAt))} ago
+                    Created {news.createdAt ? formatDistanceToNow(new Date(news.createdAt)) : 'Unknown'} ago
                     {news.publishedAt && (
                       <> • Published {formatDistanceToNow(new Date(news.publishedAt))} ago</>
                     )}

@@ -36,5 +36,8 @@
     "released": "Đã Phát Hành",
     "beta": "Phiên Bản Beta",
     "coming_soon": "Sắp Ra Mắt"
-  }
+  },
+  "loading": "Đang tải...",
+  "error": "Lỗi",
+  "success": "Thành công"
 }

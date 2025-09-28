@@ -36,5 +36,8 @@
     "released": "Released",
     "beta": "Beta",
     "coming_soon": "Coming Soon"
-  }
+  },
+  "loading": "Loading...",
+  "error": "Error",
+  "success": "Success"
 }
