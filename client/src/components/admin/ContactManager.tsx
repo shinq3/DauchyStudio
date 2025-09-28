@@ -19,7 +19,7 @@ export default function ContactManager() {
   const [selectedContact, setSelectedContact] = useState<Contact | null>(null);
 
   // Fetch all contacts
-  const { data: contacts = [], isLoading } = useQuery({
+  const { data: contacts = [], isLoading } = useQuery<Contact[]>({
     queryKey: ["/api/admin/contacts"],
   });
 
@@ -28,6 +28,7 @@ export default function ContactManager() {
     mutationFn: ({ id, status }: { id: string; status: string }) =>
       apiRequest(`/api/admin/contacts/${id}/status`, {
         method: "PUT",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),
       }),
     onSuccess: () => {
@@ -110,7 +111,7 @@ export default function ContactManager() {
                       {getStatusLabel(contact.status)}
                     </Badge>
                     <span className="text-xs text-muted-foreground">
-                      {formatDistanceToNow(new Date(contact.createdAt))} ago
+                      {contact.createdAt ? formatDistanceToNow(new Date(contact.createdAt)) : "Unknown"} ago
                     </span>
                   </div>
                   <CardTitle className="text-lg">{contact.name}</CardTitle>
@@ -262,7 +263,7 @@ function ContactDetails({ contact }: { contact: Contact }) {
                 {format(new Date(contact.createdAt), "PPp")}
               </p>
               <p className="text-xs text-muted-foreground">
-                {formatDistanceToNow(new Date(contact.createdAt))} ago
+                {contact.createdAt ? formatDistanceToNow(new Date(contact.createdAt)) : "Unknown"} ago
               </p>
             </div>
             {contact.updatedAt && contact.updatedAt !== contact.createdAt && (

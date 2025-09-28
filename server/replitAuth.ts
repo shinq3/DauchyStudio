@@ -109,10 +109,24 @@ export async function setupAuth(app: Express) {
     })(req, res, next);
   });
 
+  app.get("/api/auth/login", (req, res, next) => {
+    passport.authenticate(`replitauth:${req.hostname}`, {
+      prompt: "login consent", 
+      scope: ["openid", "email", "profile", "offline_access"],
+    })(req, res, next);
+  });
+
   app.get("/api/callback", (req, res, next) => {
     passport.authenticate(`replitauth:${req.hostname}`, {
-      successReturnToOrRedirect: "/",
-      failureRedirect: "/api/login",
+      successReturnToOrRedirect: "/admin",
+      failureRedirect: "/api/auth/login",
+    })(req, res, next);
+  });
+
+  app.get("/api/auth/callback", (req, res, next) => {
+    passport.authenticate(`replitauth:${req.hostname}`, {
+      successReturnToOrRedirect: "/admin", 
+      failureRedirect: "/api/auth/login",
     })(req, res, next);
   });
 

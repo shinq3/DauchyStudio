@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import NewsEditor from "./NewsEditor";
 import NewsUpdatesModal from "./NewsUpdatesModal";
-import { Plus, Edit, Trash2, MessageCircle, Eye } from "lucide-react";
+import { Plus, Edit, Trash2, MessageCircle, Eye, Newspaper } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import type { News, InsertNews } from "@shared/schema";
 
@@ -24,7 +24,7 @@ export default function NewsManager() {
   const [selectedNewsForUpdates, setSelectedNewsForUpdates] = useState<News | null>(null);
 
   // Fetch all news
-  const { data: allNews = [], isLoading } = useQuery({
+  const { data: allNews = [], isLoading } = useQuery<News[]>({
     queryKey: ["/api/admin/news"],
   });
 
@@ -33,6 +33,7 @@ export default function NewsManager() {
     mutationFn: (data: InsertNews) => apiRequest("/api/admin/news", {
       method: "POST",
       body: JSON.stringify(data),
+      headers: { "Content-Type": "application/json" },
     }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/news"] });
@@ -58,6 +59,7 @@ export default function NewsManager() {
       apiRequest(`/api/admin/news/${id}`, {
         method: "PUT",
         body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" },
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/news"] });

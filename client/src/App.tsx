@@ -44,6 +44,17 @@ function Router() {
 
   return (
     <Switch>
+      {/* Admin routes - must be before locale routes */}
+      <Route path="/admin" component={Admin} />
+      
+      {/* Auth callback routes */}
+      <Route path="/login">
+        {() => {
+          window.location.href = "/api/auth/login";
+          return null;
+        }}
+      </Route>
+      
       {/* Root redirect to default locale */}
       <Route path="/">
         <Redirect to={linkTo('/', defaultLocale)} />
@@ -153,8 +164,6 @@ function Router() {
         <Redirect to={linkTo('/news', defaultLocale)} />
       </Route>
 
-      {/* Admin routes - no locale prefix */}
-      <Route path="/admin" component={Admin} />
 
       {/* Catch-all for invalid routes */}
       <Route component={NotFound} />

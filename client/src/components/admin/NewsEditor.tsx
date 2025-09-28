@@ -38,10 +38,9 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
       content: news?.content || "",
       category: news?.category || "company",
       status: news?.status || "draft",
-      thumbnailUrl: news?.thumbnailUrl || "",
-      sourceUrl: news?.sourceUrl || "",
-      sourceAttribution: news?.sourceAttribution || "",
-      isInternal: news?.isInternal || false,
+      featuredImage: news?.featuredImage || "",
+      externalUrl: news?.externalUrl || "",
+      isExternal: news?.isExternal || false,
       publishedAt: news?.publishedAt ? new Date(news.publishedAt).toISOString().slice(0, 16) : "",
     },
   });
