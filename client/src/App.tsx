@@ -44,10 +44,46 @@ function Router() {
 
   return (
     <Switch>
-      {/* Admin routes - must be before locale routes */}
-      <Route path="/admin" component={Admin} />
+      {/* Redirects for routes without locale prefix - must be before /:locale routes */}
+      <Route path="/admin">
+        <Redirect to={linkTo('/admin', defaultLocale)} />
+      </Route>
       
-      {/* Login is now handled within the Admin component */}
+      <Route path="/products">
+        <Redirect to={linkTo('/products', defaultLocale)} />
+      </Route>
+      
+      <Route path="/products/lingalink">
+        <Redirect to={linkTo('/products/lingalink', defaultLocale)} />
+      </Route>
+      
+      <Route path="/products/edumate">
+        <Redirect to={linkTo('/products/edumate', defaultLocale)} />
+      </Route>
+      
+      <Route path="/products/officebrain">
+        <Redirect to={linkTo('/products/officebrain', defaultLocale)} />
+      </Route>
+      
+      <Route path="/products/enterprise-llm">
+        <Redirect to={linkTo('/products/enterprise-llm', defaultLocale)} />
+      </Route>
+      
+      <Route path="/products/bayd-system">
+        <Redirect to={linkTo('/products/bayd-system', defaultLocale)} />
+      </Route>
+      
+      <Route path="/about">
+        <Redirect to={linkTo('/about', defaultLocale)} />
+      </Route>
+      
+      <Route path="/contact">
+        <Redirect to={linkTo('/contact', defaultLocale)} />
+      </Route>
+      
+      <Route path="/news">
+        <Redirect to={linkTo('/news', defaultLocale)} />
+      </Route>
       
       {/* Root redirect to default locale */}
       <Route path="/">
@@ -121,44 +157,13 @@ function Router() {
         }}
       </Route>
       
-      {/* Redirects for routes without locale prefix */}
-      <Route path="/products">
-        <Redirect to={linkTo('/products', defaultLocale)} />
+      <Route path="/:locale/admin">
+        {(params) => {
+          if (!isValidLocale(params.locale)) return <NotFound />;
+          return <Admin />;
+        }}
       </Route>
       
-      <Route path="/products/lingalink">
-        <Redirect to={linkTo('/products/lingalink', defaultLocale)} />
-      </Route>
-      
-      <Route path="/products/edumate">
-        <Redirect to={linkTo('/products/edumate', defaultLocale)} />
-      </Route>
-      
-      <Route path="/products/officebrain">
-        <Redirect to={linkTo('/products/officebrain', defaultLocale)} />
-      </Route>
-      
-      <Route path="/products/enterprise-llm">
-        <Redirect to={linkTo('/products/enterprise-llm', defaultLocale)} />
-      </Route>
-      
-      <Route path="/products/bayd-system">
-        <Redirect to={linkTo('/products/bayd-system', defaultLocale)} />
-      </Route>
-      
-      <Route path="/about">
-        <Redirect to={linkTo('/about', defaultLocale)} />
-      </Route>
-      
-      <Route path="/contact">
-        <Redirect to={linkTo('/contact', defaultLocale)} />
-      </Route>
-      
-      <Route path="/news">
-        <Redirect to={linkTo('/news', defaultLocale)} />
-      </Route>
-
-
       {/* Catch-all for invalid routes */}
       <Route component={NotFound} />
     </Switch>
