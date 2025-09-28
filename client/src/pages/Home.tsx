@@ -165,7 +165,7 @@ export default function Home() {
               {t('home:sections.vision.title')}
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-primary to-orange-600 mx-auto mb-8" />
-            <div className="max-w-4xl mx-auto mb-8">
+            <div className="max-w-4xl mx-auto mb-8 text-left">
               <p className="text-lg text-muted-foreground leading-relaxed mb-6">
                 {t('home:sections.vision.description') || "私たちは幅広い業界において、プロトタイプ作成から本格的なシステム開発まで、包括的なソリューションを提供しています。"}
               </p>
