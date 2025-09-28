@@ -3,7 +3,42 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
 import { z } from "zod";
-import { insertNewsSchema, insertNewsUpdateSchema, insertContactSchema } from "@shared/schema";
+import { insertNewsSchema, insertNewsUpdateSchema, insertContactSchema, adminUsers } from "@shared/schema";
+import { AuthService } from "./lib/auth";
+import { createInsertSchema } from "drizzle-zod";
+
+// Admin auth schemas
+const adminRegisterSchema = z.object({
+  username: z.string().min(3).max(30),
+  email: z.string().email(),
+  password: z.string().min(8)
+});
+
+const adminLoginSchema = z.object({
+  username: z.string().min(1),
+  password: z.string().min(1)
+});
+
+// Admin authentication middleware
+const isAdminAuthenticated = async (req: any, res: any, next: any) => {
+  try {
+    const adminUserId = req.session?.adminUserId;
+    if (!adminUserId) {
+      return res.status(401).json({ message: 'Admin authentication required' });
+    }
+    
+    const adminUser = await storage.getAdminUser(adminUserId);
+    if (!adminUser || !adminUser.isActive) {
+      return res.status(401).json({ message: 'Admin user not found or inactive' });
+    }
+    
+    req.adminUser = adminUser;
+    next();
+  } catch (error) {
+    console.error('Admin auth middleware error:', error);
+    res.status(500).json({ message: 'Authentication error' });
+  }
+};
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
@@ -18,6 +53,147 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching user:", error);
       res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
+
+  // Admin Auth Routes
+  app.post('/api/admin/auth/register', async (req, res) => {
+    try {
+      const userData = adminRegisterSchema.parse(req.body);
+      
+      // Normalize and validate inputs
+      const normalizedUsername = userData.username.trim().toLowerCase();
+      const normalizedEmail = userData.email.trim().toLowerCase();
+      
+      if (!AuthService.isValidUsername(normalizedUsername)) {
+        return res.status(400).json({ message: 'Invalid username format' });
+      }
+      
+      if (!AuthService.isValidEmail(normalizedEmail)) {
+        return res.status(400).json({ message: 'Invalid email format' });
+      }
+      
+      // Check if username or email already exists
+      const existingUsername = await storage.getAdminUserByUsername(normalizedUsername);
+      if (existingUsername) {
+        return res.status(409).json({ message: 'Username already exists' });
+      }
+      
+      const existingEmail = await storage.getAdminUserByEmail(normalizedEmail);
+      if (existingEmail) {
+        return res.status(409).json({ message: 'Email already exists' });
+      }
+      
+      // Validate password strength
+      const passwordValidation = AuthService.isValidPassword(userData.password);
+      if (!passwordValidation.valid) {
+        return res.status(400).json({ message: passwordValidation.message });
+      }
+      
+      // Hash password and create user with server-enforced defaults
+      const passwordHash = await AuthService.hashPassword(userData.password);
+      
+      const adminUser = await storage.createAdminUser({
+        username: normalizedUsername,
+        email: normalizedEmail,
+        passwordHash,
+        role: 'admin', // Server-enforced, cannot be overridden by client
+        isActive: true // Server-enforced, cannot be overridden by client
+      });
+      
+      // Create corresponding user record for CMS authoring
+      const cmsUser = await storage.upsertUser({
+        id: adminUser.id, // Use same ID to link admin and CMS user
+        email: normalizedEmail,
+        firstName: normalizedUsername,
+        lastName: 'Admin'
+      });
+      
+      // Create session with both admin and CMS user IDs
+      req.session.adminUserId = adminUser.id;
+      req.session.authorUserId = cmsUser.id;
+      
+      res.json(AuthService.sanitizeAdminUser(adminUser));
+    } catch (error) {
+      console.error('Admin registration error:', error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: 'Invalid data', errors: error.errors });
+      }
+      res.status(500).json({ message: 'Registration failed' });
+    }
+  });
+
+  app.post('/api/admin/auth/login', async (req, res) => {
+    try {
+      const { username, password } = adminLoginSchema.parse(req.body);
+      
+      // Normalize username to match registration
+      const normalizedUsername = username.trim().toLowerCase();
+      
+      // Find user by username
+      const adminUser = await storage.getAdminUserByUsername(normalizedUsername);
+      if (!adminUser) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+      
+      // Check if user is active
+      if (!adminUser.isActive) {
+        return res.status(401).json({ message: 'Account is deactivated' });
+      }
+      
+      // Verify password
+      const passwordValid = await AuthService.verifyPassword(password, adminUser.passwordHash);
+      if (!passwordValid) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+      
+      // Update last login time
+      await storage.updateAdminUserLoginTime(adminUser.id);
+      
+      // Create or update corresponding user record for CMS authoring
+      const cmsUser = await storage.upsertUser({
+        id: adminUser.id, // Use same ID to link admin and CMS user
+        email: adminUser.email,
+        firstName: adminUser.username,
+        lastName: 'Admin'
+      });
+      
+      // Create session with both admin and CMS user IDs
+      req.session.adminUserId = adminUser.id;
+      req.session.authorUserId = cmsUser.id;
+      
+      res.json(AuthService.sanitizeAdminUser(adminUser));
+    } catch (error) {
+      console.error('Admin login error:', error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: 'Invalid data', errors: error.errors });
+      }
+      res.status(500).json({ message: 'Login failed' });
+    }
+  });
+
+  app.post('/api/admin/auth/logout', isAdminAuthenticated, async (req: any, res) => {
+    try {
+      req.session.destroy((err: any) => {
+        if (err) {
+          console.error('Session destroy error:', err);
+          return res.status(500).json({ message: 'Logout failed' });
+        }
+        res.clearCookie('connect.sid');
+        res.json({ message: 'Logged out successfully' });
+      });
+    } catch (error) {
+      console.error('Admin logout error:', error);
+      res.status(500).json({ message: 'Logout failed' });
+    }
+  });
+
+  app.get('/api/admin/auth/me', isAdminAuthenticated, async (req: any, res) => {
+    try {
+      res.json(AuthService.sanitizeAdminUser(req.adminUser));
+    } catch (error) {
+      console.error('Admin me error:', error);
+      res.status(500).json({ message: 'Failed to fetch user info' });
     }
   });
 
@@ -52,7 +228,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Protected CMS Routes (Admin only)
 
   // News management
-  app.get('/api/admin/news', isAuthenticated, async (req, res) => {
+  app.get('/api/admin/news', isAdminAuthenticated, async (req, res) => {
     try {
       const news = await storage.getAllNews();
       res.json(news);
@@ -62,10 +238,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/admin/news', isAuthenticated, async (req: any, res) => {
+  app.post('/api/admin/news', isAdminAuthenticated, async (req: any, res) => {
     try {
       const newsData = insertNewsSchema.parse(req.body);
-      const authorId = req.user.claims.sub;
+      const authorId = req.session.authorUserId;
       const news = await storage.createNews({ ...newsData, authorId });
       res.json(news);
     } catch (error) {
@@ -77,7 +253,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put('/api/admin/news/:id', isAuthenticated, async (req: any, res) => {
+  app.put('/api/admin/news/:id', isAdminAuthenticated, async (req: any, res) => {
     try {
       const { id } = req.params;
       const newsData = insertNewsSchema.partial().parse(req.body);
@@ -95,7 +271,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete('/api/admin/news/:id', isAuthenticated, async (req, res) => {
+  app.delete('/api/admin/news/:id', isAdminAuthenticated, async (req, res) => {
     try {
       const { id } = req.params;
       await storage.deleteNews(id);
@@ -107,7 +283,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // News updates management
-  app.get('/api/admin/news/:newsId/updates', isAuthenticated, async (req, res) => {
+  app.get('/api/admin/news/:newsId/updates', isAdminAuthenticated, async (req, res) => {
     try {
       const { newsId } = req.params;
       const updates = await storage.getNewsUpdates(newsId);
@@ -118,11 +294,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/admin/news/:newsId/updates', isAuthenticated, async (req: any, res) => {
+  app.post('/api/admin/news/:newsId/updates', isAdminAuthenticated, async (req: any, res) => {
     try {
       const { newsId } = req.params;
       const updateData = insertNewsUpdateSchema.parse({ ...req.body, newsId });
-      const authorId = req.user.claims.sub;
+      const authorId = req.session.authorUserId;
       const update = await storage.createNewsUpdate({ ...updateData, authorId });
       res.json(update);
     } catch (error) {
@@ -134,7 +310,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put('/api/admin/news/updates/:id', isAuthenticated, async (req: any, res) => {
+  app.put('/api/admin/news/updates/:id', isAdminAuthenticated, async (req: any, res) => {
     try {
       const { id } = req.params;
       const updateData = insertNewsUpdateSchema.partial().parse(req.body);
@@ -152,7 +328,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete('/api/admin/news/updates/:id', isAuthenticated, async (req, res) => {
+  app.delete('/api/admin/news/updates/:id', isAdminAuthenticated, async (req, res) => {
     try {
       const { id } = req.params;
       await storage.deleteNewsUpdate(id);
@@ -164,7 +340,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Contact management
-  app.get('/api/admin/contacts', isAuthenticated, async (req, res) => {
+  app.get('/api/admin/contacts', isAdminAuthenticated, async (req, res) => {
     try {
       const contacts = await storage.getAllContacts();
       res.json(contacts);
@@ -174,7 +350,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put('/api/admin/contacts/:id/status', isAuthenticated, async (req, res) => {
+  app.put('/api/admin/contacts/:id/status', isAdminAuthenticated, async (req, res) => {
     try {
       const { id } = req.params;
       const { status } = req.body;

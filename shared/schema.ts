@@ -111,13 +111,14 @@ export const insertNewsSchema = createInsertSchema(news).pick({
 
 export const insertNewsUpdateSchema = createInsertSchema(newsUpdates).pick({
   content: true,
+  newsId: true,
 });
 
 export const insertContactSchema = createInsertSchema(contacts).pick({
   name: true,
   email: true,
-  phone: true,
   company: true,
+  inquiryType: true,
   message: true,
 });
 
