@@ -34,12 +34,22 @@
   },
   "team": {
     "title": "Đội Ngũ",
-    "description": "Chuyên gia giàu kinh nghiệm đang làm việc trong việc phát triển sản phẩm đổi mới.",
+    "description": "Đội ngũ chuyên gia giàu kinh nghiệm đang làm việc trong việc phát triển sản phẩm đổi mới.",
     "members": [
       {
         "name": "Shin Uchida",
         "role": "Nhà Sản Xuất Hệ Thống AI",
         "description": "Xây dựng mọi loại hệ thống với hơn 30 năm kinh nghiệm."
+      },
+      {
+        "name": "Michael Ito",
+        "role": "Kế Hoạch & Tư Vấn",
+        "description": "Đưa ra đề xuất từ lập kế hoạch hệ thống và ứng dụng đến vận hành."
+      },
+      {
+        "name": "John Kaneko",
+        "role": "Quản Lý Dự Án",
+        "description": "Người hướng dẫn dẫn dắt các dự án đến thành công."
       }
     ]
   },

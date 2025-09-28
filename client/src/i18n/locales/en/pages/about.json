@@ -34,12 +34,22 @@
   },
   "team": {
     "title": "Team",
-    "description": "An experienced expert working on innovative product development.",
+    "description": "Our expert team with rich experience working on innovative product development.",
     "members": [
       {
         "name": "Shin Uchida",
         "role": "AI System Producer",
         "description": "Builds all kinds of systems with over 30 years of experience."
+      },
+      {
+        "name": "Michael Ito",
+        "role": "Planning & Consultant",
+        "description": "Provides proposals from system and app planning to operation."
+      },
+      {
+        "name": "John Kaneko",
+        "role": "Project Manager",
+        "description": "A guide who leads projects to success."
       }
     ]
   },
