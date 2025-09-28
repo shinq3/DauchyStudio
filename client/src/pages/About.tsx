@@ -201,7 +201,7 @@ export default function About() {
                       <img
                         src={member.image}
                         alt={member.name}
-                        className="w-24 h-24 rounded-full mx-auto object-cover"
+                        className="w-36 h-36 rounded-full mx-auto object-cover"
                         data-testid={`img-team-member-${index}`}
                       />
                     </div>
