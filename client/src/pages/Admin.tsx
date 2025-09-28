@@ -5,8 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import NewsManager from "@/components/admin/NewsManager";
 import ContactManager from "@/components/admin/ContactManager";
+import UsersManager from "@/components/admin/UsersManager";
 import AdminLoginForm from "@/components/admin/AdminLoginForm";
-import { LogOut, Newspaper, MessageSquare, Home } from "lucide-react";
+import { LogOut, Newspaper, MessageSquare, Users, Home } from "lucide-react";
 import { Link } from "wouter";
 
 export default function Admin() {
@@ -42,13 +43,13 @@ export default function Admin() {
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center">
                   <span className="text-white font-medium">
-                    {user?.firstName?.charAt(0) || user?.username?.charAt(0) || 'A'}
+                    {user?.username?.charAt(0) || 'A'}
                   </span>
                 </div>
                 <div>
                   <CardTitle className="text-lg">CMS Admin Dashboard</CardTitle>
                   <p className="text-sm text-muted-foreground">
-                    Welcome, {user?.firstName || user?.username}
+                    Welcome, {user?.username}
                   </p>
                 </div>
               </div>
@@ -75,7 +76,7 @@ export default function Admin() {
 
         {/* Main Content */}
         <Tabs defaultValue="news" className="space-y-8">
-          <TabsList className="grid w-full grid-cols-2 lg:w-400">
+          <TabsList className={`grid w-full ${user?.role === 'superadmin' ? 'grid-cols-3' : 'grid-cols-2'} lg:w-600`}>
             <TabsTrigger value="news" data-testid="tab-news">
               <Newspaper className="w-4 h-4 mr-2" />
               News Management
@@ -84,6 +85,12 @@ export default function Admin() {
               <MessageSquare className="w-4 h-4 mr-2" />
               Contact Management
             </TabsTrigger>
+            {user?.role === 'superadmin' && (
+              <TabsTrigger value="users" data-testid="tab-users">
+                <Users className="w-4 h-4 mr-2" />
+                User Management
+              </TabsTrigger>
+            )}
           </TabsList>
 
           <TabsContent value="news">
@@ -93,6 +100,12 @@ export default function Admin() {
           <TabsContent value="contacts">
             <ContactManager />
           </TabsContent>
+
+          {user?.role === 'superadmin' && (
+            <TabsContent value="users">
+              <UsersManager />
+            </TabsContent>
+          )}
         </Tabs>
       </div>
     </div>

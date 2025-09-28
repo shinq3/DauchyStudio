@@ -3,16 +3,10 @@ import { queryClient, apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 
-// Admin user type based on our backend schema
-export interface AdminUser {
-  id: string;
-  username: string;
-  email: string;
-  firstName?: string;
-  lastName?: string;
-  isActive: boolean;
-  createdAt: string;
-}
+// Import admin user types from shared schema
+import type { adminUsers } from "@shared/schema";
+
+export type AdminUser = typeof adminUsers.$inferSelect;
 
 // Login form schema
 export const adminLoginSchema = z.object({
@@ -71,7 +65,7 @@ export function useAdminAuth() {
       queryClient.setQueryData(["/api/admin/auth/me"], user);
       toast({
         title: "Login Successful",
-        description: `Welcome back, ${user.firstName || user.username}!`,
+        description: `Welcome back, ${user.username}!`,
       });
     },
     onError: (error: any) => {
