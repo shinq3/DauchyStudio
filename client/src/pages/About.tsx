@@ -181,7 +181,7 @@ export default function About() {
               {t('team.title') || "チーム"}
             </h2>
             <div className="w-20 h-1 bg-gradient-to-r from-primary to-orange-600 mx-auto mb-8" />
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-left">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-center">
               {t('team.description') || "多様なバックグラウンドを持つ専門家チームが、革新的なプロダクト開発に取り組んでいます。"}
             </p>
           </motion.div>
@@ -254,7 +254,7 @@ export default function About() {
                     {t('history.milestones.1.title', { returnObjects: false }) || "2025年5月 - LingaLink リリース"}
                   </h3>
                   <p className="text-muted-foreground">
-                    {t('history.milestones.1.description', { returnObjects: false }) || "初のプロダクトとなるオンライン学習コーチングサービス「LingaLink」を正式リリース。"}
+                    {t('history.milestones.1.description', { returnObjects: false }) || "オンライン学習コーチングサービス「LingaLink」を正式リリース。"}
                   </p>
                 </div>
               </div>
