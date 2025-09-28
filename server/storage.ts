@@ -1,38 +1,175 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import { 
+  users, 
+  news, 
+  newsUpdates,
+  contacts,
+  uploads,
+  type User, 
+  type UpsertUser, 
+  type News, 
+  type InsertNews,
+  type NewsUpdate,
+  type InsertNewsUpdate,
+  type Contact,
+  type InsertContact,
+  type Upload,
+  type InsertUpload 
+} from "@shared/schema";
+import { eq, desc, like, or, and } from "drizzle-orm";
+import { db } from "./db";
 
 export interface IStorage {
+  // User operations - required for Replit Auth
   getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  upsertUser(user: UpsertUser): Promise<User>;
+  
+  // News operations
+  getNews(id: string): Promise<News | undefined>;
+  getAllNews(): Promise<News[]>;
+  getPublishedNews(): Promise<News[]>;
+  createNews(news: InsertNews & { authorId: string }): Promise<News>;
+  updateNews(id: string, news: Partial<InsertNews>): Promise<News | undefined>;
+  deleteNews(id: string): Promise<void>;
+  
+  // News updates operations
+  getNewsUpdates(newsId: string): Promise<NewsUpdate[]>;
+  createNewsUpdate(update: InsertNewsUpdate & { authorId: string }): Promise<NewsUpdate>;
+  updateNewsUpdate(id: string, update: Partial<InsertNewsUpdate>): Promise<NewsUpdate | undefined>;
+  deleteNewsUpdate(id: string): Promise<void>;
+  
+  // Contact operations
+  getContact(id: string): Promise<Contact | undefined>;
+  getAllContacts(): Promise<Contact[]>;
+  createContact(contact: InsertContact): Promise<Contact>;
+  updateContactStatus(id: string, status: string): Promise<Contact | undefined>;
+  
+  // Upload operations
+  getUpload(id: string): Promise<Upload | undefined>;
+  createUpload(upload: InsertUpload & { uploadedBy?: string }): Promise<Upload>;
+  deleteUpload(id: string): Promise<void>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-
-  constructor() {
-    this.users = new Map();
-  }
-
+export class DatabaseStorage implements IStorage {
+  // User operations - required for Replit Auth
   async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
-  }
-
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
     return user;
   }
+
+  async upsertUser(userData: UpsertUser): Promise<User> {
+    const [user] = await db
+      .insert(users)
+      .values(userData)
+      .onConflictDoUpdate({
+        target: users.id,
+        set: {
+          ...userData,
+          updatedAt: new Date(),
+        },
+      })
+      .returning();
+    return user;
+  }
+
+  // News operations
+  async getNews(id: string): Promise<News | undefined> {
+    const [newsItem] = await db.select().from(news).where(eq(news.id, id));
+    return newsItem;
+  }
+
+  async getAllNews(): Promise<News[]> {
+    return db.select().from(news).orderBy(desc(news.createdAt));
+  }
+
+  async getPublishedNews(): Promise<News[]> {
+    return db.select()
+      .from(news)
+      .where(eq(news.status, 'published'))
+      .orderBy(desc(news.publishedAt));
+  }
+
+  async createNews(newsData: InsertNews & { authorId: string }): Promise<News> {
+    const [newsItem] = await db.insert(news).values(newsData).returning();
+    return newsItem;
+  }
+
+  async updateNews(id: string, newsData: Partial<InsertNews>): Promise<News | undefined> {
+    const [newsItem] = await db
+      .update(news)
+      .set({ ...newsData, updatedAt: new Date() })
+      .where(eq(news.id, id))
+      .returning();
+    return newsItem;
+  }
+
+  async deleteNews(id: string): Promise<void> {
+    await db.delete(news).where(eq(news.id, id));
+  }
+
+  // News updates operations
+  async getNewsUpdates(newsId: string): Promise<NewsUpdate[]> {
+    return db.select()
+      .from(newsUpdates)
+      .where(eq(newsUpdates.newsId, newsId))
+      .orderBy(desc(newsUpdates.createdAt));
+  }
+
+  async createNewsUpdate(updateData: InsertNewsUpdate & { authorId: string }): Promise<NewsUpdate> {
+    const [update] = await db.insert(newsUpdates).values(updateData).returning();
+    return update;
+  }
+
+  async updateNewsUpdate(id: string, updateData: Partial<InsertNewsUpdate>): Promise<NewsUpdate | undefined> {
+    const [update] = await db
+      .update(newsUpdates)
+      .set({ ...updateData, updatedAt: new Date() })
+      .where(eq(newsUpdates.id, id))
+      .returning();
+    return update;
+  }
+
+  async deleteNewsUpdate(id: string): Promise<void> {
+    await db.delete(newsUpdates).where(eq(newsUpdates.id, id));
+  }
+
+  // Contact operations
+  async getContact(id: string): Promise<Contact | undefined> {
+    const [contact] = await db.select().from(contacts).where(eq(contacts.id, id));
+    return contact;
+  }
+
+  async getAllContacts(): Promise<Contact[]> {
+    return db.select().from(contacts).orderBy(desc(contacts.createdAt));
+  }
+
+  async createContact(contactData: InsertContact): Promise<Contact> {
+    const [contact] = await db.insert(contacts).values(contactData).returning();
+    return contact;
+  }
+
+  async updateContactStatus(id: string, status: string): Promise<Contact | undefined> {
+    const [contact] = await db
+      .update(contacts)
+      .set({ status, updatedAt: new Date() })
+      .where(eq(contacts.id, id))
+      .returning();
+    return contact;
+  }
+
+  // Upload operations
+  async getUpload(id: string): Promise<Upload | undefined> {
+    const [upload] = await db.select().from(uploads).where(eq(uploads.id, id));
+    return upload;
+  }
+
+  async createUpload(uploadData: InsertUpload & { uploadedBy?: string }): Promise<Upload> {
+    const [upload] = await db.insert(uploads).values(uploadData).returning();
+    return upload;
+  }
+
+  async deleteUpload(id: string): Promise<void> {
+    await db.delete(uploads).where(eq(uploads.id, id));
+  }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
