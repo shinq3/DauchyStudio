@@ -192,6 +192,19 @@ export default function Home() {
             </div>
           </motion.div>
 
+          {/* Achievements Cards Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center mb-12"
+          >
+            <h3 className="text-2xl font-semibold mb-8" data-testid="text-achievements-list-title">
+              実績一覧（抜粋）
+            </h3>
+          </motion.div>
+
           <motion.div
             variants={containerVariants}
             initial="hidden"
