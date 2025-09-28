@@ -200,9 +200,12 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="text-center mb-12"
           >
-            <h3 className="text-2xl font-semibold mb-8" data-testid="text-achievements-list-title">
-              実績一覧（抜粋）
-            </h3>
+            <div className="inline-block px-8 py-4 border-2 border-primary/20 rounded-lg bg-gradient-to-r from-primary/5 to-orange-600/5">
+              <h3 className="text-2xl font-semibold mb-2" data-testid="text-achievements-list-title">
+                実績一覧（抜粋）
+              </h3>
+              <div className="w-16 h-0.5 bg-gradient-to-r from-primary to-orange-600 mx-auto" />
+            </div>
           </motion.div>
 
           <motion.div
