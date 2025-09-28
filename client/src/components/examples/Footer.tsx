@@ -13,7 +13,7 @@ export default function FooterExample() {
       ]
     },
     {
-      title: "会社情報",
+      title: "組織情報",
       items: [
         { name: "私たちについて", href: "/about" },
         { name: "ニュース", href: "/news" },

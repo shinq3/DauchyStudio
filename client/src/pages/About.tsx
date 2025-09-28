@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Target, Users, Lightbulb, TrendingUp } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import teamCollaborationImage from '@assets/stock_images/team_collaboration_o_e582d717.jpg';
-import uchidaShinImage from '@assets/45dd2b2a-daa0-413c-9b50-18ba952cf12a_1759047618144.png';
+import uchidaShinImage from '@assets/shin_s_1759098530802.png';
 import michaelItoImage from '@assets/generated_images/Michael_Ito_portrait_illustration_012a5d45.png';
 import johnKanekoImage from '@assets/generated_images/John_Kaneko_portrait_illustration_92d03ae4.png';
 import { useTranslation } from "react-i18next";
@@ -17,11 +17,11 @@ export default function About() {
     // Set meta description
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', t('meta.description') || 'D\'achy.Studioの会社情報、ミッション、価値観、チーム、歩みについて紹介します。');
+      metaDescription.setAttribute('content', t('meta.description') || 'D\'achy.Studioの情報、ミッション、価値観、チーム、歩みについて紹介します。');
     } else {
       const meta = document.createElement('meta');
       meta.name = 'description';
-      meta.content = t('meta.description') || 'D\'achy.Studioの会社情報、ミッション、価値観、チーム、歩みについて紹介します。';
+      meta.content = t('meta.description') || 'D\'achy.Studioの情報、ミッション、価値観、チーム、歩みについて紹介します。';
       document.head.appendChild(meta);
     }
   }, [t]);
