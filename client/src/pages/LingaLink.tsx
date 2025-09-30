@@ -23,6 +23,7 @@ import heroImage from "@assets/image_1758941074318.png";
 import onlineLearningImage from '@assets/stock_images/online_learning_educ_92e4c234.jpg';
 import reserveImage from '@assets/reserve_1759271037984.png';
 import reviewImage from '@assets/review_1759271316548.png';
+import historyImage from '@assets/history_1759272285550.png';
 
 export default function LingaLink() {
   const { t } = useTranslation('lingalink');
@@ -223,7 +224,7 @@ export default function LingaLink() {
                   </div>
                   <div className="flex items-center justify-center">
                     <img 
-                      src={reviewImage}
+                      src={historyImage}
                       alt="LingaLink学習記録画面"
                       className="w-full max-w-sm rounded-lg shadow-lg"
                     />
@@ -232,22 +233,31 @@ export default function LingaLink() {
               </CardContent>
             </Card>
 
-            <Card className="hover-elevate">
-              <CardHeader>
-                <div className="flex items-center gap-3">
-                  <MessageSquare className="w-8 h-8 text-orange-500" />
-                  <CardTitle>{t('studentFeatures.collaboration.title')}</CardTitle>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
-                  <div className="flex items-start gap-3">
-                    <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">{t('studentFeatures.collaboration.description1')}</p>
+            <Card className="hover-elevate md:col-span-2">
+              <CardContent className="p-6">
+                <div className="grid lg:grid-cols-2 gap-6 items-start">
+                  <div>
+                    <div className="flex items-center gap-3 mb-4">
+                      <MessageSquare className="w-8 h-8 text-orange-500" />
+                      <h3 className="text-lg font-semibold">{t('studentFeatures.collaboration.title')}</h3>
+                    </div>
+                    <div className="space-y-3">
+                      <div className="flex items-start gap-3">
+                        <CheckCircle className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                        <p className="text-gray-700">{t('studentFeatures.collaboration.description1')}</p>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <Users className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
+                        <p className="text-gray-700">{t('studentFeatures.collaboration.description2')}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Users className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
-                    <p className="text-gray-700">{t('studentFeatures.collaboration.description2')}</p>
+                  <div className="flex items-center justify-center">
+                    <img 
+                      src={reviewImage}
+                      alt="LingaLink共同作業ツール画面"
+                      className="w-full max-w-sm rounded-lg shadow-lg"
+                    />
                   </div>
                 </div>
               </CardContent>
