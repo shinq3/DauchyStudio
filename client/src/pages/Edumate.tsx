@@ -290,34 +290,52 @@ export default function Edumate() {
               <motion.div key={index} variants={itemVariants}>
                 <Card className="hover-elevate">
                   <CardContent className="p-6">
-                    <div className="grid lg:grid-cols-3 gap-6 items-start">
-                      <div className="lg:col-span-1">
-                        <div className="flex items-center gap-3 mb-4">
-                          {feature.icon}
-                          <h3 className="text-lg font-semibold">{feature.title}</h3>
-                        </div>
-                        <p className="text-gray-600 mb-4">{feature.description}</p>
-                      </div>
-                      <div className="lg:col-span-2">
-                        <div className="grid sm:grid-cols-2 gap-3">
-                          {(feature.details as string[]).map((detail: string, detailIndex: number) => (
-                            <div key={detailIndex} className="flex items-start gap-2">
-                              <CheckCircle className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
-                              <span className="text-sm text-gray-700">{detail}</span>
-                            </div>
-                          ))}
-                        </div>
-                        {index === 1 && (
-                          <div className="mt-6">
-                            <img 
-                              src={edumateEnterResultImage} 
-                              alt="AIによる要点カード変換結果" 
-                              className="w-full rounded-lg shadow-lg"
-                            />
+                    {index === 1 ? (
+                      <div className="grid lg:grid-cols-2 gap-6 items-start">
+                        <div>
+                          <div className="flex items-center gap-3 mb-4">
+                            {feature.icon}
+                            <h3 className="text-lg font-semibold">{feature.title}</h3>
                           </div>
-                        )}
+                          <p className="text-gray-600 mb-4">{feature.description}</p>
+                          <div className="grid gap-3">
+                            {(feature.details as string[]).map((detail: string, detailIndex: number) => (
+                              <div key={detailIndex} className="flex items-start gap-2">
+                                <CheckCircle className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                                <span className="text-sm text-gray-700">{detail}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="flex items-center justify-center">
+                          <img 
+                            src={edumateEnterResultImage} 
+                            alt="AIによる要点カード変換結果" 
+                            className="w-full max-w-sm rounded-lg shadow-lg"
+                          />
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="grid lg:grid-cols-3 gap-6 items-start">
+                        <div className="lg:col-span-1">
+                          <div className="flex items-center gap-3 mb-4">
+                            {feature.icon}
+                            <h3 className="text-lg font-semibold">{feature.title}</h3>
+                          </div>
+                          <p className="text-gray-600 mb-4">{feature.description}</p>
+                        </div>
+                        <div className="lg:col-span-2">
+                          <div className="grid sm:grid-cols-2 gap-3">
+                            {(feature.details as string[]).map((detail: string, detailIndex: number) => (
+                              <div key={detailIndex} className="flex items-start gap-2">
+                                <CheckCircle className="w-4 h-4 text-green-500 mt-1 flex-shrink-0" />
+                                <span className="text-sm text-gray-700">{detail}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </motion.div>
