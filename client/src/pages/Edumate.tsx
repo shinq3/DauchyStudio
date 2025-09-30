@@ -30,6 +30,7 @@ import {
 import studentsStudyingImage from '@assets/stock_images/students_studying_to_59088470.jpg';
 import edumateEnterFlowImage from '@assets/Edumente_enter_flow_1759236054934.png';
 import edumateTopImage from '@assets/eduMate_top_1759236301458.png';
+import edumateEnterResultImage from '@assets/Edumente_enter_result_1759236794018.png';
 
 export default function Edumate() {
   const { t } = useTranslation('edumate');
@@ -306,6 +307,15 @@ export default function Edumate() {
                             </div>
                           ))}
                         </div>
+                        {index === 1 && (
+                          <div className="mt-6">
+                            <img 
+                              src={edumateEnterResultImage} 
+                              alt="AIによる要点カード変換結果" 
+                              className="w-full rounded-lg shadow-lg"
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
                   </CardContent>
