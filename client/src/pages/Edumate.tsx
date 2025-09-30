@@ -263,21 +263,6 @@ export default function Edumate() {
               </motion.div>
             ))}
           </div>
-          
-          <div className="mt-8 text-center">
-            <Card className="bg-gray-50 inline-block max-w-4xl mx-auto">
-              <CardContent className="p-6">
-                <p className="text-sm text-gray-600 mb-4">
-                  {t('howToUse.uiExample')}
-                </p>
-                <img 
-                  src={edumateEnterFlowImage} 
-                  alt="EduMate学習内容入力フロー" 
-                  className="w-full rounded-lg shadow-lg"
-                />
-              </CardContent>
-            </Card>
-          </div>
         </motion.div>
 
         {/* Main Features Section */}
