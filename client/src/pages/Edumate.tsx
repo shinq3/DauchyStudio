@@ -163,39 +163,20 @@ export default function Edumate() {
         animate="visible"
       >
         {/* Hero Section */}
-        <motion.div className="mb-16" variants={itemVariants}>
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-            <div className="text-center lg:text-left">
-              <Badge className="mb-4 bg-orange-100 text-orange-700 border-orange-200" data-testid="badge-product">
-                {t('badge')}
-              </Badge>
-              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6" data-testid="text-title">
-                Edumate
-              </h1>
-              <div className="mb-8">
-                <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800 mb-4">
-                  {t('subtitle')}
-                </h2>
-                <p className="text-xl text-gray-600 leading-relaxed" data-testid="text-description">
-                  {t('description')}
-                </p>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                {/* <Button size="lg" className="bg-orange-500 hover:bg-orange-600" data-testid="button-free-trial">
-                  無料で使ってみる
-                </Button>
-                <Button size="lg" variant="outline" data-testid="button-demo">
-                  デモを見る
-                </Button> */}
-              </div>
-            </div>
-            <div className="flex justify-center lg:justify-end">
-              <img 
-                src={edumateTopImage} 
-                alt="EduMate - 勉強と友情を両立する学習アプリ" 
-                className="w-full max-w-lg rounded-lg shadow-xl"
-              />
-            </div>
+        <motion.div className="text-center mb-16" variants={itemVariants}>
+          <Badge className="mb-4 bg-orange-100 text-orange-700 border-orange-200" data-testid="badge-product">
+            学習継続支援プラットフォーム
+          </Badge>
+          <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6" data-testid="text-title">
+            Edumate
+          </h1>
+          <div className="mb-8">
+            <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800 mb-4">
+              勉強も、友達も、大切にできる。
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-testid="text-description">
+              ふたりで学んで、ちゃんと続く。保護者にも見える安心設計。
+            </p>
           </div>
         </motion.div>
 
