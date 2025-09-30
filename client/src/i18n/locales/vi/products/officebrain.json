@@ -17,7 +17,7 @@
   },
   "whatIs": {
     "title": "Office Brain là gì?",
-    "description": "\\\"Office Brain\\\" là nền tảng tích hợp để các công ty sử dụng AI thuận tiện và an toàn hơn trong doanh nghiệp. Nó tập hợp các chức năng mà doanh nghiệp cần vào một hệ thống, bao gồm chat đa AI engine, tìm kiếm ngữ nghĩa tài liệu nội bộ, quản lý tệp an toàn và chia sẻ thông tin với quy trình phê duyệt.",
+    "description": "Office Brain là nền tảng tích hợp để các công ty sử dụng AI thuận tiện và an toàn hơn trong doanh nghiệp. Nó tập hợp các chức năng mà doanh nghiệp cần vào một hệ thống, bao gồm chat đa AI engine, tìm kiếm ngữ nghĩa tài liệu nội bộ, quản lý tệp an toàn và chia sẻ thông tin với quy trình phê duyệt.",
     "note": "💡 Thực hiện hiệu quả kinh doanh được hỗ trợ bởi AI trong khi duy trì bảo mật và quản lý"
   },
   "benefits": {
@@ -89,7 +89,7 @@
       },
       {
         "title": "Tìm Kiếm Ngữ Nghĩa AI (RAG)",
-        "description": "Tìm kiếm tài liệu theo \\\"ý nghĩa\\\" thay vì từ khóa. Tìm kiếm nâng cao hiển thị tài liệu tham khảo cùng.",
+        "description": "Tìm kiếm tài liệu theo ý nghĩa thay vì từ khóa. Tìm kiếm nâng cao hiển thị tài liệu tham khảo cùng.",
         "details": [
           "Tìm kiếm thông minh dựa trên ý nghĩa",
           "Hiển thị tự động tài liệu liên quan",
@@ -188,7 +188,7 @@
     ]
   },
   "cta": {
-    "title": "Sẵn sàng phát triển \\\"bộ não\\\" công ty?",
+    "title": "Sẵn sàng phát triển bộ não công ty?",
     "description": "Trải nghiệm cách làm việc mới với AI thông qua Office Brain. Nền tảng AI doanh nghiệp mang lại cả bảo mật và hiệu quả vận hành.",
     "buttons": {
       "contact": "Liên Hệ",

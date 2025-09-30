@@ -17,7 +17,7 @@
   },
   "whatIs": {
     "title": "What is Office Brain?",
-    "description": "\\\"Office Brain\\\" is an integrated platform for companies to use AI more conveniently and safely within the enterprise. It consolidates functions that enterprises need into one system, including multi-AI engine chat, semantic search of internal documents, secure file management, and information sharing with approval workflows.",
+    "description": "Office Brain is an integrated platform for companies to use AI more conveniently and safely within the enterprise. It consolidates functions that enterprises need into one system, including multi-AI engine chat, semantic search of internal documents, secure file management, and information sharing with approval workflows.",
     "note": "💡 Realizing AI-powered business efficiency while maintaining security and governance"
   },
   "benefits": {
@@ -89,7 +89,7 @@
       },
       {
         "title": "AI Semantic Search (RAG)",
-        "description": "Search documents by \\\"meaning\\\" rather than keywords. Advanced search that displays reference materials together.",
+        "description": "Search documents by meaning rather than keywords. Advanced search that displays reference materials together.",
         "details": [
           "Meaning-based intelligent search",
           "Automatic display of related materials",
@@ -188,7 +188,7 @@
     ]
   },
   "cta": {
-    "title": "Ready to evolve your company's \\\"brain\\\"?",
+    "title": "Ready to evolve your company's brain?",
     "description": "Experience new ways of working with AI through Office Brain. An enterprise AI platform that delivers both security and operational efficiency.",
     "buttons": {
       "contact": "Contact Us",

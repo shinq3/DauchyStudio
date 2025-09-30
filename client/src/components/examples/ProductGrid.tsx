@@ -9,7 +9,7 @@ export default function ProductGridExample() {
     {
       id: "lingalink",
       name: "LingaLink",
-      description: "オンラインレッスンでAIが自動レビューを行うコーチングサービス。パーソナライズされた学習体験を提供します。",
+      description: "オンラインレッスンでAIが自動レビューを行うコーチングサービス。\nパーソナライズされた学習体験を提供します。",
       image: lingaLinkImage,
       status: "released" as const,
       tags: ["教育", "AI", "オンライン学習"],
@@ -18,7 +18,7 @@ export default function ProductGridExample() {
     {
       id: "edumate",
       name: "EduMate",
-      description: "友達と一緒に授業の復習や共同勉強を進めて、親へのレポートも作成できるサービスです。",
+      description: "友達と一緒に授業の復習を共同で勉強を進めて、親へのレポートも作成できるサービスです。",
       image: eduMateImage,
       status: "beta" as const,
       tags: ["教育", "協働学習", "レポート"],

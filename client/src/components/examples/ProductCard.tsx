@@ -7,7 +7,7 @@ export default function ProductCardExample() {
       <ProductCard
         id="lingalink"
         name="LingaLink"
-        description="オンラインレッスンでAIが自動レビューを行うコーチングサービス。パーソナライズされた学習体験を提供します。"
+        description="オンラインレッスンでAIが自動レビューを行うコーチングサービス。\nパーソナライズされた学習体験を提供します。"
         image={lingaLinkImage}
         status="released"
         tags={["教育", "AI", "オンライン学習"]}
