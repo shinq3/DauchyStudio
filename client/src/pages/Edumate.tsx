@@ -133,11 +133,11 @@ export default function Edumate() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
-            src={edumateTopImage}
-            alt="EduMate - 勉強と友情を両立する学習アプリ"
+            src={studentsStudyingImage}
+            alt="Students studying together background"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/20 to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-primary/20"></div>
         </div>
         
         {/* Content */}
@@ -163,28 +163,39 @@ export default function Edumate() {
         animate="visible"
       >
         {/* Hero Section */}
-        <motion.div className="text-center mb-16" variants={itemVariants}>
-          <Badge className="mb-4 bg-orange-100 text-orange-700 border-orange-200" data-testid="badge-product">
-            {t('badge')}
-          </Badge>
-          <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6" data-testid="text-title">
-            Edumate
-          </h1>
-          <div className="mb-8">
-            <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800 mb-4">
-              {t('subtitle')}
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-testid="text-description">
-              {t('description')}
-            </p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {/* <Button size="lg" className="bg-orange-500 hover:bg-orange-600" data-testid="button-free-trial">
-              無料で使ってみる
-            </Button>
-            <Button size="lg" variant="outline" data-testid="button-demo">
-              デモを見る
-            </Button> */}
+        <motion.div className="mb-16" variants={itemVariants}>
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <div className="text-center lg:text-left">
+              <Badge className="mb-4 bg-orange-100 text-orange-700 border-orange-200" data-testid="badge-product">
+                {t('badge')}
+              </Badge>
+              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6" data-testid="text-title">
+                Edumate
+              </h1>
+              <div className="mb-8">
+                <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800 mb-4">
+                  {t('subtitle')}
+                </h2>
+                <p className="text-xl text-gray-600 leading-relaxed" data-testid="text-description">
+                  {t('description')}
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                {/* <Button size="lg" className="bg-orange-500 hover:bg-orange-600" data-testid="button-free-trial">
+                  無料で使ってみる
+                </Button>
+                <Button size="lg" variant="outline" data-testid="button-demo">
+                  デモを見る
+                </Button> */}
+              </div>
+            </div>
+            <div className="flex justify-center lg:justify-end">
+              <img 
+                src={edumateTopImage} 
+                alt="EduMate - 勉強と友情を両立する学習アプリ" 
+                className="w-full max-w-lg rounded-lg shadow-xl"
+              />
+            </div>
           </div>
         </motion.div>
 
