@@ -162,42 +162,51 @@ export default function Edumate() {
         initial="hidden"
         animate="visible"
       >
-        {/* Hero Section */}
-        <motion.div className="text-center mb-16" variants={itemVariants}>
-          <Badge className="mb-4 bg-orange-100 text-orange-700 border-orange-200" data-testid="badge-product">
-            学習継続支援プラットフォーム
-          </Badge>
-          <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6" data-testid="text-title">
-            Edumate
-          </h1>
-          <div className="mb-8">
-            <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800 mb-4">
-              勉強も、友達も、大切にできる。
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" data-testid="text-description">
-              ふたりで学んで、ちゃんと続く。保護者にも見える安心設計。
-            </p>
-          </div>
-        </motion.div>
-
-        {/* What is Edumate Section */}
+        {/* Hero Section with What is Edumate */}
         <motion.div className="mb-16" variants={itemVariants}>
-          <Card className="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
-            <CardContent className="p-8 lg:p-12">
-              <div className="flex items-center gap-4 mb-6">
-                <Users className="w-12 h-12" />
-                <h2 className="text-2xl lg:text-3xl font-bold">{t('whatIsEdumate.title')}</h2>
-              </div>
-              <p className="text-lg leading-relaxed mb-6 text-orange-100">
-                {t('whatIsEdumate.description')}
-              </p>
-              <div className="bg-orange-400/20 rounded-lg p-4">
-                <p className="text-orange-100">
-                  {t('whatIsEdumate.note')}
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <Badge className="mb-4 bg-orange-100 text-orange-700 border-orange-200" data-testid="badge-product">
+                学習継続支援プラットフォーム
+              </Badge>
+              <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6" data-testid="text-title">
+                Edumate
+              </h1>
+              <div className="mb-8">
+                <h2 className="text-2xl lg:text-3xl font-semibold text-gray-800 mb-4">
+                  勉強も、友達も、大切にできる。
+                </h2>
+                <p className="text-xl text-gray-600 leading-relaxed mb-8" data-testid="text-description">
+                  ふたりで学んで、ちゃんと続く。保護者にも見える安心設計。
                 </p>
               </div>
-            </CardContent>
-          </Card>
+
+              <Card className="bg-gradient-to-r from-orange-500 to-orange-600 text-white">
+                <CardContent className="p-6 lg:p-8">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Users className="w-10 h-10" />
+                    <h2 className="text-xl lg:text-2xl font-bold">Edumateとは？</h2>
+                  </div>
+                  <p className="text-base leading-relaxed mb-4 text-orange-100">
+                    中高生のペア（例：あなたと友達）が今日の学びをAIで"要点カード"に自動変換。翌日のワンポイント復習と、ふたりだけの共有＆リアクションで学習を"続けやすく"します。
+                  </p>
+                  <div className="bg-orange-400/20 rounded-lg p-3">
+                    <p className="text-sm text-orange-100">
+                      保護者向けに"学習時間・復習達成率・継続日数"だけを見られる"ママログイン"を用意。やり取りの中身は見えません。
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+            
+            <div className="flex justify-center lg:justify-end">
+              <img 
+                src={edumateTopImage} 
+                alt="EduMate - 勉強と友情を両立する学習アプリ" 
+                className="w-full max-w-lg rounded-lg shadow-xl"
+              />
+            </div>
+          </div>
         </motion.div>
 
         {/* Target Users Section */}
