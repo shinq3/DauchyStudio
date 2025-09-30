@@ -31,6 +31,7 @@ import studentsStudyingImage from '@assets/stock_images/students_studying_to_590
 import edumateEnterFlowImage from '@assets/Edumente_enter_flow_1759236054934.png';
 import edumateTopImage from '@assets/eduMate_top_1759236301458.png';
 import edumateEnterResultImage from '@assets/Edumente_enter_result_1759236794018.png';
+import remindImage from '@assets/remind_1759237406830.png';
 
 export default function Edumate() {
   const { t } = useTranslation('edumate');
@@ -275,7 +276,7 @@ export default function Edumate() {
               <motion.div key={index} variants={itemVariants}>
                 <Card className="hover-elevate">
                   <CardContent className="p-6">
-                    {(index === 0 || index === 1) ? (
+                    {(index === 0 || index === 1 || index === 2) ? (
                       <div className="grid lg:grid-cols-2 gap-6 items-start">
                         <div>
                           <div className="flex items-center gap-3 mb-4">
@@ -294,8 +295,8 @@ export default function Edumate() {
                         </div>
                         <div className="flex items-center justify-center">
                           <img 
-                            src={index === 0 ? edumateEnterFlowImage : edumateEnterResultImage}
-                            alt={index === 0 ? "EduMate学習内容入力フロー" : "AIによる要点カード変換結果"}
+                            src={index === 0 ? edumateEnterFlowImage : (index === 1 ? edumateEnterResultImage : remindImage)}
+                            alt={index === 0 ? "EduMate学習内容入力フロー" : (index === 1 ? "AIによる要点カード変換結果" : "翌日リマインド機能")}
                             className={index === 0 ? "rounded-lg shadow-lg" : "w-full max-w-sm rounded-lg shadow-lg"}
                             style={index === 0 ? { height: '140px' } : undefined}
                           />
