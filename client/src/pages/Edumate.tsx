@@ -296,7 +296,8 @@ export default function Edumate() {
                           <img 
                             src={index === 0 ? edumateEnterFlowImage : edumateEnterResultImage}
                             alt={index === 0 ? "EduMate学習内容入力フロー" : "AIによる要点カード変換結果"}
-                            className="w-full max-w-sm rounded-lg shadow-lg"
+                            className={index === 0 ? "rounded-lg shadow-lg" : "w-full max-w-sm rounded-lg shadow-lg"}
+                            style={index === 0 ? { height: '140px' } : undefined}
                           />
                         </div>
                       </div>
