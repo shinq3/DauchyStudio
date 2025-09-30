@@ -290,7 +290,7 @@ export default function Edumate() {
               <motion.div key={index} variants={itemVariants}>
                 <Card className="hover-elevate">
                   <CardContent className="p-6">
-                    {index === 1 ? (
+                    {(index === 0 || index === 1) ? (
                       <div className="grid lg:grid-cols-2 gap-6 items-start">
                         <div>
                           <div className="flex items-center gap-3 mb-4">
@@ -309,8 +309,8 @@ export default function Edumate() {
                         </div>
                         <div className="flex items-center justify-center">
                           <img 
-                            src={edumateEnterResultImage} 
-                            alt="AIによる要点カード変換結果" 
+                            src={index === 0 ? edumateEnterFlowImage : edumateEnterResultImage}
+                            alt={index === 0 ? "EduMate学習内容入力フロー" : "AIによる要点カード変換結果"}
                             className="w-full max-w-sm rounded-lg shadow-lg"
                           />
                         </div>
