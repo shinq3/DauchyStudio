@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import studentsStudyingImage from '@assets/stock_images/students_studying_to_59088470.jpg';
 import edumateEnterFlowImage from '@assets/Edumente_enter_flow_1759236054934.png';
+import edumateTopImage from '@assets/eduMate_top_1759236301458.png';
 
 export default function Edumate() {
   const { t } = useTranslation('edumate');
@@ -132,11 +133,11 @@ export default function Edumate() {
         {/* Background Image */}
         <div className="absolute inset-0">
           <img
-            src={studentsStudyingImage}
-            alt="Students studying together background"
+            src={edumateTopImage}
+            alt="EduMate - 勉強と友情を両立する学習アプリ"
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-primary/20"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-black/30 via-black/20 to-transparent"></div>
         </div>
         
         {/* Content */}
