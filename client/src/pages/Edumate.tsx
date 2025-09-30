@@ -33,6 +33,7 @@ import edumateTopImage from '@assets/eduMate_top_1759236301458.png';
 import edumateEnterResultImage from '@assets/Edumente_enter_result_1759236794018.png';
 import remindImage from '@assets/remind_1759237406830.png';
 import shareImage from '@assets/共有_1759239992867.png';
+import progressImage from '@assets/EduMate_Progress_1759241303889.png';
 
 export default function Edumate() {
   const { t } = useTranslation('edumate');
@@ -277,7 +278,7 @@ export default function Edumate() {
               <motion.div key={index} variants={itemVariants}>
                 <Card className="hover-elevate">
                   <CardContent className="p-6">
-                    {(index === 0 || index === 1 || index === 2 || index === 3) ? (
+                    {(index === 0 || index === 1 || index === 2 || index === 3 || index === 4) ? (
                       <div className="grid lg:grid-cols-2 gap-6 items-start">
                         <div>
                           <div className="flex items-center gap-3 mb-4">
@@ -296,8 +297,20 @@ export default function Edumate() {
                         </div>
                         <div className="flex items-center justify-center">
                           <img 
-                            src={index === 0 ? edumateEnterFlowImage : (index === 1 ? edumateEnterResultImage : (index === 2 ? remindImage : shareImage))}
-                            alt={index === 0 ? "EduMate学習内容入力フロー" : (index === 1 ? "AIによる要点カード変換結果" : (index === 2 ? "翌日リマインド機能" : "共有された学習内容"))}
+                            src={
+                              index === 0 ? edumateEnterFlowImage : 
+                              index === 1 ? edumateEnterResultImage : 
+                              index === 2 ? remindImage : 
+                              index === 3 ? shareImage : 
+                              progressImage
+                            }
+                            alt={
+                              index === 0 ? "EduMate学習内容入力フロー" : 
+                              index === 1 ? "AIによる要点カード変換結果" : 
+                              index === 2 ? "翌日リマインド機能" : 
+                              index === 3 ? "共有された学習内容" : 
+                              "学習の進捗状況"
+                            }
                             className={index === 0 ? "rounded-lg shadow-lg" : "w-full max-w-sm rounded-lg shadow-lg"}
                             style={index === 0 ? { height: '140px' } : undefined}
                           />
