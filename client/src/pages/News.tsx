@@ -13,7 +13,7 @@ import {
   ArrowRight,
   Tag
 } from "lucide-react";
-import newsroomImage from '@assets/stock_images/modern_newsroom_with_a0f99684.jpg';
+import newsroomImage from '@assets/stock_images/business_technology_ac90df27.jpg';
 
 const containerVariants = {
   hidden: { opacity: 0 },

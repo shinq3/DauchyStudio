@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
-import customerServiceImage from "@assets/stock_images/professional_custome_9f6415d1.jpg";
+import customerServiceImage from "@assets/stock_images/team_collaboration_o_e582d717.jpg";
 
 export default function Contact() {
   const { t } = useTranslation('contact');
