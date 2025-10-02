@@ -20,7 +20,7 @@ import {
   CheckCircle,
   Sparkles
 } from "lucide-react";
-import aiHeroImage from '@assets/stock_images/friendly_team_collab_2042da55.jpg';
+import aiHeroImage from '@assets/stock_images/smiling_business_pro_f482d48c.jpg';
 
 export default function AIProposal() {
   const { t } = useTranslation('ai-proposal');
