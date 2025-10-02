@@ -20,6 +20,7 @@ import {
   CheckCircle,
   Sparkles
 } from "lucide-react";
+import aiHeroImage from '@assets/stock_images/friendly_team_collab_2042da55.jpg';
 
 export default function AIProposal() {
   const { t } = useTranslation('ai-proposal');
@@ -73,9 +74,20 @@ export default function AIProposal() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-white">
-      {/* Hero Section */}
-      <section className="py-16 lg:py-24 bg-gradient-to-br from-orange-500 to-orange-600">
-        <div className="container mx-auto px-4 text-center">
+      {/* Hero Section with Background Image */}
+      <section className="py-16 lg:py-24 relative">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <img
+            src={aiHeroImage}
+            alt="AI collaboration background"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-primary/20"></div>
+        </div>
+        
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-4 text-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
