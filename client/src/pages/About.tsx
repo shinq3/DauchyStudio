@@ -3,7 +3,7 @@ import { Target, Users, Lightbulb, TrendingUp } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import teamCollaborationImage from '@assets/stock_images/team_collaboration_o_e582d717.jpg';
 import uchidaShinImage from '@assets/shin_s_1759098530802.png';
-import michaelItoImage from '@assets/generated_images/Michael_Ito_portrait_illustration_012a5d45.png';
+import michaelItoImage from '@assets/michael_ito_gaijin_1759376666630.png';
 import johnKanekoImage from '@assets/generated_images/John_Kaneko_portrait_illustration_92d03ae4.png';
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
