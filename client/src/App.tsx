@@ -18,6 +18,7 @@ import LingaLink from "@/pages/LingaLink";
 import Edumate from "@/pages/Edumate";
 import OfficeBrain from "@/pages/OfficeBrain";
 import EnterpriseLLM from "@/pages/EnterpriseLLM";
+import AIProposal from "@/pages/AIProposal";
 import Admin from "@/pages/Admin";
 import { Github, Twitter, Linkedin, Mail } from "lucide-react";
 import { extractLocaleFromPath, linkTo, useLocale } from "@/lib/i18n-utils";
@@ -83,6 +84,10 @@ function Router() {
       
       <Route path="/news">
         <Redirect to={linkTo('/news', defaultLocale)} />
+      </Route>
+      
+      <Route path="/ai-proposal">
+        <Redirect to={linkTo('/ai-proposal', defaultLocale)} />
       </Route>
       
       {/* Root redirect to default locale */}
@@ -154,6 +159,13 @@ function Router() {
         {(params) => {
           if (!isValidLocale(params.locale)) return <NotFound />;
           return <News />;
+        }}
+      </Route>
+      
+      <Route path="/:locale/ai-proposal">
+        {(params) => {
+          if (!isValidLocale(params.locale)) return <NotFound />;
+          return <AIProposal />;
         }}
       </Route>
       
