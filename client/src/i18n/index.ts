@@ -19,6 +19,7 @@ import jaOfficeBrain from './locales/ja/products/officebrain.json';
 import jaEnterpriseLLM from './locales/ja/products/enterprise-llm.json';
 import jaBaydSystem from './locales/ja/products/bayd-system.json';
 import jaAdmin from './locales/ja/admin.json';
+import jaAIProposal from './locales/ja/pages/ai-proposal.json';
 
 import enCommon from './locales/en/common.json';
 import enHeader from './locales/en/header.json';
@@ -34,6 +35,7 @@ import enOfficeBrain from './locales/en/products/officebrain.json';
 import enEnterpriseLLM from './locales/en/products/enterprise-llm.json';
 import enBaydSystem from './locales/en/products/bayd-system.json';
 import enAdmin from './locales/en/admin.json';
+import enAIProposal from './locales/en/pages/ai-proposal.json';
 
 import viCommon from './locales/vi/common.json';
 import viHeader from './locales/vi/header.json';
@@ -49,6 +51,7 @@ import viOfficeBrain from './locales/vi/products/officebrain.json';
 import viEnterpriseLLM from './locales/vi/products/enterprise-llm.json';
 import viBaydSystem from './locales/vi/products/bayd-system.json';
 import viAdmin from './locales/vi/admin.json';
+import viAIProposal from './locales/vi/pages/ai-proposal.json';
 
 const resources = {
   ja: {
@@ -66,6 +69,7 @@ const resources = {
     'enterprise-llm': jaEnterpriseLLM,
     'bayd-system': jaBaydSystem,
     admin: jaAdmin,
+    'ai-proposal': jaAIProposal,
   },
   en: {
     common: enCommon,
@@ -82,6 +86,7 @@ const resources = {
     'enterprise-llm': enEnterpriseLLM,
     'bayd-system': enBaydSystem,
     admin: enAdmin,
+    'ai-proposal': enAIProposal,
   },
   vi: {
     common: viCommon,
@@ -98,6 +103,7 @@ const resources = {
     'enterprise-llm': viEnterpriseLLM,
     'bayd-system': viBaydSystem,
     admin: viAdmin,
+    'ai-proposal': viAIProposal,
   },
 };
 
@@ -120,7 +126,7 @@ i18n
     
     // Namespace configuration
     defaultNS: 'common',
-    ns: ['common', 'header', 'footer', 'home', 'about', 'products', 'contact', 'news', 'lingalink', 'edumate', 'officebrain', 'enterprise-llm', 'bayd-system', 'admin'],
+    ns: ['common', 'header', 'footer', 'home', 'about', 'products', 'contact', 'news', 'lingalink', 'edumate', 'officebrain', 'enterprise-llm', 'bayd-system', 'admin', 'ai-proposal'],
     
     interpolation: {
       escapeValue: false, // React already escapes values
