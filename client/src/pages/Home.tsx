@@ -176,7 +176,7 @@ export default function Home() {
               <Button 
                 variant="outline" 
                 size="lg"
-                className="bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20"
+                className="bg-white/10 backdrop-blur-sm border-white/30 text-white"
                 data-testid="button-ai-pair-coding"
               >
                 {t('home:sections.aiPairCoding.button')}
