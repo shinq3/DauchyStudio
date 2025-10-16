@@ -148,6 +148,12 @@ export default function Home() {
         }}
       />
       
+      <ProductGrid
+        title={t('home:sections.products.subtitle')}
+        products={featuredProducts}
+        ctaHref={linkTo("/products", locale)}
+      />
+      
       {/* AI Pair Coding Banner */}
       <section className="py-8 bg-gradient-to-r from-orange-500 to-orange-600">
         <div className="container mx-auto px-4">
@@ -186,12 +192,6 @@ export default function Home() {
           </Link>
         </div>
       </section>
-      
-      <ProductGrid
-        title={t('home:sections.products.subtitle')}
-        products={featuredProducts}
-        ctaHref={linkTo("/products", locale)}
-      />
       
       {/* Development Achievements Section */}
       <section className="py-16 lg:py-24 bg-white dark:bg-gray-900">
