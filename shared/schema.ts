@@ -190,6 +190,97 @@ export const uploads = pgTable("uploads", {
   createdAt: timestamp("created_at").defaultNow()
 });
 
+// Admin Sessions table for custom authentication
+export const adminSessions = pgTable("admin_sessions", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  adminUserId: varchar("admin_user_id").references(() => adminUsers.id).notNull(),
+  token: varchar("token").notNull().unique(),
+  expiresAt: timestamp("expires_at").notNull(),
+  createdAt: timestamp("created_at").defaultNow()
+});
+
+export type AdminSession = typeof adminSessions.$inferSelect;
+export type InsertAdminSession = typeof adminSessions.$inferInsert;
+
+// News Article Translations table for multi-language support
+export const newsTranslations = pgTable("news_translations", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  newsId: varchar("news_id").references(() => news.id).notNull(),
+  locale: varchar("locale").notNull(), // ja, en, vi
+  title: text("title").notNull(),
+  excerpt: text("excerpt"),
+  content: text("content").notNull(),
+  seoTitle: text("seo_title"),
+  seoDescription: text("seo_description"),
+  aiSummary: text("ai_summary"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow()
+}, (table) => [
+  index("idx_news_locale").on(table.newsId, table.locale)
+]);
+
+export type NewsTranslation = typeof newsTranslations.$inferSelect;
+export type InsertNewsTranslation = typeof newsTranslations.$inferInsert;
+
+// RSS Sources configuration table
+export const rssSources = pgTable("rss_sources", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  feedUrl: text("feed_url").notNull().unique(),
+  language: varchar("language").notNull().default('ja'), // ja, en, vi
+  category: text("category").notNull().default('technology'),
+  pollingIntervalMinutes: varchar("polling_interval_minutes").notNull().default('60'),
+  lastPolledAt: timestamp("last_polled_at"),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow()
+});
+
+export type RssSource = typeof rssSources.$inferSelect;
+export type InsertRssSource = typeof rssSources.$inferInsert;
+
+// RSS Import Queue table for automated news generation
+export const rssImportQueue = pgTable("rss_import_queue", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sourceId: varchar("source_id").references(() => rssSources.id).notNull(),
+  rawPayload: json("raw_payload").notNull(),
+  suggestedPublishAt: timestamp("suggested_publish_at"),
+  processingState: varchar("processing_state").notNull().default('pending'), // pending, parsing, awaiting_review, approved, rejected
+  newsId: varchar("news_id").references(() => news.id),
+  processedByAdminId: varchar("processed_by_admin_id").references(() => adminUsers.id),
+  errorMessage: text("error_message"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow()
+});
+
+export type RssImportQueue = typeof rssImportQueue.$inferSelect;
+export type InsertRssImportQueue = typeof rssImportQueue.$inferInsert;
+
+// AI Generation Jobs table for tracking AI operations
+export const aiGenerationJobs = pgTable("ai_generation_jobs", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  newsId: varchar("news_id").references(() => news.id).notNull(),
+  jobType: varchar("job_type").notNull(), // image_generation, content_summary, translation
+  provider: varchar("provider").notNull(), // openai, anthropic, etc
+  status: varchar("status").notNull().default('pending'), // pending, processing, completed, failed
+  inputPayload: json("input_payload"),
+  resultJson: json("result_json"),
+  errorMessage: text("error_message"),
+  createdAt: timestamp("created_at").defaultNow(),
+  completedAt: timestamp("completed_at")
+});
+
+export type AiGenerationJob = typeof aiGenerationJobs.$inferSelect;
+export type InsertAiGenerationJob = typeof aiGenerationJobs.$inferInsert;
+
+// Enhanced news status enum
+export const newsStatusSchema = z.enum(['draft', 'awaiting_review', 'published', 'archived']);
+export type NewsStatus = z.infer<typeof newsStatusSchema>;
+
+// Locale enum
+export const localeSchema = z.enum(['ja', 'en', 'vi']);
+export type Locale = z.infer<typeof localeSchema>;
+
 // Insert schemas
 export const insertNewsSchema = createInsertSchema(news).pick({
   title: true,
@@ -202,6 +293,44 @@ export const insertNewsSchema = createInsertSchema(news).pick({
   isExternal: true,
   externalUrl: true,
   status: true,
+});
+
+export const insertNewsTranslationSchema = createInsertSchema(newsTranslations).pick({
+  newsId: true,
+  locale: true,
+  title: true,
+  excerpt: true,
+  content: true,
+  seoTitle: true,
+  seoDescription: true,
+  aiSummary: true
+}).extend({
+  locale: localeSchema
+});
+
+export const insertRssSourceSchema = createInsertSchema(rssSources).pick({
+  name: true,
+  feedUrl: true,
+  language: true,
+  category: true,
+  pollingIntervalMinutes: true,
+  isActive: true
+}).extend({
+  language: localeSchema
+});
+
+export const insertRssImportQueueSchema = createInsertSchema(rssImportQueue).pick({
+  sourceId: true,
+  rawPayload: true,
+  suggestedPublishAt: true,
+  processingState: true
+});
+
+export const insertAiGenerationJobSchema = createInsertSchema(aiGenerationJobs).pick({
+  newsId: true,
+  jobType: true,
+  provider: true,
+  inputPayload: true
 });
 
 export const insertNewsUpdateSchema = createInsertSchema(newsUpdates).pick({
