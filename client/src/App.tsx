@@ -19,6 +19,7 @@ import Edumate from "@/pages/Edumate";
 import OfficeBrain from "@/pages/OfficeBrain";
 import EnterpriseLLM from "@/pages/EnterpriseLLM";
 import AIProposal from "@/pages/AIProposal";
+import AIPairCoding from "@/pages/AIPairCoding";
 import Admin from "@/pages/Admin";
 import { Github, Twitter, Linkedin, Mail } from "lucide-react";
 import { extractLocaleFromPath, linkTo, useLocale } from "@/lib/i18n-utils";
@@ -88,6 +89,10 @@ function Router() {
       
       <Route path="/ai-proposal">
         <Redirect to={linkTo('/ai-proposal', defaultLocale)} />
+      </Route>
+      
+      <Route path="/ai-pair-coding">
+        <Redirect to={linkTo('/ai-pair-coding', defaultLocale)} />
       </Route>
       
       {/* Root redirect to default locale */}
@@ -166,6 +171,13 @@ function Router() {
         {(params) => {
           if (!isValidLocale(params.locale)) return <NotFound />;
           return <AIProposal />;
+        }}
+      </Route>
+      
+      <Route path="/:locale/ai-pair-coding">
+        {(params) => {
+          if (!isValidLocale(params.locale)) return <NotFound />;
+          return <AIPairCoding />;
         }}
       </Route>
       
