@@ -49,6 +49,12 @@
     "news": {
       "title": "Latest News",
       "subtitle": "We deliver the latest trends in AI and technology"
+    },
+    "aiPairCoding": {
+      "badge": "NEW",
+      "title": "AI Pair Coding Development",
+      "description": "A new development model where apps come to life from conversations",
+      "button": "Learn More"
     }
   },
   "cta": {

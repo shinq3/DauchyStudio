@@ -2,11 +2,14 @@ import HeroSection from "@/components/HeroSection";
 import ProductGrid from "@/components/ProductGrid";
 import NewsSection from "@/components/NewsSection";
 import CTASection from "@/components/CTASection";
-import { MessageCircle, Heart, Building, GraduationCap } from "lucide-react";
+import { MessageCircle, Heart, Building, GraduationCap, ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { linkTo, useLocale } from "@/lib/i18n-utils";
+import { Link } from "wouter";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 // TODO: remove mock functionality - replace with real data from API
 import lingaLinkImage from "@assets/generated_images/LingaLink_learning_dashboard_mockup_3e4a3eec.png";
@@ -144,6 +147,45 @@ export default function Home() {
           href: linkTo("/about", locale) 
         }}
       />
+      
+      {/* AI Pair Coding Banner */}
+      <section className="py-8 bg-gradient-to-r from-orange-500 to-orange-600">
+        <div className="container mx-auto px-4">
+          <Link href={linkTo("/ai-pair-coding", locale)}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="flex flex-col md:flex-row items-center justify-between gap-6 hover-elevate active-elevate-2 rounded-lg p-6 bg-white/10 backdrop-blur-sm cursor-pointer"
+              data-testid="banner-ai-pair-coding"
+            >
+              <div className="flex items-center gap-4">
+                <Badge className="bg-white text-orange-600 font-semibold px-3 py-1">
+                  {t('home:sections.aiPairCoding.badge')}
+                </Badge>
+                <div>
+                  <h3 className="text-xl md:text-2xl font-bold text-white mb-1">
+                    {t('home:sections.aiPairCoding.title')}
+                  </h3>
+                  <p className="text-white/90">
+                    {t('home:sections.aiPairCoding.description')}
+                  </p>
+                </div>
+              </div>
+              <Button 
+                variant="outline" 
+                size="lg"
+                className="bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20"
+                data-testid="button-ai-pair-coding"
+              >
+                {t('home:sections.aiPairCoding.button')}
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </motion.div>
+          </Link>
+        </div>
+      </section>
       
       <ProductGrid
         title={t('home:sections.products.subtitle')}

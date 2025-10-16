@@ -49,6 +49,12 @@
     "news": {
       "title": "最新ニュース",
       "subtitle": "AIとテクノロジーの最新動向をお届けします"
+    },
+    "aiPairCoding": {
+      "badge": "NEW",
+      "title": "AIペアコーディング開発",
+      "description": "会話からアプリが動き出す、新しい開発モデル",
+      "button": "詳しく見る"
     }
   },
   "cta": {

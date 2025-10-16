@@ -49,6 +49,12 @@
     "news": {
       "title": "Tin Tức Mới Nhất",
       "subtitle": "Chúng tôi mang đến các xu hướng mới nhất về AI và công nghệ"
+    },
+    "aiPairCoding": {
+      "badge": "MỚI",
+      "title": "Phát Triển AI Pair Coding",
+      "description": "Mô hình phát triển mới nơi ứng dụng ra đời từ cuộc trò chuyện",
+      "button": "Tìm hiểu thêm"
     }
   },
   "cta": {
