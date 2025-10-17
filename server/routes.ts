@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
 import { z } from "zod";
-import { insertNewsSchema, insertNewsUpdateSchema, insertNewsTranslationSchema, insertContactSchema, adminUsers, insertAdminUserSchema, updateAdminUserSchema, changePasswordSchema } from "@shared/schema";
+import { insertNewsSchema, insertNewsUpdateSchema, insertNewsTranslationSchema, insertRssSourceSchema, insertContactSchema, adminUsers, insertAdminUserSchema, updateAdminUserSchema, changePasswordSchema } from "@shared/schema";
 import { AuthService, isAdminAuthenticated as isAdminAuth, requireSuperadmin, requirePermission, allowSelfOrSuperadmin, protectLastSuperadmin } from "./lib/auth";
 import { createInsertSchema } from "drizzle-zod";
 
@@ -597,6 +597,60 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error deleting news translation:", error);
       res.status(500).json({ message: "Failed to delete news translation" });
+    }
+  });
+
+  // RSS sources management
+  app.get('/api/admin/rss/sources', isAdminAuth, async (req, res) => {
+    try {
+      const sources = await storage.getAllRssSources();
+      res.json(sources);
+    } catch (error) {
+      console.error("Error fetching RSS sources:", error);
+      res.status(500).json({ message: "Failed to fetch RSS sources" });
+    }
+  });
+
+  app.post('/api/admin/rss/sources', isAdminAuth, async (req, res) => {
+    try {
+      const sourceData = insertRssSourceSchema.parse(req.body);
+      const source = await storage.createRssSource(sourceData);
+      res.json(source);
+    } catch (error) {
+      console.error("Error creating RSS source:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Failed to create RSS source" });
+    }
+  });
+
+  app.put('/api/admin/rss/sources/:id', isAdminAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const sourceData = insertRssSourceSchema.partial().parse(req.body);
+      const source = await storage.updateRssSource(id, sourceData);
+      if (!source) {
+        return res.status(404).json({ message: "RSS source not found" });
+      }
+      res.json(source);
+    } catch (error) {
+      console.error("Error updating RSS source:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Failed to update RSS source" });
+    }
+  });
+
+  app.delete('/api/admin/rss/sources/:id', isAdminAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      await storage.deleteRssSource(id);
+      res.json({ message: "RSS source deleted" });
+    } catch (error) {
+      console.error("Error deleting RSS source:", error);
+      res.status(500).json({ message: "Failed to delete RSS source" });
     }
   });
 

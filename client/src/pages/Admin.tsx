@@ -7,8 +7,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import NewsManager from "@/components/admin/NewsManager";
 import ContactManager from "@/components/admin/ContactManager";
 import UsersManager from "@/components/admin/UsersManager";
+import RssSourcesManager from "@/components/admin/RssSourcesManager";
 import AdminLoginForm from "@/components/admin/AdminLoginForm";
-import { LogOut, Newspaper, MessageSquare, Users, Home } from "lucide-react";
+import { LogOut, Newspaper, MessageSquare, Users, Home, RssIcon } from "lucide-react";
 import { Link } from "wouter";
 
 export default function Admin() {
@@ -78,10 +79,14 @@ export default function Admin() {
 
         {/* Main Content */}
         <Tabs defaultValue="news" className="space-y-8">
-          <TabsList className={`grid w-full ${user?.role === 'superadmin' ? 'grid-cols-3' : 'grid-cols-2'} lg:w-600`}>
+          <TabsList className={`grid w-full ${user?.role === 'superadmin' ? 'grid-cols-4' : 'grid-cols-3'} lg:w-800`}>
             <TabsTrigger value="news" data-testid="tab-news">
               <Newspaper className="w-4 h-4 mr-2" />
               {t('tabs.news')}
+            </TabsTrigger>
+            <TabsTrigger value="rss" data-testid="tab-rss">
+              <RssIcon className="w-4 h-4 mr-2" />
+              RSS Sources
             </TabsTrigger>
             <TabsTrigger value="contacts" data-testid="tab-contacts">
               <MessageSquare className="w-4 h-4 mr-2" />
@@ -97,6 +102,10 @@ export default function Admin() {
 
           <TabsContent value="news">
             <NewsManager />
+          </TabsContent>
+
+          <TabsContent value="rss">
+            <RssSourcesManager />
           </TabsContent>
 
           <TabsContent value="contacts">
