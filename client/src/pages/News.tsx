@@ -56,8 +56,9 @@ const itemVariants = {
 export default function News() {
   const { t, i18n } = useTranslation('news');
   
-  // Category filter state
-  const [selectedCategory, setSelectedCategory] = useState<string>(t('categories.all') || "すべて");
+  // Category filter state - use a constant to represent "all"
+  const ALL_CATEGORIES = 'ALL_CATEGORIES';
+  const [selectedCategory, setSelectedCategory] = useState<string>(ALL_CATEGORIES);
   
   // Fetch news from API with current locale
   const { data: allNews = [], isLoading, error } = useQuery<NewsArticle[]>({
@@ -87,10 +88,9 @@ export default function News() {
 
   // Get unique categories from news data
   const uniqueCategories = Array.from(new Set(allNews.map(article => article.category)));
-  const categories = [t('categories.all') || "すべて", ...uniqueCategories];
   
   // Filter articles based on selected category
-  const filteredNews = selectedCategory === (t('categories.all') || "すべて") 
+  const filteredNews = selectedCategory === ALL_CATEGORIES
     ? allNews 
     : allNews.filter(article => article.category === selectedCategory);
 
@@ -160,7 +160,16 @@ export default function News() {
             transition={{ duration: 0.6 }}
             className="flex flex-wrap gap-2 justify-center"
           >
-            {categories.map((category, index) => (
+            <Button
+              onClick={() => handleCategoryClick(ALL_CATEGORIES)}
+              variant={selectedCategory === ALL_CATEGORIES ? "default" : "outline"}
+              size="sm"
+              className="rounded-full"
+              data-testid="button-category-all"
+            >
+              {t('categories.all') || "すべて"}
+            </Button>
+            {uniqueCategories.map((category) => (
               <Button
                 key={category}
                 onClick={() => handleCategoryClick(category)}

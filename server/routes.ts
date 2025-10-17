@@ -220,10 +220,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const newsWithTranslations = await Promise.all(
         allNews.map(async (newsItem) => {
           const translation = await storage.getNewsTranslation(newsItem.id, locale);
+          
+          // Filter out AI error messages from excerpt
+          let summary = '';
+          const excerpt = translation?.excerpt || newsItem.excerpt || '';
+          if (excerpt && !excerpt.includes('Please provide')) {
+            summary = excerpt;
+          } else {
+            // Fall back to AI summary if excerpt has error messages
+            const aiSummary = translation?.aiSummary || '';
+            summary = aiSummary && !aiSummary.includes('Please provide') ? aiSummary : '';
+          }
+          
           return {
             id: newsItem.id,
             title: translation?.title || newsItem.title || '',
-            summary: translation?.excerpt || translation?.aiSummary || newsItem.excerpt || '',
+            summary,
             content: translation?.content || newsItem.content || '',
             thumbnail: newsItem.featuredImage || '',
             publishedAt: newsItem.publishedAt?.toISOString() || new Date().toISOString(),
