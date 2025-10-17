@@ -210,11 +210,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Public API Routes
 
-  // Get published news for frontend
+  // Get published news for frontend with translations
   app.get('/api/news', async (req, res) => {
     try {
-      const news = await storage.getPublishedNews();
-      res.json(news);
+      const locale = (req.query.locale as string) || 'ja';
+      const allNews = await storage.getPublishedNews();
+      
+      // Fetch translations for each news item
+      const newsWithTranslations = await Promise.all(
+        allNews.map(async (newsItem) => {
+          const translation = await storage.getNewsTranslation(newsItem.id, locale);
+          return {
+            id: newsItem.id,
+            title: translation?.title || newsItem.title || '',
+            summary: translation?.excerpt || translation?.aiSummary || '',
+            content: translation?.content || '',
+            thumbnail: newsItem.featuredImage || '',
+            publishedAt: newsItem.publishedAt?.toISOString() || new Date().toISOString(),
+            category: newsItem.category || 'technology',
+            tags: newsItem.tags || [],
+            source: newsItem.sourceAttribution || 'D\'auchy.Studio',
+            sourceUrl: newsItem.sourceUrl || '',
+            isExternal: !!newsItem.sourceUrl,
+            status: newsItem.status
+          };
+        })
+      );
+      
+      res.json(newsWithTranslations);
     } catch (error) {
       console.error("Error fetching news:", error);
       res.status(500).json({ message: "Failed to fetch news" });
@@ -692,7 +715,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const item = await storage.updateRssImportQueueItem(id, {
         processingState: 'approved',
-        processedByAdminId: req.user?.id,
+        processedByAdminId: req.currentAdmin?.id,
         updatedAt: new Date(),
       });
       res.json(item);
@@ -717,7 +740,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const item = await storage.updateRssImportQueueItem(id, {
         processingState: 'rejected',
-        processedByAdminId: req.user?.id,
+        processedByAdminId: req.currentAdmin?.id,
         updatedAt: new Date(),
       });
       res.json(item);
@@ -732,7 +755,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { id } = req.params;
       const { generateImage = false, targetLanguages = ['ja', 'en', 'vi'] } = req.body;
-      const adminId = req.user?.id;
+      const adminId = req.currentAdmin?.id;
 
       if (!adminId) {
         return res.status(401).json({ message: "Admin authentication required" });
