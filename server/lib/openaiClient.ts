@@ -36,7 +36,7 @@ export async function translateWithGPT4(request: TranslationRequest): Promise<Tr
     : `You are a professional translator. Translate the following article content from ${languageNames[sourceLanguage]} to ${languageNames[targetLanguage]}. Maintain the tone, style, and formatting of the original text. Preserve any technical terms appropriately.`;
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-5',
+    model: 'gpt-5-nano',
     messages: [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: sourceText },
@@ -110,7 +110,7 @@ export async function generateSummaryWithGPT4(request: SummaryRequest): Promise<
   const systemPrompt = `You are a professional content summarizer. Create a concise summary of the following article in ${languageNames[language]}. The summary should be around ${maxLength} characters and capture the key points of the article.`;
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-5',
+    model: 'gpt-5-nano',
     messages: [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: content },

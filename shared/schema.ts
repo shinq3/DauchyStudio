@@ -293,6 +293,7 @@ export const insertNewsSchema = createInsertSchema(news).pick({
   isExternal: true,
   externalUrl: true,
   status: true,
+  authorId: true,
 });
 
 export const insertNewsTranslationSchema = createInsertSchema(newsTranslations).pick({

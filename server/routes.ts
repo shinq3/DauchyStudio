@@ -727,6 +727,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // AI Generation Routes
+  app.post('/api/admin/ai/generate-from-queue/:id', isAdminAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { generateImage = false, targetLanguages = ['ja', 'en', 'vi'] } = req.body;
+      const adminId = req.user?.id;
+
+      if (!adminId) {
+        return res.status(401).json({ message: "Admin authentication required" });
+      }
+
+      const { generateNewsFromQueue } = await import('./lib/aiNewsGenerator.js');
+
+      const result = await generateNewsFromQueue({
+        queueItemId: id,
+        adminId,
+        generateImage,
+        targetLanguages,
+      });
+
+      if (!result.success) {
+        return res.status(400).json({ message: result.error || 'Failed to generate news' });
+      }
+
+      res.json(result);
+    } catch (error: any) {
+      console.error("Error generating news from queue:", error);
+      res.status(500).json({ message: error.message || "Failed to generate news from queue" });
+    }
+  });
+
+  app.get('/api/admin/ai/jobs/:newsId', isAdminAuth, async (req, res) => {
+    try {
+      const { newsId } = req.params;
+      const jobs = await storage.getAiGenerationJobsByNewsId(newsId);
+      res.json(jobs);
+    } catch (error) {
+      console.error("Error fetching AI jobs:", error);
+      res.status(500).json({ message: "Failed to fetch AI jobs" });
+    }
+  });
+
   // Contact management
   app.get('/api/admin/contacts', isAdminAuth, async (req, res) => {
     try {
