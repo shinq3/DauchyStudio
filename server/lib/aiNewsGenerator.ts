@@ -82,6 +82,7 @@ export async function generateNewsFromQueue(options: GenerateNewsFromQueueOption
     console.log(`[AI News Generator] Created news: ${news.id}`);
 
     const jobIds: string[] = [];
+    let firstLanguageSummary = '';
 
     for (const targetLang of targetLanguages) {
       let translatedTitle = sourceTitle;
@@ -199,6 +200,12 @@ export async function generateNewsFromQueue(options: GenerateNewsFromQueueOption
           maxLength: 200,
         });
         aiSummary = summaryResult.summary;
+        
+        // Save first language summary to update news excerpt
+        if (targetLang === targetLanguages[0]) {
+          firstLanguageSummary = aiSummary;
+        }
+        
         await storage.updateAiGenerationJob(summaryJob.id, {
           status: 'completed',
           resultJson: summaryResult,
@@ -225,6 +232,14 @@ export async function generateNewsFromQueue(options: GenerateNewsFromQueueOption
 
       await storage.createNewsTranslation(translationData);
       console.log(`[AI News Generator] Translation created for ${targetLang}`);
+    }
+
+    // Update news excerpt with first language AI summary if original excerpt is empty
+    if (firstLanguageSummary && (!sourceExcerpt || sourceExcerpt.trim().length === 0)) {
+      await storage.updateNews(news.id, {
+        excerpt: firstLanguageSummary.substring(0, 300),
+      });
+      console.log(`[AI News Generator] Updated news excerpt with AI summary`);
     }
 
     if (generateImage) {

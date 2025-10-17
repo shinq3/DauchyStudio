@@ -299,6 +299,7 @@ export const insertNewsSchema = createInsertSchema(news).pick({
   sourceAttribution: true,
   originalPublishedAt: true,
   status: true,
+  publishedAt: true,
   authorId: true,
 });
 

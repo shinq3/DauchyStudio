@@ -40,6 +40,8 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
       status: news?.status || "draft",
       featuredImage: news?.featuredImage || "",
       externalUrl: news?.externalUrl || "",
+      sourceUrl: news?.sourceUrl || "",
+      sourceAttribution: news?.sourceAttribution || "",
       isExternal: news?.isExternal || false,
       publishedAt: news?.publishedAt ? new Date(news.publishedAt).toISOString().slice(0, 16) : "",
     },
@@ -62,8 +64,19 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
 
   const handleSubmit = (data: FormData) => {
     const submitData: InsertNews = {
-      ...data,
+      title: data.title,
+      slug: data.slug,
+      excerpt: data.excerpt,
       content,
+      category: data.category,
+      tags: data.tags,
+      featuredImage: data.featuredImage,
+      isExternal: data.isExternal,
+      externalUrl: data.externalUrl,
+      sourceUrl: data.sourceUrl,
+      sourceAttribution: data.sourceAttribution,
+      status: data.status,
+      authorId: data.authorId,
       publishedAt: data.publishedAt && data.status === "published" 
         ? new Date(data.publishedAt) 
         : data.status === "published" 
@@ -112,6 +125,7 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
                       <FormControl>
                         <Textarea 
                           {...field} 
+                          value={field.value || ""}
                           placeholder="Brief description of the news"
                           rows={3}
                           data-testid="input-excerpt"
@@ -178,13 +192,14 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
               <CardContent className="space-y-4">
                 <FormField
                   control={form.control}
-                  name="thumbnailUrl"
+                  name="featuredImage"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Thumbnail URL</FormLabel>
                       <FormControl>
                         <Input 
                           {...field} 
+                          value={field.value || ""}
                           placeholder="https://example.com/image.jpg"
                           data-testid="input-thumbnail"
                         />
@@ -203,6 +218,7 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
                       <FormControl>
                         <Input 
                           {...field} 
+                          value={field.value || ""}
                           placeholder="https://external-source.com"
                           data-testid="input-source-url"
                         />
@@ -221,6 +237,7 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
                       <FormControl>
                         <Input 
                           {...field} 
+                          value={field.value || ""}
                           placeholder="Source name or attribution"
                           data-testid="input-source-attribution"
                         />
@@ -253,7 +270,7 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
 
                 <FormField
                   control={form.control}
-                  name="isInternal"
+                  name="isExternal"
                   render={({ field }) => (
                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
                       <div className="space-y-0.5">
@@ -264,7 +281,7 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
                       </div>
                       <FormControl>
                         <Switch
-                          checked={field.value}
+                          checked={!!field.value}
                           onCheckedChange={field.onChange}
                           data-testid="switch-internal"
                         />
