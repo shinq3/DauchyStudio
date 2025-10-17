@@ -454,14 +454,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/admin/news', isAdminAuth, async (req: any, res) => {
     try {
-      const newsData = insertNewsSchema.omit({ authorId: true }).parse(req.body);
+      const { publishedAt, ...restData } = req.body;
+      const newsData = insertNewsSchema.omit({ authorId: true, publishedAt: true }).parse(restData);
       const authorId = req.currentAdmin?.id;
       
       if (!authorId) {
         return res.status(401).json({ message: "Authentication required" });
       }
       
-      const news = await storage.createNews({ ...newsData, authorId });
+      const news = await storage.createNews({ 
+        ...newsData, 
+        authorId,
+        publishedAt: publishedAt ? new Date(publishedAt) : undefined
+      });
       res.json(news);
     } catch (error) {
       console.error("Error creating news:", error);
@@ -475,8 +480,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put('/api/admin/news/:id', isAdminAuth, async (req: any, res) => {
     try {
       const { id } = req.params;
-      const newsData = insertNewsSchema.partial().parse(req.body);
-      const news = await storage.updateNews(id, newsData);
+      const { publishedAt, ...restData } = req.body;
+      const newsData = insertNewsSchema.omit({ authorId: true, publishedAt: true }).partial().parse(restData);
+      
+      const news = await storage.updateNews(id, { 
+        ...newsData,
+        publishedAt: publishedAt ? new Date(publishedAt) : undefined
+      });
       if (!news) {
         return res.status(404).json({ message: "News not found" });
       }
