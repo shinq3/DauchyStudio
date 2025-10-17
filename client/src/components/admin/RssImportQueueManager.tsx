@@ -7,14 +7,17 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { CheckCircle, XCircle, Clock, ExternalLink, Image as ImageIcon } from "lucide-react";
+import { CheckCircle, XCircle, Clock, ExternalLink, Image as ImageIcon, Sparkles } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 import type { RssImportQueue } from "@shared/schema";
 
 export default function RssImportQueueManager() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [selectedItem, setSelectedItem] = useState<RssImportQueue | null>(null);
+  const [generateImage, setGenerateImage] = useState(false);
 
   const { data: queueItems = [], isLoading } = useQuery<RssImportQueue[]>({
     queryKey: ["/api/admin/rss/queue"],
@@ -59,6 +62,36 @@ export default function RssImportQueueManager() {
       toast({
         title: "Error",
         description: error.message || "Failed to reject article",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const aiGenerateMutation = useMutation({
+    mutationFn: ({ id, generateImage }: { id: string; generateImage: boolean }) =>
+      apiRequest(`/api/admin/ai/generate-from-queue/${id}`, {
+        method: "POST",
+        body: JSON.stringify({
+          generateImage,
+          targetLanguages: ['ja', 'en', 'vi'],
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/rss/queue"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/news"] });
+      setSelectedItem(null);
+      toast({
+        title: "AI Generation Complete! 🎉",
+        description: `Successfully generated multilingual news article with ${data.jobIds?.length || 0} AI jobs.`,
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "AI Generation Failed",
+        description: error.message || "Failed to generate article",
         variant: "destructive",
       });
     },
@@ -136,6 +169,20 @@ export default function RssImportQueueManager() {
                           data-testid={`button-view-${item.id}`}
                         >
                           View
+                        </Button>
+                        <Button
+                          variant="default"
+                          size="sm"
+                          className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600"
+                          onClick={() => {
+                            setSelectedItem(item);
+                            setGenerateImage(false);
+                          }}
+                          disabled={aiGenerateMutation.isPending}
+                          data-testid={`button-ai-generate-${item.id}`}
+                        >
+                          <Sparkles className="w-4 h-4 mr-1" />
+                          AI Generate
                         </Button>
                         <Button
                           variant="default"
@@ -240,13 +287,45 @@ export default function RssImportQueueManager() {
                   />
                 </div>
 
-                <div className="flex gap-2 pt-4">
-                  <Button
-                    variant="default"
-                    onClick={() => approveMutation.mutate(selectedItem.id)}
-                    disabled={approveMutation.isPending}
-                    data-testid="button-approve-modal"
-                  >
+                <div className="space-y-4 pt-4">
+                  <div className="flex items-center space-x-2">
+                    <Checkbox 
+                      id="generate-image" 
+                      checked={generateImage}
+                      onCheckedChange={(checked) => setGenerateImage(checked === true)}
+                      data-testid="checkbox-generate-image"
+                    />
+                    <Label htmlFor="generate-image" className="text-sm font-normal cursor-pointer">
+                      Generate featured image with DALL-E 3 (takes longer)
+                    </Label>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <Button
+                      variant="default"
+                      className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 flex-1"
+                      onClick={() => aiGenerateMutation.mutate({ id: selectedItem.id, generateImage })}
+                      disabled={aiGenerateMutation.isPending}
+                      data-testid="button-ai-generate-modal"
+                    >
+                      {aiGenerateMutation.isPending ? (
+                        <>
+                          <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2" />
+                          Generating...
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="w-4 h-4 mr-2" />
+                          AI Generate (ja/en/vi)
+                        </>
+                      )}
+                    </Button>
+                    <Button
+                      variant="default"
+                      onClick={() => approveMutation.mutate(selectedItem.id)}
+                      disabled={approveMutation.isPending}
+                      data-testid="button-approve-modal"
+                    >
                     <CheckCircle className="w-4 h-4 mr-2" />
                     Approve Article
                   </Button>
