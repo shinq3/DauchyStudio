@@ -19,21 +19,30 @@ D'auchy.Studio is a Japanese AI product innovation company developing cutting-ed
 - ✅ AI generation job tracking and status management
 - ✅ Admin UI with "AI Generate" button in import queue manager
 - ✅ E2E tested: Complete AI workflow from RSS queue → multilingual news
-- ✅ **NEW**: AI content generation for existing news articles (2025-10-17)
+- ✅ **AI content generation for existing news articles** (2025-10-17)
   - Generate multilingual translations and summaries for any existing news
   - Convert external articles to internal blog posts with AI-generated content
   - Sparkles icon button in news manager for easy access
   - Preserves source attribution while making content internal
+  - **Robust language detection**: Analyzes title + content (ignores excerpt to avoid contamination from previous AI generations)
+  - **Translation failure protection**: Only saves translations when content translation succeeds, preserving existing translations on failure
+  - **E2E tested**: English → Japanese/Vietnamese translations verified working correctly
 
-### Critical Fix: gpt-4o-mini for Translation (2025-10-17)
-- **Issue**: GPT-5-nano did NOT perform translations - it echoed input text unchanged
-- **Solution**: Switched to `gpt-4o-mini` which correctly handles translation tasks
+### Critical Implementation Details (2025-10-17)
+- **Translation Model**: `gpt-4o-mini` (GPT-5-nano does NOT translate - echoes input unchanged)
 - **Configuration**: 
   - Model: `gpt-4o-mini`
   - Temperature: `0.3` (consistent translations)
   - max_tokens: 100 (title), 300 (excerpt/summary), 2000 (content)
-- **Verified**: Translations now work correctly (ja→en, en→ja, en→vi, etc.)
-- **Authentication fix**: Middleware sets both `req.currentAdmin` and `req.user` for API compatibility
+- **Language Detection Logic**:
+  - Analyzes ONLY title and content (ignores excerpt which may contain AI-generated text from previous runs)
+  - Character ratio analysis: >5% Japanese chars → ja, >5% Vietnamese chars → vi, else → en
+  - Critical: Must ignore excerpt to prevent misdetection when previous AI generation added localized summaries
+- **Data Protection**:
+  - Tracks translation success with flags (titleTranslationSuccess, excerptTranslationSuccess, contentTranslationSuccess)
+  - Only saves translation when contentTranslationSuccess=true
+  - Skips AI summary generation if content translation fails (prevents English summaries in localized records)
+  - Preserves existing translations completely when translation fails
 
 ### Enhanced RSS Content Extraction (2025-10-17)
 - **RSS Payload Fields**: contentSnippet, description, content, contentEncoded, creator, thumbnailUrl
