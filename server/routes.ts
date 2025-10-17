@@ -537,6 +537,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Generate AI content for existing news
+  app.post('/api/admin/news/:id/generate-content', isAdminAuth, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const { generateImage } = req.body;
+      
+      const { generateContentForExistingNews } = await import('./lib/aiNewsGenerator.js');
+      
+      const result = await generateContentForExistingNews({
+        newsId: id,
+        generateImage: generateImage || false,
+        targetLanguages: ['ja', 'en', 'vi'],
+      });
+
+      if (result.success) {
+        res.json({ 
+          message: "AI content generated successfully", 
+          newsId: result.newsId,
+          jobCount: result.jobIds.length 
+        });
+      } else {
+        res.status(500).json({ message: result.error || "Failed to generate content" });
+      }
+    } catch (error) {
+      console.error("Error generating AI content:", error);
+      res.status(500).json({ message: "Failed to generate AI content" });
+    }
+  });
+
   // News updates management
   app.get('/api/admin/news/:newsId/updates', isAdminAuth, async (req, res) => {
     try {

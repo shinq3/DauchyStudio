@@ -314,3 +314,312 @@ export async function generateNewsFromQueue(options: GenerateNewsFromQueueOption
     };
   }
 }
+
+export interface GenerateContentForExistingNewsOptions {
+  newsId: string;
+  generateImage?: boolean;
+  targetLanguages?: ('ja' | 'en' | 'vi')[];
+}
+
+export async function generateContentForExistingNews(options: GenerateContentForExistingNewsOptions): Promise<GenerateNewsResult> {
+  const { newsId, generateImage = false, targetLanguages = ['ja', 'en', 'vi'] } = options;
+
+  try {
+    const news = await storage.getNews(newsId);
+    if (!news) {
+      return { success: false, jobIds: [], error: 'News not found' };
+    }
+
+    console.log(`[AI News Generator] Generating content for existing news: ${newsId}`);
+    
+    const sourceTitle = news.title || 'Untitled';
+    const sourceContent = news.content || '';
+    const sourceExcerpt = news.excerpt || '';
+    
+    // Detect source language from original content ONLY (not excerpt, as it may have been AI-generated)
+    const textToAnalyze = `${sourceTitle} ${sourceContent}`.substring(0, 2000);
+    let sourceLanguage = 'en'; // default
+    
+    // Count character types to determine language
+    const japaneseChars = (textToAnalyze.match(/[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/g) || []).length;
+    const vietnameseChars = (textToAnalyze.match(/[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/gi) || []).length;
+    const totalChars = textToAnalyze.length;
+    
+    // If more than 5% of characters are Japanese, treat as Japanese
+    if (japaneseChars > totalChars * 0.05) {
+      sourceLanguage = 'ja';
+      console.log(`[AI News Generator] Detected Japanese content (${japaneseChars}/${totalChars} chars), using ja as source`);
+    } 
+    // If more than 5% of characters are Vietnamese special chars, treat as Vietnamese
+    else if (vietnameseChars > totalChars * 0.05) {
+      sourceLanguage = 'vi';
+      console.log(`[AI News Generator] Detected Vietnamese content (${vietnameseChars}/${totalChars} chars), using vi as source`);
+    } else {
+      console.log(`[AI News Generator] No specific language detected (ja: ${japaneseChars}, vi: ${vietnameseChars}), defaulting to en`);
+    }
+    
+    const jobIds: string[] = [];
+    let firstLanguageSummary = '';
+
+    // Keep existing translations until new ones are successfully created
+    // We'll update/create them one by one
+
+    for (const targetLang of targetLanguages) {
+      // Track translation success
+      let titleTranslationSuccess = false;
+      let excerptTranslationSuccess = false;
+      let contentTranslationSuccess = false;
+      
+      let translatedTitle = sourceTitle;
+      let translatedExcerpt = sourceExcerpt;
+      let translatedContent = sourceContent;
+      let aiSummary = '';
+
+      if (targetLang !== sourceLanguage) {
+        console.log(`[AI News Generator] Translating to ${targetLang}...`);
+
+        // Translate title
+        const titleJob = await storage.createAiGenerationJob({
+          newsId: news.id,
+          jobType: 'translation',
+          provider: 'openai',
+          status: 'processing',
+          inputPayload: { type: 'title', sourceLanguage, targetLanguage: targetLang, text: sourceTitle },
+        });
+        jobIds.push(titleJob.id);
+
+        try {
+          const titleResult = await translateWithGPT4({
+            sourceText: sourceTitle,
+            sourceLanguage,
+            targetLanguage: targetLang,
+            contentType: 'title',
+          });
+          translatedTitle = titleResult.translatedText;
+          titleTranslationSuccess = true;
+          await storage.updateAiGenerationJob(titleJob.id, {
+            status: 'completed',
+            resultJson: titleResult,
+          });
+        } catch (error: any) {
+          await storage.updateAiGenerationJob(titleJob.id, {
+            status: 'failed',
+            errorMessage: error.message,
+          });
+          console.error(`[AI News Generator] Title translation failed:`, error.message);
+        }
+
+        // Translate excerpt if available
+        if (sourceExcerpt && sourceExcerpt.trim().length > 0) {
+          const excerptJob = await storage.createAiGenerationJob({
+            newsId: news.id,
+            jobType: 'translation',
+            provider: 'openai',
+            status: 'processing',
+            inputPayload: { type: 'excerpt', sourceLanguage, targetLanguage: targetLang, text: sourceExcerpt },
+          });
+          jobIds.push(excerptJob.id);
+
+          try {
+            const excerptResult = await translateWithGPT4({
+              sourceText: sourceExcerpt,
+              sourceLanguage,
+              targetLanguage: targetLang,
+              contentType: 'excerpt',
+            });
+            translatedExcerpt = excerptResult.translatedText;
+            excerptTranslationSuccess = true;
+            await storage.updateAiGenerationJob(excerptJob.id, {
+              status: 'completed',
+              resultJson: excerptResult,
+            });
+          } catch (error: any) {
+            await storage.updateAiGenerationJob(excerptJob.id, {
+              status: 'failed',
+              errorMessage: error.message,
+            });
+            console.error(`[AI News Generator] Excerpt translation failed:`, error.message);
+          }
+        }
+
+        // Translate content
+        const contentJob = await storage.createAiGenerationJob({
+          newsId: news.id,
+          jobType: 'translation',
+          provider: 'openai',
+          status: 'processing',
+          inputPayload: { type: 'content', sourceLanguage, targetLanguage: targetLang, text: sourceContent },
+        });
+        jobIds.push(contentJob.id);
+
+        try {
+          const contentResult = await translateWithGPT4({
+            sourceText: sourceContent,
+            sourceLanguage,
+            targetLanguage: targetLang,
+            contentType: 'content',
+          });
+          translatedContent = contentResult.translatedText;
+          contentTranslationSuccess = true;
+          await storage.updateAiGenerationJob(contentJob.id, {
+            status: 'completed',
+            resultJson: contentResult,
+          });
+        } catch (error: any) {
+          await storage.updateAiGenerationJob(contentJob.id, {
+            status: 'failed',
+            errorMessage: error.message,
+          });
+          console.error(`[AI News Generator] Content translation failed:`, error.message);
+        }
+      } else {
+        // If source language matches target, no translation needed
+        titleTranslationSuccess = true;
+        excerptTranslationSuccess = true;
+        contentTranslationSuccess = true;
+      }
+
+      // Generate AI summary only if content translation succeeded
+      // This prevents generating summaries from untranslated English text
+      if (contentTranslationSuccess) {
+        const summaryJob = await storage.createAiGenerationJob({
+          newsId: news.id,
+          jobType: 'content_summary',
+          provider: 'openai',
+          status: 'processing',
+          inputPayload: { language: targetLang, text: translatedContent },
+        });
+        jobIds.push(summaryJob.id);
+
+        try {
+          const summaryResult = await generateSummaryWithGPT4({
+            content: translatedContent,
+            language: targetLang,
+            maxLength: 200,
+          });
+          aiSummary = summaryResult.summary;
+          
+          if (targetLang === targetLanguages[0]) {
+            firstLanguageSummary = aiSummary;
+          }
+          
+          await storage.updateAiGenerationJob(summaryJob.id, {
+            status: 'completed',
+            resultJson: summaryResult,
+          });
+          console.log(`[AI News Generator] Summary generated for ${targetLang}`);
+        } catch (error: any) {
+          await storage.updateAiGenerationJob(summaryJob.id, {
+            status: 'failed',
+            errorMessage: error.message,
+          });
+          console.error(`[AI News Generator] Summary generation failed:`, error.message);
+        }
+      } else {
+        console.warn(`[AI News Generator] Skipping summary generation for ${targetLang} - content translation failed`);
+      }
+
+      // Only update/create translation if content translation succeeded
+      // This prevents overwriting existing translations with untranslated English
+      if (contentTranslationSuccess) {
+        const translationData: InsertNewsTranslation = {
+          newsId: news.id,
+          locale: targetLang,
+          title: translatedTitle,
+          excerpt: translatedExcerpt.substring(0, 300),
+          content: translatedContent,
+          seoTitle: translatedTitle,
+          seoDescription: translatedExcerpt.substring(0, 160) || aiSummary.substring(0, 160),
+          aiSummary,
+        };
+
+        // Check if translation already exists
+        const existingTranslation = await storage.getNewsTranslation(news.id, targetLang);
+        
+        if (existingTranslation) {
+          await storage.updateNewsTranslation(existingTranslation.id, translationData);
+          console.log(`[AI News Generator] Translation updated for ${targetLang}`);
+        } else {
+          await storage.createNewsTranslation(translationData);
+          console.log(`[AI News Generator] Translation created for ${targetLang}`);
+        }
+      } else {
+        console.warn(`[AI News Generator] Skipping translation save for ${targetLang} - critical translations failed`);
+      }
+    }
+
+    // Update news to make it internal content with AI summary
+    const updateData: any = {
+      isExternal: false, // Make it internal content
+    };
+    
+    if (firstLanguageSummary && (!sourceExcerpt || sourceExcerpt.trim().length === 0)) {
+      updateData.excerpt = firstLanguageSummary.substring(0, 300);
+    }
+
+    await storage.updateNews(news.id, updateData);
+    console.log(`[AI News Generator] Updated news to internal content`);
+
+    // Generate image if requested
+    if (generateImage && !news.featuredImage) {
+      console.log(`[AI News Generator] Generating featured image...`);
+      const imageJob = await storage.createAiGenerationJob({
+        newsId: news.id,
+        jobType: 'image_generation',
+        provider: 'openai',
+        status: 'processing',
+        inputPayload: { prompt: `Professional news article illustration for: ${sourceTitle}` },
+      });
+      jobIds.push(imageJob.id);
+
+      try {
+        const imageResult = await generateImageWithDallE({
+          prompt: `Professional, modern news article hero image for an article about: ${sourceTitle}. Clean, minimalist style suitable for a technology blog.`,
+          style: 'natural',
+          quality: 'standard',
+          size: '1792x1024',
+        });
+        
+        const uploadResult = await downloadAndUploadImage(
+          imageResult.imageUrl,
+          `news-${news.id}-${Date.now()}.png`
+        );
+        
+        await storage.updateNews(news.id, {
+          featuredImage: uploadResult.objectPath,
+        });
+
+        await storage.updateAiGenerationJob(imageJob.id, {
+          status: 'completed',
+          resultJson: { 
+            ...imageResult, 
+            persistentUrl: uploadResult.objectPath,
+            publicUrl: uploadResult.publicUrl,
+          },
+        });
+        console.log(`[AI News Generator] Image saved to storage: ${uploadResult.objectPath}`);
+      } catch (error: any) {
+        await storage.updateAiGenerationJob(imageJob.id, {
+          status: 'failed',
+          errorMessage: error.message,
+        });
+        console.error(`[AI News Generator] Image generation/upload failed:`, error.message);
+      }
+    }
+
+    console.log(`[AI News Generator] ✅ Successfully generated content for news: ${news.id} with ${jobIds.length} AI jobs`);
+
+    return {
+      success: true,
+      newsId: news.id,
+      jobIds,
+    };
+  } catch (error: any) {
+    console.error(`[AI News Generator] Failed to generate content:`, error);
+    return {
+      success: false,
+      jobIds: [],
+      error: error.message,
+    };
+  }
+}

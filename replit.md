@@ -19,6 +19,11 @@ D'auchy.Studio is a Japanese AI product innovation company developing cutting-ed
 - ✅ AI generation job tracking and status management
 - ✅ Admin UI with "AI Generate" button in import queue manager
 - ✅ E2E tested: Complete AI workflow from RSS queue → multilingual news
+- ✅ **NEW**: AI content generation for existing news articles (2025-10-17)
+  - Generate multilingual translations and summaries for any existing news
+  - Convert external articles to internal blog posts with AI-generated content
+  - Sparkles icon button in news manager for easy access
+  - Preserves source attribution while making content internal
 
 ### Critical Fix: gpt-4o-mini for Translation (2025-10-17)
 - **Issue**: GPT-5-nano did NOT perform translations - it echoed input text unchanged
