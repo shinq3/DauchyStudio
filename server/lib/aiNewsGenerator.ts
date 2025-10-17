@@ -361,10 +361,17 @@ export async function generateContentForExistingNews(options: GenerateContentFor
     const jobIds: string[] = [];
     let firstLanguageSummary = '';
 
+    // Reorder target languages to process source language first
+    // This ensures firstLanguageSummary is in the source language
+    const reorderedLanguages = [
+      sourceLanguage as 'ja' | 'en' | 'vi',
+      ...targetLanguages.filter(lang => lang !== sourceLanguage)
+    ];
+
     // Keep existing translations until new ones are successfully created
     // We'll update/create them one by one
 
-    for (const targetLang of targetLanguages) {
+    for (const targetLang of reorderedLanguages) {
       // Track translation success
       let titleTranslationSuccess = false;
       let excerptTranslationSuccess = false;
@@ -499,7 +506,8 @@ export async function generateContentForExistingNews(options: GenerateContentFor
           });
           aiSummary = summaryResult.summary;
           
-          if (targetLang === targetLanguages[0]) {
+          // Save the first language summary (which is the source language)
+          if (targetLang === sourceLanguage) {
             firstLanguageSummary = aiSummary;
           }
           

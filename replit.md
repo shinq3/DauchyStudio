@@ -38,6 +38,10 @@ D'auchy.Studio is a Japanese AI product innovation company developing cutting-ed
   - Analyzes ONLY title and content (ignores excerpt which may contain AI-generated text from previous runs)
   - Character ratio analysis: >5% Japanese chars → ja, >5% Vietnamese chars → vi, else → en
   - Critical: Must ignore excerpt to prevent misdetection when previous AI generation added localized summaries
+- **Language Processing Order** (Fixed 2025-10-17):
+  - Reorders target languages to process source language FIRST
+  - Ensures firstLanguageSummary matches source language (not always Japanese)
+  - Fixes SEO Description language mismatch (was showing Japanese for English articles)
 - **Data Protection**:
   - Tracks translation success with flags (titleTranslationSuccess, excerptTranslationSuccess, contentTranslationSuccess)
   - Only saves translation when contentTranslationSuccess=true
