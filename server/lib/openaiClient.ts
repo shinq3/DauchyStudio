@@ -41,8 +41,7 @@ export async function translateWithGPT4(request: TranslationRequest): Promise<Tr
       { role: 'system', content: systemPrompt },
       { role: 'user', content: sourceText },
     ],
-    temperature: 0.3,
-    max_tokens: contentType === 'title' ? 100 : contentType === 'excerpt' ? 300 : 2000,
+    max_completion_tokens: contentType === 'title' ? 100 : contentType === 'excerpt' ? 300 : 2000,
   });
 
   const translatedText = response.choices[0]?.message?.content || sourceText;
@@ -115,8 +114,7 @@ export async function generateSummaryWithGPT4(request: SummaryRequest): Promise<
       { role: 'system', content: systemPrompt },
       { role: 'user', content: content },
     ],
-    temperature: 0.3,
-    max_tokens: 300,
+    max_completion_tokens: 300,
   });
 
   const summary = response.choices[0]?.message?.content || '';

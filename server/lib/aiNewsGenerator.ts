@@ -17,11 +17,19 @@ export interface GenerateNewsResult {
 }
 
 function generateSlug(title: string): string {
-  return title
+  const baseSlug = title
     .toLowerCase()
     .replace(/[^a-z0-9\s-]/g, '')
     .replace(/\s+/g, '-')
     .substring(0, 50);
+  
+  if (!baseSlug || baseSlug.length < 3) {
+    const timestamp = Date.now();
+    const randomId = Math.random().toString(36).substring(2, 8);
+    return `article-${timestamp}-${randomId}`;
+  }
+  
+  return baseSlug;
 }
 
 export async function generateNewsFromQueue(options: GenerateNewsFromQueueOptions): Promise<GenerateNewsResult> {

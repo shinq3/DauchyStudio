@@ -106,6 +106,7 @@ export const isAdminAuthenticated = async (req: Request, res: Response, next: Ne
     }
 
     req.currentAdmin = admin;
+    (req as any).user = admin; // Also set req.user for consistency
     next();
   } catch (error) {
     console.error('Authentication error:', error);

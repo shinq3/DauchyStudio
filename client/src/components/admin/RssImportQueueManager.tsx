@@ -79,7 +79,7 @@ export default function RssImportQueueManager() {
           'Content-Type': 'application/json',
         },
       }),
-    onSuccess: (data) => {
+    onSuccess: (data: any) => {
       queryClient.invalidateQueries({ queryKey: ["/api/admin/rss/queue"] });
       queryClient.invalidateQueries({ queryKey: ["/api/admin/news"] });
       setSelectedItem(null);
@@ -345,6 +345,7 @@ export default function RssImportQueueManager() {
                   >
                     Close
                   </Button>
+                </div>
                 </div>
               </div>
             </ScrollArea>

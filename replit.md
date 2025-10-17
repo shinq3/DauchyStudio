@@ -11,6 +11,14 @@ D'auchy.Studio is a Japanese AI product innovation company developing cutting-ed
 - ✅ Structured logging for debugging
 - ✅ End-to-end tested admin workflow
 
+## AI Blog Generation (Phase 3 - 2025-10-17)
+- ✅ OpenAI GPT-5-nano integration for multilingual translation (ja/en/vi)
+- ✅ DALL-E 3 featured image generation (optional)
+- ✅ AI-powered content summarization
+- ✅ Automated news creation from RSS import queue
+- ✅ AI generation job tracking and status management
+- ✅ Admin UI with "AI Generate" button in import queue manager
+
 ### Default Admin Credentials
 - Username: `admin`
 - Password: `admin123`
@@ -80,6 +88,7 @@ Currently uses mock data with clear TODO comments for future CMS integration:
 ## Core Dependencies
 - **@neondatabase/serverless**: PostgreSQL database connection for serverless environments
 - **drizzle-orm**: Type-safe database ORM with PostgreSQL dialect
+- **openai**: Official OpenAI SDK for GPT-5-nano translations and DALL-E 3 image generation
 
 ## UI Framework
 - **@radix-ui/***: Comprehensive accessible component primitives for forms, navigation, and overlays
