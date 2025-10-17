@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./replitAuth";
 import { z } from "zod";
-import { insertNewsSchema, insertNewsUpdateSchema, insertContactSchema, adminUsers, insertAdminUserSchema, updateAdminUserSchema, changePasswordSchema } from "@shared/schema";
+import { insertNewsSchema, insertNewsUpdateSchema, insertNewsTranslationSchema, insertContactSchema, adminUsers, insertAdminUserSchema, updateAdminUserSchema, changePasswordSchema } from "@shared/schema";
 import { AuthService, isAdminAuthenticated as isAdminAuth, requireSuperadmin, requirePermission, allowSelfOrSuperadmin, protectLastSuperadmin } from "./lib/auth";
 import { createInsertSchema } from "drizzle-zod";
 
@@ -527,6 +527,76 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error deleting news update:", error);
       res.status(500).json({ message: "Failed to delete news update" });
+    }
+  });
+
+  // News translations management
+  app.get('/api/admin/news/:newsId/translations', isAdminAuth, async (req, res) => {
+    try {
+      const { newsId } = req.params;
+      const translations = await storage.getNewsTranslations(newsId);
+      res.json(translations);
+    } catch (error) {
+      console.error("Error fetching news translations:", error);
+      res.status(500).json({ message: "Failed to fetch news translations" });
+    }
+  });
+
+  app.get('/api/admin/news/:newsId/translations/:locale', isAdminAuth, async (req, res) => {
+    try {
+      const { newsId, locale } = req.params;
+      const translation = await storage.getNewsTranslation(newsId, locale);
+      if (!translation) {
+        return res.status(404).json({ message: "Translation not found" });
+      }
+      res.json(translation);
+    } catch (error) {
+      console.error("Error fetching news translation:", error);
+      res.status(500).json({ message: "Failed to fetch news translation" });
+    }
+  });
+
+  app.post('/api/admin/news/:newsId/translations', isAdminAuth, async (req, res) => {
+    try {
+      const { newsId } = req.params;
+      const translationData = insertNewsTranslationSchema.parse({ ...req.body, newsId });
+      const translation = await storage.createNewsTranslation(translationData);
+      res.json(translation);
+    } catch (error) {
+      console.error("Error creating news translation:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Failed to create news translation" });
+    }
+  });
+
+  app.put('/api/admin/news/translations/:id', isAdminAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const translationData = insertNewsTranslationSchema.partial().parse(req.body);
+      const translation = await storage.updateNewsTranslation(id, translationData);
+      if (!translation) {
+        return res.status(404).json({ message: "Translation not found" });
+      }
+      res.json(translation);
+    } catch (error) {
+      console.error("Error updating news translation:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Failed to update news translation" });
+    }
+  });
+
+  app.delete('/api/admin/news/translations/:id', isAdminAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      await storage.deleteNewsTranslation(id);
+      res.json({ message: "Translation deleted" });
+    } catch (error) {
+      console.error("Error deleting news translation:", error);
+      res.status(500).json({ message: "Failed to delete news translation" });
     }
   });
 
