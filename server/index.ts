@@ -1,6 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { startRssPolling } from "./lib/rssPoller";
 
 const app = express();
 app.use(express.json());
@@ -88,5 +89,9 @@ app.use((req, res, next) => {
     reusePort: true,
   }, () => {
     log(`serving on port ${port}`);
+    
+    // Start RSS polling every 5 minutes
+    startRssPolling(5);
+    log('RSS polling started');
   });
 })();

@@ -82,6 +82,7 @@ export interface IStorage {
   
   // RSS import queue operations
   getRssImportQueueItem(id: string): Promise<RssImportQueue | undefined>;
+  getRssImportQueueItemBySourceUrl(sourceUrl: string): Promise<RssImportQueue | undefined>;
   getRssImportQueue(status?: string): Promise<RssImportQueue[]>;
   createRssImportQueueItem(item: InsertRssImportQueue): Promise<RssImportQueue>;
   updateRssImportQueueItem(id: string, item: Partial<InsertRssImportQueue>): Promise<RssImportQueue | undefined>;
@@ -323,6 +324,14 @@ export class DatabaseStorage implements IStorage {
   async getRssImportQueueItem(id: string): Promise<RssImportQueue | undefined> {
     const [item] = await db.select().from(rssImportQueue).where(eq(rssImportQueue.id, id));
     return item;
+  }
+
+  async getRssImportQueueItemBySourceUrl(sourceUrl: string): Promise<RssImportQueue | undefined> {
+    const items = await db.select().from(rssImportQueue);
+    return items.find(item => {
+      const payload = item.rawPayload as any;
+      return payload?.link === sourceUrl;
+    });
   }
 
   async getRssImportQueue(status?: string): Promise<RssImportQueue[]> {
