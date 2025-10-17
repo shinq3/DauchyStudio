@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import NewsEditor from "./NewsEditor";
 import NewsUpdatesModal from "./NewsUpdatesModal";
 import NewsTranslationsEditor from "./NewsTranslationsEditor";
-import { Plus, Edit, Trash2, MessageCircle, Eye, Newspaper, Languages } from "lucide-react";
+import { Plus, Edit, Trash2, MessageCircle, Eye, Newspaper, Languages, Sparkles } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import type { News, InsertNews } from "@shared/schema";
 
@@ -101,6 +101,29 @@ export default function NewsManager() {
       toast({
         title: t('common.error'),
         description: error.message || t('news.messages.deleteError'),
+        variant: "destructive",
+      });
+    },
+  });
+
+  // AI Generate Content mutation
+  const aiGenerateMutation = useMutation({
+    mutationFn: (id: string) =>
+      apiRequest(`/api/admin/news/${id}/generate-content`, {
+        method: "POST",
+      }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/news"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/news"] });
+      toast({
+        title: "AI Content Generated",
+        description: "News content and translations have been generated successfully",
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: t('common.error'),
+        description: error.message || "Failed to generate content",
         variant: "destructive",
       });
     },
@@ -200,6 +223,16 @@ export default function NewsManager() {
                   </CardDescription>
                 </div>
                 <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => aiGenerateMutation.mutate(news.id)}
+                    disabled={aiGenerateMutation.isPending}
+                    data-testid={`button-ai-generate-${news.id}`}
+                    title="AI Generate Content"
+                  >
+                    <Sparkles className="w-4 h-4 text-orange-600" />
+                  </Button>
                   <Button
                     variant="outline"
                     size="sm"
