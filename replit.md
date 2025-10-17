@@ -18,6 +18,12 @@ D'auchy.Studio is a Japanese AI product innovation company developing cutting-ed
 - ✅ Automated news creation from RSS import queue
 - ✅ AI generation job tracking and status management
 - ✅ Admin UI with "AI Generate" button in import queue manager
+- ✅ E2E tested: Complete AI workflow from RSS queue → multilingual news
+
+### GPT-5-nano API Configuration
+- **max_completion_tokens**: Used instead of deprecated `max_tokens`
+- **temperature**: Removed (GPT-5-nano only supports default value 1)
+- **Authentication fix**: Middleware now sets both `req.currentAdmin` and `req.user` for API compatibility
 
 ### Default Admin Credentials
 - Username: `admin`
