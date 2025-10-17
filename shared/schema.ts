@@ -160,7 +160,7 @@ export const news = pgTable("news", {
 
 export const newsUpdates = pgTable("news_updates", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  newsId: varchar("news_id").references(() => news.id).notNull(),
+  newsId: varchar("news_id").references(() => news.id, { onDelete: 'cascade' }).notNull(),
   content: text("content").notNull(),
   authorId: varchar("author_id").references(() => users.id).notNull(),
   createdAt: timestamp("created_at").defaultNow(),
@@ -193,7 +193,7 @@ export const uploads = pgTable("uploads", {
 // Admin Sessions table for custom authentication
 export const adminSessions = pgTable("admin_sessions", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  adminUserId: varchar("admin_user_id").references(() => adminUsers.id).notNull(),
+  adminUserId: varchar("admin_user_id").references(() => adminUsers.id, { onDelete: 'cascade' }).notNull(),
   token: varchar("token").notNull().unique(),
   expiresAt: timestamp("expires_at").notNull(),
   createdAt: timestamp("created_at").defaultNow()
@@ -205,7 +205,7 @@ export type InsertAdminSession = typeof adminSessions.$inferInsert;
 // News Article Translations table for multi-language support
 export const newsTranslations = pgTable("news_translations", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  newsId: varchar("news_id").references(() => news.id).notNull(),
+  newsId: varchar("news_id").references(() => news.id, { onDelete: 'cascade' }).notNull(),
   locale: varchar("locale").notNull(), // ja, en, vi
   title: text("title").notNull(),
   excerpt: text("excerpt"),
@@ -242,11 +242,11 @@ export type InsertRssSource = typeof rssSources.$inferInsert;
 // RSS Import Queue table for automated news generation
 export const rssImportQueue = pgTable("rss_import_queue", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  sourceId: varchar("source_id").references(() => rssSources.id).notNull(),
+  sourceId: varchar("source_id").references(() => rssSources.id, { onDelete: 'cascade' }).notNull(),
   rawPayload: json("raw_payload").notNull(),
   suggestedPublishAt: timestamp("suggested_publish_at"),
   processingState: varchar("processing_state").notNull().default('pending'), // pending, parsing, awaiting_review, approved, rejected
-  newsId: varchar("news_id").references(() => news.id),
+  newsId: varchar("news_id").references(() => news.id, { onDelete: 'set null' }),
   processedByAdminId: varchar("processed_by_admin_id").references(() => adminUsers.id),
   errorMessage: text("error_message"),
   createdAt: timestamp("created_at").defaultNow(),
@@ -259,7 +259,7 @@ export type InsertRssImportQueue = typeof rssImportQueue.$inferInsert;
 // AI Generation Jobs table for tracking AI operations
 export const aiGenerationJobs = pgTable("ai_generation_jobs", {
   id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  newsId: varchar("news_id").references(() => news.id).notNull(),
+  newsId: varchar("news_id").references(() => news.id, { onDelete: 'cascade' }).notNull(),
   jobType: varchar("job_type").notNull(), // image_generation, content_summary, translation
   provider: varchar("provider").notNull(), // openai, anthropic, etc
   status: varchar("status").notNull().default('pending'), // pending, processing, completed, failed

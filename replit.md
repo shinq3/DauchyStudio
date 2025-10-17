@@ -22,7 +22,7 @@ The application uses a modern React-based frontend with TypeScript and Vite as t
 The server follows a clean Express.js architecture with TypeScript:
 
 - **Framework**: Express.js with middleware for JSON parsing, CORS, and request logging
-- **Storage Layer**: Abstracted storage interface with in-memory implementation (MemStorage) for development
+- **Storage Layer**: DatabaseStorage implementation with PostgreSQL for production data persistence
 - **Type Safety**: Shared TypeScript schemas between client and server for consistent data contracts
 - **Development Setup**: Vite middleware integration for hot module replacement in development
 
@@ -30,6 +30,15 @@ The server follows a clean Express.js architecture with TypeScript:
 - **ORM**: Drizzle ORM configured for PostgreSQL with type-safe query building
 - **Schema Management**: Centralized schema definitions in shared directory with Zod validation
 - **Migration Strategy**: Drizzle Kit for database migrations and schema synchronization
+- **Cascade Deletion**: Foreign key constraints with ON DELETE CASCADE for automatic cleanup of dependent data
+
+### CMS Database Tables (Phase 1 Complete - 2025-10-17)
+- **admin_users**: Custom admin authentication with bcryptjs password hashing, roles (superadmin/admin/editor), and permissions
+- **admin_sessions**: Session token management with expiration tracking
+- **news_translations**: Multilingual content storage (ja/en/vi) with SEO fields and AI-generated summaries
+- **rss_sources**: RSS feed configuration with polling intervals and language settings
+- **rss_import_queue**: Automated article import queue with processing states
+- **ai_generation_jobs**: AI content/image generation job tracking with provider metadata
 
 ## Design System
 The application implements a comprehensive design system based on modern tech aesthetics:
