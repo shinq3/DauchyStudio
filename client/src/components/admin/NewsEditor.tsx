@@ -63,7 +63,7 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
   ];
 
   const handleSubmit = (data: FormData) => {
-    const submitData: InsertNews = {
+    const submitData: any = {
       title: data.title,
       slug: data.slug,
       excerpt: data.excerpt,
@@ -76,7 +76,6 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
       sourceUrl: data.sourceUrl,
       sourceAttribution: data.sourceAttribution,
       status: data.status,
-      authorId: data.authorId,
       publishedAt: data.publishedAt && data.status === "published" 
         ? new Date(data.publishedAt) 
         : data.status === "published" 
