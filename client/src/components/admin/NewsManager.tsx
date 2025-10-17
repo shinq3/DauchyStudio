@@ -3,7 +3,6 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { useTranslation } from "react-i18next";
-import { useAdminAuth } from "@/hooks/useAdminAuth";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -23,7 +22,6 @@ export default function NewsManager() {
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const { t } = useTranslation('admin');
-  const { user } = useAdminAuth();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [editingNews, setEditingNews] = useState<News | null>(null);
   const [selectedNewsForUpdates, setSelectedNewsForUpdates] = useState<News | null>(null);
@@ -168,7 +166,7 @@ export default function NewsManager() {
               <DialogTitle>{t('news.createNews')}</DialogTitle>
             </DialogHeader>
             <NewsEditor
-              onSave={(data) => createMutation.mutate({ ...data, authorId: user?.id || '' })}
+              onSave={(data) => createMutation.mutate(data)}
               isLoading={createMutation.isPending}
             />
           </DialogContent>
@@ -269,7 +267,7 @@ export default function NewsManager() {
             </DialogHeader>
             <NewsEditor
               news={editingNews}
-              onSave={(data) => updateMutation.mutate({ id: editingNews.id, data: { ...data, authorId: editingNews.authorId } })}
+              onSave={(data) => updateMutation.mutate({ id: editingNews.id, data })}
               isLoading={updateMutation.isPending}
             />
           </DialogContent>

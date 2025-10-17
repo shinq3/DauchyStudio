@@ -454,8 +454,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/admin/news', isAdminAuth, async (req: any, res) => {
     try {
-      const newsData = insertNewsSchema.parse(req.body);
-      const authorId = req.session.authorUserId;
+      const newsData = insertNewsSchema.omit({ authorId: true }).parse(req.body);
+      const authorId = req.currentAdmin?.id;
+      
+      if (!authorId) {
+        return res.status(401).json({ message: "Authentication required" });
+      }
+      
       const news = await storage.createNews({ ...newsData, authorId });
       res.json(news);
     } catch (error) {
