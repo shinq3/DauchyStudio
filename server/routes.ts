@@ -654,6 +654,68 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // RSS import queue management
+  app.get('/api/admin/rss/queue', isAdminAuth, async (req, res) => {
+    try {
+      const status = req.query.status as string | undefined;
+      const queueItems = await storage.getRssImportQueue(status);
+      res.json(queueItems);
+    } catch (error) {
+      console.error("Error fetching RSS import queue:", error);
+      res.status(500).json({ message: "Failed to fetch RSS import queue" });
+    }
+  });
+
+  app.post('/api/admin/rss/queue/:id/approve', isAdminAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const existingItem = await storage.getRssImportQueueItem(id);
+      
+      if (!existingItem) {
+        return res.status(404).json({ message: "Queue item not found" });
+      }
+      
+      if (existingItem.processingState !== 'pending') {
+        return res.status(400).json({ message: "Only pending items can be approved" });
+      }
+      
+      const item = await storage.updateRssImportQueueItem(id, {
+        processingState: 'approved',
+        processedByAdminId: req.user?.id,
+        updatedAt: new Date(),
+      });
+      res.json(item);
+    } catch (error) {
+      console.error("Error approving queue item:", error);
+      res.status(500).json({ message: "Failed to approve queue item" });
+    }
+  });
+
+  app.post('/api/admin/rss/queue/:id/reject', isAdminAuth, async (req, res) => {
+    try {
+      const { id } = req.params;
+      const existingItem = await storage.getRssImportQueueItem(id);
+      
+      if (!existingItem) {
+        return res.status(404).json({ message: "Queue item not found" });
+      }
+      
+      if (existingItem.processingState !== 'pending') {
+        return res.status(400).json({ message: "Only pending items can be rejected" });
+      }
+      
+      const item = await storage.updateRssImportQueueItem(id, {
+        processingState: 'rejected',
+        processedByAdminId: req.user?.id,
+        updatedAt: new Date(),
+      });
+      res.json(item);
+    } catch (error) {
+      console.error("Error rejecting queue item:", error);
+      res.status(500).json({ message: "Failed to reject queue item" });
+    }
+  });
+
   // Contact management
   app.get('/api/admin/contacts', isAdminAuth, async (req, res) => {
     try {

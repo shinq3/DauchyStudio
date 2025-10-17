@@ -29,55 +29,75 @@ interface RssItem {
 
 export async function pollRssFeed(source: RssSource): Promise<void> {
   try {
-    console.log(`Polling RSS feed: ${source.name} (${source.feedUrl})`);
+    console.log(`[RSS Poller] Polling feed: ${source.name} (${source.feedUrl})`);
     
     const feed = await parser.parseURL(source.feedUrl);
     
     if (!feed.items || feed.items.length === 0) {
-      console.log(`No items found in feed: ${source.name}`);
+      console.log(`[RSS Poller] No items found in feed: ${source.name}`);
+      await storage.updateRssSource(source.id, {
+        lastPolledAt: new Date(),
+      });
       return;
     }
 
+    let addedCount = 0;
+    let skippedCount = 0;
+
     for (const item of feed.items) {
-      const rssItem = item as RssItem;
-      
-      if (!rssItem.title || !rssItem.link) {
-        console.log(`Skipping item without title or link`);
-        continue;
+      try {
+        const rssItem = item as RssItem;
+        
+        if (!rssItem.title || !rssItem.link) {
+          console.log(`[RSS Poller] Skipping item without title or link in ${source.name}`);
+          skippedCount++;
+          continue;
+        }
+
+        const existingQueueItem = await storage.getRssImportQueueItemBySourceUrl(rssItem.link);
+        
+        if (existingQueueItem) {
+          skippedCount++;
+          continue;
+        }
+
+        const thumbnailUrl = extractThumbnailUrl(rssItem);
+        const content = rssItem.contentEncoded || rssItem.content || rssItem.contentSnippet || '';
+        const publishedAt = rssItem.isoDate || rssItem.pubDate;
+
+        await storage.createRssImportQueueItem({
+          sourceId: source.id,
+          rawPayload: {
+            title: rssItem.title,
+            link: rssItem.link,
+            content,
+            publishedAt,
+            thumbnailUrl,
+            feedTitle: feed.title,
+          },
+        });
+
+        console.log(`[RSS Poller] Added to queue: ${rssItem.title}`);
+        addedCount++;
+      } catch (itemError) {
+        console.error(`[RSS Poller] Error processing item in ${source.name}:`, {
+          error: itemError instanceof Error ? itemError.message : String(itemError),
+          item: item?.title || 'unknown',
+        });
       }
-
-      const existingQueueItem = await storage.getRssImportQueueItemBySourceUrl(rssItem.link);
-      
-      if (existingQueueItem) {
-        continue;
-      }
-
-      const thumbnailUrl = extractThumbnailUrl(rssItem);
-      const content = rssItem.contentEncoded || rssItem.content || rssItem.contentSnippet || '';
-      const publishedAt = rssItem.isoDate || rssItem.pubDate;
-
-      await storage.createRssImportQueueItem({
-        sourceId: source.id,
-        rawPayload: {
-          title: rssItem.title,
-          link: rssItem.link,
-          content,
-          publishedAt,
-          thumbnailUrl,
-          feedTitle: feed.title,
-        },
-      });
-
-      console.log(`Added to import queue: ${rssItem.title}`);
     }
 
     await storage.updateRssSource(source.id, {
       lastPolledAt: new Date(),
     });
 
-    console.log(`Successfully polled RSS feed: ${source.name}`);
+    console.log(`[RSS Poller] Completed ${source.name}: ${addedCount} added, ${skippedCount} skipped`);
   } catch (error) {
-    console.error(`Error polling RSS feed ${source.name}:`, error);
+    console.error(`[RSS Poller] Failed to poll ${source.name}:`, {
+      url: source.feedUrl,
+      error: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     await storage.updateRssSource(source.id, {
       lastPolledAt: new Date(),
     });

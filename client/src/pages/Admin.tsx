@@ -8,8 +8,9 @@ import NewsManager from "@/components/admin/NewsManager";
 import ContactManager from "@/components/admin/ContactManager";
 import UsersManager from "@/components/admin/UsersManager";
 import RssSourcesManager from "@/components/admin/RssSourcesManager";
+import RssImportQueueManager from "@/components/admin/RssImportQueueManager";
 import AdminLoginForm from "@/components/admin/AdminLoginForm";
-import { LogOut, Newspaper, MessageSquare, Users, Home, RssIcon } from "lucide-react";
+import { LogOut, Newspaper, MessageSquare, Users, Home, RssIcon, Clock } from "lucide-react";
 import { Link } from "wouter";
 
 export default function Admin() {
@@ -79,7 +80,7 @@ export default function Admin() {
 
         {/* Main Content */}
         <Tabs defaultValue="news" className="space-y-8">
-          <TabsList className={`grid w-full ${user?.role === 'superadmin' ? 'grid-cols-4' : 'grid-cols-3'} lg:w-800`}>
+          <TabsList className={`grid w-full ${user?.role === 'superadmin' ? 'grid-cols-5' : 'grid-cols-4'}`}>
             <TabsTrigger value="news" data-testid="tab-news">
               <Newspaper className="w-4 h-4 mr-2" />
               {t('tabs.news')}
@@ -87,6 +88,10 @@ export default function Admin() {
             <TabsTrigger value="rss" data-testid="tab-rss">
               <RssIcon className="w-4 h-4 mr-2" />
               RSS Sources
+            </TabsTrigger>
+            <TabsTrigger value="queue" data-testid="tab-queue">
+              <Clock className="w-4 h-4 mr-2" />
+              Import Queue
             </TabsTrigger>
             <TabsTrigger value="contacts" data-testid="tab-contacts">
               <MessageSquare className="w-4 h-4 mr-2" />
@@ -106,6 +111,10 @@ export default function Admin() {
 
           <TabsContent value="rss">
             <RssSourcesManager />
+          </TabsContent>
+
+          <TabsContent value="queue">
+            <RssImportQueueManager />
           </TabsContent>
 
           <TabsContent value="contacts">
