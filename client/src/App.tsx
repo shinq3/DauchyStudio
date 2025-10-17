@@ -21,6 +21,7 @@ import EnterpriseLLM from "@/pages/EnterpriseLLM";
 import AIProposal from "@/pages/AIProposal";
 import AIPairCoding from "@/pages/AIPairCoding";
 import Admin from "@/pages/Admin";
+import NewsDetail from "@/pages/NewsDetail";
 import { Github, Twitter, Linkedin, Mail } from "lucide-react";
 import { extractLocaleFromPath, linkTo, useLocale } from "@/lib/i18n-utils";
 import { defaultLocale, isValidLocale, type Locale } from "@shared/i18n";
@@ -81,6 +82,12 @@ function Router() {
       
       <Route path="/contact">
         <Redirect to={linkTo('/contact', defaultLocale)} />
+      </Route>
+      
+      <Route path="/news/:id">
+        {(params) => (
+          <Redirect to={linkTo(`/news/${params.id}`, defaultLocale)} />
+        )}
       </Route>
       
       <Route path="/news">
@@ -157,6 +164,13 @@ function Router() {
         {(params) => {
           if (!isValidLocale(params.locale)) return <NotFound />;
           return <Contact />;
+        }}
+      </Route>
+      
+      <Route path="/:locale/news/:id">
+        {(params) => {
+          if (!isValidLocale(params.locale)) return <NotFound />;
+          return <NewsDetail />;
         }}
       </Route>
       

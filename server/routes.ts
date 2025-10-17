@@ -243,7 +243,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             tags: newsItem.tags || [],
             source: newsItem.sourceAttribution || 'D\'auchy.Studio',
             sourceUrl: newsItem.sourceUrl || '',
-            isExternal: !!newsItem.sourceUrl,
+            isExternal: newsItem.isExternal || false,
             status: newsItem.status
           };
         })

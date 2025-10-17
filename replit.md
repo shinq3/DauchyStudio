@@ -28,6 +28,15 @@ D'auchy.Studio is a Japanese AI product innovation company developing cutting-ed
   - **Translation failure protection**: Only saves translations when content translation succeeds, preserving existing translations on failure
   - **E2E tested**: English → Japanese/Vietnamese translations verified working correctly
 
+## isExternal Flag Fix (2025-10-17)
+- ✅ **Fixed API response**: Changed from `!!newsItem.sourceUrl` to `newsItem.isExternal || false`
+- ✅ **Fixed admin UI**: Changed label from "Internal News" to "External Article" with clear description
+- ✅ **Added news detail route**: `/news/:id` for internal article detail pages
+- ✅ **E2E tested**: Internal articles navigate to detail page, external articles open source URL in new tab
+- **Behavior**:
+  - `is_external=false` → Navigates to internal detail page
+  - `is_external=true` → Opens sourceUrl in new tab with external badge
+
 ### Critical Implementation Details (2025-10-17)
 - **Translation Model**: `gpt-4o-mini` (GPT-5-nano does NOT translate - echoes input unchanged)
 - **Configuration**: 
