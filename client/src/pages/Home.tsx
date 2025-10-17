@@ -144,7 +144,7 @@ export default function Home() {
         }}
         secondaryCta={{ 
           label: t('common:buttons.learnMore'), 
-          href: linkTo("/about", locale) 
+          href: linkTo("/ai-pair-coding", locale) 
         }}
       />
       
