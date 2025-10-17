@@ -151,11 +151,14 @@ export const news = pgTable("news", {
   featuredImage: text("featured_image"),
   isExternal: boolean("is_external").default(false),
   externalUrl: text("external_url"),
+  sourceUrl: text("source_url"), // Original article URL for RSS-sourced articles
+  sourceAttribution: text("source_attribution"), // Source name (e.g., "Google Research Blog")
+  originalPublishedAt: timestamp("original_published_at"), // Original publication date from RSS
   status: text("status").notNull().default('draft'), // draft, published, archived
   publishedAt: timestamp("published_at"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
-  authorId: varchar("author_id").references(() => users.id).notNull()
+  authorId: varchar("author_id").notNull()
 });
 
 export const newsUpdates = pgTable("news_updates", {
@@ -292,6 +295,9 @@ export const insertNewsSchema = createInsertSchema(news).pick({
   featuredImage: true,
   isExternal: true,
   externalUrl: true,
+  sourceUrl: true,
+  sourceAttribution: true,
+  originalPublishedAt: true,
   status: true,
   authorId: true,
 });

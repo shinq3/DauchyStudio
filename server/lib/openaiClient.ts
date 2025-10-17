@@ -29,17 +29,19 @@ export async function translateWithGPT4(request: TranslationRequest): Promise<Tr
     vi: 'Vietnamese',
   };
 
-  const systemPrompt = contentType === 'title'
-    ? `You are a professional translator specializing in news headlines and titles. Translate the following text from ${languageNames[sourceLanguage]} to ${languageNames[targetLanguage]}. Keep it concise and impactful, suitable for a news headline.`
+  const systemPrompt = `You are a professional translator. Your task is to translate text from ${languageNames[sourceLanguage]} to ${languageNames[targetLanguage]}. Return ONLY the translated text, nothing else.`;
+
+  const userPrompt = contentType === 'title'
+    ? `Translate this ${languageNames[sourceLanguage]} news headline to ${languageNames[targetLanguage]}. Keep it concise and impactful:\n\n${sourceText}`
     : contentType === 'excerpt'
-    ? `You are a professional translator. Translate the following excerpt from ${languageNames[sourceLanguage]} to ${languageNames[targetLanguage]}. Maintain the tone and style of the original text. This is a brief summary, so keep it concise.`
-    : `You are a professional translator. Translate the following article content from ${languageNames[sourceLanguage]} to ${languageNames[targetLanguage]}. Maintain the tone, style, and formatting of the original text. Preserve any technical terms appropriately.`;
+    ? `Translate this ${languageNames[sourceLanguage]} excerpt to ${languageNames[targetLanguage]}. Maintain the tone and style:\n\n${sourceText}`
+    : `Translate this ${languageNames[sourceLanguage]} article to ${languageNames[targetLanguage]}. Maintain tone, style, and formatting:\n\n${sourceText}`;
 
   const response = await openai.chat.completions.create({
     model: 'gpt-5-nano',
     messages: [
       { role: 'system', content: systemPrompt },
-      { role: 'user', content: sourceText },
+      { role: 'user', content: userPrompt },
     ],
     max_completion_tokens: contentType === 'title' ? 100 : contentType === 'excerpt' ? 300 : 2000,
   });

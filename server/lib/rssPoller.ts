@@ -71,9 +71,13 @@ export async function pollRssFeed(source: RssSource): Promise<void> {
             title: rssItem.title,
             link: rssItem.link,
             content,
+            contentSnippet: rssItem.contentSnippet || '',
+            contentEncoded: rssItem.contentEncoded || '',
+            description: (item as any).description || '',
             publishedAt,
             thumbnailUrl,
             feedTitle: feed.title,
+            creator: rssItem.creator || feed.title,
           },
         });
 

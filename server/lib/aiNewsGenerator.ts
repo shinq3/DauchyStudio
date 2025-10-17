@@ -54,10 +54,11 @@ export async function generateNewsFromQueue(options: GenerateNewsFromQueueOption
     const sourceLanguage = rssSource.language;
     const sourceTitle = payload.title || 'Untitled';
     const sourceExcerpt = payload.contentSnippet || payload.description || '';
-    const sourceContent = payload.content || payload['content:encoded'] || sourceExcerpt;
+    const sourceContent = payload.contentEncoded || payload.content || payload.description || sourceExcerpt;
 
     console.log(`[AI News Generator] Generating news from queue item: ${queueItemId}`);
     console.log(`[AI News Generator] Source language: ${sourceLanguage}, Target languages: ${targetLanguages.join(', ')}`);
+    console.log(`[AI News Generator] Content length: ${sourceContent.length} chars`);
 
     const slug = generateSlug(sourceTitle);
     
@@ -68,8 +69,11 @@ export async function generateNewsFromQueue(options: GenerateNewsFromQueueOption
       content: sourceContent,
       category: rssSource.category || 'AI',
       tags: ['AI', 'RSS', rssSource.name],
-      isExternal: true,
-      externalUrl: payload.link || payload.guid,
+      featuredImage: payload.thumbnailUrl || null,
+      isExternal: false, // AI-generated news is internal content
+      sourceUrl: payload.link || payload.guid,
+      sourceAttribution: payload.feedTitle || payload.creator || rssSource.name,
+      originalPublishedAt: payload.publishedAt ? new Date(payload.publishedAt) : null,
       status: 'draft',
       authorId: adminId,
     };
