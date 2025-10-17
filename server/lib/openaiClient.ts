@@ -38,12 +38,13 @@ export async function translateWithGPT4(request: TranslationRequest): Promise<Tr
     : `Translate this ${languageNames[sourceLanguage]} article to ${languageNames[targetLanguage]}. Maintain tone, style, and formatting:\n\n${sourceText}`;
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-5-nano',
+    model: 'gpt-4o-mini',
     messages: [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: userPrompt },
     ],
-    max_completion_tokens: contentType === 'title' ? 100 : contentType === 'excerpt' ? 300 : 2000,
+    temperature: 0.3,
+    max_tokens: contentType === 'title' ? 100 : contentType === 'excerpt' ? 300 : 2000,
   });
 
   const translatedText = response.choices[0]?.message?.content || sourceText;
@@ -111,12 +112,13 @@ export async function generateSummaryWithGPT4(request: SummaryRequest): Promise<
   const systemPrompt = `You are a professional content summarizer. Create a concise summary of the following article in ${languageNames[language]}. The summary should be around ${maxLength} characters and capture the key points of the article.`;
 
   const response = await openai.chat.completions.create({
-    model: 'gpt-5-nano',
+    model: 'gpt-4o-mini',
     messages: [
       { role: 'system', content: systemPrompt },
       { role: 'user', content: content },
     ],
-    max_completion_tokens: 300,
+    temperature: 0.3,
+    max_tokens: 300,
   });
 
   const summary = response.choices[0]?.message?.content || '';
