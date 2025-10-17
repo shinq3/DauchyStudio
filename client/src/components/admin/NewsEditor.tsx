@@ -15,7 +15,7 @@ import 'react-quill/dist/quill.snow.css';
 import { z } from "zod";
 import type { News, InsertNews } from "@shared/schema";
 
-const formSchema = insertNewsSchema.extend({
+const formSchema = insertNewsSchema.omit({ authorId: true }).extend({
   publishedAt: z.string().optional(),
 });
 
@@ -63,6 +63,9 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
   ];
 
   const handleSubmit = (data: FormData) => {
+    console.log('Form submitted with data:', data);
+    console.log('Form errors:', form.formState.errors);
+    
     const submitData: any = {
       title: data.title,
       slug: data.slug,
@@ -83,6 +86,7 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
           : undefined,
     };
 
+    console.log('Calling onSave with:', submitData);
     onSave(submitData);
   };
 
@@ -317,6 +321,19 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
 
           {/* Actions */}
           <div className="flex justify-end gap-4">
+            <Button 
+              type="button"
+              variant="outline"
+              onClick={() => {
+                console.log('=== FORM DEBUG INFO ===');
+                console.log('Form values:', form.getValues());
+                console.log('Form errors:', form.formState.errors);
+                console.log('Form is valid:', form.formState.isValid);
+                console.log('Content state:', content);
+              }}
+            >
+              Debug Form
+            </Button>
             <Button 
               type="submit" 
               disabled={isLoading}
