@@ -1,0 +1,34 @@
+
+queryClient.ts:14  PUT https://e10e4ffd-7186-4a81-bf6a-60303a674e5c-00-2dk9ljb0ahqns.worf.replit.dev/api/admin/news/f163573a-00ca-44c9-b2e9-2e2f3632b696 400 (Bad Request)
+apiRequest @ queryClient.ts:14
+mutationFn @ NewsManager.tsx:63
+fn @ @tanstack_react-query.js?v=a01b8681:1189
+run @ @tanstack_react-query.js?v=a01b8681:494
+start @ @tanstack_react-query.js?v=a01b8681:536
+execute @ @tanstack_react-query.js?v=a01b8681:1225
+await in execute
+mutate @ @tanstack_react-query.js?v=a01b8681:2630
+(anonymous) @ @tanstack_react-query.js?v=a01b8681:3295
+onSave @ NewsManager.tsx:270
+handleSubmit @ NewsEditor.tsx:90
+(anonymous) @ chunk-4BFJKWC4.js?v=a01b8681:1465
+await in (anonymous)
+callCallback2 @ chunk-RPCDYKBN.js?v=a01b8681:3674
+invokeGuardedCallbackDev @ chunk-RPCDYKBN.js?v=a01b8681:3699
+invokeGuardedCallback @ chunk-RPCDYKBN.js?v=a01b8681:3733
+invokeGuardedCallbackAndCatchFirstError @ chunk-RPCDYKBN.js?v=a01b8681:3736
+executeDispatch @ chunk-RPCDYKBN.js?v=a01b8681:7014
+processDispatchQueueItemsInOrder @ chunk-RPCDYKBN.js?v=a01b8681:7034
+processDispatchQueue @ chunk-RPCDYKBN.js?v=a01b8681:7043
+dispatchEventsForPlugins @ chunk-RPCDYKBN.js?v=a01b8681:7051
+(anonymous) @ chunk-RPCDYKBN.js?v=a01b8681:7174
+batchedUpdates$1 @ chunk-RPCDYKBN.js?v=a01b8681:18913
+batchedUpdates @ chunk-RPCDYKBN.js?v=a01b8681:3579
+dispatchEventForPluginEventSystem @ chunk-RPCDYKBN.js?v=a01b8681:7173
+dispatchEventWithEnableCapturePhaseSelectiveHydrationWithoutDiscreteEventReplay @ chunk-RPCDYKBN.js?v=a01b8681:5478
+dispatchEvent @ chunk-RPCDYKBN.js?v=a01b8681:5472
+dispatchDiscreteEvent @ chunk-RPCDYKBN.js?v=a01b8681:5449
+NewsManager.tsx:185 i18next::translator: missingKey ja admin news.status.Published news.status.Published
+NewsManager.tsx:188 i18next::translator: missingKey ja admin news.categories.Technology news.categories.Technology
+NewsManager.tsx:185 i18next::translator: missingKey ja admin news.status.Published news.status.Published
+NewsManager.tsx:188 i18next::translator: missingKey ja admin news.categories.Technology news.categories.Technology

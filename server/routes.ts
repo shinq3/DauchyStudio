@@ -480,13 +480,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put('/api/admin/news/:id', isAdminAuth, async (req: any, res) => {
     try {
       const { id } = req.params;
-      const { publishedAt, ...restData } = req.body;
-      const newsData = insertNewsSchema.omit({ authorId: true, publishedAt: true }).partial().parse(restData);
+      const body = req.body;
       
-      const news = await storage.updateNews(id, { 
-        ...newsData,
-        publishedAt: publishedAt ? new Date(publishedAt) : undefined
-      });
+      // Manually extract and transform fields
+      const updateData: any = {};
+      
+      if (body.title !== undefined) updateData.title = body.title;
+      if (body.slug !== undefined) updateData.slug = body.slug;
+      if (body.excerpt !== undefined) updateData.excerpt = body.excerpt;
+      if (body.content !== undefined) updateData.content = body.content;
+      if (body.category !== undefined) updateData.category = body.category;
+      if (body.tags !== undefined) updateData.tags = body.tags;
+      if (body.featuredImage !== undefined) updateData.featuredImage = body.featuredImage;
+      if (body.isExternal !== undefined) updateData.isExternal = body.isExternal;
+      if (body.externalUrl !== undefined) updateData.externalUrl = body.externalUrl;
+      if (body.sourceUrl !== undefined) updateData.sourceUrl = body.sourceUrl;
+      if (body.sourceAttribution !== undefined) updateData.sourceAttribution = body.sourceAttribution;
+      if (body.originalPublishedAt !== undefined) updateData.originalPublishedAt = body.originalPublishedAt ? new Date(body.originalPublishedAt) : null;
+      if (body.status !== undefined) updateData.status = body.status;
+      if (body.publishedAt !== undefined) updateData.publishedAt = body.publishedAt ? new Date(body.publishedAt) : null;
+      
+      const news = await storage.updateNews(id, updateData);
       if (!news) {
         return res.status(404).json({ message: "News not found" });
       }
