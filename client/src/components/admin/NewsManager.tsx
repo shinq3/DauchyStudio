@@ -13,7 +13,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import NewsEditor from "./NewsEditor";
 import NewsUpdatesModal from "./NewsUpdatesModal";
-import { Plus, Edit, Trash2, MessageCircle, Eye, Newspaper } from "lucide-react";
+import NewsTranslationsEditor from "./NewsTranslationsEditor";
+import { Plus, Edit, Trash2, MessageCircle, Eye, Newspaper, Languages } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import type { News, InsertNews } from "@shared/schema";
 
@@ -24,6 +25,7 @@ export default function NewsManager() {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [editingNews, setEditingNews] = useState<News | null>(null);
   const [selectedNewsForUpdates, setSelectedNewsForUpdates] = useState<News | null>(null);
+  const [translatingNews, setTranslatingNews] = useState<News | null>(null);
 
   // Fetch all news
   const { data: allNews = [], isLoading } = useQuery<News[]>({
@@ -201,6 +203,14 @@ export default function NewsManager() {
                   <Button
                     variant="outline"
                     size="sm"
+                    onClick={() => setTranslatingNews(news)}
+                    data-testid={`button-translations-${news.id}`}
+                  >
+                    <Languages className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
                     onClick={() => setSelectedNewsForUpdates(news)}
                     data-testid={`button-updates-${news.id}`}
                   >
@@ -271,6 +281,18 @@ export default function NewsManager() {
           open={!!selectedNewsForUpdates}
           onOpenChange={() => setSelectedNewsForUpdates(null)}
         />
+      )}
+
+      {/* Translations Dialog */}
+      {translatingNews && (
+        <Dialog open={!!translatingNews} onOpenChange={() => setTranslatingNews(null)}>
+          <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Translations: {translatingNews.title}</DialogTitle>
+            </DialogHeader>
+            <NewsTranslationsEditor newsId={translatingNews.id} />
+          </DialogContent>
+        </Dialog>
       )}
     </div>
   );
