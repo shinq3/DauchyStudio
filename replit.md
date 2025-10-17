@@ -12,7 +12,7 @@ D'auchy.Studio is a Japanese AI product innovation company developing cutting-ed
 - ✅ End-to-end tested admin workflow
 
 ## AI Blog Generation (Phase 3 - 2025-10-17)
-- ✅ OpenAI GPT-5-nano integration for multilingual translation (ja/en/vi)
+- ✅ OpenAI gpt-4o-mini integration for multilingual translation (ja/en/vi)
 - ✅ DALL-E 3 featured image generation (optional)
 - ✅ AI-powered content summarization
 - ✅ Automated news creation from RSS import queue
@@ -20,10 +20,21 @@ D'auchy.Studio is a Japanese AI product innovation company developing cutting-ed
 - ✅ Admin UI with "AI Generate" button in import queue manager
 - ✅ E2E tested: Complete AI workflow from RSS queue → multilingual news
 
-### GPT-5-nano API Configuration
-- **max_completion_tokens**: Used instead of deprecated `max_tokens`
-- **temperature**: Removed (GPT-5-nano only supports default value 1)
-- **Authentication fix**: Middleware now sets both `req.currentAdmin` and `req.user` for API compatibility
+### Critical Fix: gpt-4o-mini for Translation (2025-10-17)
+- **Issue**: GPT-5-nano did NOT perform translations - it echoed input text unchanged
+- **Solution**: Switched to `gpt-4o-mini` which correctly handles translation tasks
+- **Configuration**: 
+  - Model: `gpt-4o-mini`
+  - Temperature: `0.3` (consistent translations)
+  - max_tokens: 100 (title), 300 (excerpt/summary), 2000 (content)
+- **Verified**: Translations now work correctly (ja→en, en→ja, en→vi, etc.)
+- **Authentication fix**: Middleware sets both `req.currentAdmin` and `req.user` for API compatibility
+
+### Enhanced RSS Content Extraction (2025-10-17)
+- **RSS Payload Fields**: contentSnippet, description, content, contentEncoded, creator, thumbnailUrl
+- **Priority Order**: contentEncoded > content > description > contentSnippet
+- **Featured Image**: Uses RSS thumbnailUrl when available, DALL-E 3 as optional enhancement
+- **Source Metadata**: Captures sourceUrl, sourceAttribution, originalPublishedAt from RSS feeds
 
 ### Default Admin Credentials
 - Username: `admin`
