@@ -223,8 +223,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
           return {
             id: newsItem.id,
             title: translation?.title || newsItem.title || '',
-            summary: translation?.excerpt || translation?.aiSummary || '',
-            content: translation?.content || '',
+            summary: translation?.excerpt || translation?.aiSummary || newsItem.excerpt || '',
+            content: translation?.content || newsItem.content || '',
             thumbnail: newsItem.featuredImage || '',
             publishedAt: newsItem.publishedAt?.toISOString() || new Date().toISOString(),
             category: newsItem.category || 'technology',
