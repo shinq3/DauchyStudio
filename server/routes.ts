@@ -611,6 +611,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.post('/api/admin/rss/poll-now', isAdminAuth, async (req, res) => {
+    try {
+      const { pollAllActiveRssFeeds } = await import('./lib/rssPoller');
+      await pollAllActiveRssFeeds();
+      res.json({ message: "RSS polling triggered successfully" });
+    } catch (error) {
+      console.error("Error triggering RSS poll:", error);
+      res.status(500).json({ message: "Failed to trigger RSS polling" });
+    }
+  });
+
   app.post('/api/admin/rss/sources', isAdminAuth, async (req, res) => {
     try {
       const sourceData = insertRssSourceSchema.parse(req.body);
