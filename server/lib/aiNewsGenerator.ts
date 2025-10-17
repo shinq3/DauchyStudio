@@ -1,5 +1,6 @@
 import { storage } from '../storage.js';
 import { translateWithGPT4, generateSummaryWithGPT4, generateImageWithDallE } from './openaiClient.js';
+import { downloadAndUploadImage } from './imageUploader.js';
 import type { RssImportQueue, InsertNews, InsertNewsTranslation, InsertAiGenerationJob } from '@shared/schema';
 
 export interface GenerateNewsFromQueueOptions {
@@ -261,21 +262,33 @@ export async function generateNewsFromQueue(options: GenerateNewsFromQueueOption
           size: '1792x1024',
         });
         
+        console.log(`[AI News Generator] DALL-E image generated, downloading and uploading to storage...`);
+        
+        // Download DALL-E image and upload to Object Storage for persistence
+        const uploadResult = await downloadAndUploadImage(
+          imageResult.imageUrl,
+          `news-${news.id}-${Date.now()}.png`
+        );
+        
         await storage.updateNews(news.id, {
-          featuredImage: imageResult.imageUrl,
+          featuredImage: uploadResult.objectPath,
         });
 
         await storage.updateAiGenerationJob(imageJob.id, {
           status: 'completed',
-          resultJson: imageResult,
+          resultJson: { 
+            ...imageResult, 
+            persistentUrl: uploadResult.objectPath,
+            publicUrl: uploadResult.publicUrl,
+          },
         });
-        console.log(`[AI News Generator] Image generated: ${imageResult.imageUrl}`);
+        console.log(`[AI News Generator] Image saved to storage: ${uploadResult.objectPath}`);
       } catch (error: any) {
         await storage.updateAiGenerationJob(imageJob.id, {
           status: 'failed',
           errorMessage: error.message,
         });
-        console.error(`[AI News Generator] Image generation failed:`, error.message);
+        console.error(`[AI News Generator] Image generation/upload failed:`, error.message);
       }
     }
 

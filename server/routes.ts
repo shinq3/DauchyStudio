@@ -795,6 +795,22 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Object Storage routes - for serving uploaded images
+  app.get("/objects/:objectPath(*)", async (req, res) => {
+    try {
+      const { ObjectStorageService, ObjectNotFoundError } = await import('./objectStorage');
+      const objectStorageService = new ObjectStorageService();
+      const objectFile = await objectStorageService.getObjectEntityFile(req.path);
+      await objectStorageService.downloadObject(objectFile, res);
+    } catch (error: any) {
+      if (error?.name === 'ObjectNotFoundError') {
+        return res.sendStatus(404);
+      }
+      console.error("Error serving object:", error);
+      return res.sendStatus(500);
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
