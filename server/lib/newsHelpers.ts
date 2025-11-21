@@ -23,8 +23,9 @@ export function extractFirstImage(htmlContent: string): string | null {
 
 /**
  * Create initial translation records for a news article
- * This creates basic translation records with the same content for all languages
- * Users can later edit or use AI to generate proper translations
+ * Creates empty translation records for each language
+ * Users should edit each language separately in the translation editor
+ * or use AI generation to create multilingual content
  */
 export interface InitialTranslationData {
   newsId: string;
@@ -39,14 +40,16 @@ export function createInitialTranslations(data: InitialTranslationData) {
   const { newsId, title, excerpt, content, seoTitle, seoDescription } = data;
   const locales = ['ja', 'en', 'vi'] as const;
   
+  // Create empty translations for each language
+  // Users should fill these in via the translation editor or AI generation
   return locales.map(locale => ({
     newsId,
     locale,
-    title,
-    excerpt,
-    content,
-    seoTitle: seoTitle || title,
-    seoDescription: seoDescription || excerpt,
+    title: `[${locale.toUpperCase()}] ${title}`, // Prefix with language code for clarity
+    excerpt: '', // Empty - user should fill in each language
+    content: '', // Empty - user should fill in each language
+    seoTitle: `[${locale.toUpperCase()}] ${seoTitle || title}`,
+    seoDescription: '', // Empty - user should fill in each language
   }));
 }
 

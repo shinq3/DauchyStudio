@@ -582,22 +582,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           await storage.createNewsTranslation(translation);
         }
         console.log(`[News] Created ${initialTranslations.length} initial translations`);
-      } else {
-        // Update existing translations if title/excerpt/content changed
-        if (body.title !== undefined || body.excerpt !== undefined || body.content !== undefined) {
-          for (const translation of existingTranslations) {
-            const translationUpdate: any = {};
-            if (body.title !== undefined) translationUpdate.title = body.title;
-            if (body.excerpt !== undefined) translationUpdate.excerpt = body.excerpt;
-            if (body.content !== undefined) translationUpdate.content = body.content;
-            
-            if (Object.keys(translationUpdate).length > 0) {
-              await storage.updateNewsTranslation(translation.id, translationUpdate);
-            }
-          }
-          console.log(`[News] Updated ${existingTranslations.length} translations`);
-        }
       }
+      // NOTE: Do NOT auto-update existing translations when news is updated
+      // Each language translation should be edited independently via the translation editor
       
       res.json(news);
     } catch (error) {
