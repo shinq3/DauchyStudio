@@ -17,7 +17,8 @@ export function stripBase64Images(html: string): { sanitizedHtml: string; imageM
     return { sanitizedHtml: html, imageMappings: [] };
   }
 
-  const $ = cheerio.load(html);
+  // Load HTML as fragment (don't add html/body wrappers)
+  const $ = cheerio.load(html, null, false);
   const imageMappings: ImagePlaceholder[] = [];
   let imageIndex = 0;
 
@@ -36,7 +37,8 @@ export function stripBase64Images(html: string): { sanitizedHtml: string; imageM
     }
   });
 
-  const sanitizedHtml = $.html();
+  // Use $.root().html() to get fragment without wrappers
+  const sanitizedHtml = $.root().html() || '';
   
   console.log(`[HTML Utils] Stripped ${imageMappings.length} base64 images from content`);
   console.log(`[HTML Utils] Original size: ${html.length} chars, Sanitized size: ${sanitizedHtml.length} chars`);
@@ -46,18 +48,40 @@ export function stripBase64Images(html: string): { sanitizedHtml: string; imageM
 
 /**
  * Restores base64 images to translated HTML using the original image mappings
+ * Validates that all placeholders are present before restoration
  * 
  * @param translatedHtml - HTML content after translation with placeholders
  * @param imageMappings - Original image mappings from stripBase64Images
  * @returns HTML with base64 images restored
+ * @throws Error if placeholder count mismatch detected
  */
 export function restoreBase64Images(translatedHtml: string, imageMappings: ImagePlaceholder[]): string {
   if (!translatedHtml || imageMappings.length === 0) {
     return translatedHtml;
   }
 
-  const $ = cheerio.load(translatedHtml);
+  // Load HTML as fragment (don't add html/body wrappers)
+  const $ = cheerio.load(translatedHtml, null, false);
 
+  // Count placeholders in translated content
+  let placeholderCount = 0;
+  $('img').each((_, element) => {
+    const $img = $(element);
+    const src = $img.attr('src');
+    if (src && src.startsWith('__IMAGE_PLACEHOLDER_')) {
+      placeholderCount++;
+    }
+  });
+
+  // Validate placeholder count matches original
+  if (placeholderCount !== imageMappings.length) {
+    console.error(`[HTML Utils] Placeholder mismatch! Expected ${imageMappings.length}, found ${placeholderCount}`);
+    console.error(`[HTML Utils] This may indicate the translator dropped or duplicated images`);
+    throw new Error(`Image placeholder count mismatch: expected ${imageMappings.length}, found ${placeholderCount}`);
+  }
+
+  // Restore images
+  let restoredCount = 0;
   $('img').each((_, element) => {
     const $img = $(element);
     const src = $img.attr('src');
@@ -70,13 +94,17 @@ export function restoreBase64Images(translatedHtml: string, imageMappings: Image
         
         if (mapping) {
           $img.attr('src', mapping.originalSrc);
+          restoredCount++;
+        } else {
+          console.warn(`[HTML Utils] No mapping found for placeholder index ${index}`);
         }
       }
     }
   });
 
-  const restoredHtml = $.html();
-  console.log(`[HTML Utils] Restored ${imageMappings.length} base64 images to translated content`);
+  // Use $.root().html() to get fragment without wrappers
+  const restoredHtml = $.root().html() || '';
+  console.log(`[HTML Utils] Restored ${restoredCount}/${imageMappings.length} base64 images to translated content`);
   
   return restoredHtml;
 }
