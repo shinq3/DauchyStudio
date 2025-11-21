@@ -474,11 +474,45 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(401).json({ message: "Authentication required" });
       }
       
+      // Import helpers
+      const { extractFirstImage, createInitialTranslations, generateSlug } = await import('./lib/newsHelpers.js');
+      
+      // Auto-generate slug if not provided
+      if (!newsData.slug && newsData.title) {
+        newsData.slug = generateSlug(newsData.title);
+      }
+      
+      // Auto-extract featured image from content if not provided
+      if (!newsData.featuredImage && newsData.content) {
+        const firstImage = extractFirstImage(newsData.content);
+        if (firstImage) {
+          newsData.featuredImage = firstImage;
+        }
+      }
+      
       const news = await storage.createNews({ 
         ...newsData, 
         authorId,
         publishedAt: publishedAt ? new Date(publishedAt) : undefined
       });
+      
+      // Auto-create initial translation records for all languages
+      const initialTranslations = createInitialTranslations({
+        newsId: news.id,
+        title: newsData.title || '',
+        excerpt: newsData.excerpt || '',
+        content: newsData.content || '',
+        seoTitle: newsData.title || '',
+        seoDescription: newsData.excerpt || '',
+      });
+      
+      // Create translation records
+      for (const translation of initialTranslations) {
+        await storage.createNewsTranslation(translation);
+      }
+      
+      console.log(`[News] Created news article with ${initialTranslations.length} translations`);
+      
       res.json(news);
     } catch (error) {
       console.error("Error creating news:", error);
@@ -494,6 +528,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { id } = req.params;
       const body = req.body;
       
+      // Import helpers
+      const { extractFirstImage, createInitialTranslations } = await import('./lib/newsHelpers.js');
+      
       // Manually extract and transform fields
       const updateData: any = {};
       
@@ -503,7 +540,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (body.content !== undefined) updateData.content = body.content;
       if (body.category !== undefined) updateData.category = body.category;
       if (body.tags !== undefined) updateData.tags = body.tags;
-      if (body.featuredImage !== undefined) updateData.featuredImage = body.featuredImage;
       if (body.isExternal !== undefined) updateData.isExternal = body.isExternal;
       if (body.externalUrl !== undefined) updateData.externalUrl = body.externalUrl;
       if (body.sourceUrl !== undefined) updateData.sourceUrl = body.sourceUrl;
@@ -512,10 +548,57 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (body.status !== undefined) updateData.status = body.status;
       if (body.publishedAt !== undefined) updateData.publishedAt = body.publishedAt ? new Date(body.publishedAt) : null;
       
+      // Auto-extract featured image from content if:
+      // 1. Content is being updated
+      // 2. featuredImage is not explicitly provided in the request
+      if (body.content !== undefined && body.featuredImage === undefined) {
+        const firstImage = extractFirstImage(body.content);
+        if (firstImage) {
+          updateData.featuredImage = firstImage;
+        }
+      } else if (body.featuredImage !== undefined) {
+        updateData.featuredImage = body.featuredImage;
+      }
+      
       const news = await storage.updateNews(id, updateData);
       if (!news) {
         return res.status(404).json({ message: "News not found" });
       }
+      
+      // Check if translations exist, if not create them
+      const existingTranslations = await storage.getNewsTranslations(id);
+      if (existingTranslations.length === 0) {
+        console.log(`[News] No translations found for news ${id}, creating initial translations`);
+        const initialTranslations = createInitialTranslations({
+          newsId: id,
+          title: updateData.title || news.title || '',
+          excerpt: updateData.excerpt || news.excerpt || '',
+          content: updateData.content || news.content || '',
+          seoTitle: updateData.title || news.title || '',
+          seoDescription: updateData.excerpt || news.excerpt || '',
+        });
+        
+        for (const translation of initialTranslations) {
+          await storage.createNewsTranslation(translation);
+        }
+        console.log(`[News] Created ${initialTranslations.length} initial translations`);
+      } else {
+        // Update existing translations if title/excerpt/content changed
+        if (body.title !== undefined || body.excerpt !== undefined || body.content !== undefined) {
+          for (const translation of existingTranslations) {
+            const translationUpdate: any = {};
+            if (body.title !== undefined) translationUpdate.title = body.title;
+            if (body.excerpt !== undefined) translationUpdate.excerpt = body.excerpt;
+            if (body.content !== undefined) translationUpdate.content = body.content;
+            
+            if (Object.keys(translationUpdate).length > 0) {
+              await storage.updateNewsTranslation(translation.id, translationUpdate);
+            }
+          }
+          console.log(`[News] Updated ${existingTranslations.length} translations`);
+        }
+      }
+      
       res.json(news);
     } catch (error) {
       console.error("Error updating news:", error);
