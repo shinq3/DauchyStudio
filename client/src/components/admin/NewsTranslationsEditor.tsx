@@ -203,6 +203,7 @@ export default function NewsTranslationsEditor({ newsId }: NewsTranslationsEdito
                           <FormControl>
                             <Textarea 
                               {...field} 
+                              value={field.value || ""}
                               placeholder="Brief description"
                               rows={3}
                               data-testid={`input-excerpt-${activeLocale}`}
@@ -244,6 +245,7 @@ export default function NewsTranslationsEditor({ newsId }: NewsTranslationsEdito
                           <FormControl>
                             <Input 
                               {...field} 
+                              value={field.value || ""}
                               placeholder="SEO optimized title"
                               data-testid={`input-seo-title-${activeLocale}`}
                             />
@@ -262,6 +264,7 @@ export default function NewsTranslationsEditor({ newsId }: NewsTranslationsEdito
                           <FormControl>
                             <Textarea 
                               {...field} 
+                              value={field.value || ""}
                               placeholder="Meta description for search engines"
                               rows={3}
                               data-testid={`input-seo-desc-${activeLocale}`}
@@ -281,6 +284,7 @@ export default function NewsTranslationsEditor({ newsId }: NewsTranslationsEdito
                           <FormControl>
                             <Textarea 
                               {...field} 
+                              value={field.value || ""}
                               placeholder="AI-generated summary (optional)"
                               rows={4}
                               data-testid={`input-ai-summary-${activeLocale}`}
