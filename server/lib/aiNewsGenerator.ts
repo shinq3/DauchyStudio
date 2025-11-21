@@ -1,6 +1,7 @@
 import { storage } from '../storage.js';
 import { translateWithGPT4, generateSummaryWithGPT4, generateImageWithDallE } from './openaiClient.js';
 import { downloadAndUploadImage } from './imageUploader.js';
+import { stripBase64Images, restoreBase64Images, estimateTokenCount } from './htmlUtils.js';
 import type { RssImportQueue, InsertNews, InsertNewsTranslation, InsertAiGenerationJob } from '@shared/schema';
 
 export interface GenerateNewsFromQueueOptions {
@@ -163,13 +164,21 @@ export async function generateNewsFromQueue(options: GenerateNewsFromQueueOption
         jobIds.push(contentJob.id);
 
         try {
+          // Strip base64 images before translation to reduce token count
+          const { sanitizedHtml, imageMappings } = stripBase64Images(sourceContent);
+          const estimatedTokens = estimateTokenCount(sanitizedHtml);
+          console.log(`[AI News Generator] Content translation - Estimated tokens: ${estimatedTokens}`);
+          
           const contentResult = await translateWithGPT4({
-            sourceText: sourceContent,
+            sourceText: sanitizedHtml,
             sourceLanguage,
             targetLanguage: targetLang,
             contentType: 'content',
           });
-          translatedContent = contentResult.translatedText;
+          
+          // Restore base64 images to translated content
+          translatedContent = restoreBase64Images(contentResult.translatedText, imageMappings);
+          
           await storage.updateAiGenerationJob(contentJob.id, {
             status: 'completed',
             resultJson: contentResult,
@@ -195,8 +204,11 @@ export async function generateNewsFromQueue(options: GenerateNewsFromQueueOption
       jobIds.push(summaryJob.id);
 
       try {
+        // Strip base64 images from content before generating summary
+        const { sanitizedHtml } = stripBase64Images(translatedContent);
+        
         const summaryResult = await generateSummaryWithGPT4({
-          content: translatedContent,
+          content: sanitizedHtml,
           language: targetLang,
           maxLength: 200,
         });
@@ -460,14 +472,22 @@ export async function generateContentForExistingNews(options: GenerateContentFor
         jobIds.push(contentJob.id);
 
         try {
+          // Strip base64 images before translation to reduce token count
+          const { sanitizedHtml, imageMappings } = stripBase64Images(sourceContent);
+          const estimatedTokens = estimateTokenCount(sanitizedHtml);
+          console.log(`[AI News Generator] Content translation - Estimated tokens: ${estimatedTokens}`);
+          
           const contentResult = await translateWithGPT4({
-            sourceText: sourceContent,
+            sourceText: sanitizedHtml,
             sourceLanguage,
             targetLanguage: targetLang,
             contentType: 'content',
           });
-          translatedContent = contentResult.translatedText;
+          
+          // Restore base64 images to translated content
+          translatedContent = restoreBase64Images(contentResult.translatedText, imageMappings);
           contentTranslationSuccess = true;
+          
           await storage.updateAiGenerationJob(contentJob.id, {
             status: 'completed',
             resultJson: contentResult,
@@ -499,8 +519,11 @@ export async function generateContentForExistingNews(options: GenerateContentFor
         jobIds.push(summaryJob.id);
 
         try {
+          // Strip base64 images from content before generating summary
+          const { sanitizedHtml } = stripBase64Images(translatedContent);
+          
           const summaryResult = await generateSummaryWithGPT4({
-            content: translatedContent,
+            content: sanitizedHtml,
             language: targetLang,
             maxLength: 200,
           });
