@@ -23,6 +23,7 @@ import AIProposal from "@/pages/AIProposal";
 import AIPairCoding from "@/pages/AIPairCoding";
 import Admin from "@/pages/Admin";
 import NewsDetail from "@/pages/NewsDetail";
+import ChatPage from "@/pages/ChatPage";
 import { Github, Twitter, Linkedin, Mail } from "lucide-react";
 import { extractLocaleFromPath, linkTo, useLocale } from "@/lib/i18n-utils";
 import { defaultLocale, isValidLocale, type Locale } from "@shared/i18n";
@@ -101,6 +102,10 @@ function Router() {
       
       <Route path="/ai-pair-coding">
         <Redirect to={linkTo('/ai-pair-coding', defaultLocale)} />
+      </Route>
+      
+      <Route path="/chat">
+        <Redirect to={linkTo('/chat', defaultLocale)} />
       </Route>
       
       {/* Root redirect to default locale */}
@@ -203,6 +208,13 @@ function Router() {
         }}
       </Route>
       
+      <Route path="/:locale/chat">
+        {(params) => {
+          if (!isValidLocale(params.locale)) return <NotFound />;
+          return <ChatPage />;
+        }}
+      </Route>
+      
       {/* Catch-all for invalid routes */}
       <Route component={NotFound} />
     </Switch>
@@ -212,6 +224,9 @@ function Router() {
 function App() {
   const { t } = useTranslation('footer');
   const { locale } = useLocale();
+  const [location] = useLocation();
+  
+  const isChatPage = location.includes('/chat');
   
   // TODO: remove mock functionality - replace with real data from CMS
   const footerLinks = [
@@ -242,6 +257,19 @@ function App() {
     { name: "LinkedIn", href: "https://linkedin.com/company/dachy-studio", icon: <Linkedin className="w-4 h-4" /> },
     { name: "Email", href: "mailto:contact@dachy.studio", icon: <Mail className="w-4 h-4" /> }
   ];
+
+  if (isChatPage) {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <ThemeProvider defaultTheme="light">
+            <Router />
+            <Toaster />
+          </ThemeProvider>
+        </TooltipProvider>
+      </QueryClientProvider>
+    );
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
