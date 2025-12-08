@@ -258,19 +258,6 @@ function App() {
     { name: "Email", href: "mailto:contact@dachy.studio", icon: <Mail className="w-4 h-4" /> }
   ];
 
-  if (isChatPage) {
-    return (
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <ThemeProvider defaultTheme="light">
-            <Router />
-            <Toaster />
-          </ThemeProvider>
-        </TooltipProvider>
-      </QueryClientProvider>
-    );
-  }
-
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
@@ -278,7 +265,7 @@ function App() {
           <div className="min-h-screen flex flex-col">
             <Header />
             <main className="flex-1">
-              <Router />
+              {isChatPage ? <Home /> : <Router />}
             </main>
             <Footer
               company={t('company.name')}
@@ -287,7 +274,8 @@ function App() {
               social={socialLinks}
             />
           </div>
-          <ChatOverlay />
+          {isChatPage && <ChatPage />}
+          {!isChatPage && <ChatOverlay />}
           <Toaster />
         </ThemeProvider>
       </TooltipProvider>
