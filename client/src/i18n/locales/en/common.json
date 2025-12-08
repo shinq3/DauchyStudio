@@ -15,6 +15,14 @@
     "readMore": "Read More",
     "viewAllNews": "View All News"
   },
+  "chat": {
+    "tagline": "AI is not the goal",
+    "subtitle": "Feel free to ask anything below",
+    "placeholder": "Type your question...",
+    "send": "Send",
+    "goHome": "Go to Homepage",
+    "error": "Sorry, an error occurred. Please try again."
+  },
   "status": {
     "loading": "Loading...",
     "saving": "Saving...",

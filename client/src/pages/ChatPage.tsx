@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useLocale, linkTo } from '@/lib/i18n-utils';
+import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'wouter';
 import type { Locale } from '@shared/i18n';
 
@@ -19,39 +20,6 @@ interface Message {
 function generateSessionId(): string {
   return `chat_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 }
-
-const i18n: Record<string, Record<Locale, string>> = {
-  tagline: {
-    ja: "AIは目的ではない",
-    en: "AI is not the goal",
-    vi: "AI không phải là mục tiêu"
-  },
-  subtitle: {
-    ja: "以下に自由に質問ください",
-    en: "Feel free to ask anything below",
-    vi: "Hãy tự do đặt câu hỏi bên dưới"
-  },
-  placeholder: {
-    ja: "質問を入力してください...",
-    en: "Type your question...",
-    vi: "Nhập câu hỏi của bạn..."
-  },
-  send: {
-    ja: "送信",
-    en: "Send",
-    vi: "Gửi"
-  },
-  goHome: {
-    ja: "ホームページへ",
-    en: "Go to Homepage",
-    vi: "Đi đến Trang chủ"
-  },
-  error: {
-    ja: "申し訳ありません。エラーが発生しました。もう一度お試しください。",
-    en: "Sorry, an error occurred. Please try again.",
-    vi: "Xin lỗi, đã xảy ra lỗi. Vui lòng thử lại."
-  }
-};
 
 const languages: { code: Locale; name: string; flag: string }[] = [
   { code: 'ja', name: '日本語', flag: '🇯🇵' },
@@ -69,8 +37,7 @@ export default function ChatPage() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { locale } = useLocale();
   const [, setLocation] = useLocation();
-
-  const t = (key: keyof typeof i18n) => i18n[key][locale] || i18n[key].ja;
+  const { t } = useTranslation('common');
 
   const handleLanguageChange = (newLocale: Locale) => {
     setLocation(linkTo('/chat', newLocale));
@@ -137,7 +104,7 @@ export default function ChatPage() {
       setMessages(prev => [...prev, {
         id: `error_${Date.now()}`,
         role: 'assistant',
-        content: t('error'),
+        content: t('chat.error'),
         timestamp: new Date()
       }]);
     } finally {
@@ -208,7 +175,7 @@ export default function ChatPage() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
               >
-                {t('tagline')}
+                {t('chat.tagline')}
               </motion.p>
 
               <motion.p 
@@ -217,7 +184,7 @@ export default function ChatPage() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
               >
-                {t('subtitle')}
+                {t('chat.subtitle')}
               </motion.p>
 
               <motion.div 
@@ -232,7 +199,7 @@ export default function ChatPage() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder={t('placeholder')}
+                    placeholder={t('chat.placeholder')}
                     className="min-h-[60px] max-h-[120px] resize-none bg-transparent border-0 text-white placeholder:text-gray-500 focus-visible:ring-0 text-lg"
                     rows={2}
                     disabled={isLoading}
@@ -250,7 +217,7 @@ export default function ChatPage() {
                       ) : (
                         <Send className="h-4 w-4 mr-2" />
                       )}
-                      {t('send')}
+                      {t('chat.send')}
                     </Button>
                   </div>
                 </div>
@@ -268,7 +235,7 @@ export default function ChatPage() {
                     className="text-gray-400 hover:text-white hover:bg-white/10"
                     data-testid="button-go-home"
                   >
-                    {t('goHome')}
+                    {t('chat.goHome')}
                     <ArrowRight className="h-4 w-4 ml-2" />
                   </Button>
                 </Link>
@@ -291,7 +258,7 @@ export default function ChatPage() {
                   D'auchy.studio
                 </h2>
                 <p className="text-sm text-white/70 mt-1">
-                  {t('tagline')}
+                  {t('chat.tagline')}
                 </p>
               </motion.div>
 
@@ -356,7 +323,7 @@ export default function ChatPage() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder={t('placeholder')}
+                    placeholder={t('chat.placeholder')}
                     className="min-h-[44px] max-h-[120px] resize-none bg-transparent border-0 text-white placeholder:text-gray-500 focus-visible:ring-0"
                     rows={1}
                     disabled={isLoading}
@@ -385,7 +352,7 @@ export default function ChatPage() {
                     className="text-gray-500 hover:text-white hover:bg-white/10 text-sm"
                     data-testid="button-go-home-chat"
                   >
-                    {t('goHome')}
+                    {t('chat.goHome')}
                     <ArrowRight className="h-3 w-3 ml-1" />
                   </Button>
                 </Link>
