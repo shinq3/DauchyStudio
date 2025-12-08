@@ -8,7 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { ChatOverlay } from "@/components/ChatOverlay";
+import { ChatButton } from "@/components/ChatButton";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import Products from "@/pages/Products";
@@ -275,7 +275,7 @@ function App() {
             />
           </div>
           {isChatPage && <ChatPage />}
-          {!isChatPage && <ChatOverlay />}
+          {!isChatPage && <ChatButton />}
           <Toaster />
         </ThemeProvider>
       </TooltipProvider>
