@@ -8,6 +8,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { ChatOverlay } from "@/components/ChatOverlay";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
 import Products from "@/pages/Products";
@@ -258,6 +259,7 @@ function App() {
               social={socialLinks}
             />
           </div>
+          <ChatOverlay />
           <Toaster />
         </ThemeProvider>
       </TooltipProvider>
