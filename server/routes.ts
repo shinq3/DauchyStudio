@@ -974,6 +974,83 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // =====================
+  // RAG Chat API Routes
+  // =====================
+  
+  // Public chat endpoint - for website visitors
+  app.post('/api/chat', async (req, res) => {
+    try {
+      const { rebuildRagIndex, generateChatResponse } = await import('./lib/ragService');
+      
+      const { message, locale = 'ja', sessionId } = req.body;
+      
+      if (!message || typeof message !== 'string') {
+        return res.status(400).json({ message: 'Message is required' });
+      }
+      
+      if (!sessionId || typeof sessionId !== 'string') {
+        return res.status(400).json({ message: 'Session ID is required' });
+      }
+      
+      // Get conversation history for this session
+      const history = await storage.getChatHistory(sessionId);
+      const conversationHistory = history.slice(-6).map(h => ([
+        { role: 'user' as const, content: h.userMessage },
+        { role: 'assistant' as const, content: h.assistantMessage }
+      ])).flat();
+      
+      const result = await generateChatResponse(
+        message,
+        locale,
+        sessionId,
+        conversationHistory
+      );
+      
+      res.json({
+        response: result.response,
+        retrievedDocIds: result.retrievedDocIds
+      });
+    } catch (error) {
+      console.error("Error in chat:", error);
+      res.status(500).json({ message: "Failed to generate response" });
+    }
+  });
+  
+  // Admin: Rebuild RAG index
+  app.post('/api/admin/rag/rebuild', isAdminAuth, async (req, res) => {
+    try {
+      const { rebuildRagIndex } = await import('./lib/ragService');
+      const result = await rebuildRagIndex();
+      res.json(result);
+    } catch (error) {
+      console.error("Error rebuilding RAG index:", error);
+      res.status(500).json({ message: "Failed to rebuild RAG index" });
+    }
+  });
+  
+  // Admin: Get RAG documents status
+  app.get('/api/admin/rag/status', isAdminAuth, async (req, res) => {
+    try {
+      const documents = await storage.getAllRagDocuments();
+      const byLocale = documents.reduce((acc, doc) => {
+        acc[doc.locale] = (acc[doc.locale] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>);
+      
+      res.json({
+        totalDocuments: documents.length,
+        byLocale,
+        lastUpdated: documents.length > 0 
+          ? Math.max(...documents.map(d => new Date(d.updatedAt || d.createdAt || 0).getTime()))
+          : null
+      });
+    } catch (error) {
+      console.error("Error fetching RAG status:", error);
+      res.status(500).json({ message: "Failed to fetch RAG status" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

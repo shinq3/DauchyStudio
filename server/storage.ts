@@ -9,6 +9,8 @@ import {
   aiGenerationJobs,
   contacts,
   uploads,
+  ragDocuments,
+  chatHistory,
   type User, 
   type UpsertUser,
   type AdminUser,
@@ -28,7 +30,11 @@ import {
   type Contact,
   type InsertContact,
   type Upload,
-  type InsertUpload 
+  type InsertUpload,
+  type RagDocument,
+  type InsertRagDocument,
+  type ChatHistory,
+  type InsertChatHistory
 } from "@shared/schema";
 import { eq, desc, like, or, and } from "drizzle-orm";
 import { db } from "./db";
@@ -105,6 +111,19 @@ export interface IStorage {
   getUpload(id: string): Promise<Upload | undefined>;
   createUpload(upload: InsertUpload & { uploadedBy?: string }): Promise<Upload>;
   deleteUpload(id: string): Promise<void>;
+  
+  // RAG Document operations
+  getRagDocument(id: string): Promise<RagDocument | undefined>;
+  getRagDocumentsByLocale(locale: string): Promise<RagDocument[]>;
+  getAllRagDocuments(): Promise<RagDocument[]>;
+  createRagDocument(doc: InsertRagDocument): Promise<RagDocument>;
+  updateRagDocument(id: string, doc: Partial<InsertRagDocument>): Promise<RagDocument | undefined>;
+  deleteRagDocument(id: string): Promise<void>;
+  deleteAllRagDocuments(): Promise<void>;
+  
+  // Chat History operations
+  getChatHistory(sessionId: string): Promise<ChatHistory[]>;
+  createChatHistory(history: InsertChatHistory): Promise<ChatHistory>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -428,6 +447,56 @@ export class DatabaseStorage implements IStorage {
 
   async deleteUpload(id: string): Promise<void> {
     await db.delete(uploads).where(eq(uploads.id, id));
+  }
+  
+  // RAG Document operations
+  async getRagDocument(id: string): Promise<RagDocument | undefined> {
+    const [doc] = await db.select().from(ragDocuments).where(eq(ragDocuments.id, id));
+    return doc;
+  }
+  
+  async getRagDocumentsByLocale(locale: string): Promise<RagDocument[]> {
+    return db.select().from(ragDocuments).where(eq(ragDocuments.locale, locale));
+  }
+  
+  async getAllRagDocuments(): Promise<RagDocument[]> {
+    return db.select().from(ragDocuments);
+  }
+  
+  async createRagDocument(docData: InsertRagDocument): Promise<RagDocument> {
+    const [doc] = await db.insert(ragDocuments).values(docData).returning();
+    return doc;
+  }
+  
+  async updateRagDocument(id: string, docData: Partial<InsertRagDocument>): Promise<RagDocument | undefined> {
+    const [doc] = await db
+      .update(ragDocuments)
+      .set({ ...docData, updatedAt: new Date() })
+      .where(eq(ragDocuments.id, id))
+      .returning();
+    return doc;
+  }
+  
+  async deleteRagDocument(id: string): Promise<void> {
+    await db.delete(ragDocuments).where(eq(ragDocuments.id, id));
+  }
+  
+  async deleteAllRagDocuments(): Promise<void> {
+    await db.delete(ragDocuments);
+  }
+  
+  // Chat History operations
+  async getChatHistory(sessionId: string): Promise<ChatHistory[]> {
+    return db
+      .select()
+      .from(chatHistory)
+      .where(eq(chatHistory.sessionId, sessionId))
+      .orderBy(chatHistory.createdAt);
+  }
+  
+  async createChatHistory(historyData: InsertChatHistory): Promise<ChatHistory> {
+    const [history] = await db.insert(chatHistory).values(historyData).returning();
+    return history;
   }
 }
 
