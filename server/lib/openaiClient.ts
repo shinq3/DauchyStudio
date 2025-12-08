@@ -8,6 +8,107 @@ export const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || 'dummy-key',
 });
 
+// Embedding generation for RAG
+export interface EmbeddingRequest {
+  text: string;
+  model?: 'text-embedding-3-small' | 'text-embedding-3-large';
+}
+
+export interface EmbeddingResult {
+  embedding: number[];
+  tokenCount: number;
+}
+
+export async function generateEmbedding(request: EmbeddingRequest): Promise<EmbeddingResult> {
+  const { text, model = 'text-embedding-3-small' } = request;
+
+  const response = await openai.embeddings.create({
+    model,
+    input: text,
+  });
+
+  return {
+    embedding: response.data[0].embedding,
+    tokenCount: response.usage.total_tokens,
+  };
+}
+
+// Calculate cosine similarity between two embeddings
+export function cosineSimilarity(a: number[], b: number[]): number {
+  if (a.length !== b.length) {
+    throw new Error('Embeddings must have the same length');
+  }
+
+  let dotProduct = 0;
+  let normA = 0;
+  let normB = 0;
+
+  for (let i = 0; i < a.length; i++) {
+    dotProduct += a[i] * b[i];
+    normA += a[i] * a[i];
+    normB += b[i] * b[i];
+  }
+
+  return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+}
+
+// RAG Chat completion
+export interface RagChatRequest {
+  userMessage: string;
+  context: string;
+  locale: string;
+  conversationHistory?: { role: 'user' | 'assistant'; content: string }[];
+}
+
+export interface RagChatResult {
+  response: string;
+  tokensUsed: number;
+}
+
+export async function generateRagChatResponse(request: RagChatRequest): Promise<RagChatResult> {
+  const { userMessage, context, locale, conversationHistory = [] } = request;
+
+  const languageInstructions: Record<string, string> = {
+    ja: '日本語で回答してください。丁寧な敬語を使用してください。',
+    en: 'Please respond in English in a professional and friendly manner.',
+    vi: 'Vui lòng trả lời bằng tiếng Việt một cách chuyên nghiệp và thân thiện.',
+  };
+
+  const systemPrompt = `あなたは「D'auchy.Studio」のAIアシスタントです。会社に関する質問に正確で親切に回答してください。
+
+以下の情報を参考にして回答してください：
+
+${context}
+
+回答のガイドライン：
+- 提供された情報に基づいて正確に回答してください
+- 情報がない場合は、正直に「その情報はありません」と伝えてください
+- ${languageInstructions[locale] || languageInstructions.ja}
+- 簡潔で分かりやすい回答を心がけてください
+- 会社の強みや特徴を積極的にアピールしてください`;
+
+  const messages: OpenAI.ChatCompletionMessageParam[] = [
+    { role: 'system', content: systemPrompt },
+    ...conversationHistory.map(msg => ({
+      role: msg.role as 'user' | 'assistant',
+      content: msg.content,
+    })),
+    { role: 'user', content: userMessage },
+  ];
+
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o-mini',
+    messages,
+    temperature: 0.7,
+    max_tokens: 1000,
+  });
+
+  return {
+    response: response.choices[0]?.message?.content || '',
+    tokensUsed: response.usage?.total_tokens || 0,
+  };
+}
+
 export interface TranslationRequest {
   sourceText: string;
   sourceLanguage: string;

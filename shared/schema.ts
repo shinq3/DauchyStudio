@@ -362,6 +362,55 @@ export const insertUploadSchema = createInsertSchema(uploads).pick({
   url: true
 });
 
+// RAG (Retrieval Augmented Generation) Documents for AI Chat
+export const ragDocuments = pgTable("rag_documents", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sourceType: varchar("source_type").notNull(), // 'page', 'product', 'news', 'about', 'faq'
+  sourceId: varchar("source_id"), // Reference to original content if applicable
+  title: text("title").notNull(),
+  content: text("content").notNull(),
+  locale: varchar("locale").notNull().default('ja'), // ja, en, vi
+  embedding: json("embedding"), // OpenAI embedding vector (1536 dimensions for text-embedding-3-small)
+  metadata: json("metadata"), // Additional context like page URL, category, etc.
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export type RagDocument = typeof ragDocuments.$inferSelect;
+export type InsertRagDocument = typeof ragDocuments.$inferInsert;
+
+export const insertRagDocumentSchema = createInsertSchema(ragDocuments).pick({
+  sourceType: true,
+  sourceId: true,
+  title: true,
+  content: true,
+  locale: true,
+  embedding: true,
+  metadata: true,
+});
+
+// Chat History for analytics and improvement
+export const chatHistory = pgTable("chat_history", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  sessionId: varchar("session_id").notNull(),
+  userMessage: text("user_message").notNull(),
+  assistantMessage: text("assistant_message").notNull(),
+  locale: varchar("locale").notNull().default('ja'),
+  retrievedDocIds: json("retrieved_doc_ids"), // Array of document IDs used for response
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+export type ChatHistory = typeof chatHistory.$inferSelect;
+export type InsertChatHistory = typeof chatHistory.$inferInsert;
+
+export const insertChatHistorySchema = createInsertSchema(chatHistory).pick({
+  sessionId: true,
+  userMessage: true,
+  assistantMessage: true,
+  locale: true,
+  retrievedDocIds: true,
+});
+
 // Types
 export type InsertNews = z.infer<typeof insertNewsSchema>;
 export type News = typeof news.$inferSelect;
