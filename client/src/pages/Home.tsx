@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import HeroSection from "@/components/HeroSection";
 import ProductGrid from "@/components/ProductGrid";
 import NewsSection from "@/components/NewsSection";
@@ -5,7 +6,7 @@ import CTASection from "@/components/CTASection";
 import { MessageCircle, Heart, Building, GraduationCap, ArrowRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { linkTo, useLocale } from "@/lib/i18n-utils";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +22,19 @@ import baydSystemImage from "@assets/generated_images/Bayd-System_studio_dashboa
 export default function Home() {
   const { t } = useTranslation(['home', 'products', 'common']);
   const { locale } = useLocale();
+  const [, setLocation] = useLocation();
+
+  useEffect(() => {
+    const hasVisited = sessionStorage.getItem('dauchy_visited');
+    const isDirectAccess = !document.referrer || !document.referrer.includes(window.location.host);
+    
+    if (!hasVisited && isDirectAccess) {
+      sessionStorage.setItem('dauchy_visited', 'true');
+      setLocation(linkTo('/chat', locale));
+    } else if (!hasVisited) {
+      sessionStorage.setItem('dauchy_visited', 'true');
+    }
+  }, [locale, setLocation]);
 
   // TODO: remove mock functionality - replace with API calls
   const featuredProducts = [

@@ -122,25 +122,7 @@ export default function ChatPage() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-[#0a0a0f]/90 backdrop-blur-sm overflow-hidden">
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div 
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[200%] aspect-square rounded-full"
-          style={{
-            background: 'radial-gradient(ellipse at center, transparent 60%, rgba(59, 130, 246, 0.12) 70%, rgba(59, 130, 246, 0.25) 80%, rgba(59, 130, 246, 0.4) 90%, rgba(147, 197, 253, 0.6) 100%)',
-            transform: 'translateX(-50%) translateY(85%)',
-          }}
-        />
-        <div 
-          className="absolute bottom-0 left-1/2 w-[200%] aspect-square"
-          style={{
-            background: 'radial-gradient(ellipse at center, transparent 65%, rgba(255,255,255,0.08) 85%, rgba(255,255,255,0.3) 95%)',
-            transform: 'translateX(-50%) translateY(86%)',
-            filter: 'blur(2px)',
-          }}
-        />
-      </div>
-
+    <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-[2px] overflow-hidden">
       <div className="relative z-10 h-full flex flex-col">
         <AnimatePresence mode="wait">
           {!hasStartedChat ? (
