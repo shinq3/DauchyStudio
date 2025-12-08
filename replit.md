@@ -74,6 +74,29 @@ D'auchy.Studio is a Japanese AI product innovation company developing cutting-ed
 - Respects per-source polling intervals
 - Structured error logging for failed feeds
 
+## RAG Chat System (Phase 4 - 2025-12-08)
+- ✅ Vector document schema with PostgreSQL storage for embeddings
+- ✅ Content extraction pipeline from i18n translation files (ja/en/vi)
+- ✅ OpenAI text-embedding-3-small for embedding generation
+- ✅ Cosine similarity retrieval (top-5 documents)
+- ✅ GPT-4o-mini for context-aware response generation
+- ✅ Chat overlay component with framer-motion animations
+- ✅ Locale-aware responses matching user's language
+- ✅ E2E tested: Japanese questions about products return accurate AI responses
+
+### RAG Technical Details
+- **Embedding Model**: text-embedding-3-small (1536 dimensions)
+- **Response Model**: gpt-4o-mini
+- **Index Size**: 45 documents (15 per language x 3 languages)
+- **Content Sources**: client/src/i18n/locales/{ja,en,vi}/*.json
+- **Retrieval**: Top-5 similar documents via cosine similarity
+- **API Endpoint**: POST /api/chat (public), POST /api/admin/rag/rebuild (admin)
+
+### Chat UI Component
+- **Location**: client/src/components/ChatOverlay.tsx
+- **Test IDs**: button-chat-open, button-chat-close, input-chat-message, button-chat-send
+- **Features**: Floating button, expandable chat panel, message history, loading states
+
 # User Preferences
 
 Preferred communication style: Simple, everyday language.
