@@ -4,7 +4,7 @@ import { Send, Loader2, Bot, User, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { useLocale } from '@/lib/i18n-utils';
+import { useLocale, linkTo } from '@/lib/i18n-utils';
 import { Link } from 'wouter';
 
 interface Message {
@@ -212,7 +212,7 @@ export default function ChatPage() {
                 transition={{ delay: 0.8, duration: 0.5 }}
                 className="mt-8"
               >
-                <Link href="/">
+                <Link href={linkTo('/', locale)}>
                   <Button 
                     variant="ghost" 
                     className="text-gray-400 hover:text-white hover:bg-white/10"
@@ -326,7 +326,7 @@ export default function ChatPage() {
               </div>
 
               <div className="mt-4 text-center">
-                <Link href="/">
+                <Link href={linkTo('/', locale)}>
                   <Button 
                     variant="ghost" 
                     className="text-gray-500 hover:text-white hover:bg-white/10 text-sm"
