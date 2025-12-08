@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Loader2, Bot, User, ArrowRight } from 'lucide-react';
+import { Send, Loader2, Bot, User, ArrowRight, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useLocale, linkTo } from '@/lib/i18n-utils';
-import { Link } from 'wouter';
+import { Link, useLocation } from 'wouter';
+import type { Locale } from '@shared/i18n';
 
 interface Message {
   id: string;
@@ -18,6 +20,45 @@ function generateSessionId(): string {
   return `chat_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
 }
 
+const i18n: Record<string, Record<Locale, string>> = {
+  tagline: {
+    ja: "AIは目的ではない",
+    en: "AI is not the goal",
+    vi: "AI không phải là mục tiêu"
+  },
+  subtitle: {
+    ja: "以下に自由に質問ください",
+    en: "Feel free to ask anything below",
+    vi: "Hãy tự do đặt câu hỏi bên dưới"
+  },
+  placeholder: {
+    ja: "質問を入力してください...",
+    en: "Type your question...",
+    vi: "Nhập câu hỏi của bạn..."
+  },
+  send: {
+    ja: "送信",
+    en: "Send",
+    vi: "Gửi"
+  },
+  goHome: {
+    ja: "ホームページへ",
+    en: "Go to Homepage",
+    vi: "Đi đến Trang chủ"
+  },
+  error: {
+    ja: "申し訳ありません。エラーが発生しました。もう一度お試しください。",
+    en: "Sorry, an error occurred. Please try again.",
+    vi: "Xin lỗi, đã xảy ra lỗi. Vui lòng thử lại."
+  }
+};
+
+const languages: { code: Locale; name: string; flag: string }[] = [
+  { code: 'ja', name: '日本語', flag: '🇯🇵' },
+  { code: 'en', name: 'English', flag: '🇺🇸' },
+  { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' }
+];
+
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -27,6 +68,13 @@ export default function ChatPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { locale } = useLocale();
+  const [, setLocation] = useLocation();
+
+  const t = (key: keyof typeof i18n) => i18n[key][locale] || i18n[key].ja;
+
+  const handleLanguageChange = (newLocale: Locale) => {
+    setLocation(linkTo('/chat', newLocale));
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -85,16 +133,11 @@ export default function ChatPage() {
       setMessages(prev => [...prev, assistantMessage]);
     } catch (error) {
       console.error('Chat error:', error);
-      const errorMessages: Record<string, string> = {
-        ja: "申し訳ありません。エラーが発生しました。もう一度お試しください。",
-        en: "Sorry, an error occurred. Please try again.",
-        vi: "Xin lỗi, đã xảy ra lỗi. Vui lòng thử lại."
-      };
       
       setMessages(prev => [...prev, {
         id: `error_${Date.now()}`,
         role: 'assistant',
-        content: errorMessages[locale] || errorMessages.ja,
+        content: t('error'),
         timestamp: new Date()
       }]);
     } finally {
@@ -109,20 +152,36 @@ export default function ChatPage() {
     }
   };
 
-  const placeholders: Record<string, string> = {
-    ja: "質問を入力してください...",
-    en: "Type your question...",
-    vi: "Nhập câu hỏi của bạn..."
-  };
-
-  const homeButtonText: Record<string, string> = {
-    ja: "ホームページへ",
-    en: "Go to Homepage",
-    vi: "Đi đến Trang chủ"
-  };
-
   return (
     <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-[2px] overflow-hidden">
+      <div className="absolute top-4 right-4 z-20">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="text-white/70 hover:text-white hover:bg-white/10"
+              data-testid="button-language-switch"
+            >
+              <Globe className="h-5 w-5" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="bg-[#1a1a24] border-gray-800">
+            {languages.map((lang) => (
+              <DropdownMenuItem
+                key={lang.code}
+                onClick={() => handleLanguageChange(lang.code)}
+                className={`cursor-pointer ${locale === lang.code ? 'text-primary' : 'text-white/80'} hover:text-white hover:bg-white/10`}
+                data-testid={`button-lang-${lang.code}`}
+              >
+                <span className="mr-2">{lang.flag}</span>
+                {lang.name}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
       <div className="relative z-10 h-full flex flex-col">
         <AnimatePresence mode="wait">
           {!hasStartedChat ? (
@@ -149,7 +208,7 @@ export default function ChatPage() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
               >
-                AIは<span className="italic text-primary">目的</span>ではない
+                {t('tagline')}
               </motion.p>
 
               <motion.p 
@@ -158,7 +217,7 @@ export default function ChatPage() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
               >
-                以下に自由に質問ください
+                {t('subtitle')}
               </motion.p>
 
               <motion.div 
@@ -173,7 +232,7 @@ export default function ChatPage() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder={placeholders[locale] || placeholders.ja}
+                    placeholder={t('placeholder')}
                     className="min-h-[60px] max-h-[120px] resize-none bg-transparent border-0 text-white placeholder:text-gray-500 focus-visible:ring-0 text-lg"
                     rows={2}
                     disabled={isLoading}
@@ -191,7 +250,7 @@ export default function ChatPage() {
                       ) : (
                         <Send className="h-4 w-4 mr-2" />
                       )}
-                      送信
+                      {t('send')}
                     </Button>
                   </div>
                 </div>
@@ -209,7 +268,7 @@ export default function ChatPage() {
                     className="text-gray-400 hover:text-white hover:bg-white/10"
                     data-testid="button-go-home"
                   >
-                    {homeButtonText[locale] || homeButtonText.ja}
+                    {t('goHome')}
                     <ArrowRight className="h-4 w-4 ml-2" />
                   </Button>
                 </Link>
@@ -232,7 +291,7 @@ export default function ChatPage() {
                   D'auchy.studio
                 </h2>
                 <p className="text-sm text-white/70 mt-1">
-                  AIは<span className="italic text-primary">目的</span>ではない
+                  {t('tagline')}
                 </p>
               </motion.div>
 
@@ -297,7 +356,7 @@ export default function ChatPage() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder={placeholders[locale] || placeholders.ja}
+                    placeholder={t('placeholder')}
                     className="min-h-[44px] max-h-[120px] resize-none bg-transparent border-0 text-white placeholder:text-gray-500 focus-visible:ring-0"
                     rows={1}
                     disabled={isLoading}
@@ -326,7 +385,7 @@ export default function ChatPage() {
                     className="text-gray-500 hover:text-white hover:bg-white/10 text-sm"
                     data-testid="button-go-home-chat"
                   >
-                    {homeButtonText[locale] || homeButtonText.ja}
+                    {t('goHome')}
                     <ArrowRight className="h-3 w-3 ml-1" />
                   </Button>
                 </Link>
