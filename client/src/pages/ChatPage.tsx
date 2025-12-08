@@ -37,9 +37,10 @@ export default function ChatPage() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { locale } = useLocale();
   const [, setLocation] = useLocation();
-  const { t } = useTranslation('common');
+  const { t, i18n } = useTranslation('common');
 
   const handleLanguageChange = (newLocale: Locale) => {
+    i18n.changeLanguage(newLocale);
     setLocation(linkTo('/chat', newLocale));
   };
 
