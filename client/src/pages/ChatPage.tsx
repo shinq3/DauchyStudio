@@ -135,19 +135,28 @@ export default function ChatPage() {
               className="flex-1 flex flex-col items-center justify-center px-6"
             >
               <motion.h1 
-                className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 text-center"
+                className="text-5xl md:text-6xl lg:text-7xl font-bold text-primary mb-4 text-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
-                AIは<span className="italic text-blue-400">目的</span>ではない
+                D'auchy.studio
               </motion.h1>
               
+              <motion.p 
+                className="text-xl md:text-2xl text-white/90 mb-4 text-center font-medium"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4, duration: 0.5 }}
+              >
+                AIは<span className="italic text-primary">目的</span>ではない
+              </motion.p>
+
               <motion.p 
                 className="text-gray-400 text-lg mb-12 text-center"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.4, duration: 0.5 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
               >
                 以下に自由に質問ください
               </motion.p>
@@ -174,7 +183,7 @@ export default function ChatPage() {
                     <Button
                       onClick={handleSubmit}
                       disabled={!input.trim() || isLoading}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-6"
+                      className="bg-primary hover:bg-primary/90 text-primary-foreground px-6"
                       data-testid="button-fullscreen-send"
                     >
                       {isLoading ? (
@@ -219,9 +228,12 @@ export default function ChatPage() {
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <h2 className="text-2xl font-bold text-white">
-                  AIは<span className="italic text-blue-400">目的</span>ではない
+                <h2 className="text-2xl font-bold text-primary">
+                  D'auchy.studio
                 </h2>
+                <p className="text-sm text-white/70 mt-1">
+                  AIは<span className="italic text-primary">目的</span>ではない
+                </p>
               </motion.div>
 
               <ScrollArea className="flex-1 pr-4">
