@@ -184,7 +184,7 @@ export default function News() {
 
       {/* News Timeline */}
       <section className="py-12 lg:py-16">
-        <div className="container mx-auto px-4 max-w-2xl">
+        <div className="container mx-auto px-4 max-w-4xl">
           {isLoading ? (
             <div className="flex justify-center items-center py-20">
               <Loader2 className="w-8 h-8 animate-spin text-primary" />
