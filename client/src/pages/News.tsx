@@ -3,16 +3,13 @@ import { Link } from "wouter";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { 
-  Calendar,
   ExternalLink,
   Clock,
-  Eye,
   ArrowRight,
-  Tag,
   Loader2
 } from "lucide-react";
 import newsroomImage from '@assets/stock_images/business_technology_ac90df27.jpg';
@@ -185,9 +182,9 @@ export default function News() {
         </div>
       </section>
 
-      {/* News Articles */}
-      <section className="py-16 lg:py-24">
-        <div className="container mx-auto px-4">
+      {/* News Timeline */}
+      <section className="py-12 lg:py-16">
+        <div className="container mx-auto px-4 max-w-2xl">
           {isLoading ? (
             <div className="flex justify-center items-center py-20">
               <Loader2 className="w-8 h-8 animate-spin text-primary" />
@@ -206,97 +203,101 @@ export default function News() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true }}
-              className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8"
+              className="space-y-4"
             >
               {filteredNews.map((article) => (
                 <motion.div key={article.id} variants={itemVariants}>
-                  <Card className="h-full hover-elevate group">
-                    {/* Article Image */}
-                    <div className="relative overflow-hidden rounded-t-lg">
-                      {article.thumbnail ? (
-                        <img
-                          src={article.thumbnail}
-                          alt={article.title}
-                          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
-                      ) : (
-                        <div className="w-full h-48 bg-muted flex items-center justify-center">
-                          <Eye className="w-12 h-12 text-muted-foreground/30" />
-                        </div>
-                      )}
-                      <div className="absolute top-3 left-3">
-                        <Badge variant="secondary" className="bg-white/90 text-gray-900">
-                          {article.category}
-                        </Badge>
+                  <Card className="hover-elevate group overflow-hidden">
+                    {/* Header - Source and Date */}
+                    <div className="flex items-center gap-3 p-4 pb-3">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <span className="text-primary font-bold text-sm">
+                          {article.source?.charAt(0) || 'D'}
+                        </span>
                       </div>
-                      {article.isExternal && (
-                        <div className="absolute top-3 right-3">
-                          <Badge variant="outline" className="bg-white/90 border-orange-200 text-orange-800">
-                            <ExternalLink className="w-3 h-3 mr-1" />
-                            {t('article.external_badge') || "外部記事"}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="font-semibold text-sm truncate">{article.source || "D'auchy.Studio"}</span>
+                          {article.isExternal && (
+                            <Badge variant="outline" className="text-xs border-orange-200 text-orange-700 flex-shrink-0">
+                              <ExternalLink className="w-3 h-3 mr-1" />
+                              {t('article.external_badge') || "外部"}
+                            </Badge>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <Clock className="w-3 h-3" />
+                          <span>{formatDate(article.publishedAt)}</span>
+                          <span>·</span>
+                          <Badge variant="secondary" className="text-xs py-0">
+                            {article.category}
                           </Badge>
                         </div>
-                      )}
+                      </div>
                     </div>
 
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
-                        <div className="flex items-center gap-1">
-                          <Calendar className="w-4 h-4" />
-                          {formatDate(article.publishedAt)}
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-bold leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                    {/* Content */}
+                    <div className="px-4 pb-3">
+                      <h3 className="text-base font-bold leading-snug group-hover:text-primary transition-colors mb-2">
                         {article.title}
                       </h3>
-                      <p className="text-sm text-muted-foreground line-clamp-3 mt-2">
+                      <p className="text-sm text-muted-foreground line-clamp-3">
                         {article.summary}
                       </p>
-                    </CardHeader>
+                    </div>
 
-                    <CardContent className="pt-0">
-                      {/* Tags */}
-                      {article.tags && article.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-1 mb-4">
-                          {article.tags.slice(0, 3).map((tag, idx) => (
+                    {/* Image */}
+                    {article.thumbnail && (
+                      <div className="px-4 pb-3">
+                        <div className="relative overflow-hidden rounded-lg">
+                          <img
+                            src={article.thumbnail}
+                            alt={article.title}
+                            className="w-full h-52 object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Tags */}
+                    {article.tags && article.tags.length > 0 && (
+                      <div className="px-4 pb-3">
+                        <div className="flex flex-wrap gap-1">
+                          {article.tags.slice(0, 4).map((tag, idx) => (
                             <Badge 
                               key={`${article.id}-tag-${idx}`} 
                               variant="outline" 
-                              className="text-xs border-orange-200 text-orange-700"
+                              className="text-xs border-muted-foreground/30"
                             >
-                              <Tag className="w-3 h-3 mr-1" />
-                              {tag}
+                              #{tag}
                             </Badge>
                           ))}
                         </div>
-                      )}
-
-                      {/* Source */}
-                      <div className="text-sm text-muted-foreground mb-4">
-                        <span>{article.source}</span>
                       </div>
+                    )}
 
-                      {/* Read More Button */}
+                    {/* Actions */}
+                    <div className="px-4 py-3 border-t flex items-center justify-between">
                       <Button 
                         asChild 
-                        variant="outline" 
+                        variant="ghost" 
                         size="sm" 
-                        className="w-full group/btn"
+                        className="text-primary hover:text-primary hover:bg-primary/10"
                         data-testid={`button-read-${article.id}`}
                       >
                         {article.isExternal && article.sourceUrl ? (
-                          <a href={article.sourceUrl} target="_blank" rel="noopener noreferrer">
+                          <a href={article.sourceUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2">
                             {t('article.read_article') || "記事を読む"}
-                            <ExternalLink className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                            <ExternalLink className="w-4 h-4" />
                           </a>
                         ) : (
-                          <Link href={`/news/${article.id}`}>
+                          <Link href={`/news/${article.id}`} className="flex items-center gap-2">
                             {t('article.read_article') || "記事を読む"}
-                            <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                            <ArrowRight className="w-4 h-4" />
                           </Link>
                         )}
                       </Button>
-                    </CardContent>
+                    </div>
                   </Card>
                 </motion.div>
               ))}
