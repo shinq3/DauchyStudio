@@ -9,8 +9,9 @@ import ContactManager from "@/components/admin/ContactManager";
 import UsersManager from "@/components/admin/UsersManager";
 import RssSourcesManager from "@/components/admin/RssSourcesManager";
 import RssImportQueueManager from "@/components/admin/RssImportQueueManager";
+import ProfileManager from "@/components/admin/ProfileManager";
 import AdminLoginForm from "@/components/admin/AdminLoginForm";
-import { LogOut, Newspaper, MessageSquare, Users, Home, RssIcon, Clock } from "lucide-react";
+import { LogOut, Newspaper, MessageSquare, Users, Home, RssIcon, Clock, User } from "lucide-react";
 import { Link } from "wouter";
 
 export default function Admin() {
@@ -80,18 +81,22 @@ export default function Admin() {
 
         {/* Main Content */}
         <Tabs defaultValue="news" className="space-y-8">
-          <TabsList className={`grid w-full ${user?.role === 'superadmin' ? 'grid-cols-5' : 'grid-cols-4'}`}>
+          <TabsList className={`grid w-full ${user?.role === 'superadmin' ? 'grid-cols-6' : 'grid-cols-5'}`}>
             <TabsTrigger value="news" data-testid="tab-news">
               <Newspaper className="w-4 h-4 mr-2" />
               {t('tabs.news')}
             </TabsTrigger>
             <TabsTrigger value="rss" data-testid="tab-rss">
               <RssIcon className="w-4 h-4 mr-2" />
-              RSS Sources
+              RSS
             </TabsTrigger>
             <TabsTrigger value="queue" data-testid="tab-queue">
               <Clock className="w-4 h-4 mr-2" />
-              Import Queue
+              Queue
+            </TabsTrigger>
+            <TabsTrigger value="profile" data-testid="tab-profile">
+              <User className="w-4 h-4 mr-2" />
+              Profile
             </TabsTrigger>
             <TabsTrigger value="contacts" data-testid="tab-contacts">
               <MessageSquare className="w-4 h-4 mr-2" />
@@ -115,6 +120,10 @@ export default function Admin() {
 
           <TabsContent value="queue">
             <RssImportQueueManager />
+          </TabsContent>
+
+          <TabsContent value="profile">
+            <ProfileManager />
           </TabsContent>
 
           <TabsContent value="contacts">
