@@ -130,6 +130,16 @@ export async function extractAllContent(): Promise<ContentChunk[]> {
         ));
       }
     }
+    
+    const profilePath = path.join(localeDir, 'profile.json');
+    if (fs.existsSync(profilePath)) {
+      chunks.push(...extractContentFromTranslationFile(
+        profilePath,
+        'profile',
+        'creator',
+        locale
+      ));
+    }
   }
   
   console.log(`[RAG] Extracted ${chunks.length} content chunks from translation files`);
