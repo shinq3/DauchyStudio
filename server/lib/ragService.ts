@@ -77,6 +77,46 @@ function extractContentFromTranslationFile(
   return chunks;
 }
 
+async function extractProfilesFromDB(): Promise<ContentChunk[]> {
+  const chunks: ContentChunk[] = [];
+  
+  try {
+    const profiles = await storage.getAllCreatorProfiles();
+    
+    for (const profile of profiles) {
+      const contentParts: string[] = [];
+      
+      if (profile.name) contentParts.push(`名前: ${profile.name}`);
+      if (profile.nameReading) contentParts.push(`読み: ${profile.nameReading}`);
+      if (profile.title) contentParts.push(`肩書き: ${profile.title}`);
+      if (profile.about) contentParts.push(`紹介: ${profile.about}`);
+      if (profile.vision) contentParts.push(`ビジョン: ${profile.vision}`);
+      if (profile.projects) contentParts.push(`プロジェクト: ${profile.projects}`);
+      if (profile.background) contentParts.push(`経歴: ${profile.background}`);
+      if (profile.company) contentParts.push(`会社: ${profile.company}`);
+      if (profile.chatbot) contentParts.push(`チャットボット: ${profile.chatbot}`);
+      if (profile.contact) contentParts.push(`連絡先: ${profile.contact}`);
+      
+      if (contentParts.length > 0) {
+        chunks.push({
+          sourceType: 'profile',
+          sourceId: `creator-${profile.locale}`,
+          title: profile.name || 'Creator Profile',
+          content: contentParts.join('\n'),
+          locale: profile.locale,
+          metadata: { source: 'database' }
+        });
+      }
+    }
+    
+    console.log(`[RAG] Extracted ${chunks.length} profile chunks from database`);
+  } catch (error) {
+    console.error('[RAG] Failed to extract profiles from database:', error);
+  }
+  
+  return chunks;
+}
+
 export async function extractAllContent(): Promise<ContentChunk[]> {
   const chunks: ContentChunk[] = [];
   const localesDir = path.join(process.cwd(), 'client/src/i18n/locales');
@@ -130,19 +170,12 @@ export async function extractAllContent(): Promise<ContentChunk[]> {
         ));
       }
     }
-    
-    const profilePath = path.join(localeDir, 'profile.json');
-    if (fs.existsSync(profilePath)) {
-      chunks.push(...extractContentFromTranslationFile(
-        profilePath,
-        'profile',
-        'creator',
-        locale
-      ));
-    }
   }
   
-  console.log(`[RAG] Extracted ${chunks.length} content chunks from translation files`);
+  const dbProfiles = await extractProfilesFromDB();
+  chunks.push(...dbProfiles);
+  
+  console.log(`[RAG] Extracted ${chunks.length} total content chunks`);
   return chunks;
 }
 

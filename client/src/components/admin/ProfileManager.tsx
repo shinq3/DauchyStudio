@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest, queryClient } from '@/lib/queryClient';
-import { Loader2, Save, User, Globe } from 'lucide-react';
+import { Loader2, Save, User, Globe, RefreshCw } from 'lucide-react';
 
 type CreatorProfile = {
   id: string;
@@ -73,10 +73,69 @@ export default function ProfileManager() {
   const { toast } = useToast();
   const [activeLocale, setActiveLocale] = useState('ja');
   const [formData, setFormData] = useState<Record<string, ProfileFormData>>(defaultProfiles);
+  const [hasLoadedInitial, setHasLoadedInitial] = useState(false);
 
-  const { data: profiles = [], isLoading } = useQuery<CreatorProfile[]>({
+  const { data: profiles = [], isLoading, refetch } = useQuery<CreatorProfile[]>({
     queryKey: ['/api/admin/profiles']
   });
+
+  useEffect(() => {
+    if (!isLoading && !hasLoadedInitial) {
+      loadProfilesIntoForm();
+      setHasLoadedInitial(true);
+    }
+  }, [profiles, isLoading, hasLoadedInitial]);
+
+  const loadProfilesIntoForm = () => {
+    const updatedFormData = { ...defaultProfiles };
+    for (const profile of profiles) {
+      if (updatedFormData[profile.locale]) {
+        updatedFormData[profile.locale] = {
+          locale: profile.locale,
+          name: profile.name,
+          nameReading: profile.nameReading || '',
+          title: profile.title || '',
+          about: profile.about || '',
+          vision: profile.vision || '',
+          projects: profile.projects || '',
+          background: profile.background || '',
+          company: profile.company || '',
+          chatbot: profile.chatbot || '',
+          contact: profile.contact || ''
+        };
+      }
+    }
+    setFormData(updatedFormData);
+  };
+
+  const handleRefresh = async () => {
+    const result = await refetch();
+    if (result.data) {
+      const updatedFormData = { ...defaultProfiles };
+      for (const profile of result.data) {
+        if (updatedFormData[profile.locale]) {
+          updatedFormData[profile.locale] = {
+            locale: profile.locale,
+            name: profile.name,
+            nameReading: profile.nameReading || '',
+            title: profile.title || '',
+            about: profile.about || '',
+            vision: profile.vision || '',
+            projects: profile.projects || '',
+            background: profile.background || '',
+            company: profile.company || '',
+            chatbot: profile.chatbot || '',
+            contact: profile.contact || ''
+          };
+        }
+      }
+      setFormData(updatedFormData);
+      toast({
+        title: '更新完了',
+        description: 'サーバーから最新データを取得しました。'
+      });
+    }
+  };
 
   const saveMutation = useMutation({
     mutationFn: async (profile: ProfileFormData) => {
@@ -112,11 +171,12 @@ export default function ProfileManager() {
   };
 
   const handleSave = (locale: string) => {
-    saveMutation.mutate(formData[locale]);
+    const profileToSave = {
+      ...formData[locale],
+      locale
+    };
+    saveMutation.mutate(profileToSave);
   };
-
-  const existingProfile = profiles.find(p => p.locale === activeLocale);
-  const currentFormData = existingProfile ? { ...defaultProfiles[activeLocale], ...existingProfile } : formData[activeLocale];
 
   if (isLoading) {
     return (
@@ -129,10 +189,21 @@ export default function ProfileManager() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <User className="w-5 h-5" />
-          クリエイタープロフィール管理
-        </CardTitle>
+        <div className="flex items-center justify-between">
+          <CardTitle className="flex items-center gap-2">
+            <User className="w-5 h-5" />
+            クリエイタープロフィール管理
+          </CardTitle>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={handleRefresh}
+            data-testid="button-refresh-profiles"
+          >
+            <RefreshCw className="w-4 h-4 mr-2" />
+            データ更新
+          </Button>
+        </div>
         <CardDescription>
           RAGチャットボットがユーザーの質問に答えるための創設者情報を管理します。
           保存時に自動でRAGインデックスが更新されます。
@@ -162,7 +233,7 @@ export default function ProfileManager() {
                   <Label htmlFor={`name-${locale}`}>名前</Label>
                   <Input
                     id={`name-${locale}`}
-                    value={currentFormData?.name || formData[locale]?.name || ''}
+                    value={formData[locale]?.name || ''}
                     onChange={(e) => handleInputChange(locale, 'name', e.target.value)}
                     placeholder="内田 伸"
                     data-testid={`input-name-${locale}`}
@@ -173,7 +244,7 @@ export default function ProfileManager() {
                     <Label htmlFor={`nameReading-${locale}`}>読み仮名</Label>
                     <Input
                       id={`nameReading-${locale}`}
-                      value={currentFormData?.nameReading || formData[locale]?.nameReading || ''}
+                      value={formData[locale]?.nameReading || ''}
                       onChange={(e) => handleInputChange(locale, 'nameReading', e.target.value)}
                       placeholder="うちだ しん"
                       data-testid={`input-nameReading-${locale}`}
@@ -184,7 +255,7 @@ export default function ProfileManager() {
                   <Label htmlFor={`title-${locale}`}>肩書き</Label>
                   <Input
                     id={`title-${locale}`}
-                    value={currentFormData?.title || formData[locale]?.title || ''}
+                    value={formData[locale]?.title || ''}
                     onChange={(e) => handleInputChange(locale, 'title', e.target.value)}
                     placeholder="D'auchy.Studio 創設者"
                     data-testid={`input-title-${locale}`}
@@ -196,7 +267,7 @@ export default function ProfileManager() {
                 <Label htmlFor={`about-${locale}`}>自己紹介</Label>
                 <Textarea
                   id={`about-${locale}`}
-                  value={currentFormData?.about || formData[locale]?.about || ''}
+                  value={formData[locale]?.about || ''}
                   onChange={(e) => handleInputChange(locale, 'about', e.target.value)}
                   rows={3}
                   data-testid={`input-about-${locale}`}
@@ -207,7 +278,7 @@ export default function ProfileManager() {
                 <Label htmlFor={`vision-${locale}`}>ビジョン</Label>
                 <Textarea
                   id={`vision-${locale}`}
-                  value={currentFormData?.vision || formData[locale]?.vision || ''}
+                  value={formData[locale]?.vision || ''}
                   onChange={(e) => handleInputChange(locale, 'vision', e.target.value)}
                   rows={2}
                   data-testid={`input-vision-${locale}`}
@@ -218,7 +289,7 @@ export default function ProfileManager() {
                 <Label htmlFor={`projects-${locale}`}>プロジェクト</Label>
                 <Textarea
                   id={`projects-${locale}`}
-                  value={currentFormData?.projects || formData[locale]?.projects || ''}
+                  value={formData[locale]?.projects || ''}
                   onChange={(e) => handleInputChange(locale, 'projects', e.target.value)}
                   rows={2}
                   data-testid={`input-projects-${locale}`}
@@ -229,7 +300,7 @@ export default function ProfileManager() {
                 <Label htmlFor={`background-${locale}`}>経歴</Label>
                 <Textarea
                   id={`background-${locale}`}
-                  value={currentFormData?.background || formData[locale]?.background || ''}
+                  value={formData[locale]?.background || ''}
                   onChange={(e) => handleInputChange(locale, 'background', e.target.value)}
                   rows={2}
                   data-testid={`input-background-${locale}`}
@@ -240,7 +311,7 @@ export default function ProfileManager() {
                 <Label htmlFor={`company-${locale}`}>会社情報</Label>
                 <Textarea
                   id={`company-${locale}`}
-                  value={currentFormData?.company || formData[locale]?.company || ''}
+                  value={formData[locale]?.company || ''}
                   onChange={(e) => handleInputChange(locale, 'company', e.target.value)}
                   rows={2}
                   data-testid={`input-company-${locale}`}
@@ -251,7 +322,7 @@ export default function ProfileManager() {
                 <Label htmlFor={`chatbot-${locale}`}>チャットボット説明</Label>
                 <Textarea
                   id={`chatbot-${locale}`}
-                  value={currentFormData?.chatbot || formData[locale]?.chatbot || ''}
+                  value={formData[locale]?.chatbot || ''}
                   onChange={(e) => handleInputChange(locale, 'chatbot', e.target.value)}
                   rows={2}
                   data-testid={`input-chatbot-${locale}`}
@@ -262,7 +333,7 @@ export default function ProfileManager() {
                 <Label htmlFor={`contact-${locale}`}>連絡先案内</Label>
                 <Textarea
                   id={`contact-${locale}`}
-                  value={currentFormData?.contact || formData[locale]?.contact || ''}
+                  value={formData[locale]?.contact || ''}
                   onChange={(e) => handleInputChange(locale, 'contact', e.target.value)}
                   rows={2}
                   data-testid={`input-contact-${locale}`}
