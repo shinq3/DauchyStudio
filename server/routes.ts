@@ -1051,6 +1051,58 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin: Get all creator profiles
+  app.get('/api/admin/profiles', isAdminAuth, async (req, res) => {
+    try {
+      const profiles = await storage.getAllCreatorProfiles();
+      res.json(profiles);
+    } catch (error) {
+      console.error("Error fetching profiles:", error);
+      res.status(500).json({ message: "Failed to fetch profiles" });
+    }
+  });
+  
+  // Admin: Get creator profile by locale
+  app.get('/api/admin/profiles/:locale', isAdminAuth, async (req, res) => {
+    try {
+      const profile = await storage.getCreatorProfile(req.params.locale);
+      if (!profile) {
+        return res.status(404).json({ message: "Profile not found" });
+      }
+      res.json(profile);
+    } catch (error) {
+      console.error("Error fetching profile:", error);
+      res.status(500).json({ message: "Failed to fetch profile" });
+    }
+  });
+  
+  // Admin: Create/update creator profile
+  app.post('/api/admin/profiles', isAdminAuth, async (req, res) => {
+    try {
+      const profile = await storage.upsertCreatorProfile(req.body);
+      
+      // Rebuild RAG index to include new profile data
+      const { rebuildRagIndex } = await import('./lib/ragService');
+      await rebuildRagIndex();
+      
+      res.json(profile);
+    } catch (error) {
+      console.error("Error saving profile:", error);
+      res.status(500).json({ message: "Failed to save profile" });
+    }
+  });
+  
+  // Admin: Delete creator profile
+  app.delete('/api/admin/profiles/:locale', isAdminAuth, async (req, res) => {
+    try {
+      await storage.deleteCreatorProfile(req.params.locale);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting profile:", error);
+      res.status(500).json({ message: "Failed to delete profile" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
