@@ -411,6 +411,41 @@ export const insertChatHistorySchema = createInsertSchema(chatHistory).pick({
   retrievedDocIds: true,
 });
 
+// Creator Profile table - for RAG chatbot knowledge about the creator
+export const creatorProfiles = pgTable("creator_profiles", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  locale: varchar("locale").notNull().default('ja'),
+  name: varchar("name").notNull(),
+  nameReading: varchar("name_reading"),
+  title: varchar("title"),
+  about: text("about"),
+  vision: text("vision"),
+  projects: text("projects"),
+  background: text("background"),
+  company: text("company"),
+  chatbot: text("chatbot"),
+  contact: text("contact"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+export type CreatorProfile = typeof creatorProfiles.$inferSelect;
+export type InsertCreatorProfile = typeof creatorProfiles.$inferInsert;
+
+export const insertCreatorProfileSchema = createInsertSchema(creatorProfiles).pick({
+  locale: true,
+  name: true,
+  nameReading: true,
+  title: true,
+  about: true,
+  vision: true,
+  projects: true,
+  background: true,
+  company: true,
+  chatbot: true,
+  contact: true,
+});
+
 // Types
 export type InsertNews = z.infer<typeof insertNewsSchema>;
 export type News = typeof news.$inferSelect;

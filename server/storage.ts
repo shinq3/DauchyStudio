@@ -11,6 +11,7 @@ import {
   uploads,
   ragDocuments,
   chatHistory,
+  creatorProfiles,
   type User, 
   type UpsertUser,
   type AdminUser,
@@ -34,7 +35,9 @@ import {
   type RagDocument,
   type InsertRagDocument,
   type ChatHistory,
-  type InsertChatHistory
+  type InsertChatHistory,
+  type CreatorProfile,
+  type InsertCreatorProfile
 } from "@shared/schema";
 import { eq, desc, like, or, and } from "drizzle-orm";
 import { db } from "./db";
@@ -124,6 +127,12 @@ export interface IStorage {
   // Chat History operations
   getChatHistory(sessionId: string): Promise<ChatHistory[]>;
   createChatHistory(history: InsertChatHistory): Promise<ChatHistory>;
+  
+  // Creator Profile operations
+  getCreatorProfile(locale: string): Promise<CreatorProfile | undefined>;
+  getAllCreatorProfiles(): Promise<CreatorProfile[]>;
+  upsertCreatorProfile(profile: InsertCreatorProfile): Promise<CreatorProfile>;
+  deleteCreatorProfile(locale: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -497,6 +506,35 @@ export class DatabaseStorage implements IStorage {
   async createChatHistory(historyData: InsertChatHistory): Promise<ChatHistory> {
     const [history] = await db.insert(chatHistory).values(historyData).returning();
     return history;
+  }
+  
+  // Creator Profile operations
+  async getCreatorProfile(locale: string): Promise<CreatorProfile | undefined> {
+    const [profile] = await db.select().from(creatorProfiles).where(eq(creatorProfiles.locale, locale));
+    return profile;
+  }
+  
+  async getAllCreatorProfiles(): Promise<CreatorProfile[]> {
+    return db.select().from(creatorProfiles).orderBy(creatorProfiles.locale);
+  }
+  
+  async upsertCreatorProfile(profileData: InsertCreatorProfile): Promise<CreatorProfile> {
+    const existing = await this.getCreatorProfile(profileData.locale || 'ja');
+    if (existing) {
+      const [profile] = await db
+        .update(creatorProfiles)
+        .set({ ...profileData, updatedAt: new Date() })
+        .where(eq(creatorProfiles.locale, profileData.locale || 'ja'))
+        .returning();
+      return profile;
+    } else {
+      const [profile] = await db.insert(creatorProfiles).values(profileData).returning();
+      return profile;
+    }
+  }
+  
+  async deleteCreatorProfile(locale: string): Promise<void> {
+    await db.delete(creatorProfiles).where(eq(creatorProfiles.locale, locale));
   }
 }
 
