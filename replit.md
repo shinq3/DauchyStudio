@@ -91,6 +91,12 @@ D'auchy.Studio is a Japanese AI product innovation company developing cutting-ed
 - ✅ Manual refresh button to prevent data loss during editing
 - ✅ RAG service integration - profiles loaded from database
 - ✅ Auto RAG index rebuild when profiles are saved
+- ✅ **AI Profile Translation** (2026-01-07)
+  - Translate Japanese profile to English & Vietnamese with one click
+  - Uses GPT-4o-mini for professional translation
+  - Preserves product names (LingaLink, EduMate, etc.) in original form
+  - API endpoint: POST /api/admin/profiles/translate
+  - Button: "英語・ベトナム語に翻訳して保存" (only on ja tab)
 - **Database Fields**: name, nameReading, title, about, vision, projects, background, company, chatbot, contact
 - **RAG Content Extraction**: `extractProfilesFromDB()` in ragService.ts loads profiles and creates searchable chunks
 

@@ -228,3 +228,100 @@ export async function generateSummaryWithGPT4(request: SummaryRequest): Promise<
     summary,
   };
 }
+
+// Profile translation for multilingual support
+export interface ProfileTranslationRequest {
+  sourceProfile: {
+    name: string;
+    nameReading?: string;
+    title?: string;
+    about?: string;
+    vision?: string;
+    projects?: string;
+    background?: string;
+    company?: string;
+    chatbot?: string;
+    contact?: string;
+  };
+  sourceLanguage: string;
+  targetLanguage: string;
+}
+
+export interface ProfileTranslationResult {
+  translatedProfile: {
+    name: string;
+    nameReading: string;
+    title: string;
+    about: string;
+    vision: string;
+    projects: string;
+    background: string;
+    company: string;
+    chatbot: string;
+    contact: string;
+  };
+}
+
+export async function translateProfileWithGPT4(request: ProfileTranslationRequest): Promise<ProfileTranslationResult> {
+  const { sourceProfile, sourceLanguage, targetLanguage } = request;
+
+  const languageNames: Record<string, string> = {
+    ja: 'Japanese',
+    en: 'English',
+    vi: 'Vietnamese',
+  };
+
+  const systemPrompt = `You are a professional translator specializing in business profiles and company information. 
+Translate the following profile fields from ${languageNames[sourceLanguage]} to ${languageNames[targetLanguage]}.
+Return ONLY a valid JSON object with the translated fields. Do not include any explanations or markdown formatting.
+
+Special instructions:
+- For names: Keep proper nouns (company names, product names like LingaLink, EduMate, OfficeBrain, Bayd-System, D'auchy.Studio) in their original form
+- For nameReading: If translating to English or Vietnamese, this can be romanized or left empty
+- Maintain professional tone appropriate for company/personal branding
+- Keep formatting (newlines, bullet points) intact in longer text fields`;
+
+  const userPrompt = `Translate this profile to ${languageNames[targetLanguage]}:
+
+${JSON.stringify(sourceProfile, null, 2)}
+
+Return as JSON with these exact keys: name, nameReading, title, about, vision, projects, background, company, chatbot, contact`;
+
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o-mini',
+    messages: [
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userPrompt },
+    ],
+    temperature: 0.3,
+    max_tokens: 4000,
+  });
+
+  const content = response.choices[0]?.message?.content || '{}';
+  
+  // Parse the JSON response
+  let translatedProfile;
+  try {
+    // Remove markdown code blocks if present
+    const cleanedContent = content.replace(/```json\n?|\n?```/g, '').trim();
+    translatedProfile = JSON.parse(cleanedContent);
+  } catch (e) {
+    console.error('[OpenAI] Failed to parse profile translation:', e);
+    throw new Error('Failed to parse translated profile');
+  }
+
+  return {
+    translatedProfile: {
+      name: translatedProfile.name || sourceProfile.name,
+      nameReading: translatedProfile.nameReading || '',
+      title: translatedProfile.title || '',
+      about: translatedProfile.about || '',
+      vision: translatedProfile.vision || '',
+      projects: translatedProfile.projects || '',
+      background: translatedProfile.background || '',
+      company: translatedProfile.company || '',
+      chatbot: translatedProfile.chatbot || '',
+      contact: translatedProfile.contact || '',
+    },
+  };
+}

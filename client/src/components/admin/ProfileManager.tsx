@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest, queryClient } from '@/lib/queryClient';
-import { Loader2, Save, User, Globe, RefreshCw } from 'lucide-react';
+import { Loader2, Save, User, Globe, RefreshCw, Languages } from 'lucide-react';
 
 type CreatorProfile = {
   id: string;
@@ -162,6 +162,66 @@ export default function ProfileManager() {
       });
     }
   });
+
+  const translateMutation = useMutation({
+    mutationFn: async (params: { sourceProfile: ProfileFormData; sourceLocale: string; targetLocales: string[] }) => {
+      const response = await apiRequest('/api/admin/profiles/translate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(params)
+      });
+      return response.json();
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['/api/admin/profiles'] });
+      const successCount = data.results?.filter((r: any) => r.success).length || 0;
+      const failedLocales = data.results?.filter((r: any) => !r.success).map((r: any) => r.locale) || [];
+      
+      if (failedLocales.length === 0) {
+        toast({
+          title: '翻訳完了',
+          description: `日本語プロフィールを英語・ベトナム語に翻訳し保存しました（${successCount}言語）`
+        });
+      } else {
+        toast({
+          title: '一部翻訳完了',
+          description: `${successCount}言語を保存しました。失敗: ${failedLocales.join(', ')}`,
+          variant: 'destructive'
+        });
+      }
+      
+      // Refresh form data to show translated content
+      handleRefresh();
+    },
+    onError: (error: any) => {
+      toast({
+        title: 'エラー',
+        description: error.message || '翻訳に失敗しました',
+        variant: 'destructive'
+      });
+    }
+  });
+
+  const handleTranslateAndSave = () => {
+    const jaProfile = formData['ja'] || defaultProfiles['ja'];
+    
+    if (!jaProfile.name?.trim()) {
+      toast({
+        title: 'エラー',
+        description: '日本語の名前を入力してください',
+        variant: 'destructive'
+      });
+      return;
+    }
+    
+    translateMutation.mutate({
+      sourceProfile: jaProfile,
+      sourceLocale: 'ja',
+      targetLocales: ['en', 'vi']
+    });
+  };
 
   const handleInputChange = (locale: string, field: keyof ProfileFormData, value: string) => {
     setFormData(prev => ({
@@ -364,10 +424,25 @@ export default function ProfileManager() {
                 />
               </div>
 
-              <div className="flex justify-end pt-4">
+              <div className="flex justify-end gap-3 pt-4">
+                {locale === 'ja' && (
+                  <Button
+                    onClick={handleTranslateAndSave}
+                    disabled={translateMutation.isPending || saveMutation.isPending}
+                    variant="secondary"
+                    data-testid="button-translate-all"
+                  >
+                    {translateMutation.isPending ? (
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                    ) : (
+                      <Languages className="w-4 h-4 mr-2" />
+                    )}
+                    英語・ベトナム語に翻訳して保存
+                  </Button>
+                )}
                 <Button
                   onClick={() => handleSave(locale)}
-                  disabled={saveMutation.isPending}
+                  disabled={saveMutation.isPending || translateMutation.isPending}
                   data-testid={`button-save-${locale}`}
                 >
                   {saveMutation.isPending ? (

@@ -1106,6 +1106,59 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ message: "Failed to delete profile" });
     }
   });
+  
+  // Admin: Translate profile from source language to target languages and save
+  app.post('/api/admin/profiles/translate', isAdminAuth, async (req, res) => {
+    try {
+      const { sourceProfile, sourceLocale, targetLocales } = req.body;
+      
+      if (!sourceProfile || !sourceLocale || !targetLocales || !Array.isArray(targetLocales)) {
+        return res.status(400).json({ message: "Invalid request: sourceProfile, sourceLocale, and targetLocales are required" });
+      }
+      
+      const { translateProfileWithGPT4 } = await import('./lib/openaiClient');
+      const { rebuildRagIndex } = await import('./lib/ragService');
+      
+      const results: { locale: string; success: boolean; error?: string }[] = [];
+      
+      // Save source profile first
+      const sourceToSave = { ...sourceProfile, locale: sourceLocale };
+      await storage.upsertCreatorProfile(sourceToSave);
+      results.push({ locale: sourceLocale, success: true });
+      
+      // Translate and save to each target locale
+      for (const targetLocale of targetLocales) {
+        if (targetLocale === sourceLocale) continue;
+        
+        try {
+          const translationResult = await translateProfileWithGPT4({
+            sourceProfile,
+            sourceLanguage: sourceLocale,
+            targetLanguage: targetLocale,
+          });
+          
+          const translatedToSave = {
+            ...translationResult.translatedProfile,
+            locale: targetLocale,
+          };
+          
+          await storage.upsertCreatorProfile(translatedToSave);
+          results.push({ locale: targetLocale, success: true });
+        } catch (error: any) {
+          console.error(`Failed to translate profile to ${targetLocale}:`, error);
+          results.push({ locale: targetLocale, success: false, error: error.message });
+        }
+      }
+      
+      // Rebuild RAG index with all new profiles
+      await rebuildRagIndex();
+      
+      res.json({ success: true, results });
+    } catch (error: any) {
+      console.error("Error translating profile:", error);
+      res.status(500).json({ message: error.message || "Failed to translate profile" });
+    }
+  });
 
   const httpServer = createServer(app);
   return httpServer;
