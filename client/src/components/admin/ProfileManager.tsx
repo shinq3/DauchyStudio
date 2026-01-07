@@ -141,6 +141,9 @@ export default function ProfileManager() {
     mutationFn: async (profile: ProfileFormData) => {
       return apiRequest('/api/admin/profiles', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
         body: JSON.stringify(profile)
       });
     },
@@ -171,10 +174,31 @@ export default function ProfileManager() {
   };
 
   const handleSave = (locale: string) => {
-    const profileToSave = {
-      ...formData[locale],
-      locale
+    const currentProfile = formData[locale] || defaultProfiles[locale];
+    
+    const profileToSave: ProfileFormData = {
+      locale,
+      name: currentProfile?.name?.trim() || defaultProfiles[locale].name,
+      nameReading: currentProfile?.nameReading || '',
+      title: currentProfile?.title || '',
+      about: currentProfile?.about || '',
+      vision: currentProfile?.vision || '',
+      projects: currentProfile?.projects || '',
+      background: currentProfile?.background || '',
+      company: currentProfile?.company || '',
+      chatbot: currentProfile?.chatbot || '',
+      contact: currentProfile?.contact || ''
     };
+    
+    if (!profileToSave.name) {
+      toast({
+        title: 'エラー',
+        description: '名前は必須です',
+        variant: 'destructive'
+      });
+      return;
+    }
+    
     saveMutation.mutate(profileToSave);
   };
 

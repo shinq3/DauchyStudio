@@ -84,6 +84,16 @@ D'auchy.Studio is a Japanese AI product innovation company developing cutting-ed
 - ✅ Locale-aware responses matching user's language
 - ✅ E2E tested: Japanese questions about products return accurate AI responses
 
+## Creator Profile Management (2026-01-06)
+- ✅ Database schema `creator_profiles` with multilingual support (ja/en/vi)
+- ✅ CRUD API endpoints for profile management
+- ✅ Admin UI with ProfileManager component
+- ✅ Manual refresh button to prevent data loss during editing
+- ✅ RAG service integration - profiles loaded from database
+- ✅ Auto RAG index rebuild when profiles are saved
+- **Database Fields**: name, nameReading, title, about, vision, projects, background, company, chatbot, contact
+- **RAG Content Extraction**: `extractProfilesFromDB()` in ragService.ts loads profiles and creates searchable chunks
+
 ### RAG Technical Details
 - **Embedding Model**: text-embedding-3-small (1536 dimensions)
 - **Response Model**: gpt-4o-mini

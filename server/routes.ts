@@ -1079,6 +1079,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Admin: Create/update creator profile
   app.post('/api/admin/profiles', isAdminAuth, async (req, res) => {
     try {
+      if (!req.body.name || !req.body.name.trim()) {
+        return res.status(400).json({ message: "Name is required" });
+      }
+      
       const profile = await storage.upsertCreatorProfile(req.body);
       
       // Rebuild RAG index to include new profile data
