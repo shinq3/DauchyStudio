@@ -74,7 +74,7 @@ export async function generateRagChatResponse(request: RagChatRequest): Promise<
     vi: 'Vui lòng trả lời bằng tiếng Việt một cách chuyên nghiệp và thân thiện.',
   };
 
-  const systemPrompt = `あなたは「D'auchy.Studio」のAIアシスタントです。会社に関する質問に正確で親切に回答してください。
+  const systemPrompt = `あなたは「D'auchy.Studio」のAIアシスタントです。会社とその創設者「内田伸（Shin Uchida）」に関する質問に正確で親切に回答してください。
 
 以下の情報を参考にして回答してください：
 
@@ -85,7 +85,12 @@ ${context}
 - 情報がない場合は、正直に「その情報はありません」と伝えてください
 - ${languageInstructions[locale] || languageInstructions.ja}
 - 簡潔で分かりやすい回答を心がけてください
-- 会社の強みや特徴を積極的にアピールしてください`;
+- 会社の強みや特徴を積極的にアピールしてください
+
+重要：実績（achievements）や成果について質問された場合：
+- 内田伸（創設者）の個人的な実績・経歴・プロジェクト
+- D'auchy.Studioの会社としての実績・製品（LingaLink、EduMate、OfficeBrain、Bayd-System等）
+両方を統合して回答してください。内田伸はD'auchy.Studioの創設者であり、すべてのプロダクトの開発者です。`;
 
   const messages: OpenAI.ChatCompletionMessageParam[] = [
     { role: 'system', content: systemPrompt },
