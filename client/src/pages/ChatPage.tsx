@@ -27,13 +27,13 @@ const languages: { code: Locale; name: string; flag: string }[] = [
   { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' }
 ];
 
-function useTypewriter(lines: string[], speed = 40, lineDelay = 300) {
+function useTypewriter(lines: string[], locale: string, speed = 40, lineDelay = 300) {
   const [displayedText, setDisplayedText] = useState('');
   const [isDone, setIsDone] = useState(false);
+  const linesKey = lines.join('\n');
 
   useEffect(() => {
     let cancelled = false;
-    const fullText = lines.join('\n');
     let charIndex = 0;
 
     setDisplayedText('');
@@ -41,10 +41,10 @@ function useTypewriter(lines: string[], speed = 40, lineDelay = 300) {
 
     const type = () => {
       if (cancelled) return;
-      if (charIndex <= fullText.length) {
-        setDisplayedText(fullText.slice(0, charIndex));
+      if (charIndex <= linesKey.length) {
+        setDisplayedText(linesKey.slice(0, charIndex));
         charIndex++;
-        const currentChar = fullText[charIndex - 1];
+        const currentChar = linesKey[charIndex - 1];
         const delay = currentChar === '\n' ? lineDelay : speed;
         setTimeout(type, delay);
       } else {
@@ -54,7 +54,7 @@ function useTypewriter(lines: string[], speed = 40, lineDelay = 300) {
 
     const startTimer = setTimeout(type, 600);
     return () => { cancelled = true; clearTimeout(startTimer); };
-  }, [lines.join('\n')]);
+  }, [linesKey, locale]);
 
   return { displayedText, isDone };
 }
@@ -71,7 +71,7 @@ export default function ChatPage() {
   const [, setLocation] = useLocation();
   const { t, i18n } = useTranslation('common');
   const introLines = t('chat.introLines', { returnObjects: true }) as string[];
-  const { displayedText, isDone } = useTypewriter(introLines);
+  const { displayedText, isDone } = useTypewriter(introLines, locale);
 
   const handleLanguageChange = (newLocale: Locale) => {
     i18n.changeLanguage(newLocale);

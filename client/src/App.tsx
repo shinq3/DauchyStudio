@@ -222,9 +222,17 @@ function Router() {
 }
 
 function App() {
-  const { t } = useTranslation('footer');
+  const { t, i18n } = useTranslation('footer');
   const { locale } = useLocale();
   const [location] = useLocation();
+  
+  const { locale: urlLocale } = extractLocaleFromPath(location);
+  
+  useEffect(() => {
+    if (urlLocale && i18n.language !== urlLocale) {
+      i18n.changeLanguage(urlLocale);
+    }
+  }, [urlLocale, i18n]);
   
   const isChatPage = location.includes('/chat');
   
