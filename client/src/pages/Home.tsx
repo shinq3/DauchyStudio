@@ -18,6 +18,10 @@ import eduMateImage from "@assets/generated_images/EduMate_collaboration_interfa
 import officeBrainImage from "@assets/generated_images/OfficeBrain_file_system_interface_be3ae664.png";
 import enterpriseLLMImage from "@assets/stock_images/enterprise_ai_dashbo_34de58a9.jpg";
 import baydSystemImage from "@assets/generated_images/Bayd-System_studio_dashboard_36de2e47.png";
+import manifestoAiCoding from "@assets/stock_images/manifesto_ai_coding.jpg";
+import manifestoBusinessAnalysis from "@assets/stock_images/manifesto_business_analysis.jpg";
+import manifestoPairProgramming from "@assets/stock_images/manifesto_pair_programming.jpg";
+import manifestoDecision from "@assets/stock_images/manifesto_decision.jpg";
 
 export default function Home() {
   const { t } = useTranslation(['home', 'products', 'common']);
@@ -150,7 +154,7 @@ export default function Home() {
   return (
     <main>
       <HeroSection
-        title={"AIに任せて作ったMVPに、\n意味はありません。"}
+        title={"AIに任せて作ったMVPに\n意味はありません。"}
         subtitleLines={[
           "AIで速く作る時代に、システムの価値は「人の判断」で決まります。",
           "コードはAIが書く。",
@@ -167,65 +171,135 @@ export default function Home() {
       />
 
       <section id="manifesto-section" className="py-20 lg:py-28 bg-background">
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 max-w-6xl">
+
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            className="max-w-3xl mx-auto"
+            className="text-center mb-20"
           >
-            <div className="space-y-8 text-base md:text-lg leading-loose text-foreground/80">
-              <p className="text-xl md:text-2xl font-semibold text-foreground leading-relaxed">
-                AIがあれば、<br />
-                プロトタイプもMVPも、コードも、一瞬で作れる時代になりました。<br />
-                もう「作れること」自体に、特別な価値はありません。
-              </p>
-
-              <div className="w-12 h-px bg-primary/40 mx-auto" />
-
-              <p>
-                問題は、何を作るかではなく、
-                <span className="font-semibold text-foreground">何を作らないかを判断できるか</span>です。
-              </p>
-
-              <p>
-                業務を知らないままAIに任せて作られたMVPは、一見それっぽく動きます。<br />
-                しかしその多くは、 現場の前提や人の動きを誤解したまま作られた<br />
-                「均一的な業務システム」になります。
-              </p>
-
-
-
-              <p>
-                私たちは、<br />
-                お客様が語る要望をそのまま機能に落としません。<br />
-                言葉の裏にある業務の流れ、立場の違い、言語化されていない制約や"詰まる未来"を先に見ます。
-              </p>
-
-              <p>
-                そのためにAIを使います。<br />
-                機能を増やすためではなく、<span className="font-semibold text-foreground">業務を誤解しないために。</span>
-              </p>
-
-              <p>
-                AIは無数の選択肢を提示します。<br />
-                だからこそ、人の経験が必要です。<br />
-                どの案を捨てるのか、どこをシステムにせず運用に残すのか。<br />
-                その判断は、実際に現場で働き業務システムを作ってきた人間にしかできません。
-              </p>
-
-              <p>
-                <span className="font-semibold text-foreground">AIペアコーディングとは、</span> 速く作るための手法ではありません。<br />
-                間違いに早く気づき、正しい方向に修正するための開発プロセスです。
-              </p>
-
-              <p>
-                私たちは、AIに仕事を任せるのではなく、 AIと一緒に業務を深く理解し、
-                <span className="font-semibold text-foreground">本当に使われるシステムだけを作ります。</span>
-              </p>
-            </div>
+            <p className="text-2xl md:text-3xl font-bold text-foreground leading-relaxed">
+              AIがあれば、<br />
+              プロトタイプもMVPも、コードも、一瞬で作れる時代になりました。
+            </p>
+            <p className="text-lg md:text-xl text-muted-foreground mt-4">
+              もう「作れること」自体に、特別な価値はありません。
+            </p>
           </motion.div>
+
+          <div className="space-y-24 lg:space-y-32">
+
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center"
+            >
+              <div className="order-2 lg:order-1">
+                <div className="inline-block px-3 py-1 rounded-md bg-primary/10 text-primary text-sm font-medium mb-4">
+                  Problem
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4 leading-tight">
+                  問題は、何を作るかではなく、<br />
+                  <span className="text-primary">何を作らないかを判断できるか</span>です。
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  業務を知らないままAIに任せて作られたMVPは、一見それっぽく動きます。しかしその多くは、現場の前提や人の動きを誤解したまま作られた「均一的な業務システム」になります。
+                </p>
+              </div>
+              <div className="order-1 lg:order-2">
+                <div className="relative rounded-md overflow-hidden aspect-[16/10]">
+                  <img src={manifestoAiCoding} alt="AIによるコード生成" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center"
+            >
+              <div>
+                <div className="relative rounded-md overflow-hidden aspect-[16/10]">
+                  <img src={manifestoBusinessAnalysis} alt="業務分析とヒアリング" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                </div>
+              </div>
+              <div>
+                <div className="inline-block px-3 py-1 rounded-md bg-primary/10 text-primary text-sm font-medium mb-4">
+                  Our Approach
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4 leading-tight">
+                  要望をそのまま機能に落とさない。<br />
+                  <span className="text-primary">業務を誤解しないために、AIを使う。</span>
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  私たちは、お客様が語る要望をそのまま機能に落としません。言葉の裏にある業務の流れ、立場の違い、言語化されていない制約や"詰まる未来"を先に見ます。そのためにAIを使います。機能を増やすためではなく、業務を誤解しないために。
+                </p>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center"
+            >
+              <div className="order-2 lg:order-1">
+                <div className="inline-block px-3 py-1 rounded-md bg-primary/10 text-primary text-sm font-medium mb-4">
+                  Human Judgment
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4 leading-tight">
+                  AIは無数の選択肢を提示する。<br />
+                  <span className="text-primary">だからこそ、人の経験が必要です。</span>
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  どの案を捨てるのか、どこをシステムにせず運用に残すのか。その判断は、実際に現場で働き、業務システムを作ってきた人間にしかできません。
+                </p>
+              </div>
+              <div className="order-1 lg:order-2">
+                <div className="relative rounded-md overflow-hidden aspect-[16/10]">
+                  <img src={manifestoDecision} alt="経験に基づく判断" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                </div>
+              </div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center"
+            >
+              <div>
+                <div className="relative rounded-md overflow-hidden aspect-[16/10]">
+                  <img src={manifestoPairProgramming} alt="AIペアコーディング" className="w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                </div>
+              </div>
+              <div>
+                <div className="inline-block px-3 py-1 rounded-md bg-primary/10 text-primary text-sm font-medium mb-4">
+                  AI Pair Coding
+                </div>
+                <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4 leading-tight">
+                  速く作るための手法ではない。<br />
+                  <span className="text-primary">正しい方向に修正するための開発プロセス。</span>
+                </h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  AIペアコーディングとは、間違いに早く気づき、正しい方向に修正するための開発プロセスです。私たちは、AIに仕事を任せるのではなく、AIと一緒に業務を深く理解し、本当に使われるシステムだけを作ります。
+                </p>
+              </div>
+            </motion.div>
+
+          </div>
         </div>
       </section>
       
