@@ -1,12 +1,47 @@
 {
   "hero": {
-    "title": "From Prototype Creation to System Development",
-    "subtitle": "D'auchy.Studio provides innovative solutions that connect education, enterprise, and creative industries with cutting-edge AI technology.",
+    "title": "An MVP built by AI alone\nis meaningless.",
+    "subtitleLines": [
+      "In the age of building fast with AI, the value of a system is determined by human judgment.",
+      "AI writes the code.",
+      "Understanding the business is a human's job."
+    ],
     "features": {
       "rapid": "We will show you a working prototype on the day of the meeting and immediately bring your requirements to life",
       "development": "Seamless transition with consistent development framework from prototype to full system",
       "expertise": "Build practical, high-utility systems with AI solutions tailored to real business challenges"
     }
+  },
+  "manifesto": {
+    "heading": "With AI,",
+    "headingLine2": "prototypes, MVPs, and code can be created in an instant.",
+    "headingSub": "The ability to \"build\" itself no longer holds special value.",
+    "problem": {
+      "badge": "Problem",
+      "title": "The question is not what to build, but",
+      "titleHighlight": "whether you can judge what not to build.",
+      "titleSuffix": "",
+      "description": "MVPs built by AI without understanding the business may look functional at first glance. But most of them end up as \"cookie-cutter business systems\" built on misunderstandings of real workflows and how people actually work."
+    },
+    "approach": {
+      "badge": "Our Approach",
+      "title": "We don't just turn requests into features.",
+      "titleHighlight": "We use AI to avoid misunderstanding the business.",
+      "description": "We don't simply convert client requests into features. We look beyond the words to understand business flows, role differences, unspoken constraints, and potential bottlenecks. That's why we use AI — not to add features, but to avoid misunderstanding the business."
+    },
+    "judgment": {
+      "badge": "Human Judgment",
+      "title": "AI presents countless options.",
+      "titleHighlight": "That's exactly why human experience matters.",
+      "description": "Which ideas to discard, which parts to leave as manual operations instead of systemizing — these judgments can only be made by people who have actually worked on-site and built business systems."
+    },
+    "pairCoding": {
+      "badge": "AI Pair Coding",
+      "title": "Not a method to build faster.",
+      "titleHighlight": "A development process to correct course quickly.",
+      "description": "AI pair coding is a development process for catching mistakes early and correcting direction. We don't delegate work to AI — we work alongside AI to deeply understand the business and build only the systems that will truly be used."
+    },
+    "ctaButton": "Learn more about AI Pair Coding"
   },
   "sections": {
     "products": {

@@ -27,18 +27,6 @@ const languages: { code: Locale; name: string; flag: string }[] = [
   { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' }
 ];
 
-const introLines = [
-  "D'auchy.Studio へようこそ。",
-  "",
-  "私たちは、あらゆるAIを駆使して",
-  "業務の「もっと早く、もっとラクに」を",
-  "驚くほどのスピードで形にする組織です。",
-  "",
-  "AIで何を変えたいですか？",
-  "どんな業務を楽にしたいですか？",
-  "まずは気軽に話しかけてください。",
-];
-
 function useTypewriter(lines: string[], speed = 40, lineDelay = 300) {
   const [displayedText, setDisplayedText] = useState('');
   const [isDone, setIsDone] = useState(false);
@@ -47,6 +35,9 @@ function useTypewriter(lines: string[], speed = 40, lineDelay = 300) {
     let cancelled = false;
     const fullText = lines.join('\n');
     let charIndex = 0;
+
+    setDisplayedText('');
+    setIsDone(false);
 
     const type = () => {
       if (cancelled) return;
@@ -63,7 +54,7 @@ function useTypewriter(lines: string[], speed = 40, lineDelay = 300) {
 
     const startTimer = setTimeout(type, 600);
     return () => { cancelled = true; clearTimeout(startTimer); };
-  }, []);
+  }, [lines.join('\n')]);
 
   return { displayedText, isDone };
 }
@@ -79,6 +70,7 @@ export default function ChatPage() {
   const { locale } = useLocale();
   const [, setLocation] = useLocation();
   const { t, i18n } = useTranslation('common');
+  const introLines = t('chat.introLines', { returnObjects: true }) as string[];
   const { displayedText, isDone } = useTypewriter(introLines);
 
   const handleLanguageChange = (newLocale: Locale) => {
@@ -243,7 +235,7 @@ export default function ChatPage() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder="AIやシステム開発について、何でもお聞きください..."
+                    placeholder={t('chat.placeholder')}
                     className="min-h-[60px] max-h-[120px] resize-none bg-transparent border-0 text-white placeholder:text-gray-500 focus-visible:ring-0 text-lg"
                     rows={2}
                     disabled={isLoading}

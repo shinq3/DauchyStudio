@@ -1,12 +1,47 @@
 {
   "hero": {
-    "title": "Từ Tạo Mẫu đến Phát Triển Hệ Thống",
-    "subtitle": "D'auchy.Studio cung cấp các giải pháp sáng tạo kết nối giáo dục, doanh nghiệp và ngành công nghiệp sáng tạo với công nghệ AI tiên tiến.",
+    "title": "MVP do AI tạo ra một mình\nkhông có ý nghĩa.",
+    "subtitleLines": [
+      "Trong thời đại xây dựng nhanh với AI, giá trị của hệ thống được quyết định bởi phán đoán của con người.",
+      "AI viết mã.",
+      "Hiểu nghiệp vụ là công việc của con người."
+    ],
     "features": {
       "rapid": "Chúng tôi sẽ trình bày mẫu thử hoạt động trong ngày họp và ngay lập tức biến yêu cầu của bạn thành hiện thực",
       "development": "Chuyển đổi mượt mà với khung phát triển nhất quán từ mẫu thử đến hệ thống hoàn chỉnh",
       "expertise": "Xây dựng hệ thống thực tế, có tính hữu dụng cao với giải pháp AI được tùy chỉnh cho các thách thức kinh doanh thực tế"
     }
+  },
+  "manifesto": {
+    "heading": "Với AI,",
+    "headingLine2": "mẫu thử, MVP và mã nguồn có thể được tạo ra trong tích tắc.",
+    "headingSub": "Khả năng \"xây dựng\" bản thân không còn giữ giá trị đặc biệt nữa.",
+    "problem": {
+      "badge": "Vấn đề",
+      "title": "Câu hỏi không phải là xây dựng cái gì, mà là",
+      "titleHighlight": "liệu bạn có thể phán đoán điều gì không nên xây dựng.",
+      "titleSuffix": "",
+      "description": "MVP được xây dựng bởi AI mà không hiểu nghiệp vụ có thể trông hoạt động tốt ở cái nhìn đầu tiên. Nhưng hầu hết chúng trở thành \"hệ thống nghiệp vụ rập khuôn\" được xây dựng trên sự hiểu lầm về quy trình thực tế và cách con người thực sự làm việc."
+    },
+    "approach": {
+      "badge": "Cách tiếp cận",
+      "title": "Chúng tôi không chỉ biến yêu cầu thành tính năng.",
+      "titleHighlight": "Chúng tôi sử dụng AI để tránh hiểu sai nghiệp vụ.",
+      "description": "Chúng tôi không đơn giản chuyển đổi yêu cầu của khách hàng thành tính năng. Chúng tôi nhìn xa hơn lời nói để hiểu luồng công việc, sự khác biệt vai trò, các ràng buộc không được nói ra và những nút thắt tiềm ẩn. Đó là lý do chúng tôi sử dụng AI — không phải để thêm tính năng, mà để tránh hiểu sai nghiệp vụ."
+    },
+    "judgment": {
+      "badge": "Phán đoán con người",
+      "title": "AI đưa ra vô số lựa chọn.",
+      "titleHighlight": "Chính vì vậy, kinh nghiệm con người rất quan trọng.",
+      "description": "Ý tưởng nào nên loại bỏ, phần nào nên để vận hành thủ công thay vì hệ thống hóa — những phán đoán này chỉ có thể được đưa ra bởi những người đã thực sự làm việc tại hiện trường và xây dựng hệ thống nghiệp vụ."
+    },
+    "pairCoding": {
+      "badge": "AI Pair Coding",
+      "title": "Không phải phương pháp để xây dựng nhanh hơn.",
+      "titleHighlight": "Quy trình phát triển để sửa đổi đúng hướng nhanh chóng.",
+      "description": "AI pair coding là quy trình phát triển để phát hiện lỗi sớm và sửa đổi hướng đi. Chúng tôi không giao việc cho AI — chúng tôi làm việc cùng AI để hiểu sâu nghiệp vụ và chỉ xây dựng những hệ thống thực sự được sử dụng."
+    },
+    "ctaButton": "Tìm hiểu thêm về AI Pair Coding"
   },
   "sections": {
     "products": {

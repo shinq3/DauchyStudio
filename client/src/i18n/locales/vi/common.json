@@ -18,10 +18,21 @@
   "chat": {
     "tagline": "AI không phải là mục tiêu",
     "subtitle": "Hãy tự do đặt câu hỏi bên dưới",
-    "placeholder": "Nhập câu hỏi của bạn...",
+    "placeholder": "Hỏi chúng tôi bất cứ điều gì về AI hoặc phát triển hệ thống...",
     "send": "Gửi",
     "goHome": "Đi đến Trang chủ",
-    "error": "Xin lỗi, đã xảy ra lỗi. Vui lòng thử lại."
+    "error": "Xin lỗi, đã xảy ra lỗi. Vui lòng thử lại.",
+    "introLines": [
+      "Chào mừng đến D'auchy.Studio.",
+      "",
+      "Chúng tôi tận dụng mọi hình thức AI",
+      "để biến nghiệp vụ của bạn \"nhanh hơn và dễ dàng hơn\"",
+      "với tốc độ đáng kinh ngạc.",
+      "",
+      "Bạn muốn thay đổi điều gì với AI?",
+      "Công việc nào bạn muốn đơn giản hóa?",
+      "Hãy bắt đầu cuộc trò chuyện."
+    ]
   },
   "status": {
     "loading": "Đang tải...",

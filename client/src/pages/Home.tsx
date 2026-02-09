@@ -154,12 +154,8 @@ export default function Home() {
   return (
     <main>
       <HeroSection
-        title={"AIに任せて作ったMVPに\n意味はありません。"}
-        subtitleLines={[
-          "AIで速く作る時代に、システムの価値は「人の判断」で決まります。",
-          "コードはAIが書く。",
-          "業務を理解するのは、人の仕事です。",
-        ]}
+        title={t('home:hero.title')}
+        subtitleLines={t('home:hero.subtitleLines', { returnObjects: true }) as string[]}
         primaryCta={{ 
           label: t('header:navigation.products'), 
           scrollTo: "products-section"
@@ -181,11 +177,11 @@ export default function Home() {
             className="text-center mb-20"
           >
             <p className="text-2xl md:text-3xl font-bold text-foreground leading-relaxed">
-              AIがあれば、<br />
-              プロトタイプもMVPも、コードも、一瞬で作れる時代になりました。
+              {t('home:manifesto.heading')}<br />
+              {t('home:manifesto.headingLine2')}
             </p>
             <p className="text-lg md:text-xl text-muted-foreground mt-4">
-              もう「作れること」自体に、特別な価値はありません。
+              {t('home:manifesto.headingSub')}
             </p>
           </motion.div>
 
@@ -200,14 +196,14 @@ export default function Home() {
             >
               <div className="order-2 lg:order-1">
                 <div className="inline-block px-3 py-1 rounded-md bg-primary/10 text-primary text-sm font-medium mb-4">
-                  Problem
+                  {t('home:manifesto.problem.badge')}
                 </div>
                 <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4 leading-tight">
-                  問題は、何を作るかではなく、<br />
-                  <span className="text-primary">何を作らないかを判断できるか</span>です。
+                  {t('home:manifesto.problem.title')}<br />
+                  <span className="text-primary">{t('home:manifesto.problem.titleHighlight')}</span>{t('home:manifesto.problem.titleSuffix')}
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  業務を知らないままAIに任せて作られたMVPは、一見それっぽく動きます。しかしその多くは、現場の前提や人の動きを誤解したまま作られた「均一的な業務システム」になります。
+                  {t('home:manifesto.problem.description')}
                 </p>
               </div>
               <div className="order-1 lg:order-2">
@@ -233,14 +229,14 @@ export default function Home() {
               </div>
               <div>
                 <div className="inline-block px-3 py-1 rounded-md bg-primary/10 text-primary text-sm font-medium mb-4">
-                  Our Approach
+                  {t('home:manifesto.approach.badge')}
                 </div>
                 <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4 leading-tight">
-                  要望をそのまま機能に落とさない。<br />
-                  <span className="text-primary">業務を誤解しないために、AIを使う。</span>
+                  {t('home:manifesto.approach.title')}<br />
+                  <span className="text-primary">{t('home:manifesto.approach.titleHighlight')}</span>
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  私たちは、お客様が語る要望をそのまま機能に落としません。言葉の裏にある業務の流れ、立場の違い、言語化されていない制約や"詰まる未来"を先に見ます。そのためにAIを使います。機能を増やすためではなく、業務を誤解しないために。
+                  {t('home:manifesto.approach.description')}
                 </p>
               </div>
             </motion.div>
@@ -254,14 +250,14 @@ export default function Home() {
             >
               <div className="order-2 lg:order-1">
                 <div className="inline-block px-3 py-1 rounded-md bg-primary/10 text-primary text-sm font-medium mb-4">
-                  Human Judgment
+                  {t('home:manifesto.judgment.badge')}
                 </div>
                 <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4 leading-tight">
-                  AIは無数の選択肢を提示する。<br />
-                  <span className="text-primary">だからこそ、人の経験が必要です。</span>
+                  {t('home:manifesto.judgment.title')}<br />
+                  <span className="text-primary">{t('home:manifesto.judgment.titleHighlight')}</span>
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  どの案を捨てるのか、どこをシステムにせず運用に残すのか。その判断は、実際に現場で働き、業務システムを作ってきた人間にしかできません。
+                  {t('home:manifesto.judgment.description')}
                 </p>
               </div>
               <div className="order-1 lg:order-2">
@@ -287,14 +283,14 @@ export default function Home() {
               </div>
               <div>
                 <div className="inline-block px-3 py-1 rounded-md bg-primary/10 text-primary text-sm font-medium mb-4">
-                  AI Pair Coding
+                  {t('home:manifesto.pairCoding.badge')}
                 </div>
                 <h3 className="text-xl md:text-2xl font-bold text-foreground mb-4 leading-tight">
-                  速く作るための手法ではない。<br />
-                  <span className="text-primary">正しい方向に修正するための開発プロセス。</span>
+                  {t('home:manifesto.pairCoding.title')}<br />
+                  <span className="text-primary">{t('home:manifesto.pairCoding.titleHighlight')}</span>
                 </h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  AIペアコーディングとは、間違いに早く気づき、正しい方向に修正するための開発プロセスです。私たちは、AIに仕事を任せるのではなく、AIと一緒に業務を深く理解し、本当に使われるシステムだけを作ります。
+                  {t('home:manifesto.pairCoding.description')}
                 </p>
               </div>
             </motion.div>
@@ -310,7 +306,7 @@ export default function Home() {
           >
             <Link href={linkTo("/ai-pair-coding", locale)}>
               <Button size="lg" className="px-10 py-6 text-lg font-semibold">
-                AIペアコーディングについて詳しく見る
+                {t('home:manifesto.ctaButton')}
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
             </Link>
