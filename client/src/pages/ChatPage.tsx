@@ -27,6 +27,47 @@ const languages: { code: Locale; name: string; flag: string }[] = [
   { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳' }
 ];
 
+const introLines = [
+  "D'auchy.Studio は、AIペアコーディングで",
+  "業務システムを開発する会社です。",
+  "",
+  "「速く作る」ことではなく、",
+  "「正しく理解して作る」ことを大切にしています。",
+  "",
+  "AIについて何が知りたいですか？",
+  "どんなシステムを作りたいですか？",
+  "お気軽にご質問ください。",
+];
+
+function useTypewriter(lines: string[], speed = 40, lineDelay = 300) {
+  const [displayedText, setDisplayedText] = useState('');
+  const [isDone, setIsDone] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    const fullText = lines.join('\n');
+    let charIndex = 0;
+
+    const type = () => {
+      if (cancelled) return;
+      if (charIndex <= fullText.length) {
+        setDisplayedText(fullText.slice(0, charIndex));
+        charIndex++;
+        const currentChar = fullText[charIndex - 1];
+        const delay = currentChar === '\n' ? lineDelay : speed;
+        setTimeout(type, delay);
+      } else {
+        setIsDone(true);
+      }
+    };
+
+    const startTimer = setTimeout(type, 600);
+    return () => { cancelled = true; clearTimeout(startTimer); };
+  }, []);
+
+  return { displayedText, isDone };
+}
+
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -38,6 +79,7 @@ export default function ChatPage() {
   const { locale } = useLocale();
   const [, setLocation] = useLocation();
   const { t, i18n } = useTranslation('common');
+  const { displayedText, isDone } = useTypewriter(introLines);
 
   const handleLanguageChange = (newLocale: Locale) => {
     i18n.changeLanguage(newLocale);
@@ -162,36 +204,37 @@ export default function ChatPage() {
               className="flex-1 flex flex-col items-center justify-center px-6"
             >
               <motion.h1 
-                className="text-5xl md:text-6xl lg:text-7xl font-bold text-primary mb-4 text-center"
+                className="text-5xl md:text-6xl lg:text-7xl font-bold text-primary mb-8 text-center"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2, duration: 0.5 }}
               >
                 D'auchy.studio
               </motion.h1>
-              
-              <motion.p 
-                className="text-xl md:text-2xl text-white/90 mb-4 text-center font-medium"
+
+              <motion.div
+                className="w-full max-w-2xl mb-8"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
               >
-                {t('chat.tagline')}
-              </motion.p>
-
-              <motion.p 
-                className="text-gray-400 text-lg mb-12 text-center"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5, duration: 0.5 }}
-              >
-                {t('chat.subtitle')}
-              </motion.p>
+                <div className="flex gap-3 justify-start">
+                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600/20 flex items-center justify-center mt-1">
+                    <Bot className="h-4 w-4 text-blue-400" />
+                  </div>
+                  <div className="bg-[#1a1a24] border border-gray-800 rounded-2xl px-5 py-4 max-w-[85%]">
+                    <p className="text-base text-gray-200 whitespace-pre-wrap leading-relaxed" data-testid="text-intro-typewriter">
+                      {displayedText}
+                      {!isDone && <span className="inline-block w-0.5 h-5 bg-primary ml-0.5 animate-pulse align-middle" />}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
 
               <motion.div 
                 className="w-full max-w-2xl"
                 initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
+                animate={{ opacity: isDone ? 1 : 0.3, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.5 }}
               >
                 <div className="relative bg-[#1a1a24] rounded-xl border border-gray-800 p-4">
@@ -200,7 +243,7 @@ export default function ChatPage() {
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder={t('chat.placeholder')}
+                    placeholder="AIやシステム開発について、何でもお聞きください..."
                     className="min-h-[60px] max-h-[120px] resize-none bg-transparent border-0 text-white placeholder:text-gray-500 focus-visible:ring-0 text-lg"
                     rows={2}
                     disabled={isLoading}
