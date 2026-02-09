@@ -300,6 +300,22 @@ export default function Home() {
             </motion.div>
 
           </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="text-center mt-24"
+          >
+            <Link href={linkTo("/ai-pair-coding", locale)}>
+              <Button size="lg" className="px-10 py-6 text-lg font-semibold">
+                AIペアコーディングについて詳しく見る
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
+          </motion.div>
+
         </div>
       </section>
       
