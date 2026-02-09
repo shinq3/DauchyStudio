@@ -5,8 +5,8 @@ import heroImage from "@assets/dauchy_1759015692370.png";
 interface HeroSectionProps {
   title: string;
   subtitleLines: string[];
-  primaryCta: { label: string; href: string };
-  secondaryCta: { label: string; href: string };
+  primaryCta: { label: string; scrollTo?: string; href?: string };
+  secondaryCta: { label: string; scrollTo?: string; href?: string };
 }
 
 export default function HeroSection({
@@ -15,6 +15,14 @@ export default function HeroSection({
   primaryCta,
   secondaryCta,
 }: HeroSectionProps) {
+  const handleCtaClick = (cta: { scrollTo?: string; href?: string }) => {
+    if (cta.scrollTo) {
+      const el = document.getElementById(cta.scrollTo);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <div className="absolute inset-0">
@@ -91,6 +99,7 @@ export default function HeroSection({
               size="lg"
               className="px-8 py-6 text-lg font-semibold"
               data-testid="button-primary-cta"
+              onClick={() => handleCtaClick(primaryCta)}
             >
               {primaryCta.label}
             </Button>
@@ -99,6 +108,7 @@ export default function HeroSection({
               size="lg"
               className="px-8 py-6 text-lg font-semibold bg-white/10 backdrop-blur-sm border-white/30 text-white"
               data-testid="button-secondary-cta"
+              onClick={() => handleCtaClick(secondaryCta)}
             >
               {secondaryCta.label}
             </Button>

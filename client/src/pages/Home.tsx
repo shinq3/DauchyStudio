@@ -158,15 +158,15 @@ export default function Home() {
         ]}
         primaryCta={{ 
           label: t('header:navigation.products'), 
-          href: linkTo("/products", locale) 
+          scrollTo: "products-section"
         }}
         secondaryCta={{ 
           label: t('common:buttons.learnMore'), 
-          href: linkTo("/ai-pair-coding", locale) 
+          scrollTo: "manifesto-section"
         }}
       />
 
-      <section className="py-20 lg:py-28 bg-background">
+      <section id="manifesto-section" className="py-20 lg:py-28 bg-background">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -185,56 +185,43 @@ export default function Home() {
               <div className="w-12 h-px bg-primary/40 mx-auto" />
 
               <p>
-                問題は、何を作るかではなく、<br />
+                問題は、何を作るかではなく、
                 <span className="font-semibold text-foreground">何を作らないかを判断できるか</span>です。
               </p>
 
               <p>
-                業務を知らないままAIに任せて作られたMVPは、<br />
-                一見それっぽく動きます。<br />
-                しかしその多くは、<br />
-                現場の前提や人の動きを誤解したまま作られた<br />
+                業務を知らないままAIに任せて作られたMVPは、一見それっぽく動きます。<br />
+                しかしその多くは、 現場の前提や人の動きを誤解したまま作られた<br />
                 「均一的な業務システム」になります。
               </p>
 
-              <div className="w-12 h-px bg-primary/40 mx-auto" />
+
 
               <p>
                 私たちは、<br />
                 お客様が語る要望をそのまま機能に落としません。<br />
-                言葉の裏にある業務の流れ、立場の違い、<br />
-                言語化されていない制約や"詰まる未来"を先に見ます。
+                言葉の裏にある業務の流れ、立場の違い、言語化されていない制約や"詰まる未来"を先に見ます。
               </p>
 
               <p>
                 そのためにAIを使います。<br />
-                機能を増やすためではなく、<br />
-                <span className="font-semibold text-foreground">業務を誤解しないために。</span>
+                機能を増やすためではなく、<span className="font-semibold text-foreground">業務を誤解しないために。</span>
               </p>
-
-              <div className="w-12 h-px bg-primary/40 mx-auto" />
 
               <p>
                 AIは無数の選択肢を提示します。<br />
                 だからこそ、人の経験が必要です。<br />
-                どの案を捨てるのか、<br />
-                どこをシステムにせず運用に残すのか。<br />
-                その判断は、実際に現場で働き、<br />
-                業務システムを作ってきた人間にしかできません。
+                どの案を捨てるのか、どこをシステムにせず運用に残すのか。<br />
+                その判断は、実際に現場で働き業務システムを作ってきた人間にしかできません。
               </p>
 
-              <div className="w-12 h-px bg-primary/40 mx-auto" />
-
               <p>
-                <span className="font-semibold text-foreground">AIペアコーディングとは、</span><br />
-                速く作るための手法ではありません。<br />
+                <span className="font-semibold text-foreground">AIペアコーディングとは、</span> 速く作るための手法ではありません。<br />
                 間違いに早く気づき、正しい方向に修正するための開発プロセスです。
               </p>
 
               <p>
-                私たちは、<br />
-                AIに仕事を任せるのではなく、<br />
-                AIと一緒に業務を深く理解し、<br />
+                私たちは、AIに仕事を任せるのではなく、 AIと一緒に業務を深く理解し、
                 <span className="font-semibold text-foreground">本当に使われるシステムだけを作ります。</span>
               </p>
             </div>
@@ -242,11 +229,13 @@ export default function Home() {
         </div>
       </section>
       
-      <ProductGrid
-        title={t('home:sections.products.subtitle')}
-        products={featuredProducts}
-        ctaHref={linkTo("/products", locale)}
-      />
+      <div id="products-section">
+        <ProductGrid
+          title={t('home:sections.products.subtitle')}
+          products={featuredProducts}
+          ctaHref={linkTo("/products", locale)}
+        />
+      </div>
       
       {/* AI Pair Coding Banner */}
       <section className="py-8 bg-gradient-to-r from-orange-500 to-orange-600">
