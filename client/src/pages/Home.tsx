@@ -150,8 +150,12 @@ export default function Home() {
   return (
     <main>
       <HeroSection
-        title={t('home:hero.title')}
-        subtitle={t('home:hero.subtitle')}
+        title={"AIに任せて作ったMVPに、\n意味はありません。"}
+        subtitleLines={[
+          "AIで速く作る時代に、システムの価値は「人の判断」で決まります。",
+          "コードはAIが書く。",
+          "業務を理解するのは、人の仕事です。",
+        ]}
         primaryCta={{ 
           label: t('header:navigation.products'), 
           href: linkTo("/products", locale) 
@@ -161,6 +165,82 @@ export default function Home() {
           href: linkTo("/ai-pair-coding", locale) 
         }}
       />
+
+      <section className="py-20 lg:py-28 bg-background">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="max-w-3xl mx-auto"
+          >
+            <div className="space-y-8 text-base md:text-lg leading-loose text-foreground/80">
+              <p className="text-xl md:text-2xl font-semibold text-foreground leading-relaxed">
+                AIがあれば、<br />
+                プロトタイプもMVPも、コードも、一瞬で作れる時代になりました。<br />
+                もう「作れること」自体に、特別な価値はありません。
+              </p>
+
+              <div className="w-12 h-px bg-primary/40 mx-auto" />
+
+              <p>
+                問題は、何を作るかではなく、<br />
+                <span className="font-semibold text-foreground">何を作らないかを判断できるか</span>です。
+              </p>
+
+              <p>
+                業務を知らないままAIに任せて作られたMVPは、<br />
+                一見それっぽく動きます。<br />
+                しかしその多くは、<br />
+                現場の前提や人の動きを誤解したまま作られた<br />
+                「均一的な業務システム」になります。
+              </p>
+
+              <div className="w-12 h-px bg-primary/40 mx-auto" />
+
+              <p>
+                私たちは、<br />
+                お客様が語る要望をそのまま機能に落としません。<br />
+                言葉の裏にある業務の流れ、立場の違い、<br />
+                言語化されていない制約や"詰まる未来"を先に見ます。
+              </p>
+
+              <p>
+                そのためにAIを使います。<br />
+                機能を増やすためではなく、<br />
+                <span className="font-semibold text-foreground">業務を誤解しないために。</span>
+              </p>
+
+              <div className="w-12 h-px bg-primary/40 mx-auto" />
+
+              <p>
+                AIは無数の選択肢を提示します。<br />
+                だからこそ、人の経験が必要です。<br />
+                どの案を捨てるのか、<br />
+                どこをシステムにせず運用に残すのか。<br />
+                その判断は、実際に現場で働き、<br />
+                業務システムを作ってきた人間にしかできません。
+              </p>
+
+              <div className="w-12 h-px bg-primary/40 mx-auto" />
+
+              <p>
+                <span className="font-semibold text-foreground">AIペアコーディングとは、</span><br />
+                速く作るための手法ではありません。<br />
+                間違いに早く気づき、正しい方向に修正するための開発プロセスです。
+              </p>
+
+              <p>
+                私たちは、<br />
+                AIに仕事を任せるのではなく、<br />
+                AIと一緒に業務を深く理解し、<br />
+                <span className="font-semibold text-foreground">本当に使われるシステムだけを作ります。</span>
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </section>
       
       <ProductGrid
         title={t('home:sections.products.subtitle')}

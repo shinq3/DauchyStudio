@@ -4,38 +4,36 @@ import heroImage from "@assets/dauchy_1759015692370.png";
 
 interface HeroSectionProps {
   title: string;
-  subtitle: string;
+  subtitleLines: string[];
   primaryCta: { label: string; href: string };
   secondaryCta: { label: string; href: string };
 }
 
 export default function HeroSection({
   title,
-  subtitle,
+  subtitleLines,
   primaryCta,
   secondaryCta,
 }: HeroSectionProps) {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         <img
           src={heroImage}
           alt="Tech background"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/60 via-black/40 to-primary/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-primary/20"></div>
       </div>
 
-      {/* Animated Background Elements */}
       <div className="absolute inset-0">
         {Array.from({ length: 20 }).map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-2 h-2 bg-primary/30 rounded-full"
             initial={{
-              x: Math.random() * window.innerWidth,
-              y: Math.random() * window.innerHeight,
+              x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1200),
+              y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 800),
             }}
             animate={{
               y: [0, -100, 0],
@@ -50,7 +48,6 @@ export default function HeroSection({
         ))}
       </div>
 
-      {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -62,19 +59,27 @@ export default function HeroSection({
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-4xl md:text-5xl lg:text-5xl font-bold mb-6 text-white"
+            className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 text-white leading-tight whitespace-pre-line"
+            data-testid="hero-title"
           >
             {title}
           </motion.h1>
           
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-xl md:text-2xl mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed"
+            className="mb-10 max-w-2xl mx-auto"
           >
-            {subtitle}
-          </motion.p>
+            {subtitleLines.map((line, i) => (
+              <p
+                key={i}
+                className="text-lg md:text-xl text-white/90 leading-relaxed"
+              >
+                {line}
+              </p>
+            ))}
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -92,7 +97,7 @@ export default function HeroSection({
             <Button
               variant="outline"
               size="lg"
-              className="px-8 py-6 text-lg font-semibold bg-white/10 backdrop-blur-sm border-white/30 text-white hover:bg-white/20"
+              className="px-8 py-6 text-lg font-semibold bg-white/10 backdrop-blur-sm border-white/30 text-white"
               data-testid="button-secondary-cta"
             >
               {secondaryCta.label}
@@ -100,7 +105,6 @@ export default function HeroSection({
           </motion.div>
         </motion.div>
 
-        {/* Scroll Indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
