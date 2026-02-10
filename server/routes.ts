@@ -1160,6 +1160,76 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Sitemap.xml for Google Search Console
+  app.get('/sitemap.xml', async (req, res) => {
+    try {
+      const baseUrl = `${req.protocol}://${req.get('host')}`;
+      const locales = ['ja', 'en', 'vi'];
+      const staticPaths = [
+        '/',
+        '/products',
+        '/products/lingalink',
+        '/products/edumate',
+        '/products/officebrain',
+        '/products/enterprise-llm',
+        '/about',
+        '/contact',
+        '/news',
+        '/ai-proposal',
+        '/ai-pair-coding',
+        '/chat',
+      ];
+
+      const publishedNews = await storage.getPublishedNews();
+
+      let urls = '';
+
+      for (const path of staticPaths) {
+        for (const locale of locales) {
+          const loc = `${baseUrl}/${locale}${path === '/' ? '' : path}`;
+          const alternates = locales.map(l =>
+            `    <xhtml:link rel="alternate" hreflang="${l}" href="${baseUrl}/${l}${path === '/' ? '' : path}" />`
+          ).join('\n');
+          urls += `  <url>\n    <loc>${loc}</loc>\n${alternates}\n    <changefreq>${path === '/news' ? 'daily' : 'weekly'}</changefreq>\n    <priority>${path === '/' ? '1.0' : '0.8'}</priority>\n  </url>\n`;
+        }
+      }
+
+      for (const news of publishedNews) {
+        for (const locale of locales) {
+          if (news.isExternal) continue;
+          const loc = `${baseUrl}/${locale}/news/${news.id}`;
+          const alternates = locales.map(l =>
+            `    <xhtml:link rel="alternate" hreflang="${l}" href="${baseUrl}/${l}/news/${news.id}" />`
+          ).join('\n');
+          urls += `  <url>\n    <loc>${loc}</loc>\n${alternates}\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>\n`;
+        }
+      }
+
+      const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${urls}</urlset>`;
+
+      res.set('Content-Type', 'application/xml');
+      res.send(sitemap);
+    } catch (error: any) {
+      console.error("Error generating sitemap:", error);
+      res.status(500).send('Error generating sitemap');
+    }
+  });
+
+  // robots.txt
+  app.get('/robots.txt', (req, res) => {
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
+    const robotsTxt = `User-agent: *
+Allow: /
+
+Sitemap: ${baseUrl}/sitemap.xml
+`;
+    res.set('Content-Type', 'text/plain');
+    res.send(robotsTxt);
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
