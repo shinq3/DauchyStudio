@@ -1206,6 +1206,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }
 
       const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="/sitemap.xsl"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${urls}</urlset>`;
@@ -1216,6 +1217,82 @@ ${urls}</urlset>`;
       console.error("Error generating sitemap:", error);
       res.status(500).send('Error generating sitemap');
     }
+  });
+
+  // Sitemap XSL stylesheet for browser display
+  app.get('/sitemap.xsl', (_req, res) => {
+    const xsl = `<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet version="2.0"
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:sitemap="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <xsl:output method="html" version="1.0" encoding="UTF-8" indent="yes"/>
+  <xsl:template match="/">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+      <head>
+        <title>D'auchy.Studio - Sitemap</title>
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <style>
+          body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 2rem; background: #0a0a0a; color: #e5e5e5; }
+          h1 { color: #f97316; font-size: 1.5rem; margin-bottom: 0.5rem; }
+          p.desc { color: #a3a3a3; margin-bottom: 2rem; font-size: 0.9rem; }
+          table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+          th { text-align: left; padding: 0.75rem 1rem; background: #171717; color: #f97316; border-bottom: 2px solid #262626; }
+          td { padding: 0.75rem 1rem; border-bottom: 1px solid #1a1a1a; }
+          tr:hover td { background: #171717; }
+          a { color: #fb923c; text-decoration: none; }
+          a:hover { text-decoration: underline; }
+          .badge { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.75rem; font-weight: 600; }
+          .lang-ja { background: #7c2d12; color: #fdba74; }
+          .lang-en { background: #1e3a5f; color: #93c5fd; }
+          .lang-vi { background: #14532d; color: #86efac; }
+        </style>
+      </head>
+      <body>
+        <h1>D'auchy.Studio Sitemap</h1>
+        <p class="desc">
+          This sitemap contains <xsl:value-of select="count(sitemap:urlset/sitemap:url)"/> URLs with hreflang alternates for Google Search Console.
+        </p>
+        <table>
+          <tr>
+            <th>URL</th>
+            <th>Lang</th>
+            <th>Alternates</th>
+            <th>Freq</th>
+            <th>Priority</th>
+          </tr>
+          <xsl:for-each select="sitemap:urlset/sitemap:url">
+            <xsl:variable name="loc" select="sitemap:loc"/>
+            <xsl:variable name="lang">
+              <xsl:choose>
+                <xsl:when test="contains($loc, '/ja')">ja</xsl:when>
+                <xsl:when test="contains($loc, '/en')">en</xsl:when>
+                <xsl:when test="contains($loc, '/vi')">vi</xsl:when>
+                <xsl:otherwise>-</xsl:otherwise>
+              </xsl:choose>
+            </xsl:variable>
+            <tr>
+              <td><a href="{sitemap:loc}"><xsl:value-of select="sitemap:loc"/></a></td>
+              <td>
+                <xsl:choose>
+                  <xsl:when test="$lang='ja'"><span class="badge lang-ja">JA</span></xsl:when>
+                  <xsl:when test="$lang='en'"><span class="badge lang-en">EN</span></xsl:when>
+                  <xsl:when test="$lang='vi'"><span class="badge lang-vi">VI</span></xsl:when>
+                </xsl:choose>
+              </td>
+              <td><xsl:value-of select="count(xhtml:link)"/></td>
+              <td><xsl:value-of select="sitemap:changefreq"/></td>
+              <td><xsl:value-of select="sitemap:priority"/></td>
+            </tr>
+          </xsl:for-each>
+        </table>
+      </body>
+    </html>
+  </xsl:template>
+</xsl:stylesheet>`;
+    res.set('Content-Type', 'application/xslt+xml');
+    res.send(xsl);
   });
 
   // robots.txt
