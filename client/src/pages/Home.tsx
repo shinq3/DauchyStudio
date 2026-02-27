@@ -458,6 +458,38 @@ export default function Home() {
         </div>
       </section>
       
+      {/* YouTube Video Section */}
+      <section className="py-20 bg-background">
+        <div className="max-w-4xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-10"
+          >
+            <h2 className="text-3xl font-bold text-foreground mb-3">現在のAIの問題点</h2>
+            <p className="text-muted-foreground text-lg">時代は繰り返す</p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="relative w-full rounded-md overflow-hidden shadow-lg"
+            style={{ paddingTop: '56.25%' }}
+          >
+            <iframe
+              className="absolute inset-0 w-full h-full"
+              src="https://www.youtube.com/embed/2wmMBp7Q5m4"
+              title="現在のAIの問題点"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </motion.div>
+        </div>
+      </section>
+
       <NewsSection
         title={t('home:sections.news.title')}
         items={latestNews}
