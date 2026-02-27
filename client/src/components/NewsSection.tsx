@@ -3,6 +3,7 @@ import NewsCard, { type NewsCardProps } from "./NewsCard";
 import { motion } from "framer-motion";
 import { ArrowRight, Newspaper } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "wouter";
 
 interface NewsSectionProps {
   title: string;
@@ -12,6 +13,7 @@ interface NewsSectionProps {
 
 export default function NewsSection({ title, items, ctaHref }: NewsSectionProps) {
   const { t } = useTranslation(['home', 'common']);
+  const [, setLocation] = useLocation();
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -79,7 +81,7 @@ export default function NewsSection({ title, items, ctaHref }: NewsSectionProps)
             size="lg"
             className="group"
             data-testid="button-view-all-news"
-            onClick={() => console.log(`Navigate to ${ctaHref}`)}
+            onClick={() => setLocation(ctaHref)}
           >
             {t('common:buttons.viewAllNews')}
             <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />

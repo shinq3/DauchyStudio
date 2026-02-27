@@ -3,6 +3,7 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { motion } from "framer-motion";
 import { ExternalLink, Calendar } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "wouter";
 
 export interface NewsCardProps {
   id: string;
@@ -25,6 +26,15 @@ export default function NewsCard({
   href,
 }: NewsCardProps) {
   const { t } = useTranslation('common');
+  const [, setLocation] = useLocation();
+
+  const handleNavigate = () => {
+    if (isExternal) {
+      window.open(href, '_blank', 'noopener,noreferrer');
+    } else {
+      setLocation(href);
+    }
+  };
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("ja-JP", {
       year: "numeric",
@@ -39,7 +49,7 @@ export default function NewsCard({
       transition={{ duration: 0.2 }}
       className="h-full"
     >
-      <Card className="h-full flex flex-col overflow-hidden hover-elevate border-border hover:border-primary/20 transition-colors duration-300">
+      <Card className="h-full flex flex-col overflow-hidden hover-elevate border-border hover:border-primary/20 transition-colors duration-300 cursor-pointer" onClick={handleNavigate}>
         {thumbnail && (
           <CardHeader className="p-0">
             <div className="relative aspect-video overflow-hidden">
@@ -84,7 +94,7 @@ export default function NewsCard({
         <CardFooter className="p-6 pt-0">
           <button
             className="text-sm font-medium text-primary hover:text-primary/80 transition-colors flex items-center gap-1 group"
-            onClick={() => console.log(`Navigate to ${href}`)}
+            onClick={(e) => { e.stopPropagation(); handleNavigate(); }}
             data-testid={`button-read-more`}
           >
             {t('buttons.readMore')}

@@ -11,6 +11,7 @@ import { motion } from "framer-motion";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useQuery } from "@tanstack/react-query";
 
 // TODO: remove mock functionality - replace with real data from API
 import lingaLinkImage from "@assets/generated_images/LingaLink_learning_dashboard_mockup_3e4a3eec.png";
@@ -89,11 +90,22 @@ export default function Home() {
     }
   ];
 
-  // TODO: remove mock functionality - replace with API calls
-  const rawNewsItems = t('home:news.items', { returnObjects: true }) as any[];
-  const latestNews = rawNewsItems.map(item => ({
-    ...item,
-    href: item.isExternal ? item.href : linkTo(item.href, locale)
+  const { data: apiNews = [] } = useQuery<any[]>({
+    queryKey: ['/api/news', locale],
+    queryFn: () => fetch(`/api/news?locale=${locale}&limit=6`).then(r => r.json()),
+  });
+
+  const latestNews = apiNews.slice(0, 6).map((item: any) => ({
+    id: item.id,
+    title: item.title,
+    summary: item.summary || item.excerpt || '',
+    source: item.sourceAttribution || "D'auchy.Studio",
+    publishedAt: item.publishedAt || item.createdAt || new Date().toISOString(),
+    thumbnail: item.featuredImageUrl || item.thumbnailUrl || undefined,
+    isExternal: item.isExternal || false,
+    href: item.isExternal
+      ? (item.sourceUrl || '#')
+      : linkTo(`/news/${item.id}`, locale),
   }));
 
 
