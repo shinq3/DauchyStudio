@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertNewsSchema } from "@shared/schema";
@@ -29,6 +29,18 @@ interface NewsEditorProps {
 
 export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps) {
   const [content, setContent] = useState(news?.content || "");
+  const [htmlMode, setHtmlMode] = useState(false);
+  const [rawHtml, setRawHtml] = useState(news?.content || "");
+
+  const switchToHtml = () => {
+    setRawHtml(content);
+    setHtmlMode(true);
+  };
+
+  const switchToVisual = () => {
+    setContent(rawHtml);
+    setHtmlMode(false);
+  };
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -63,14 +75,12 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
   ];
 
   const handleSubmit = (data: FormData) => {
-    console.log('Form submitted with data:', data);
-    console.log('Form errors:', form.formState.errors);
-    
+    const finalContent = htmlMode ? rawHtml : content;
     const submitData: any = {
       title: data.title,
       slug: data.slug,
       excerpt: data.excerpt,
-      content,
+      content: finalContent,
       category: data.category,
       tags: data.tags,
       featuredImage: data.featuredImage,
@@ -86,7 +96,6 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
           : undefined,
     };
 
-    console.log('Calling onSave with:', submitData);
     onSave(submitData);
   };
 
@@ -299,41 +308,63 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
           {/* Content Editor */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm font-medium">Content</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <Label>Content</Label>
-                <div className="min-h-[300px] border rounded-md">
-                  <ReactQuill
-                    theme="snow"
-                    value={content}
-                    onChange={setContent}
-                    modules={modules}
-                    formats={formats}
-                    style={{ height: "280px" }}
-                    data-testid="editor-content"
-                  />
+              <div className="flex items-center justify-between flex-wrap gap-2">
+                <CardTitle className="text-sm font-medium">Content</CardTitle>
+                <div className="flex items-center gap-1 p-1 bg-muted rounded-md">
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="ghost"
+                    className={!htmlMode ? "bg-background shadow-sm" : ""}
+                    onClick={switchToVisual}
+                  >
+                    ビジュアル
+                  </Button>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="ghost"
+                    className={htmlMode ? "bg-background shadow-sm" : ""}
+                    onClick={switchToHtml}
+                  >
+                    HTML
+                  </Button>
                 </div>
               </div>
+            </CardHeader>
+            <CardContent>
+              {htmlMode ? (
+                <div className="space-y-2">
+                  <p className="text-xs text-muted-foreground">HTMLを直接貼り付けできます。ビジュアルに戻すと反映されます。</p>
+                  <Textarea
+                    value={rawHtml}
+                    onChange={(e) => setRawHtml(e.target.value)}
+                    rows={16}
+                    className="font-mono text-sm"
+                    placeholder="<p>HTMLをここに貼り付けてください</p>"
+                    data-testid="editor-html-source"
+                  />
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <div className="min-h-[300px] border rounded-md">
+                    <ReactQuill
+                      theme="snow"
+                      value={content}
+                      onChange={setContent}
+                      modules={modules}
+                      formats={formats}
+                      style={{ height: "280px" }}
+                      data-testid="editor-content"
+                    />
+                  </div>
+                </div>
+              )}
             </CardContent>
           </Card>
 
           {/* Actions */}
           <div className="flex justify-end gap-4">
-            <Button 
-              type="button"
-              variant="outline"
-              onClick={() => {
-                console.log('=== FORM DEBUG INFO ===');
-                console.log('Form values:', form.getValues());
-                console.log('Form errors:', form.formState.errors);
-                console.log('Form is valid:', form.formState.isValid);
-                console.log('Content state:', content);
-              }}
-            >
-              Debug Form
-            </Button>
             <Button 
               type="submit" 
               disabled={isLoading}
