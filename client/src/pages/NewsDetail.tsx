@@ -24,6 +24,21 @@ type NewsArticle = {
   status: string;
 };
 
+// Decode HTML entities that were accidentally escaped by WYSIWYG editor
+function decodeIfEscaped(html: string): string {
+  if (!html) return '';
+  // If content contains escaped HTML tags (e.g. &lt;p&gt;), decode them
+  if (/&lt;\w/.test(html)) {
+    return html
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;/g, '&')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'");
+  }
+  return html;
+}
+
 export default function NewsDetail() {
   const { id } = useParams<{ id: string }>();
   const { i18n } = useTranslation();
@@ -172,7 +187,7 @@ export default function NewsDetail() {
             <CardContent className="pt-6">
               <div 
                 className="prose prose-lg max-w-none dark:prose-invert"
-                dangerouslySetInnerHTML={{ __html: article.content }}
+                dangerouslySetInnerHTML={{ __html: decodeIfEscaped(article.content) }}
                 data-testid="content-article"
               />
             </CardContent>
