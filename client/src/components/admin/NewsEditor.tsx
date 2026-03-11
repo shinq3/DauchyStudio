@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useCallback, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertNewsSchema } from "@shared/schema";
@@ -31,6 +31,7 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
   const [content, setContent] = useState(news?.content || "");
   const [htmlMode, setHtmlMode] = useState(false);
   const [rawHtml, setRawHtml] = useState(news?.content || "");
+  const quillRef = useRef<ReactQuill>(null);
 
   const switchToHtml = () => {
     setRawHtml(content);
@@ -41,6 +42,27 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
     setContent(rawHtml);
     setHtmlMode(false);
   };
+
+  const imageHandler = useCallback(() => {
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
+    input.onchange = () => {
+      const file = input.files?.[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64 = reader.result as string;
+        const quill = quillRef.current?.getEditor();
+        if (!quill) return;
+        const range = quill.getSelection(true);
+        quill.insertEmbed(range.index, "image", base64);
+        quill.setSelection(range.index + 1, 0);
+      };
+      reader.readAsDataURL(file);
+    };
+  }, []);
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -59,15 +81,20 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
     },
   });
 
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, 3, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["link", "image"],
-      ["clean"],
-    ],
-  };
+  const modules = useMemo(() => ({
+    toolbar: {
+      container: [
+        [{ header: [1, 2, 3, false] }],
+        ["bold", "italic", "underline", "strike", "blockquote"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["link", "image"],
+        ["clean"],
+      ],
+      handlers: {
+        image: imageHandler,
+      },
+    },
+  }), [imageHandler]);
 
   const formats = [
     "header", "bold", "italic", "underline", "strike", "blockquote",
@@ -349,6 +376,7 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
                 <div className="space-y-2">
                   <div className="min-h-[300px] border rounded-md">
                     <ReactQuill
+                      ref={quillRef}
                       theme="snow"
                       value={content}
                       onChange={setContent}
