@@ -10,10 +10,32 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import ReactQuill from 'react-quill';
+import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { z } from "zod";
 import type { News, InsertNews } from "@shared/schema";
+
+// Custom Image blot that preserves align, style, width, height, class attributes
+const BaseImage = Quill.import('formats/image') as any;
+const IMG_ATTRS = ['align', 'style', 'width', 'height', 'class'];
+class CustomImage extends BaseImage {
+  static formats(domNode: Element) {
+    return IMG_ATTRS.reduce((acc: Record<string, string>, attr) => {
+      if (domNode.hasAttribute(attr)) acc[attr] = domNode.getAttribute(attr)!;
+      return acc;
+    }, {});
+  }
+  format(name: string, value: string) {
+    if (IMG_ATTRS.includes(name)) {
+      value ? this.domNode.setAttribute(name, value) : this.domNode.removeAttribute(name);
+    } else {
+      super.format(name, value);
+    }
+  }
+}
+CustomImage.blotName = 'image';
+CustomImage.tagName = 'IMG';
+Quill.register(CustomImage, true);
 
 const formSchema = insertNewsSchema.omit({ authorId: true }).extend({
   publishedAt: z.string().optional(),
@@ -98,7 +120,8 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
 
   const formats = [
     "header", "bold", "italic", "underline", "strike", "blockquote",
-    "list", "bullet", "link", "image"
+    "list", "bullet", "link", "image",
+    "align", "style", "width", "height", "class"
   ];
 
   const handleSubmit = (data: FormData) => {
