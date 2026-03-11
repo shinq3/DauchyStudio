@@ -582,9 +582,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
           await storage.createNewsTranslation(translation);
         }
         console.log(`[News] Created ${initialTranslations.length} initial translations`);
+      } else {
+        // Update the Japanese (base language) translation to keep it in sync with the editor
+        const jaTranslation = existingTranslations.find(t => t.locale === 'ja');
+        if (jaTranslation) {
+          const jaUpdate: Record<string, any> = {};
+          if (updateData.title !== undefined) jaUpdate.title = updateData.title;
+          if (updateData.excerpt !== undefined) jaUpdate.excerpt = updateData.excerpt;
+          if (updateData.content !== undefined) jaUpdate.content = updateData.content;
+          if (Object.keys(jaUpdate).length > 0) {
+            await storage.updateNewsTranslation(jaTranslation.id, jaUpdate);
+            console.log(`[News] Updated ja translation for news ${id}`);
+          }
+        }
       }
-      // NOTE: Do NOT auto-update existing translations when news is updated
-      // Each language translation should be edited independently via the translation editor
       
       res.json(news);
     } catch (error) {
