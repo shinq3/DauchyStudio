@@ -24,19 +24,26 @@ type NewsArticle = {
   status: string;
 };
 
-// Decode HTML entities that were accidentally escaped by WYSIWYG editor
-function decodeIfEscaped(html: string): string {
+// Decode HTML entities that were accidentally escaped by WYSIWYG editor,
+// and strip external <link>/<style>/<script> tags to prevent page style pollution
+function prepareContent(html: string): string {
   if (!html) return '';
-  // If content contains escaped HTML tags (e.g. &lt;p&gt;), decode them
-  if (/&lt;\w/.test(html)) {
-    return html
+  let result = html;
+  // Decode one level of HTML entities if content has escaped tags
+  if (/&lt;\w/.test(result)) {
+    result = result
       .replace(/&lt;/g, '<')
       .replace(/&gt;/g, '>')
       .replace(/&amp;/g, '&')
       .replace(/&quot;/g, '"')
       .replace(/&#39;/g, "'");
   }
-  return html;
+  // Remove <link>, <style>, <script> tags that would pollute page styles
+  result = result
+    .replace(/<link[^>]*>/gi, '')
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<script[\s\S]*?<\/script>/gi, '');
+  return result;
 }
 
 export default function NewsDetail() {
@@ -116,7 +123,7 @@ export default function NewsDetail() {
 
   return (
     <main className="min-h-screen bg-background py-16">
-      <div className="container mx-auto px-4 max-w-4xl">
+      <div className="mx-auto px-6 w-full" style={{ maxWidth: '82%' }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -187,7 +194,7 @@ export default function NewsDetail() {
             <CardContent className="pt-6">
               <div 
                 className="prose prose-lg max-w-none dark:prose-invert"
-                dangerouslySetInnerHTML={{ __html: decodeIfEscaped(article.content) }}
+                dangerouslySetInnerHTML={{ __html: prepareContent(article.content) }}
                 data-testid="content-article"
               />
             </CardContent>
