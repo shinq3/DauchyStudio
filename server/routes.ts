@@ -7,6 +7,56 @@ import { insertNewsSchema, insertNewsUpdateSchema, insertNewsTranslationSchema, 
 import { AuthService, isAdminAuthenticated as isAdminAuth, requireSuperadmin, requirePermission, allowSelfOrSuperadmin, protectLastSuperadmin } from "./lib/auth";
 import { createInsertSchema } from "drizzle-zod";
 
+// Utility: sanitize HTML content to remove layout-breaking tags from RSS-imported content
+function sanitizeHtmlContent(html: string): string {
+  if (!html) return '';
+  let result = html;
+
+  // Step 1: Decode one level of HTML entities if content has escaped tags (from Quill editor)
+  if (/&lt;\w/.test(result)) {
+    result = result
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&amp;amp;/g, '&amp;')
+      .replace(/&amp;/g, '&')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'");
+  }
+
+  // Step 2: Remove elements that fully inject external resources (include content)
+  result = result
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<script[\s\S]*?<\/script>/gi, '');
+
+  // Step 3: Remove void/self-closing tags that inject external resources or are out of place
+  result = result
+    .replace(/<link[^>]*\/?>/gi, '')
+    .replace(/<meta[^>]*\/?>/gi, '');
+
+  // Step 4: Strip document structure tags entirely (just the tags, keep content)
+  result = result
+    .replace(/<\/?(html|head|body)[^>]*>/gi, '');
+
+  // Step 5: Strip block container tags but keep their text content
+  // These appear in RSS-imported articles but have no place in rendered prose
+  result = result
+    .replace(/<\/?(div|section|article|header|footer|aside|nav)[^>]*>/gi, '');
+
+  // Step 6: Fix double-wrapped paragraphs: <p><p>text</p></p> -> <p>text</p>
+  result = result
+    .replace(/<p>(\s*)<p>/gi, '<p>')
+    .replace(/<\/p>(\s*)<\/p>/gi, '</p>');
+
+  // Step 7: Remove paragraphs that only contain a lone < or > character (tag remnants)
+  result = result
+    .replace(/<p>\s*[<>]\s*<\/p>/gi, '');
+
+  // Step 8: Remove leading empty paragraphs
+  result = result.replace(/^(\s*<p[^>]*>\s*(<br\s*\/?>)?\s*<\/p>\s*)+/gi, '');
+
+  return result;
+}
+
 // Admin auth schemas
 const adminRegisterSchema = z.object({
   username: z.string().min(3).max(30),
@@ -236,7 +286,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
             id: newsItem.id,
             title: translation?.title || newsItem.title || '',
             summary,
-            content: translation?.content || newsItem.content || '',
+            content: sanitizeHtmlContent(translation?.content || newsItem.content || ''),
             thumbnail: newsItem.featuredImage || '',
             publishedAt: newsItem.publishedAt?.toISOString() || new Date().toISOString(),
             category: newsItem.category || 'technology',

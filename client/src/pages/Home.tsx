@@ -101,7 +101,7 @@ export default function Home() {
     summary: item.summary || item.excerpt || '',
     source: item.sourceAttribution || "D'auchy.Studio",
     publishedAt: item.publishedAt || item.createdAt || new Date().toISOString(),
-    thumbnail: item.featuredImageUrl || item.thumbnailUrl || undefined,
+    thumbnail: item.thumbnail || item.featuredImageUrl || item.thumbnailUrl || undefined,
     isExternal: item.isExternal || false,
     href: item.isExternal
       ? (item.sourceUrl || '#')
