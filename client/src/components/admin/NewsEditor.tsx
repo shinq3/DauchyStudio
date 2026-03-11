@@ -53,7 +53,11 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
   const [content, setContent] = useState(news?.content || "");
   const [htmlMode, setHtmlMode] = useState(false);
   const [rawHtml, setRawHtml] = useState(news?.content || "");
+  // Track whether HTML mode has been edited; if so, always save rawHtml to preserve custom attributes
+  const [htmlModeModified, setHtmlModeModified] = useState(false);
   const quillRef = useRef<ReactQuill>(null);
+  // Ref to ignore Quill onChange when programmatically setting content (e.g. on mode switch)
+  const ignoringQuillChange = useRef(false);
 
   const switchToHtml = () => {
     setRawHtml(content);
@@ -61,9 +65,21 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
   };
 
   const switchToVisual = () => {
+    ignoringQuillChange.current = true;
     setContent(rawHtml);
     setHtmlMode(false);
+    // After React re-renders and Quill fires onChange, we stop ignoring
+    setTimeout(() => { ignoringQuillChange.current = false; }, 200);
   };
+
+  const handleQuillChange = useCallback((val: string) => {
+    setContent(val);
+    if (!ignoringQuillChange.current) {
+      // User actually typed in visual mode — visual mode is now the authoritative source
+      setHtmlModeModified(false);
+      setRawHtml(val);
+    }
+  }, []);
 
   const imageHandler = useCallback(() => {
     const input = document.createElement("input");
@@ -125,7 +141,8 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
   ];
 
   const handleSubmit = (data: FormData) => {
-    const finalContent = htmlMode ? rawHtml : content;
+    // Use rawHtml when: currently in HTML mode, OR HTML was last edited (preserves custom attributes like align/style)
+    const finalContent = (htmlMode || htmlModeModified) ? rawHtml : content;
     const submitData: any = {
       title: data.title,
       slug: data.slug,
@@ -359,7 +376,14 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between flex-wrap gap-2">
-                <CardTitle className="text-sm font-medium">Content</CardTitle>
+                <div className="flex items-center gap-2">
+                  <CardTitle className="text-sm font-medium">Content</CardTitle>
+                  {htmlModeModified && !htmlMode && (
+                    <span className="text-xs text-amber-600 dark:text-amber-400 font-medium">
+                      ※ HTMLで編集済み（保存時はHTMLを使用）
+                    </span>
+                  )}
+                </div>
                 <div className="flex items-center gap-1 p-1 bg-muted rounded-md">
                   <Button
                     type="button"
@@ -388,7 +412,7 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
                   <p className="text-xs text-muted-foreground">HTMLを直接貼り付けできます。ビジュアルに戻すと反映されます。</p>
                   <Textarea
                     value={rawHtml}
-                    onChange={(e) => setRawHtml(e.target.value)}
+                    onChange={(e) => { setRawHtml(e.target.value); setHtmlModeModified(true); }}
                     rows={16}
                     className="font-mono text-sm"
                     placeholder="<p>HTMLをここに貼り付けてください</p>"
@@ -402,7 +426,7 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
                       ref={quillRef}
                       theme="snow"
                       value={content}
-                      onChange={setContent}
+                      onChange={handleQuillChange}
                       modules={modules}
                       formats={formats}
                       style={{ height: "280px" }}
