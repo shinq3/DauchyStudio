@@ -333,3 +333,26 @@
     inset: -1px;
   }
 }
+/* Article content: preserve image alignment set via align attribute or inline style */
+.prose img[align="left"] {
+  float: left !important;
+  display: inline !important;
+  margin: 0 1.5rem 1rem 0 !important;
+}
+.prose img[align="right"] {
+  float: right !important;
+  display: inline !important;
+  margin: 0 0 1rem 1.5rem !important;
+}
+.prose img[align="center"] {
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+.prose img[style*="float"] {
+  display: inline !important;
+}
+.prose p:has(> img[align="left"]),
+.prose p:has(> img[align="right"]) {
+  overflow: hidden;
+}
