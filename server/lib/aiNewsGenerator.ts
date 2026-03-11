@@ -243,8 +243,8 @@ export async function generateNewsFromQueue(options: GenerateNewsFromQueueOption
         aiSummary,
       };
 
-      await storage.createNewsTranslation(translationData);
-      console.log(`[AI News Generator] Translation created for ${targetLang}`);
+      await storage.upsertNewsTranslation(translationData);
+      console.log(`[AI News Generator] Translation upserted for ${targetLang}`);
     }
 
     // Update news excerpt with first language AI summary if original excerpt is empty

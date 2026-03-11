@@ -583,17 +583,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }
         console.log(`[News] Created ${initialTranslations.length} initial translations`);
       } else {
-        // Update the Japanese (base language) translation to keep it in sync with the editor
+        // Update the Japanese (base language) translation content to keep it in sync with the editor
+        // Note: Only content is synced here. Title and excerpt in JA translation are managed
+        // separately via the translation editor to prevent overwriting manual edits.
         const jaTranslation = existingTranslations.find(t => t.locale === 'ja');
-        if (jaTranslation) {
-          const jaUpdate: Record<string, any> = {};
-          if (updateData.title !== undefined) jaUpdate.title = updateData.title;
-          if (updateData.excerpt !== undefined) jaUpdate.excerpt = updateData.excerpt;
-          if (updateData.content !== undefined) jaUpdate.content = updateData.content;
-          if (Object.keys(jaUpdate).length > 0) {
-            await storage.updateNewsTranslation(jaTranslation.id, jaUpdate);
-            console.log(`[News] Updated ja translation for news ${id}`);
-          }
+        if (jaTranslation && updateData.content !== undefined) {
+          await storage.updateNewsTranslation(jaTranslation.id, { content: updateData.content });
+          console.log(`[News] Synced content to ja translation for news ${id}`);
         }
       }
       

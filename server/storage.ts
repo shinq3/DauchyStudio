@@ -77,6 +77,7 @@ export interface IStorage {
   getNewsTranslations(newsId: string): Promise<NewsTranslation[]>;
   getNewsTranslation(newsId: string, locale: string): Promise<NewsTranslation | undefined>;
   createNewsTranslation(translation: InsertNewsTranslation): Promise<NewsTranslation>;
+  upsertNewsTranslation(translation: InsertNewsTranslation): Promise<NewsTranslation>;
   updateNewsTranslation(id: string, translation: Partial<InsertNewsTranslation>): Promise<NewsTranslation | undefined>;
   deleteNewsTranslation(id: string): Promise<void>;
   deleteNewsTranslations(newsId: string): Promise<void>;
@@ -295,6 +296,16 @@ export class DatabaseStorage implements IStorage {
   async createNewsTranslation(translationData: InsertNewsTranslation): Promise<NewsTranslation> {
     const [translation] = await db.insert(newsTranslations).values(translationData).returning();
     return translation;
+  }
+
+  async upsertNewsTranslation(translationData: InsertNewsTranslation): Promise<NewsTranslation> {
+    const existing = await this.getNewsTranslation(translationData.newsId, translationData.locale);
+    if (existing) {
+      const { newsId, locale, ...updateData } = translationData;
+      const updated = await this.updateNewsTranslation(existing.id, updateData);
+      return updated as NewsTranslation;
+    }
+    return this.createNewsTranslation(translationData);
   }
 
   async updateNewsTranslation(id: string, translationData: Partial<InsertNewsTranslation>): Promise<NewsTranslation | undefined> {
