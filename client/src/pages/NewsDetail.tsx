@@ -60,17 +60,14 @@ export default function NewsDetail() {
   const { locale } = useLocale();
   const [, setLocation] = useLocation();
 
-  // Fetch single news article
+  // Fetch single news article via dedicated endpoint (returns full content with base64 images)
   const { data: article, isLoading, error } = useQuery<NewsArticle>({
     queryKey: ['/api/news', id, i18n.language],
     queryFn: async () => {
       const currentLocale = i18n.language === 'en' ? 'en' : i18n.language === 'vi' ? 'vi' : 'ja';
-      const response = await fetch(`/api/news?locale=${currentLocale}`);
+      const response = await fetch(`/api/news/${id}?locale=${currentLocale}`);
       if (!response.ok) throw new Error('Failed to fetch news');
-      const allNews: NewsArticle[] = await response.json();
-      const foundArticle = allNews.find(n => n.id === id);
-      if (!foundArticle) throw new Error('Article not found');
-      return foundArticle;
+      return response.json() as Promise<NewsArticle>;
     },
     enabled: !!id,
   });

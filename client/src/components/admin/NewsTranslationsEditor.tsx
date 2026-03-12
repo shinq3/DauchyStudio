@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { z } from "zod";
-import { Languages, Save } from "lucide-react";
+import { Languages, Save, Sparkles, Loader2 } from "lucide-react";
 import type { NewsTranslation, InsertNewsTranslation } from "@shared/schema";
 
 const formSchema = insertNewsTranslationSchema.omit({ newsId: true });
@@ -108,6 +108,27 @@ export default function NewsTranslationsEditor({ newsId }: NewsTranslationsEdito
     },
   });
 
+  const aiGenerateMutation = useMutation({
+    mutationFn: () => apiRequest(`/api/admin/news/${newsId}/generate-content`, {
+      method: "POST",
+    }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["/api/admin/news", newsId, "translations"] });
+      queryClient.invalidateQueries({ queryKey: ["/api/news"] });
+      toast({
+        title: "AI翻訳完了",
+        description: "英語・ベトナム語の翻訳が生成されました。",
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "AI翻訳エラー",
+        description: error.message || "翻訳の生成に失敗しました",
+        variant: "destructive",
+      });
+    },
+  });
+
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, false] }],
@@ -148,9 +169,24 @@ export default function NewsTranslationsEditor({ newsId }: NewsTranslationsEdito
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2">
-        <Languages className="w-5 h-5 text-orange-600" />
-        <h3 className="text-lg font-semibold">Translations</h3>
+      <div className="flex items-center justify-between flex-wrap gap-2">
+        <div className="flex items-center gap-2">
+          <Languages className="w-5 h-5 text-orange-600" />
+          <h3 className="text-lg font-semibold">Translations</h3>
+        </div>
+        <Button
+          variant="outline"
+          onClick={() => aiGenerateMutation.mutate()}
+          disabled={aiGenerateMutation.isPending}
+          data-testid="button-ai-translate-all"
+        >
+          {aiGenerateMutation.isPending ? (
+            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+          ) : (
+            <Sparkles className="w-4 h-4 mr-2 text-orange-600" />
+          )}
+          {aiGenerateMutation.isPending ? "翻訳中..." : "AIで英語・ベトナム語に翻訳"}
+        </Button>
       </div>
 
       <Tabs value={activeLocale} onValueChange={(v) => setActiveLocale(v as 'ja' | 'en' | 'vi')}>

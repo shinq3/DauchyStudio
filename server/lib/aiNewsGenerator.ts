@@ -344,30 +344,39 @@ export async function generateContentForExistingNews(options: GenerateContentFor
 
     console.log(`[AI News Generator] Generating content for existing news: ${newsId}`);
     
-    const sourceTitle = news.title || 'Untitled';
-    const sourceContent = news.content || '';
-    const sourceExcerpt = news.excerpt || '';
+    // Prefer JA translation as source content (most reliable for Japanese articles)
+    // Fall back to main news fields if no JA translation exists
+    const jaTranslation = await storage.getNewsTranslation(newsId, 'ja');
+
+    const sourceTitle = jaTranslation?.title || news.title || 'Untitled';
+    const sourceContent = jaTranslation?.content || news.content || '';
+    const sourceExcerpt = jaTranslation?.excerpt || news.excerpt || '';
     
-    // Detect source language from original content ONLY (not excerpt, as it may have been AI-generated)
-    const textToAnalyze = `${sourceTitle} ${sourceContent}`.substring(0, 2000);
+    // Detect source language from title + content (ignore excerpt to avoid AI-generated contamination)
+    // Use stripped text (remove HTML and base64) for accurate detection
+    const strippedForDetection = `${sourceTitle} ${sourceContent}`
+      .replace(/<img[^>]+src="data:[^"]+"/gi, '') // remove base64 images
+      .replace(/<[^>]+>/g, ' ')                   // strip HTML tags
+      .substring(0, 3000);
+    
     let sourceLanguage = 'en'; // default
     
     // Count character types to determine language
-    const japaneseChars = (textToAnalyze.match(/[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/g) || []).length;
-    const vietnameseChars = (textToAnalyze.match(/[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/gi) || []).length;
-    const totalChars = textToAnalyze.length;
+    const japaneseChars = (strippedForDetection.match(/[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/g) || []).length;
+    const vietnameseChars = (strippedForDetection.match(/[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]/gi) || []).length;
+    const totalChars = strippedForDetection.replace(/\s/g, '').length || 1;
     
     // If more than 5% of characters are Japanese, treat as Japanese
-    if (japaneseChars > totalChars * 0.05) {
+    if (japaneseChars / totalChars > 0.05) {
       sourceLanguage = 'ja';
       console.log(`[AI News Generator] Detected Japanese content (${japaneseChars}/${totalChars} chars), using ja as source`);
     } 
     // If more than 5% of characters are Vietnamese special chars, treat as Vietnamese
-    else if (vietnameseChars > totalChars * 0.05) {
+    else if (vietnameseChars / totalChars > 0.05) {
       sourceLanguage = 'vi';
       console.log(`[AI News Generator] Detected Vietnamese content (${vietnameseChars}/${totalChars} chars), using vi as source`);
     } else {
-      console.log(`[AI News Generator] No specific language detected (ja: ${japaneseChars}, vi: ${vietnameseChars}), defaulting to en`);
+      console.log(`[AI News Generator] No specific language detected (ja: ${japaneseChars}, vi: ${vietnameseChars}, total: ${totalChars}), defaulting to en`);
     }
     
     const jobIds: string[] = [];

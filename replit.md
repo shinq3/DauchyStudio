@@ -2,6 +2,16 @@
 
 D'auchy.Studio is a Japanese AI product innovation company developing cutting-edge AI solutions across education, enterprise, and creative industries. The platform showcases four main products: LingaLink (AI-powered online learning), EduMate (collaborative study platform), OfficeBrain (enterprise RAG system), and Bayd-System (music studio management). The website serves as a company showcase with product galleries, news sections, and contact capabilities.
 
+## News Article Fixes (2026-03-12)
+- ✅ **HTML sanitization**: Aggressively strips div/section/nav/head/body tags from RSS-imported content
+- ✅ **Dedicated detail endpoint**: `GET /api/news/:id?locale=X` returns full content including base64 images
+- ✅ **List API performance**: `GET /api/news` strips base64 images → reduced from 5MB to 22KB per request
+- ✅ **Base64 thumbnail**: Detail page shows embedded base64 image at the top when no external URL available
+- ✅ **AI translate button in editor**: "AIで英語・ベトナム語に翻訳" button added directly in NewsTranslationsEditor
+- ✅ **Language detection fix**: `generateContentForExistingNews` now uses JA translation content (not main news.content which may be 90% base64) for accurate Japanese detection
+- ✅ **Translation notice**: Banner shown when EN/VI locale displays untranslated Japanese content
+- ✅ **External image hotlink fix**: Added `referrerpolicy="no-referrer"` to all external img tags in sanitizer
+
 ## CMS Phase 2 Complete (2025-10-17)
 - ✅ Multilingual news translation editor with ReactQuill WYSIWYG (ja/en/vi)
 - ✅ RSS source management UI with CRUD operations and active/inactive toggle

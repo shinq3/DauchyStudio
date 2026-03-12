@@ -290,12 +290,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
             summary = aiSummary && !aiSummary.includes('Please provide') ? aiSummary : '';
           }
           
+          // Derive thumbnail: prefer featuredImage (URL only), then extract first external URL from content
+          // Skip base64 data URIs in thumbnails – they are served via content on the detail page
+          let thumbnail = newsItem.featuredImage || '';
+          if (!thumbnail || thumbnail.startsWith('data:')) {
+            const sourceContent = newsItem.content || '';
+            const imgMatch = sourceContent.match(/<img[^>]+src="(https?:[^"]+)"/i);
+            thumbnail = imgMatch ? imgMatch[1] : '';
+          }
+
+          // Strip base64 images from list content (kept for detail endpoint)
+          const rawContent = sanitizeHtmlContent(translation?.content || newsItem.content || '');
+          const listContent = rawContent.replace(/<img([^>]+)src="data:[^"]*"([^>]*)>/gi, '');
+
           return {
             id: newsItem.id,
             title: translation?.title || newsItem.title || '',
             summary,
-            content: sanitizeHtmlContent(translation?.content || newsItem.content || ''),
-            thumbnail: newsItem.featuredImage || '',
+            content: listContent,
+            thumbnail,
             publishedAt: newsItem.publishedAt?.toISOString() || new Date().toISOString(),
             category: newsItem.category || 'technology',
             tags: newsItem.tags || [],
@@ -311,6 +324,56 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching news:", error);
       res.status(500).json({ message: "Failed to fetch news" });
+    }
+  });
+
+  // Get single news article with full content (including base64 images)
+  app.get('/api/news/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const locale = (req.query.locale as string) || 'ja';
+      const newsItem = await storage.getNews(id);
+      if (!newsItem || newsItem.status !== 'published') {
+        return res.status(404).json({ message: 'Article not found' });
+      }
+      const translation = await storage.getNewsTranslation(id, locale);
+
+      let summary = '';
+      const excerpt = translation?.excerpt || newsItem.excerpt || '';
+      if (excerpt && !excerpt.includes('Please provide')) {
+        summary = excerpt;
+      } else {
+        const aiSummary = translation?.aiSummary || '';
+        summary = aiSummary && !aiSummary.includes('Please provide') ? aiSummary : '';
+      }
+
+      // For detail view, allow base64 thumbnails (single article fetch, not a list)
+      let thumbnail = newsItem.featuredImage || '';
+      if (!thumbnail) {
+        const sourceContent = translation?.content || newsItem.content || '';
+        // Prefer external URL; fall back to base64
+        const extMatch = sourceContent.match(/<img[^>]+src="(https?:[^"]+)"/i);
+        const b64Match = sourceContent.match(/<img[^>]+src="(data:image[^"]+)"/i);
+        thumbnail = extMatch ? extMatch[1] : (b64Match ? b64Match[1] : '');
+      }
+
+      res.json({
+        id: newsItem.id,
+        title: translation?.title || newsItem.title || '',
+        summary,
+        content: sanitizeHtmlContent(translation?.content || newsItem.content || ''),
+        thumbnail,
+        publishedAt: newsItem.publishedAt?.toISOString() || new Date().toISOString(),
+        category: newsItem.category || 'technology',
+        tags: newsItem.tags || [],
+        source: newsItem.sourceAttribution || 'D\'auchy.Studio',
+        sourceUrl: newsItem.sourceUrl || '',
+        isExternal: newsItem.isExternal || false,
+        status: newsItem.status
+      });
+    } catch (error) {
+      console.error("Error fetching news article:", error);
+      res.status(500).json({ message: "Failed to fetch article" });
     }
   });
 
