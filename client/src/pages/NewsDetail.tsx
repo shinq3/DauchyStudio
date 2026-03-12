@@ -182,18 +182,6 @@ export default function NewsDetail() {
             )}
           </div>
 
-          {/* Featured Image */}
-          {article.thumbnail && (
-            <div className="mb-8">
-              <img
-                src={article.thumbnail}
-                alt={article.title}
-                className="w-full rounded-lg"
-                data-testid="img-featured"
-              />
-            </div>
-          )}
-
           {/* Translation notice: shown when locale is non-JA but content appears to be Japanese */}
           {locale !== 'ja' && isJapanese(article.content) && (
             <div className="flex items-start gap-3 mb-6 px-4 py-3 rounded-md border bg-muted/40 text-sm text-muted-foreground">
