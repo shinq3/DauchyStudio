@@ -3,7 +3,7 @@ import { useParams, Link, useLocation } from "wouter";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
-import { ArrowLeft, Calendar, Tag, Loader2, ExternalLink } from "lucide-react";
+import { ArrowLeft, Calendar, Tag, Loader2, ExternalLink, Languages } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
@@ -23,6 +23,14 @@ type NewsArticle = {
   isExternal: boolean;
   status: string;
 };
+
+// Detect if text is predominantly Japanese (>5% Japanese characters)
+function isJapanese(text: string): boolean {
+  if (!text) return false;
+  const stripped = text.replace(/<[^>]+>/g, '');
+  const jpChars = (stripped.match(/[\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf]/g) || []).length;
+  return jpChars / (stripped.length || 1) > 0.05;
+}
 
 // Decode HTML entities that were accidentally escaped by WYSIWYG editor,
 // and strip external <link>/<style>/<script> tags to prevent page style pollution
@@ -186,6 +194,18 @@ export default function NewsDetail() {
                 className="w-full rounded-lg"
                 data-testid="img-featured"
               />
+            </div>
+          )}
+
+          {/* Translation notice: shown when locale is non-JA but content appears to be Japanese */}
+          {locale !== 'ja' && isJapanese(article.content) && (
+            <div className="flex items-start gap-3 mb-6 px-4 py-3 rounded-md border bg-muted/40 text-sm text-muted-foreground">
+              <Languages className="w-4 h-4 mt-0.5 shrink-0" />
+              <span>
+                {locale === 'en'
+                  ? 'English translation for this article is not yet available. Showing original Japanese.'
+                  : 'Bản dịch tiếng Việt cho bài viết này chưa có. Đang hiển thị bản tiếng Nhật gốc.'}
+              </span>
             </div>
           )}
 

@@ -54,6 +54,14 @@ function sanitizeHtmlContent(html: string): string {
   // Step 8: Remove leading empty paragraphs
   result = result.replace(/^(\s*<p[^>]*>\s*(<br\s*\/?>)?\s*<\/p>\s*)+/gi, '');
 
+  // Step 9: Add referrerpolicy="no-referrer" to external <img> tags to bypass hotlink protection
+  result = result.replace(/<img([^>]*?)>/gi, (match, attrs) => {
+    if (!attrs.includes('referrerpolicy')) {
+      return `<img${attrs} referrerpolicy="no-referrer">`;
+    }
+    return match;
+  });
+
   return result;
 }
 
