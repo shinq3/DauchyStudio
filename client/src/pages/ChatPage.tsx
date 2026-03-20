@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Loader2, Bot, User, ArrowRight, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { ScrollArea } from '@/components/ui/scroll-area';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useLocale, linkTo } from '@/lib/i18n-utils';
 import { useTranslation } from 'react-i18next';
@@ -283,7 +282,7 @@ export default function ChatPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.3 }}
-              className="flex-1 flex flex-col max-w-3xl mx-auto w-full px-4 py-6"
+              className="flex-1 flex flex-col max-w-3xl mx-auto w-full px-4 py-6 min-h-0"
             >
               <motion.div 
                 className="text-center mb-6"
@@ -298,7 +297,7 @@ export default function ChatPage() {
                 </p>
               </motion.div>
 
-              <ScrollArea className="flex-1 pr-4">
+              <div className="flex-1 overflow-y-auto min-h-0 pr-2">
                 <div className="space-y-4 pb-4">
                   {messages.map((message, index) => (
                     <motion.div
@@ -350,7 +349,7 @@ export default function ChatPage() {
                   )}
                   <div ref={messagesEndRef} />
                 </div>
-              </ScrollArea>
+              </div>
 
               <div className="mt-4 bg-[#1a1a24] rounded-xl border border-gray-800 p-3">
                 <div className="flex gap-3">
