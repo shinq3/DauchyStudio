@@ -290,13 +290,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
             summary = aiSummary && !aiSummary.includes('Please provide') ? aiSummary : '';
           }
           
-          // Derive thumbnail: prefer featuredImage, then first external URL image
+          // Derive thumbnail: prefer featuredImage, then first image in content
           // Check both main content AND translation content (editor saves to translation.content)
           // Skip base64 data URIs – too large for list view
           let thumbnail = newsItem.featuredImage || '';
           if (!thumbnail || thumbnail.startsWith('data:')) {
             const combinedContent = (translation?.content || '') + (newsItem.content || '');
-            const imgMatch = combinedContent.match(/<img[^>]+src="(https?:[^"]+)"/i);
+            // Match https:// URLs and /objects/... object storage paths, exclude base64
+            const imgMatch = combinedContent.match(/<img[^>]+src="((?:https?:\/\/|\/objects\/)[^"]+)"/i);
             thumbnail = imgMatch ? imgMatch[1] : '';
           }
 
@@ -648,10 +649,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put('/api/admin/news/:id', isAdminAuth, async (req: any, res) => {
     try {
       const { id } = req.params;
-      const body = req.body;
+      let body = req.body;
       
       // Import helpers
       const { extractFirstImage, createInitialTranslations } = await import('./lib/newsHelpers.js');
+
+      // Process base64 images in content: resize → upload to object storage → replace src
+      if (body.content && body.content.includes('data:image')) {
+        const { processContentImages } = await import('./lib/imageUploader');
+        const { processedContent, firstImagePath } = await processContentImages(body.content, id);
+        body = { ...body, content: processedContent };
+        // If featuredImage not explicitly set, use first processed image
+        if (firstImagePath && body.featuredImage === undefined) {
+          body = { ...body, featuredImage: firstImagePath };
+        }
+      }
       
       // Manually extract and transform fields
       const updateData: any = {};
@@ -673,13 +685,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Auto-extract featured image from content if:
       // 1. Content is being updated
       // 2. featuredImage is not explicitly provided in the request
-      if (body.content !== undefined && body.featuredImage === undefined) {
-        const firstImage = extractFirstImage(body.content);
-        if (firstImage) {
-          updateData.featuredImage = firstImage;
-        }
-      } else if (body.featuredImage !== undefined) {
+      if (body.featuredImage !== undefined) {
         updateData.featuredImage = body.featuredImage;
+      } else if (body.content !== undefined) {
+        const firstImage = extractFirstImage(body.content);
+        // Only set non-base64 images; clear featuredImage if no image found in content
+        if (firstImage && !firstImage.startsWith('data:')) {
+          updateData.featuredImage = firstImage;
+        } else if (!firstImage) {
+          // Content has no images → clear the thumbnail
+          updateData.featuredImage = null;
+        }
       }
       
       const news = await storage.updateNews(id, updateData);
