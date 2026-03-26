@@ -290,12 +290,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
             summary = aiSummary && !aiSummary.includes('Please provide') ? aiSummary : '';
           }
           
-          // Derive thumbnail: prefer featuredImage (URL only), then extract first external URL from content
-          // Skip base64 data URIs in thumbnails – they are served via content on the detail page
+          // Derive thumbnail: prefer featuredImage, then first external URL image
+          // Check both main content AND translation content (editor saves to translation.content)
+          // Skip base64 data URIs – too large for list view
           let thumbnail = newsItem.featuredImage || '';
           if (!thumbnail || thumbnail.startsWith('data:')) {
-            const sourceContent = newsItem.content || '';
-            const imgMatch = sourceContent.match(/<img[^>]+src="(https?:[^"]+)"/i);
+            const combinedContent = (translation?.content || '') + (newsItem.content || '');
+            const imgMatch = combinedContent.match(/<img[^>]+src="(https?:[^"]+)"/i);
             thumbnail = imgMatch ? imgMatch[1] : '';
           }
 
