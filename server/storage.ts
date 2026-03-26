@@ -39,7 +39,7 @@ import {
   type CreatorProfile,
   type InsertCreatorProfile
 } from "@shared/schema";
-import { eq, desc, like, or, and } from "drizzle-orm";
+import { eq, desc, like, or, and, lte, isNull } from "drizzle-orm";
 import { db } from "./db";
 
 export interface IStorage {
@@ -225,9 +225,16 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getPublishedNews(): Promise<News[]> {
+    const now = new Date();
     return db.select()
       .from(news)
-      .where(eq(news.status, 'published'))
+      .where(and(
+        eq(news.status, 'published'),
+        or(
+          isNull(news.publishedAt),
+          lte(news.publishedAt, now)
+        )
+      ))
       .orderBy(desc(news.publishedAt));
   }
 

@@ -115,7 +115,11 @@ export default function NewsEditor({ news, onSave, isLoading }: NewsEditorProps)
       sourceUrl: news?.sourceUrl || "",
       sourceAttribution: news?.sourceAttribution || "",
       isExternal: news?.isExternal || false,
-      publishedAt: news?.publishedAt ? new Date(news.publishedAt).toISOString().slice(0, 16) : "",
+      publishedAt: news?.publishedAt ? (() => {
+        const d = new Date(news.publishedAt!);
+        const pad = (n: number) => String(n).padStart(2, '0');
+        return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      })() : "",
     },
   });
 
