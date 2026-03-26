@@ -851,7 +851,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/admin/news/:newsId/translations', isAdminAuth, async (req, res) => {
     try {
       const { newsId } = req.params;
-      const translationData = insertNewsTranslationSchema.parse({ ...req.body, newsId });
+      let body = { ...req.body, newsId };
+
+      // Process base64 images in content → upload to object storage
+      if (body.content && body.content.includes('data:image')) {
+        const { processContentImages } = await import('./lib/imageUploader');
+        const { processedContent, firstImagePath } = await processContentImages(body.content, newsId);
+        body.content = processedContent;
+        // Set featuredImage on the news item if not already set
+        if (firstImagePath) {
+          const existing = await storage.getNews(newsId);
+          if (existing && !existing.featuredImage) {
+            await storage.updateNews(newsId, { featuredImage: firstImagePath });
+          }
+        }
+      }
+
+      const translationData = insertNewsTranslationSchema.parse(body);
       const translation = await storage.createNewsTranslation(translationData);
       res.json(translation);
     } catch (error) {
@@ -866,7 +882,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put('/api/admin/news/translations/:id', isAdminAuth, async (req, res) => {
     try {
       const { id } = req.params;
-      const translationData = insertNewsTranslationSchema.partial().parse(req.body);
+      let body = req.body;
+
+      // Process base64 images in content → upload to object storage
+      if (body.content && body.content.includes('data:image')) {
+        const newsId = body.newsId as string | undefined;
+        if (newsId) {
+          const { processContentImages } = await import('./lib/imageUploader');
+          const { processedContent, firstImagePath } = await processContentImages(body.content, newsId);
+          body = { ...body, content: processedContent };
+          // Set featuredImage on the news item if not already set
+          if (firstImagePath) {
+            const existing = await storage.getNews(newsId);
+            if (existing && !existing.featuredImage) {
+              await storage.updateNews(newsId, { featuredImage: firstImagePath });
+            }
+          }
+        }
+      }
+
+      const translationData = insertNewsTranslationSchema.partial().parse(body);
       const translation = await storage.updateNewsTranslation(id, translationData);
       if (!translation) {
         return res.status(404).json({ message: "Translation not found" });
