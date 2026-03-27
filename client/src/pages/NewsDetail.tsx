@@ -127,7 +127,7 @@ export default function NewsDetail() {
   }
 
   return (
-    <main className="min-h-screen bg-background py-16">
+    <main className="min-h-screen bg-background py-6 sm:py-16">
       <div className="mx-auto px-4 sm:px-6 w-full max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
