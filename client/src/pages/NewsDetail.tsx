@@ -198,7 +198,7 @@ export default function NewsDetail() {
           <Card className="mb-8">
             <CardContent className="pt-6">
               <div 
-                className="prose prose-lg max-w-none dark:prose-invert"
+                className="prose max-w-none dark:prose-invert [&_p]:leading-7 [&_li]:leading-7 [&_h1]:leading-snug [&_h2]:leading-snug [&_h3]:leading-snug"
                 dangerouslySetInnerHTML={{ __html: prepareContent(article.content) }}
                 data-testid="content-article"
               />
