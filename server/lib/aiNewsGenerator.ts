@@ -2,7 +2,10 @@ import { storage } from '../storage.js';
 import { translateWithGPT4, generateSummaryWithGPT4, generateImageWithDallE } from './openaiClient.js';
 import { downloadAndUploadImage } from './imageUploader.js';
 import { stripBase64Images, restoreBase64Images, estimateTokenCount } from './htmlUtils.js';
+import { scrapeArticleContent } from './articleScraper.js';
 import type { RssImportQueue, InsertNews, InsertNewsTranslation, InsertAiGenerationJob } from '@shared/schema';
+
+const SHORT_CONTENT_THRESHOLD = 500; // chars; scrape if RSS content shorter than this
 
 export interface GenerateNewsFromQueueOptions {
   queueItemId: string;
@@ -56,11 +59,21 @@ export async function generateNewsFromQueue(options: GenerateNewsFromQueueOption
     const sourceLanguage = rssSource.language;
     const sourceTitle = payload.title || 'Untitled';
     const sourceExcerpt = payload.contentSnippet || payload.description || '';
-    const sourceContent = payload.contentEncoded || payload.content || payload.description || sourceExcerpt;
+    let sourceContent = payload.contentEncoded || payload.content || payload.description || sourceExcerpt;
 
     console.log(`[AI News Generator] Generating news from queue item: ${queueItemId}`);
     console.log(`[AI News Generator] Source language: ${sourceLanguage}, Target languages: ${targetLanguages.join(', ')}`);
     console.log(`[AI News Generator] Content length: ${sourceContent.length} chars`);
+
+    // If RSS content is too short, try to scrape full article from source URL
+    if (sourceContent.length < SHORT_CONTENT_THRESHOLD && payload.link) {
+      console.log(`[AI News Generator] Content too short (${sourceContent.length} chars), scraping from ${payload.link}`);
+      const scraped = await scrapeArticleContent(payload.link);
+      if (scraped.length > sourceContent.length) {
+        sourceContent = scraped;
+        console.log(`[AI News Generator] Scraped content: ${scraped.length} chars`);
+      }
+    }
 
     const slug = generateSlug(sourceTitle);
     

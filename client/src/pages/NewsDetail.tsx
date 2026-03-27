@@ -196,6 +196,16 @@ export default function NewsDetail() {
 
           {/* Article Content */}
           <Card className="mb-8">
+            {article.thumbnail && !article.content?.includes(article.thumbnail) && (
+              <div className="overflow-hidden rounded-t-lg">
+                <img
+                  src={article.thumbnail}
+                  alt={article.title}
+                  referrerPolicy="no-referrer"
+                  className="w-full object-cover max-h-80"
+                />
+              </div>
+            )}
             <CardContent className="pt-6">
               <div 
                 className="prose max-w-none dark:prose-invert [&_p]:leading-7 [&_li]:leading-7 [&_h1]:leading-snug [&_h2]:leading-snug [&_h3]:leading-snug"
