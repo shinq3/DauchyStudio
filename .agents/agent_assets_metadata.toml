@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "QhaBmaF8AfEMYebwsgeYG"
+uri = "file://client/src/assets/generated_images/AIGenOne_hero_office_conversation.png"
+type = "image"
+title = "AIGenOne hero office staff conversation system"

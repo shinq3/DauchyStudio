@@ -23,6 +23,9 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useLocale } from "@/lib/i18n-utils";
+import heroImage from "@assets/generated_images/AIGenOne_hero_office_conversation.png";
+import previewImage from "@assets/preview_1779667793783.png";
+import editorImage from "@assets/editor_1779667793781.png";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -68,42 +71,84 @@ export default function AIGenOne() {
     <div className="min-h-screen bg-background">
 
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary rounded-full filter blur-3xl" />
-          <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-orange-500 rounded-full filter blur-3xl" />
+      <section className="relative overflow-hidden text-white min-h-[90vh] flex flex-col justify-center">
+        {/* Background photo with dark wash */}
+        <div className="absolute inset-0">
+          <img
+            src={heroImage}
+            alt="Office staff conversation"
+            className="w-full h-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-slate-900/90 via-slate-900/70 to-slate-900/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-slate-900/30" />
         </div>
-        <div className="relative container mx-auto px-4 max-w-5xl py-24 sm:py-32">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-          >
-            <p className="text-xs font-semibold tracking-widest uppercase text-orange-400 mb-3">
-              {t("hero.eyebrow")}
-            </p>
-            <Badge className="mb-6 bg-white/10 text-white border-white/20 backdrop-blur-sm">
-              {t("hero.badge")}
-            </Badge>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight whitespace-pre-line">
-              {t("hero.title")}
-            </h1>
-            <p className="text-lg text-slate-300 mb-10 max-w-2xl leading-relaxed">
-              {t("hero.description")}
-            </p>
-            <div className="flex flex-wrap gap-4">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white" asChild>
-                <Link href={`/${locale}/contact`}>
-                  {t("hero.buttons.contact")}
-                  <ArrowRight className="ml-2 w-4 h-4" />
-                </Link>
-              </Button>
-              <Button size="lg" variant="outline" className="border-white/30 text-white bg-white/10 backdrop-blur-sm hover:bg-white/20">
-                {t("hero.buttons.demo")}
-                <ChevronRight className="ml-1 w-4 h-4" />
-              </Button>
+
+        <div className="relative container mx-auto px-4 max-w-7xl py-20 sm:py-28">
+          <div className="flex flex-col lg:flex-row items-center gap-12">
+            {/* Left: text content */}
+            <div className="flex-1 min-w-0">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7 }}
+              >
+                <p className="text-xs font-semibold tracking-widest uppercase text-orange-400 mb-3">
+                  {t("hero.eyebrow")}
+                </p>
+                <Badge className="mb-6 bg-white/10 text-white border-white/20 backdrop-blur-sm">
+                  {t("hero.badge")}
+                </Badge>
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight whitespace-pre-line">
+                  {t("hero.title")}
+                </h1>
+                <p className="text-lg text-slate-300 mb-10 max-w-xl leading-relaxed">
+                  {t("hero.description")}
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <Button size="lg" className="bg-primary text-white" asChild>
+                    <Link href={`/${locale}/contact`}>
+                      {t("hero.buttons.contact")}
+                      <ArrowRight className="ml-2 w-4 h-4" />
+                    </Link>
+                  </Button>
+                  <Button size="lg" variant="outline" className="border-white/30 text-white bg-white/10 backdrop-blur-sm">
+                    {t("hero.buttons.demo")}
+                    <ChevronRight className="ml-1 w-4 h-4" />
+                  </Button>
+                </div>
+              </motion.div>
             </div>
-          </motion.div>
+
+            {/* Right: UI mockup screenshots */}
+            <div className="flex-1 min-w-0 w-full max-w-xl lg:max-w-none relative hidden lg:block">
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="relative"
+              >
+                {/* Preview screenshot (back, slightly offset) */}
+                <div className="absolute -top-4 -left-4 w-[90%] rounded-xl overflow-hidden shadow-2xl border border-white/10 opacity-80"
+                  style={{ transform: "rotate(-2deg)" }}>
+                  <img src={previewImage} alt="Preview screen" className="w-full block" />
+                </div>
+                {/* Editor screenshot (front) */}
+                <div className="relative w-[90%] ml-auto rounded-xl overflow-hidden shadow-2xl border border-white/20"
+                  style={{ transform: "rotate(1deg)" }}>
+                  <img src={editorImage} alt="Editor screen" className="w-full block" />
+                </div>
+                {/* Floating label */}
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.9 }}
+                  className="absolute -bottom-5 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg whitespace-nowrap"
+                >
+                  話すだけで完成 — No Code Required
+                </motion.div>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
