@@ -26,6 +26,10 @@ import { useLocale } from "@/lib/i18n-utils";
 import heroImage from "@assets/generated_images/AIGenOne_hero_office_conversation.png";
 import previewImage from "@assets/preview_1779667793783.png";
 import editorImage from "@assets/editor_1779667793781.png";
+import problemsImage from "@assets/generated_images/AIGenOne_problems_frustration.png";
+import howItWorksImage from "@assets/generated_images/AIGenOne_howitworks_conversation.png";
+import featuresImage from "@assets/generated_images/AIGenOne_features_dashboard.png";
+import securityImage from "@assets/generated_images/AIGenOne_security_shield.png";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -155,23 +159,36 @@ export default function AIGenOne() {
       {/* Problems */}
       <section className="py-20 sm:py-28 bg-muted/30">
         <div className="container mx-auto px-4 max-w-5xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <p className="text-xs font-semibold tracking-widest uppercase text-primary mb-3">
-              {t("problems.eyebrow")}
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-6 whitespace-pre-line">
-              {t("problems.title")}
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              {t("problems.lead")}
-            </p>
-          </motion.div>
+          <div className="flex flex-col lg:flex-row gap-12 items-center mb-16">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="flex-1"
+            >
+              <p className="text-xs font-semibold tracking-widest uppercase text-primary mb-3">
+                {t("problems.eyebrow")}
+              </p>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-6 whitespace-pre-line">
+                {t("problems.title")}
+              </h2>
+              <p className="text-muted-foreground max-w-xl leading-relaxed">
+                {t("problems.lead")}
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="flex-1 w-full"
+            >
+              <div className="rounded-xl overflow-hidden shadow-lg">
+                <img src={problemsImage} alt="Problems illustration" className="w-full object-cover" />
+              </div>
+            </motion.div>
+          </div>
 
           <motion.div
             variants={containerVariants}
@@ -198,22 +215,36 @@ export default function AIGenOne() {
       {/* How it works */}
       <section className="py-20 sm:py-28">
         <div className="container mx-auto px-4 max-w-5xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <p className="text-xs font-semibold tracking-widest uppercase text-primary mb-3">
-              {t("howItWorks.eyebrow")}
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-6 whitespace-pre-line">
-              {t("howItWorks.title")}
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-              {t("howItWorks.description")}
-            </p>
-          </motion.div>
+          <div className="flex flex-col lg:flex-row-reverse gap-12 items-center mb-16">
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="flex-1"
+            >
+              <p className="text-xs font-semibold tracking-widest uppercase text-primary mb-3">
+                {t("howItWorks.eyebrow")}
+              </p>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-6 whitespace-pre-line">
+                {t("howItWorks.title")}
+              </h2>
+              <p className="text-muted-foreground max-w-xl leading-relaxed">
+                {t("howItWorks.description")}
+              </p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="flex-1 w-full"
+            >
+              <div className="rounded-xl overflow-hidden shadow-lg">
+                <img src={howItWorksImage} alt="How it works" className="w-full object-cover" />
+              </div>
+            </motion.div>
+          </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {steps.map((step: any, i: number) => (
@@ -287,18 +318,32 @@ export default function AIGenOne() {
       {/* Features */}
       <section className="py-20 sm:py-28">
         <div className="container mx-auto px-4 max-w-5xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <p className="text-xs font-semibold tracking-widest uppercase text-primary mb-3">
-              {t("features.eyebrow")}
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">{t("features.title")}</h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">{t("features.description")}</p>
-          </motion.div>
+          <div className="flex flex-col lg:flex-row gap-12 items-center mb-16">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="flex-1"
+            >
+              <p className="text-xs font-semibold tracking-widest uppercase text-primary mb-3">
+                {t("features.eyebrow")}
+              </p>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">{t("features.title")}</h2>
+              <p className="text-muted-foreground max-w-xl">{t("features.description")}</p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="flex-1 w-full"
+            >
+              <div className="rounded-xl overflow-hidden shadow-lg">
+                <img src={featuresImage} alt="Features dashboard" className="w-full object-cover" />
+              </div>
+            </motion.div>
+          </div>
 
           <motion.div
             variants={containerVariants}
@@ -446,22 +491,36 @@ export default function AIGenOne() {
       {/* Security */}
       <section className="py-20 sm:py-28 bg-muted/30">
         <div className="container mx-auto px-4 max-w-5xl">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-center mb-16"
-          >
-            <p className="text-xs font-semibold tracking-widest uppercase text-primary mb-3">
-              {t("security.eyebrow")}
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-6 whitespace-pre-line">
-              {t("security.title")}
-            </h2>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              {t("security.description")}
-            </p>
-          </motion.div>
+          <div className="flex flex-col lg:flex-row gap-12 items-center mb-16">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="flex-1 w-full"
+            >
+              <div className="rounded-xl overflow-hidden shadow-lg">
+                <img src={securityImage} alt="Security" className="w-full object-cover" />
+              </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="flex-1"
+            >
+              <p className="text-xs font-semibold tracking-widest uppercase text-primary mb-3">
+                {t("security.eyebrow")}
+              </p>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-6 whitespace-pre-line">
+                {t("security.title")}
+              </h2>
+              <p className="text-muted-foreground max-w-xl">
+                {t("security.description")}
+              </p>
+            </motion.div>
+          </div>
 
           <motion.div
             variants={containerVariants}

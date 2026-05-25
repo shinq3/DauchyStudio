@@ -90,15 +90,6 @@ export default function Home() {
       href: linkTo("/products/enterprise-llm", locale)
     },
     {
-      id: "aigen-one",
-      name: t('products:aigenone.name'),
-      description: t('products:aigenone.description'),
-      image: aigenOneImage,
-      status: "released" as const,
-      tags: t('products:aigenone.tags', { returnObjects: true }) as string[],
-      href: linkTo("/products/aigen-one", locale)
-    },
-    {
       id: "bayd-system",
       name: t('products:baydsystem.name'),
       description: t('products:baydsystem.description'),
