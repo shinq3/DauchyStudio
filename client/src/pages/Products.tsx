@@ -20,6 +20,14 @@ export default function Products() {
   // TODO: remove mock functionality - replace with API calls
   const allProducts = [
     {
+      id: "aigen-one",
+      name: t('aigenone.name'),
+      description: t('aigenone.description'),
+      image: aigenOneImage,
+      status: "released" as const,
+      href: `/${locale}/products/aigen-one`
+    },
+    {
       id: "lingalink",
       name: t('lingalink.name'),
       description: t('lingalink.description'),
@@ -50,14 +58,6 @@ export default function Products() {
       image: enterpriseLLMImage,
       status: "released" as const,
       href: `/${locale}/products/enterprise-llm`
-    },
-    {
-      id: "aigen-one",
-      name: t('aigenone.name'),
-      description: t('aigenone.description'),
-      image: aigenOneImage,
-      status: "released" as const,
-      href: `/${locale}/products/aigen-one`
     },
     {
       id: "bayd-system",

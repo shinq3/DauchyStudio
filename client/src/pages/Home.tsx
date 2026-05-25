@@ -45,6 +45,15 @@ export default function Home() {
   // TODO: remove mock functionality - replace with API calls
   const featuredProducts = [
     {
+      id: "aigen-one",
+      name: t('products:aigenone.name'),
+      description: t('products:aigenone.description'),
+      image: aigenOneImage,
+      status: "released" as const,
+      tags: t('products:aigenone.tags', { returnObjects: true }) as string[],
+      href: linkTo("/products/aigen-one", locale)
+    },
+    {
       id: "lingalink",
       name: t('products:lingalink.name'),
       description: t('products:lingalink.description'),
