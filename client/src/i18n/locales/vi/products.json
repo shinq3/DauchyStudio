@@ -22,6 +22,11 @@
       "description": "Nền tảng doanh nghiệp tất cả trong một tích hợp quản lý dự án, chia sẻ kiến thức và trợ lý AI. Giải pháp toàn diện tối đa hóa tiềm năng nhóm.",
       "tags": ["Doanh nghiệp", "LLM", "Nền tảng tích hợp", "Quản lý dự án"]
     },
+    "aigen-one": {
+      "name": "AIGen ONE",
+      "description": "Chỉ cần nói chuyện và hệ thống nghiệp vụ tùy chỉnh hoàn thành. Không cần lập trình, sẵn sàng ngay từ ngày đầu.",
+      "tags": ["Doanh nghiệp", "AI", "Không cần code", "Hệ thống nghiệp vụ"]
+    },
     "bayd-system": {
       "name": "Bayd-System",
       "description": "Hệ thống quản lý studio tập nhạc. Tìm kiếm studio tối ưu dựa trên điều kiện với AI, hỗ trợ toàn diện từ đặt phòng đến quản lý thiết bị.",

@@ -19,6 +19,7 @@ import LingaLink from "@/pages/LingaLink";
 import Edumate from "@/pages/Edumate";
 import OfficeBrain from "@/pages/OfficeBrain";
 import EnterpriseLLM from "@/pages/EnterpriseLLM";
+import AIGenOne from "@/pages/AIGenOne";
 import AIProposal from "@/pages/AIProposal";
 import AIPairCoding from "@/pages/AIPairCoding";
 import Admin from "@/pages/Admin";
@@ -72,6 +73,10 @@ function Router() {
       
       <Route path="/products/enterprise-llm">
         <Redirect to={linkTo('/products/enterprise-llm', defaultLocale)} />
+      </Route>
+      
+      <Route path="/products/aigen-one">
+        <Redirect to={linkTo('/products/aigen-one', defaultLocale)} />
       </Route>
       
       <Route path="/products/bayd-system">
@@ -156,6 +161,13 @@ function Router() {
         {(params) => {
           if (!isValidLocale(params.locale)) return <NotFound />;
           return <EnterpriseLLM />;
+        }}
+      </Route>
+
+      <Route path="/:locale/products/aigen-one">
+        {(params) => {
+          if (!isValidLocale(params.locale)) return <NotFound />;
+          return <AIGenOne />;
         }}
       </Route>
       
@@ -245,6 +257,7 @@ function App() {
         { name: "EduMate", href: linkTo("/products/edumate", locale) },
         { name: "OfficeBrain", href: linkTo("/products/officebrain", locale) },
         { name: "Enterprise LLM", href: linkTo("/products/enterprise-llm", locale) },
+        { name: "AIGen ONE", href: linkTo("/products/aigen-one", locale) },
         { name: "Bayd-System", href: linkTo("/products/bayd-system", locale) }
       ]
     },

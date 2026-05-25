@@ -30,5 +30,10 @@
     "name": "Bayd-System",
     "description": "Music rehearsal studio management system. AI searches for optimal studios based on conditions, providing comprehensive support from booking to equipment management.",
     "tags": ["Music", "Studio", "Management System", "Booking Management"]
+  },
+  "aigenone": {
+    "name": "AIGen ONE",
+    "description": "Just talk and your custom business system is ready. No coding required, available from day one. Enterprise AI platform that builds any business system — from customer management to inventory.",
+    "tags": ["Enterprise", "AI", "No-Code", "Business Systems"]
   }
 }

@@ -30,5 +30,10 @@
     "name": "Bayd-System",
     "description": "Hệ thống quản lý studio âm nhạc tập luyện. AI tìm kiếm studio tối ưu dựa trên điều kiện, hỗ trợ toàn diện từ đặt phòng đến quản lý thiết bị.",
     "tags": ["Âm nhạc", "Studio", "Hệ thống quản lý", "Quản lý đặt phòng"]
+  },
+  "aigenone": {
+    "name": "AIGen ONE",
+    "description": "Chỉ cần nói chuyện và hệ thống nghiệp vụ tùy chỉnh của bạn hoàn thành. Không cần lập trình, sẵn sàng ngay từ ngày đầu. Nền tảng AI doanh nghiệp xây dựng mọi hệ thống nghiệp vụ.",
+    "tags": ["Doanh nghiệp", "AI", "Không cần code", "Hệ thống nghiệp vụ"]
   }
 }

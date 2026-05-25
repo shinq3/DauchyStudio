@@ -22,6 +22,11 @@
       "description": "An all-in-one enterprise platform integrating project management, knowledge sharing, and AI assistants. A comprehensive solution that maximizes team potential.",
       "tags": ["Enterprise", "LLM", "Integrated Platform", "Project Management"]
     },
+    "aigen-one": {
+      "name": "AIGen ONE",
+      "description": "Just talk and your custom business system is ready. No coding required, available from day one. Enterprise AI platform that builds any business system.",
+      "tags": ["Enterprise", "AI", "No-Code", "Business Systems"]
+    },
     "bayd-system": {
       "name": "Bayd-System",
       "description": "Music rehearsal studio management system. AI-powered optimal studio search based on conditions, comprehensive support from booking to equipment management.",

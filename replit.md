@@ -38,6 +38,16 @@ D'auchy.Studio is a Japanese AI product innovation company developing cutting-ed
   - **Translation failure protection**: Only saves translations when content translation succeeds, preserving existing translations on failure
   - **E2E tested**: English → Japanese/Vietnamese translations verified working correctly
 
+## AIGen ONE Product Page (2026-05-24)
+- ✅ New product page at `/products/aigen-one` (ja/en/vi routes)
+- ✅ i18n content files: `locales/{ja,en,vi}/products/aigen-one.json`
+- ✅ `aigen-one` namespace registered in `i18n/index.ts`
+- ✅ Route added in `App.tsx` with locale redirect
+- ✅ Footer product link added
+- ✅ `Products.tsx` listing card with camelCase key `aigenone` from `pages/products.json`
+- ✅ `Home.tsx` featured products carousel entry
+- ✅ Fixed existing `enterprise-llm` / `bayd-system` key mismatch in `Products.tsx` (hyphen → camelCase)
+
 ## isExternal Flag Fix (2025-10-17)
 - ✅ **Fixed API response**: Changed from `!!newsItem.sourceUrl` to `newsItem.isExternal || false`
 - ✅ **Fixed admin UI**: Changed label from "Internal News" to "External Article" with clear description

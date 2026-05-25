@@ -18,6 +18,7 @@ import jaEdumate from './locales/ja/products/edumate.json';
 import jaOfficeBrain from './locales/ja/products/officebrain.json';
 import jaEnterpriseLLM from './locales/ja/products/enterprise-llm.json';
 import jaBaydSystem from './locales/ja/products/bayd-system.json';
+import jaAigenOne from './locales/ja/products/aigen-one.json';
 import jaAdmin from './locales/ja/admin.json';
 import jaAIProposal from './locales/ja/pages/ai-proposal.json';
 import jaAIPairCoding from './locales/ja/pages/ai-pair-coding.json';
@@ -35,6 +36,7 @@ import enEdumate from './locales/en/products/edumate.json';
 import enOfficeBrain from './locales/en/products/officebrain.json';
 import enEnterpriseLLM from './locales/en/products/enterprise-llm.json';
 import enBaydSystem from './locales/en/products/bayd-system.json';
+import enAigenOne from './locales/en/products/aigen-one.json';
 import enAdmin from './locales/en/admin.json';
 import enAIProposal from './locales/en/pages/ai-proposal.json';
 import enAIPairCoding from './locales/en/pages/ai-pair-coding.json';
@@ -52,6 +54,7 @@ import viEdumate from './locales/vi/products/edumate.json';
 import viOfficeBrain from './locales/vi/products/officebrain.json';
 import viEnterpriseLLM from './locales/vi/products/enterprise-llm.json';
 import viBaydSystem from './locales/vi/products/bayd-system.json';
+import viAigenOne from './locales/vi/products/aigen-one.json';
 import viAdmin from './locales/vi/admin.json';
 import viAIProposal from './locales/vi/pages/ai-proposal.json';
 import viAIPairCoding from './locales/vi/pages/ai-pair-coding.json';
@@ -71,6 +74,7 @@ const resources = {
     officebrain: jaOfficeBrain,
     'enterprise-llm': jaEnterpriseLLM,
     'bayd-system': jaBaydSystem,
+    'aigen-one': jaAigenOne,
     admin: jaAdmin,
     'ai-proposal': jaAIProposal,
     'ai-pair-coding': jaAIPairCoding,
@@ -89,6 +93,7 @@ const resources = {
     officebrain: enOfficeBrain,
     'enterprise-llm': enEnterpriseLLM,
     'bayd-system': enBaydSystem,
+    'aigen-one': enAigenOne,
     admin: enAdmin,
     'ai-proposal': enAIProposal,
     'ai-pair-coding': enAIPairCoding,
@@ -107,6 +112,7 @@ const resources = {
     officebrain: viOfficeBrain,
     'enterprise-llm': viEnterpriseLLM,
     'bayd-system': viBaydSystem,
+    'aigen-one': viAigenOne,
     admin: viAdmin,
     'ai-proposal': viAIProposal,
     'ai-pair-coding': viAIPairCoding,
@@ -131,7 +137,7 @@ i18n
     
     // Namespace configuration
     defaultNS: 'common',
-    ns: ['common', 'header', 'footer', 'home', 'about', 'products', 'contact', 'news', 'lingalink', 'edumate', 'officebrain', 'enterprise-llm', 'bayd-system', 'admin', 'ai-proposal', 'ai-pair-coding'],
+    ns: ['common', 'header', 'footer', 'home', 'about', 'products', 'contact', 'news', 'lingalink', 'edumate', 'officebrain', 'enterprise-llm', 'bayd-system', 'aigen-one', 'admin', 'ai-proposal', 'ai-pair-coding'],
     
     interpolation: {
       escapeValue: false, // React already escapes values

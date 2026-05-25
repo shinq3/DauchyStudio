@@ -11,6 +11,7 @@ import eduMateImage from "@assets/generated_images/EduMate_collaboration_interfa
 import officeBrainImage from "@assets/generated_images/OfficeBrain_file_system_interface_be3ae664.png";
 import enterpriseLLMImage from "@assets/stock_images/enterprise_ai_dashbo_34de58a9.jpg";
 import baydSystemImage from "@assets/generated_images/Bayd-System_studio_dashboard_36de2e47.png";
+import aigenOneImage from "@assets/stock_images/enterprise_ai_dashbo_34de58a9.jpg";
 
 export default function Products() {
   const { t } = useTranslation('products');
@@ -44,16 +45,24 @@ export default function Products() {
     },
     {
       id: "enterprise-llm",
-      name: t('enterprise-llm.name'),
-      description: t('enterprise-llm.description'),
+      name: t('enterprisellm.name'),
+      description: t('enterprisellm.description'),
       image: enterpriseLLMImage,
       status: "released" as const,
       href: `/${locale}/products/enterprise-llm`
     },
     {
+      id: "aigen-one",
+      name: t('aigenone.name'),
+      description: t('aigenone.description'),
+      image: aigenOneImage,
+      status: "released" as const,
+      href: `/${locale}/products/aigen-one`
+    },
+    {
       id: "bayd-system",
-      name: t('bayd-system.name'),
-      description: t('bayd-system.description'),
+      name: t('baydsystem.name'),
+      description: t('baydsystem.description'),
       image: baydSystemImage,
       status: "coming_soon" as const,
       href: `/${locale}/products/bayd-system`

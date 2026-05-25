@@ -19,6 +19,7 @@ import eduMateImage from "@assets/generated_images/EduMate_collaboration_interfa
 import officeBrainImage from "@assets/generated_images/OfficeBrain_file_system_interface_be3ae664.png";
 import enterpriseLLMImage from "@assets/stock_images/enterprise_ai_dashbo_34de58a9.jpg";
 import baydSystemImage from "@assets/generated_images/Bayd-System_studio_dashboard_36de2e47.png";
+import aigenOneImage from "@assets/stock_images/enterprise_ai_dashbo_34de58a9.jpg";
 import manifestoAiCoding from "@assets/stock_images/manifesto_ai_coding.jpg";
 import manifestoBusinessAnalysis from "@assets/stock_images/manifesto_business_analysis.jpg";
 import manifestoPairProgramming from "@assets/stock_images/manifesto_pair_programming.jpg";
@@ -78,6 +79,15 @@ export default function Home() {
       status: "released" as const,
       tags: t('products:enterprisellm.tags', { returnObjects: true }) as string[],
       href: linkTo("/products/enterprise-llm", locale)
+    },
+    {
+      id: "aigen-one",
+      name: t('products:aigenone.name'),
+      description: t('products:aigenone.description'),
+      image: aigenOneImage,
+      status: "released" as const,
+      tags: t('products:aigenone.tags', { returnObjects: true }) as string[],
+      href: linkTo("/products/aigen-one", locale)
     },
     {
       id: "bayd-system",

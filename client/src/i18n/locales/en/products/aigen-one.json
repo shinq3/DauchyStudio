@@ -1,0 +1,191 @@
+{
+  "meta": {
+    "title": "AIGen ONE - Enterprise AI System Builder | D'auchy.Studio",
+    "description": "Just talk and your custom business system is ready. No coding required. Enterprise AI platform available from day one."
+  },
+  "hero": {
+    "badge": "Enterprise AI Platform",
+    "eyebrow": "NO CODE / NO DEVELOPER",
+    "title": "Just talk.\nYour system, built.",
+    "description": "Say 'build a customer inquiry manager' or 'I need a sales report dashboard' — and your custom business system is ready. No programming knowledge needed. AIGen ONE lets every employee build their own company systems together with AI.",
+    "buttons": {
+      "contact": "Request Materials",
+      "demo": "See How It Works"
+    }
+  },
+  "problems": {
+    "eyebrow": "Sound familiar?",
+    "title": "Companies that can't build\n'just a small system.'",
+    "lead": "Still managing everything in Excel. Asked IT and heard 'six months.' Rolled out ChatGPT but nobody uses it. — More companies face this than you'd think.",
+    "items": [
+      {
+        "number": "01",
+        "title": "Everything runs on Excel and email",
+        "description": "Customer management, deals, inventory — all in Excel. Buried in copy-paste and file naming, mistakes pile up. A 'proper system' stays on the wish list."
+      },
+      {
+        "number": "02",
+        "title": "Development requests take months",
+        "description": "Even 'just add one screen' turns into estimates, requirements, and development — suddenly it's six months later. No way to keep up with the pace of the business."
+      },
+      {
+        "number": "03",
+        "title": "AI was deployed, but nothing changed",
+        "description": "ChatGPT rolled out company-wide, but usage drops off because it never integrates into real workflows. It stays a 'fancy search tool,' never reaching its productivity potential."
+      }
+    ]
+  },
+  "howItWorks": {
+    "eyebrow": "Just 3 steps",
+    "title": "Talk. Build.\nEveryone can use it.",
+    "description": "No complicated setup. No expertise needed. Every employee just talks to AI like they would a colleague. That's how a business system gets built.",
+    "steps": [
+      {
+        "number": "01",
+        "title": "Tell AI what you need",
+        "description": "Example: 'I need a screen to manage customer inquiries'"
+      },
+      {
+        "number": "02",
+        "title": "AI builds your custom system",
+        "description": "Database, input forms, and search — automatically constructed"
+      },
+      {
+        "number": "03",
+        "title": "Use it immediately, share with the team",
+        "description": "Useful tools get shared with the department, the best ones become official systems"
+      },
+      {
+        "number": "04",
+        "title": "AI keeps improving it as you use it",
+        "description": "Say 'I'd like to improve this part' and it updates on the spot"
+      }
+    ]
+  },
+  "demo": {
+    "eyebrow": "See it in action",
+    "title": "Just like this. Just talk.",
+    "description": "No complicated steps. Just talk to AI the way you'd ask a colleague.",
+    "exchanges": [
+      {
+        "user": "Build a screen to manage customer inquiries. Include assignee, status, and last contact date.",
+        "ai": "Done. I've created an 'Inquiry Manager' with customer info, assignee, status (New / In Progress / Resolved), and last contact date — plus a search feature. Ready to use now."
+      },
+      {
+        "user": "I want a dashboard where the manager can see a summary of the sales team's daily reports.",
+        "ai": "Sales report dashboard created. It shows visits, revenue, and activity by rep, with weekly and monthly views. Access is restricted to manager-level users."
+      },
+      {
+        "user": "I'd like automatic emails when inventory drops below 10 units.",
+        "ai": "Inventory alert set up. When any item drops below 10, the responsible staff and ordering manager will receive an automatic email. Thresholds can be adjusted per item."
+      }
+    ]
+  },
+  "features": {
+    "eyebrow": "What you can build",
+    "title": "All of this, built just by talking.",
+    "description": "Almost anything you've ever thought 'we should have a system for this' can be built. Sales, HR, accounting, manufacturing, support — any department, any industry.",
+    "items": [
+      {
+        "category": "Sales & Support",
+        "title": "Customer & Inquiry Management",
+        "description": "Just say 'build a screen to manage customer info and interaction history.' A customer list, response history, and status management — tailored to your business — will be ready."
+      },
+      {
+        "category": "Operations",
+        "title": "Daily Reports, Tasks & Deals",
+        "description": "Whether it's 'a screen where management can see daily sales reports' or 'a dashboard to visualize deal progress' — say it, and it's built on the spot."
+      },
+      {
+        "category": "Inventory & Orders",
+        "title": "Inventory & Order Management",
+        "description": "Move your Excel-based inventory and ordering to a dedicated system. Need 'an alert when stock drops below 10 units'? Just ask AI."
+      },
+      {
+        "category": "Internal Search",
+        "title": "Ask AI about internal knowledge",
+        "description": "AI searches manuals, meeting notes, and past documents all at once. Ask 'What was decided at last month's board meeting?' and you'll get an answer with source documents."
+      },
+      {
+        "category": "Security",
+        "title": "Show only what needs to be shown",
+        "description": "Set fine-grained permissions like 'salary data visible only to HR' or 'deal info only to the assigned rep.' AI only has access to permitted information."
+      },
+      {
+        "category": "Integration",
+        "title": "Connects with your existing systems",
+        "description": "Works alongside your existing ERP, Salesforce, Kintone, or Excel files. No need to replace anything — AIGen ONE complements what you already have."
+      }
+    ]
+  },
+  "comparison": {
+    "eyebrow": "How we're different",
+    "title": "Why AIGen ONE?",
+    "headers": ["Service", "What it does", "Limitations"],
+    "rows": [
+      ["Kintone / Cybozu", "Tools to build business apps", "Still requires expertise to actually build"],
+      ["ChatGPT / Claude", "General-purpose chat AI", "Cannot build your company's systems"],
+      ["Custom development", "Build anything you want", "Hundreds of thousands of dollars, months of wait"],
+      ["AIGen ONE", "Your custom system, built just by talking", "No expertise needed — ready the same day"]
+    ]
+  },
+  "targets": {
+    "eyebrow": "Who it's for",
+    "title": "From executives to frontline staff —\neveryone benefits.",
+    "description": "AIGen ONE isn't for 'the few tech-savvy people.' If you can talk, you can use it. That's how your whole company truly benefits from AI.",
+    "items": [
+      {
+        "label": "a.",
+        "title": "For executives and leadership",
+        "description": "Stop letting AI investments end as 'costs nobody uses.' Systems employees build every day directly become company productivity and competitive advantage. ROI is measurable."
+      },
+      {
+        "label": "b.",
+        "title": "For everyday employees",
+        "description": "You can build the systems you've always wished existed. The limits of Excel, the tedious manual work — just talk to AI and find solutions."
+      },
+      {
+        "label": "c.",
+        "title": "For DX / business improvement teams",
+        "description": "No more filing requests with IT for every small thing. Frontline-driven improvements naturally accumulate into organizational assets — by design."
+      },
+      {
+        "label": "d.",
+        "title": "For IT and system administrators",
+        "description": "No more headaches over rogue Excel macros and shadow IT. Let the frontline build in a safe environment, then promote only the best to official systems."
+      }
+    ]
+  },
+  "security": {
+    "eyebrow": "Our commitment to safety",
+    "title": "Convenient and secure,\nby design.",
+    "description": "Worried about letting AI do everything? We've answered that concern from day one. Fine-grained access control, full audit logs — safety is built into the architecture.",
+    "items": [
+      {
+        "title": "AI doesn't touch sensitive data directly",
+        "description": "Customer and sales data is only accessible through defined, controlled pathways. AI cannot rewrite data on its own."
+      },
+      {
+        "title": "Fine-grained visibility controls",
+        "description": "Restrict what each role, department, or person can see. 'Job title visible, salary hidden' — that level of control is easy to configure."
+      },
+      {
+        "title": "Protection against malicious instructions",
+        "description": "Even if someone tries 'export all employee data' from the outside, the system blocks it. Safe usage is guaranteed."
+      },
+      {
+        "title": "Every action is logged and traceable",
+        "description": "Who accessed what, when, and what they did — all recorded. In any incident, you know exactly what happened."
+      }
+    ]
+  },
+  "cta": {
+    "eyebrow": "From 'asking someone to build it' to 'just talking and building it.'",
+    "title": "We have materials ready covering\nhow AIGen ONE works and what it costs.",
+    "description": "Contact us with any questions — free of charge.",
+    "buttons": {
+      "contact": "Request Materials (Free)",
+      "demo": "Book an Online Demo"
+    }
+  }
+}
