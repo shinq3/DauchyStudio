@@ -1,28 +1,22 @@
-// Referenced from blueprint:javascript_object_storage
 import { Storage, File } from "@google-cloud/storage";
 import { Response } from "express";
 import { randomUUID } from "crypto";
 
-const REPLIT_SIDECAR_ENDPOINT = "http://127.0.0.1:1106";
+function createStorageClient(): Storage {
+  const keyJson = process.env.GCS_KEY_JSON;
+  if (keyJson) {
+    try {
+      const credentials = JSON.parse(keyJson);
+      return new Storage({ credentials, projectId: credentials.project_id });
+    } catch {
+      throw new Error("GCS_KEY_JSON is not valid JSON");
+    }
+  }
+  // Falls back to GOOGLE_APPLICATION_CREDENTIALS env var or ADC
+  return new Storage();
+}
 
-// The object storage client is used to interact with the object storage service.
-export const objectStorageClient = new Storage({
-  credentials: {
-    audience: "replit",
-    subject_token_type: "access_token",
-    token_url: `${REPLIT_SIDECAR_ENDPOINT}/token`,
-    type: "external_account",
-    credential_source: {
-      url: `${REPLIT_SIDECAR_ENDPOINT}/credential`,
-      format: {
-        type: "json",
-        subject_token_field_name: "access_token",
-      },
-    },
-    universe_domain: "googleapis.com",
-  },
-  projectId: "",
-});
+export const objectStorageClient = createStorageClient();
 
 export class ObjectNotFoundError extends Error {
   constructor() {

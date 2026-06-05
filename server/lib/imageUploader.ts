@@ -54,7 +54,7 @@ export async function downloadAndUploadImage(
   const objectName = filename || `ai-image-${randomUUID()}.${ext}`;
 
   const objectPath = await uploadBufferToStorage(imageBuffer, objectName, contentType);
-  const domain = process.env.REPLIT_DOMAINS?.split(',')[0] || '';
+  const domain = process.env.APP_DOMAIN || process.env.REPLIT_DOMAINS?.split(',')[0] || '';
   const publicUrl = domain ? `https://${domain}${objectPath}` : objectPath;
 
   console.log(`[Image Uploader] Image uploaded successfully: ${objectPath}`);
