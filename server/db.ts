@@ -1,10 +1,34 @@
-import { drizzle } from "drizzle-orm/neon-http";
-import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/node-postgres";
+import pg from "pg";
 import * as schema from "@shared/schema";
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL is not set");
+const { Pool } = pg;
+
+function getConnectionConfig() {
+  // In Replit dev, DATABASE_URL takes priority over RDS credentials
+  if (process.env.DATABASE_URL) {
+    return {
+      connectionString: process.env.DATABASE_URL,
+    };
+  }
+  // In Lightsail (no DATABASE_URL), use RDS credentials
+  if (process.env.RDS_ENDPOINT) {
+    const host = process.env.RDS_ENDPOINT.trim();
+    const password = process.env.RDS_PASSWORD || "";
+    const user = process.env.RDS_USERNAME || "postgres";
+    const database = process.env.RDS_DATABASE || "postgres";
+    const port = parseInt(process.env.RDS_PORT || "5432", 10);
+    return {
+      host,
+      port,
+      user,
+      password,
+      database,
+      ssl: { rejectUnauthorized: false },
+    };
+  }
+  throw new Error("DATABASE_URL or RDS_ENDPOINT must be set");
 }
 
-const sql = neon(process.env.DATABASE_URL!);
-export const db = drizzle(sql, { schema });
+export const pool = new Pool(getConnectionConfig());
+export const db = drizzle(pool, { schema });
