@@ -25,9 +25,9 @@ module.exports = {
   deploy: {
     production: {
       user: "ubuntu",
-      host: "YOUR_LIGHTSAIL_IP",
+      host: "13.115.161.22",
       ssh_options: "StrictHostKeyChecking=no",
-      key: "./deploy/keys/dauchy-prod.pem",
+      key: "/Users/shin/.ssh/id_rsa",
       ref: "origin/main",
       repo: "git@github.com:shinq3/DauchyStudio.git",
       path: "/home/ubuntu/dauchy-studio",
