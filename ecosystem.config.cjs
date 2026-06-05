@@ -24,12 +24,12 @@ module.exports = {
   ],
   deploy: {
     production: {
-      user: "ubuntu",
+      user: "admin",
       host: "13.115.161.22",
       ssh_options: "StrictHostKeyChecking=no",
       key: "/Users/shin/.ssh/id_rsa",
       ref: "origin/main",
-      repo: "git@github.com:shinq3/DauchyStudio.git",
+      repo: "https://github.com/shinq3/DauchyStudio.git",
       path: "/var/www/d-auchy",
       share: [".env"],
       "pre-setup": [
