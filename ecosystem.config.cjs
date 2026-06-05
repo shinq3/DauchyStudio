@@ -9,7 +9,7 @@ module.exports = {
       max_memory_restart: "1G",
       env: {
         NODE_ENV: "production",
-        PORT: 5000,
+        PORT: 5010,
       },
       error_file: "./logs/err.log",
       out_file: "./logs/out.log",
@@ -30,7 +30,7 @@ module.exports = {
       key: "/Users/shin/.ssh/id_rsa",
       ref: "origin/main",
       repo: "git@github.com:shinq3/DauchyStudio.git",
-      path: "/home/ubuntu/dauchy-studio",
+      path: "/var/www/d-auchy",
       share: [".env"],
       "pre-setup": [
         "sudo apt-get update",
@@ -53,7 +53,7 @@ module.exports = {
         "git log -1 --oneline",
       ].join(" && "),
       "post-deploy": [
-        "ln -sf /home/ubuntu/dauchy-studio/shared/.env /home/ubuntu/dauchy-studio/current/.env",
+        "ln -sf /var/www/d-auchy/shared/.env /var/www/d-auchy/current/.env",
         "npm ci",
         "npm run build",
         "pm2 reload ecosystem.config.cjs --env production",
@@ -61,7 +61,7 @@ module.exports = {
       ].join(" && "),
       env: {
         NODE_ENV: "production",
-        PORT: 5000,
+        PORT: 5010,
       },
     },
   },
