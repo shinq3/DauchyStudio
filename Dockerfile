@@ -16,4 +16,4 @@ ENV PORT=5000
 
 EXPOSE 5000
 
-CMD ["npx", "tsx", "server/index.ts"]
+CMD ["node", "--import", "tsx/esm", "server/index.ts"]

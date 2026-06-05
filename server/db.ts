@@ -15,8 +15,8 @@ function getConnectionConfig() {
   if (process.env.RDS_ENDPOINT) {
     const host = process.env.RDS_ENDPOINT.trim();
     const password = process.env.RDS_PASSWORD || "";
-    const user = process.env.RDS_USERNAME || "postgres";
-    const database = process.env.RDS_DATABASE || "postgres";
+    const user = process.env.RDS_USER || process.env.RDS_USERNAME || "postgres";
+    const database = process.env.RDS_DATABASE || "dauchy";
     const port = parseInt(process.env.RDS_PORT || "5432", 10);
     return {
       host,
