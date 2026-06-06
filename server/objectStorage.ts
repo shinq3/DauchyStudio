@@ -1,22 +1,32 @@
-import { Storage, File } from "@google-cloud/storage";
+import { S3Client, GetObjectCommand, HeadObjectCommand } from "@aws-sdk/client-s3";
 import { Response } from "express";
-import { randomUUID } from "crypto";
+import { Readable } from "stream";
 
-function createStorageClient(): Storage {
-  const keyJson = process.env.GCS_KEY_JSON;
-  if (keyJson) {
-    try {
-      const credentials = JSON.parse(keyJson);
-      return new Storage({ credentials, projectId: credentials.project_id });
-    } catch {
-      throw new Error("GCS_KEY_JSON is not valid JSON");
-    }
+function createS3Client(): S3Client {
+  const endpoint = process.env.WASABI_ENDPOINT || "s3.ap-northeast-1.wasabisys.com";
+  const region = process.env.WASABI_REGION || "ap-northeast-1";
+  const accessKeyId = process.env.WASABI_ACCESS_KEY_ID || "";
+  const secretAccessKey = process.env.WASABI_SECRET_ACCESS_KEY || "";
+
+  if (!accessKeyId || !secretAccessKey) {
+    console.warn("[ObjectStorage] WASABI_ACCESS_KEY_ID or WASABI_SECRET_ACCESS_KEY not set");
   }
-  // Falls back to GOOGLE_APPLICATION_CREDENTIALS env var or ADC
-  return new Storage();
+
+  return new S3Client({
+    endpoint: `https://${endpoint}`,
+    region,
+    credentials: { accessKeyId, secretAccessKey },
+    forcePathStyle: true,
+  });
 }
 
-export const objectStorageClient = createStorageClient();
+export const s3Client = createS3Client();
+
+function getBucketName(): string {
+  const bucket = process.env.WASABI_BUCKET_NAME;
+  if (!bucket) throw new Error("WASABI_BUCKET_NAME not set");
+  return bucket;
+}
 
 export class ObjectNotFoundError extends Error {
   constructor() {
@@ -26,139 +36,45 @@ export class ObjectNotFoundError extends Error {
   }
 }
 
-// The object storage service is used to interact with the object storage service.
 export class ObjectStorageService {
   constructor() {}
 
-  // Gets the public object search paths.
-  getPublicObjectSearchPaths(): Array<string> {
-    const pathsStr = process.env.PUBLIC_OBJECT_SEARCH_PATHS || "";
-    const paths = Array.from(
-      new Set(
-        pathsStr
-          .split(",")
-          .map((path) => path.trim())
-          .filter((path) => path.length > 0)
-      )
-    );
-    if (paths.length === 0) {
-      throw new Error(
-        "PUBLIC_OBJECT_SEARCH_PATHS not set. Create a bucket in 'Object Storage' " +
-          "tool and set PUBLIC_OBJECT_SEARCH_PATHS env var (comma-separated paths)."
-      );
-    }
-    return paths;
+  // /objects/news-images/xxx.jpg → news-images/xxx.jpg
+  private objectPathToKey(objectPath: string): string {
+    if (!objectPath.startsWith("/objects/")) throw new ObjectNotFoundError();
+    return objectPath.replace(/^\/objects\//, "");
   }
 
-  // Gets the private object directory.
-  getPrivateObjectDir(): string {
-    const dir = process.env.PRIVATE_OBJECT_DIR || "";
-    if (!dir) {
-      throw new Error(
-        "PRIVATE_OBJECT_DIR not set. Create a bucket in 'Object Storage' " +
-          "tool and set PRIVATE_OBJECT_DIR env var."
-      );
-    }
-    return dir;
-  }
-
-  // Search for a public object from the search paths.
-  async searchPublicObject(filePath: string): Promise<File | null> {
-    for (const searchPath of this.getPublicObjectSearchPaths()) {
-      const fullPath = `${searchPath}/${filePath}`;
-
-      // Full path format: /<bucket_name>/<object_name>
-      const { bucketName, objectName } = parseObjectPath(fullPath);
-      const bucket = objectStorageClient.bucket(bucketName);
-      const file = bucket.file(objectName);
-
-      // Check if file exists
-      const [exists] = await file.exists();
-      if (exists) {
-        return file;
-      }
-    }
-
-    return null;
-  }
-
-  // Downloads an object to the response.
-  async downloadObject(file: File, res: Response, cacheTtlSec: number = 3600) {
+  async getObjectEntityFile(objectPath: string): Promise<string> {
+    const key = this.objectPathToKey(objectPath);
+    const bucket = getBucketName();
     try {
-      // Get file metadata
-      const [metadata] = await file.getMetadata();
-      
-      // Set appropriate headers
+      await s3Client.send(new HeadObjectCommand({ Bucket: bucket, Key: key }));
+      return key;
+    } catch {
+      throw new ObjectNotFoundError();
+    }
+  }
+
+  async downloadObject(key: string, res: Response, cacheTtlSec: number = 3600) {
+    try {
+      const bucket = getBucketName();
+      const result = await s3Client.send(new GetObjectCommand({ Bucket: bucket, Key: key }));
+
       res.set({
-        "Content-Type": metadata.contentType || "application/octet-stream",
-        "Content-Length": metadata.size,
+        "Content-Type": result.ContentType || "application/octet-stream",
         "Cache-Control": `public, max-age=${cacheTtlSec}`,
       });
+      if (result.ContentLength) {
+        res.set("Content-Length", String(result.ContentLength));
+      }
 
-      // Stream the file to the response
-      const stream = file.createReadStream();
-
-      stream.on("error", (err: any) => {
-        console.error("Stream error:", err);
-        if (!res.headersSent) {
-          res.status(500).json({ error: "Error streaming file" });
-        }
-      });
-
-      stream.pipe(res);
+      (result.Body as Readable).pipe(res);
     } catch (error) {
-      console.error("Error downloading file:", error);
+      console.error("[ObjectStorage] Error downloading file:", error);
       if (!res.headersSent) {
         res.status(500).json({ error: "Error downloading file" });
       }
     }
   }
-
-  // Gets the object entity file from the object path.
-  async getObjectEntityFile(objectPath: string): Promise<File> {
-    if (!objectPath.startsWith("/objects/")) {
-      throw new ObjectNotFoundError();
-    }
-
-    const parts = objectPath.slice(1).split("/");
-    if (parts.length < 2) {
-      throw new ObjectNotFoundError();
-    }
-
-    const entityId = parts.slice(1).join("/");
-    let entityDir = this.getPrivateObjectDir();
-    if (!entityDir.endsWith("/")) {
-      entityDir = `${entityDir}/`;
-    }
-    const objectEntityPath = `${entityDir}${entityId}`;
-    const { bucketName, objectName } = parseObjectPath(objectEntityPath);
-    const bucket = objectStorageClient.bucket(bucketName);
-    const objectFile = bucket.file(objectName);
-    const [exists] = await objectFile.exists();
-    if (!exists) {
-      throw new ObjectNotFoundError();
-    }
-    return objectFile;
-  }
-}
-
-function parseObjectPath(path: string): {
-  bucketName: string;
-  objectName: string;
-} {
-  if (!path.startsWith("/")) {
-    path = `/${path}`;
-  }
-  const pathParts = path.split("/");
-  if (pathParts.length < 3) {
-    throw new Error("Invalid path: must contain at least a bucket name");
-  }
-
-  const bucketName = pathParts[1];
-  const objectName = pathParts.slice(2).join("/");
-
-  return {
-    bucketName,
-    objectName,
-  };
 }

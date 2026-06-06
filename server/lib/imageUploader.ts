@@ -1,5 +1,6 @@
-// Image uploader utility for downloading and storing images to Object Storage
-import { objectStorageClient } from '../objectStorage';
+// Image uploader utility for downloading and storing images to Wasabi (S3-compatible)
+import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { s3Client } from '../objectStorage';
 import { randomUUID } from 'crypto';
 
 export interface UploadImageResult {
@@ -7,13 +8,10 @@ export interface UploadImageResult {
   publicUrl: string;
 }
 
-function getObjectStorageParts() {
-  const privateDir = process.env.PRIVATE_OBJECT_DIR || '';
-  if (!privateDir) throw new Error('PRIVATE_OBJECT_DIR not set');
-  const parts = privateDir.split('/');
-  const bucketName = parts[1];
-  const basePath = parts.slice(2).join('/');
-  return { bucketName, basePath };
+function getBucketName(): string {
+  const bucket = process.env.WASABI_BUCKET_NAME;
+  if (!bucket) throw new Error('WASABI_BUCKET_NAME not set');
+  return bucket;
 }
 
 async function uploadBufferToStorage(
@@ -21,23 +19,19 @@ async function uploadBufferToStorage(
   objectName: string,
   contentType: string
 ): Promise<string> {
-  const { bucketName, basePath } = getObjectStorageParts();
-  const fullObjectPath = `${basePath}/news-images/${objectName}`;
-  const bucket = objectStorageClient.bucket(bucketName);
-  const file = bucket.file(fullObjectPath);
-  await file.save(buffer, {
-    contentType,
-    metadata: {
-      metadata: {
-        'custom:aclPolicy': JSON.stringify({ owner: 'system', visibility: 'public' }),
-      },
-    },
-  });
+  const bucket = getBucketName();
+  const key = `news-images/${objectName}`;
+  await s3Client.send(new PutObjectCommand({
+    Bucket: bucket,
+    Key: key,
+    Body: buffer,
+    ContentType: contentType,
+  }));
   return `/objects/news-images/${objectName}`;
 }
 
 /**
- * Download an image from a URL and upload it to Object Storage
+ * Download an image from a URL and upload it to Wasabi
  */
 export async function downloadAndUploadImage(
   imageUrl: string,
@@ -54,7 +48,7 @@ export async function downloadAndUploadImage(
   const objectName = filename || `ai-image-${randomUUID()}.${ext}`;
 
   const objectPath = await uploadBufferToStorage(imageBuffer, objectName, contentType);
-  const domain = process.env.APP_DOMAIN || process.env.REPLIT_DOMAINS?.split(',')[0] || '';
+  const domain = process.env.APP_DOMAIN || '';
   const publicUrl = domain ? `https://${domain}${objectPath}` : objectPath;
 
   console.log(`[Image Uploader] Image uploaded successfully: ${objectPath}`);
@@ -62,14 +56,13 @@ export async function downloadAndUploadImage(
 }
 
 /**
- * Process HTML content: extract base64 images, resize with sharp, upload to object storage.
+ * Process HTML content: extract base64 images, resize with sharp, upload to Wasabi.
  * Returns updated HTML and the first image's object path (for thumbnail use).
  */
 export async function processContentImages(
   htmlContent: string,
   newsId: string
 ): Promise<{ processedContent: string; firstImagePath: string | null }> {
-  // Dynamically import sharp (native module)
   let sharp: any;
   try {
     sharp = (await import('sharp')).default;
@@ -78,7 +71,6 @@ export async function processContentImages(
     return { processedContent: htmlContent, firstImagePath: null };
   }
 
-  // Find all base64 img tags
   const base64ImgRegex = /<img([^>]+)src="(data:image\/([a-zA-Z+]+);base64,([^"]+))"([^>]*)>/gi;
   let processedContent = htmlContent;
   let firstImagePath: string | null = null;
@@ -86,11 +78,9 @@ export async function processContentImages(
 
   let match: RegExpExecArray | null;
   while ((match = base64ImgRegex.exec(htmlContent)) !== null) {
-    const [fullTag, beforeSrc, dataUrl, mimeType, base64Data, afterSrc] = match;
+    const [fullTag, beforeSrc, , , base64Data, afterSrc] = match;
     try {
       const imageBuffer = Buffer.from(base64Data, 'base64');
-
-      // Resize: max 1200px wide, convert to JPEG for compression
       const resized = await sharp(imageBuffer)
         .resize({ width: 1200, withoutEnlargement: true })
         .jpeg({ quality: 82 })
