@@ -32,8 +32,8 @@
     "tags": ["Âm nhạc", "Studio", "Hệ thống quản lý", "Quản lý đặt phòng"]
   },
   "aigenone": {
-    "name": "AIGen ONE",
-    "description": "Chỉ cần nói chuyện và hệ thống nghiệp vụ tùy chỉnh của bạn hoàn thành. Không cần lập trình, sẵn sàng ngay từ ngày đầu. Nền tảng AI doanh nghiệp xây dựng mọi hệ thống nghiệp vụ.",
-    "tags": ["Doanh nghiệp", "AI", "Không cần code", "Hệ thống nghiệp vụ"]
+    "name": "AiGen-One",
+    "description": "Nền tảng vận hành AI biến ngôn ngữ hiện trường thành hệ thống nghiệp vụ và phân phối tính năng AI qua cổng nội bộ.",
+    "tags": ["Doanh nghiệp", "Cổng AI", "Plugin", "Hệ thống nghiệp vụ"]
   }
 }

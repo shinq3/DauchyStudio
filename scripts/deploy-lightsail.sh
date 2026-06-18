@@ -1,32 +1,19 @@
 #!/bin/bash
+# ローカルでビルドして dist/ だけサーバーへ転送する方式（1GB RAM対応）
 set -e
 
-SERVER="admin@13.115.161.22"
+SERVER="admin@52.196.136.76"
 KEY="/Users/shin/.ssh/id_rsa"
-APP_DIR="/var/www/d-auchy"
+APP_DIR="/var/www/d-auchy/current"
 APP_NAME="dauchy-studio"
 
-echo "=== Deploying to Lightsail ==="
+echo "=== ローカルでビルド ==="
+npm run build
 
-ssh -i "$KEY" "$SERVER" << 'EOF'
-set -e
-APP_DIR="/var/www/d-auchy"
-APP_NAME="dauchy-studio"
+echo "=== dist/ をサーバーへ転送 ==="
+rsync -avz -e "ssh -i $KEY" --delete dist/ "$SERVER:$APP_DIR/dist/"
 
-cd "$APP_DIR"
-
-echo "--- git pull ---"
-git pull origin main
-
-echo "--- npm install ---"
-npm install
-
-echo "--- build ---"
-./node_modules/.bin/vite build
-./node_modules/.bin/esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
-
-echo "--- pm2 restart ---"
-pm2 restart "$APP_NAME" || true
+echo "=== pm2 再起動 ==="
+ssh -i "$KEY" "$SERVER" "cd $APP_DIR && export \$(cat .env | grep -v '^#' | grep -v '^\$' | xargs) && pm2 restart $APP_NAME --update-env"
 
 echo "=== Deploy done ==="
-EOF

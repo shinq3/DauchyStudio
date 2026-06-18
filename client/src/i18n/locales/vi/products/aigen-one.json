@@ -1,191 +1,315 @@
 {
   "meta": {
-    "title": "AIGen ONE - Nền tảng xây dựng hệ thống AI cho doanh nghiệp | D'auchy.Studio",
-    "description": "Chỉ cần nói chuyện và hệ thống nghiệp vụ tùy chỉnh của bạn sẽ hoàn thành. Không cần lập trình. Sẵn sàng ngay trong ngày đầu tiên."
+    "title": "AiGen-One - Cổng vận hành AI | D'auchy.Studio",
+    "description": "Nền tảng vận hành AI biến nhu cầu nghiệp vụ được nói ra thành hệ thống nội bộ và phân phối các tính năng AI qua cổng quản trị của doanh nghiệp."
   },
   "hero": {
-    "badge": "Nền tảng AI doanh nghiệp",
-    "eyebrow": "NO CODE / NO DEVELOPER",
-    "title": "Chỉ cần nói chuyện.\nHệ thống của bạn được tạo ra.",
-    "description": "Chỉ cần nói 'tạo cho tôi màn hình quản lý khách hàng' hay 'tôi cần bảng tổng hợp báo cáo doanh số' — hệ thống nghiệp vụ tùy chỉnh của bạn sẽ hoàn thành ngay. Không cần kiến thức lập trình. AIGen ONE cho phép từng nhân viên tự xây dựng hệ thống của công ty cùng với AI.",
+    "badge": "Cổng vận hành AI",
+    "eyebrow": "FROM AI TOOLS TO AI OPERATIONS",
+    "productName": "AiGen-One",
+    "title": "Từ phân phối công cụ AI\nđến phân phối nghiệp vụ AI.",
+    "subtitle": "Tạo hệ thống nghiệp vụ chỉ bằng hội thoại",
+    "description": "AiGen-One đưa các quy trình AI dùng ngay như biên bản họp, tạo đề xuất, tìm kiếm tài liệu nội bộ và chat đa ngôn ngữ vào cổng nội bộ. Nhân viên không cần học công cụ AI trước.",
+    "proofs": ["Triển khai nhanh quy trình AI có sẵn", "Biến ngôn ngữ hiện trường thành hệ thống", "Quản lý quyền, nhật ký và cập nhật tập trung"],
     "buttons": {
-      "contact": "Yêu cầu tài liệu",
-      "demo": "Xem cách hoạt động"
-    }
+      "contact": "Trao đổi với chúng tôi",
+      "demo": "Xem demo"
+    },
+    "mockupLabel": "Đưa nghiệp vụ AI vào cổng nội bộ"
   },
-  "problems": {
-    "eyebrow": "Có quen không?",
-    "title": "Những công ty không thể xây dựng\n'chỉ một hệ thống nhỏ.'",
-    "lead": "Vẫn quản lý mọi thứ bằng Excel. Yêu cầu IT và nghe 'sáu tháng nữa.' Triển khai ChatGPT nhưng không ai dùng. — Nhiều công ty đang đối mặt với điều này hơn bạn nghĩ.",
+  "problem": {
+    "eyebrow": "Điều đang xảy ra trong doanh nghiệp",
+    "title": "Công cụ AI nhiều hơn.\nCông việc vẫn bị phân mảnh.",
+    "description": "ChatGPT, Gemini, NotebookLM, Claude, Copilot. Các công cụ AI rất hữu ích, nhưng nhân viên vẫn phải chuyển đổi công cụ, sao chép kết quả, sắp xếp lại và chia sẻ thủ công.",
     "items": [
       {
-        "number": "01",
-        "title": "Mọi thứ chạy bằng Excel và email",
-        "description": "Quản lý khách hàng, hợp đồng, hàng tồn kho — tất cả trong Excel. Mải mê với copy-paste và đặt tên file, lỗi ngày càng nhiều. 'Cần một hệ thống riêng' vẫn chỉ là ước muốn."
+        "title": "Cách dùng khác nhau theo từng nhân viên",
+        "description": "Prompt, thiết lập và mẹo sử dụng trở thành kinh nghiệm cá nhân, khó biến thành tài sản chung của công ty."
       },
       {
-        "number": "02",
-        "title": "Yêu cầu phát triển mất nhiều tháng",
-        "description": "Dù chỉ là 'thêm một màn hình' cũng phải qua ước tính, yêu cầu, phát triển — bỗng nhiên đã sáu tháng. Không thể theo kịp tốc độ kinh doanh."
+        "title": "Kết quả AI vẫn cần đưa lại vào công việc",
+        "description": "Tóm tắt và tạo tài liệu nhanh hơn, nhưng con người vẫn phải chuyển kết quả vào hệ thống nghiệp vụ."
       },
       {
-        "number": "03",
-        "title": "AI được triển khai nhưng không có gì thay đổi",
-        "description": "ChatGPT được triển khai toàn công ty nhưng tỷ lệ sử dụng giảm dần vì không tích hợp vào quy trình thực tế. Chỉ là 'công cụ tìm kiếm tiện lợi', chưa đạt tiềm năng tăng năng suất."
+        "title": "Dữ liệu nội bộ và quyền truy cập chưa kết nối",
+        "description": "Khó quản lý ai được xem thông tin nào và tệp nào đã được dùng làm nguồn tham khảo."
+      },
+      {
+        "title": "Đội ngũ phải học lại tính năng mới liên tục",
+        "description": "Mỗi lần mô hình hoặc sản phẩm AI cập nhật, nhân viên lại phải học cách sử dụng mới."
       }
     ]
   },
-  "howItWorks": {
-    "eyebrow": "Chỉ 3 bước đơn giản",
-    "title": "Nói chuyện. Xây dựng.\nMọi người đều có thể dùng.",
-    "description": "Không cần cài đặt phức tạp. Không cần chuyên môn. Mỗi nhân viên chỉ cần nói chuyện với AI như nói với đồng nghiệp. Đó là cách hệ thống nghiệp vụ được tạo ra.",
+  "values": {
+    "eyebrow": "Cách tiếp cận của AiGen-One",
+    "title": "AiGen-One là cơ chế để tạo,\nphân phối và vận hành nghiệp vụ AI.",
+    "description": "AiGen-One không phải dịch vụ dạy cách dùng AI. Đây là cơ chế để doanh nghiệp tạo, phân phối và vận hành các chức năng nghiệp vụ được hỗ trợ bởi AI.",
+    "items": [
+      {
+        "title": "Tạo hệ thống nghiệp vụ bằng hội thoại",
+        "description": "Khi người dùng mô tả vấn đề, AI hỏi thêm về trường dữ liệu, quyền và quy trình, rồi chuyển thành màn hình và cấu trúc dữ liệu."
+      },
+      {
+        "title": "Thêm tính năng AI bằng plugin",
+        "description": "Biên bản họp, tạo đề xuất, RAG tệp, chat đa ngôn ngữ và các nghiệp vụ AI phổ biến có thể được thêm vào cổng."
+      },
+      {
+        "title": "Phân phối, cập nhật và quản trị ở cấp công ty",
+        "description": "Quản lý phạm vi sử dụng theo phòng ban hoặc vai trò, nhật ký, phiên bản, prompt và cập nhật mô hình tại một nơi."
+      }
+    ]
+  },
+  "flow": {
+    "eyebrow": "Cách hoạt động",
+    "title": "Từ ngôn ngữ hiện trường\nthành hệ thống nghiệp vụ.",
+    "description": "Người dùng không cần viết tài liệu yêu cầu hay biết thiết kế hệ thống. AiGen-One đối thoại để làm rõ đầu vào, đầu ra, tệp tham chiếu, quyền, thông báo và hỗ trợ AI cần thiết.",
     "steps": [
       {
-        "number": "01",
-        "title": "Nói với AI những gì bạn cần",
-        "description": "Ví dụ: 'Tôi cần màn hình quản lý yêu cầu từ khách hàng'"
+        "number": "Step 1",
+        "title": "Mô tả vấn đề nghiệp vụ",
+        "description": "Chuyển quản lý yêu cầu khỏi Excel, tạo đề xuất từ ghi chú bán hàng, tìm kiếm tài liệu nội bộ hoặc hỏi bằng ngôn ngữ tự nhiên."
       },
       {
-        "number": "02",
-        "title": "AI xây dựng hệ thống tùy chỉnh cho bạn",
-        "description": "Cơ sở dữ liệu, form nhập liệu, tìm kiếm — tự động được xây dựng"
+        "number": "Step 2",
+        "title": "AI hỏi các yêu cầu cần thiết",
+        "description": "Ai sẽ dùng, cần những trường nào, có phê duyệt hoặc thông báo không, và tệp nào cần tham chiếu."
       },
       {
-        "number": "03",
-        "title": "Dùng ngay, chia sẻ với nhóm",
-        "description": "Công cụ hữu ích được chia sẻ với phòng ban, cái tốt nhất trở thành hệ thống chính thức"
+        "number": "Step 3",
+        "title": "Tạo hệ thống hoặc tính năng AI",
+        "description": "Danh sách, biểu mẫu, màn hình chi tiết, tìm kiếm, tóm tắt, tạo tài liệu và hỗ trợ trả lời được tạo theo quy trình."
       },
       {
-        "number": "04",
-        "title": "AI tiếp tục cải thiện khi bạn sử dụng",
-        "description": "Nói 'muốn cải thiện phần này' và nó cập nhật ngay tại chỗ"
+        "number": "Step 4",
+        "title": "Đưa vào cổng nội bộ",
+        "description": "Các chức năng được tạo xuất hiện trong menu nghiệp vụ của AiGen-One, nhân viên không cần quan tâm tên công cụ hay tên mô hình."
       }
     ]
   },
-  "demo": {
-    "eyebrow": "Xem thực tế",
-    "title": "Chỉ như thế này. Chỉ cần nói chuyện.",
-    "description": "Không có bước nào phức tạp. Chỉ cần nói chuyện với AI như nói với đồng nghiệp.",
-    "exchanges": [
-      {
-        "user": "Xây dựng màn hình quản lý yêu cầu từ khách hàng. Bao gồm người phụ trách, trạng thái và ngày liên lạc cuối.",
-        "ai": "Xong. Tôi đã tạo 'Quản lý Yêu cầu' với thông tin khách hàng, người phụ trách, trạng thái (Mới / Đang xử lý / Hoàn thành) và ngày liên lạc cuối — cùng với tính năng tìm kiếm. Sẵn sàng sử dụng ngay."
-      },
-      {
-        "user": "Tôi muốn bảng điều khiển để trưởng phòng xem tổng hợp báo cáo hàng ngày của nhóm bán hàng.",
-        "ai": "Đã tạo bảng tổng hợp báo cáo bán hàng. Hiển thị số lượt thăm, doanh thu và hoạt động theo từng nhân viên, có thể xem theo tuần và tháng. Quyền truy cập giới hạn cho cấp quản lý."
-      },
-      {
-        "user": "Tôi muốn nhận email tự động khi tồn kho xuống dưới 10 đơn vị.",
-        "ai": "Đã thiết lập cảnh báo tồn kho. Khi bất kỳ mặt hàng nào xuống dưới 10, nhân viên phụ trách và người quản lý đặt hàng sẽ nhận email tự động. Ngưỡng có thể điều chỉnh theo từng mặt hàng."
-      }
-    ]
+  "marketplace": {
+    "eyebrow": "Plugin Marketplace",
+    "title": "Nghiệp vụ AI phổ biến\ncó thể thêm bằng plugin.",
+    "description": "Không phải người dùng nào cũng cần xây dựng từ đầu. Các chức năng AI nghiệp vụ thường dùng có thể được cài từ marketplace và quản trị viên phân phối trong nội bộ.",
+    "noteTitle": "Bắt đầu ngay với quy trình AI có sẵn",
+    "note": "Biên bản họp, tạo đề xuất, tìm kiếm tệp và chat đa ngôn ngữ có thể tạo giá trị ngay cả trước khi tích hợp cơ sở dữ liệu lõi. Doanh nghiệp có thể tạo điểm vào AI đầu tiên mà không cần sửa hệ thống hiện có."
   },
-  "features": {
-    "eyebrow": "Những gì bạn có thể xây dựng",
-    "title": "Tất cả điều này, chỉ bằng cách nói chuyện.",
-    "description": "Hầu hết mọi thứ bạn từng nghĩ 'nên có một hệ thống cho việc này' đều có thể được xây dựng. Kinh doanh, nhân sự, kế toán, sản xuất, hỗ trợ — bất kỳ phòng ban, bất kỳ ngành nghề nào.",
+  "plugins": {
     "items": [
       {
-        "category": "Kinh doanh & Hỗ trợ",
-        "title": "Quản lý khách hàng & yêu cầu",
-        "description": "Chỉ cần nói 'xây dựng màn hình quản lý thông tin khách hàng và lịch sử tương tác.' Danh sách khách hàng, lịch sử phản hồi, quản lý trạng thái — được tạo phù hợp với nghiệp vụ của bạn."
+        "category": "Meeting",
+        "title": "Plugin biên bản họp",
+        "description": "Chuyển âm thanh, bản chép lời và ghi chú thành điểm chính, quyết định, việc cần làm, người phụ trách và hạn."
       },
       {
-        "category": "Vận hành",
-        "title": "Báo cáo hàng ngày, Tasks & Hợp đồng",
-        "description": "Dù là 'màn hình để quản lý xem báo cáo bán hàng hàng ngày' hay 'bảng điều khiển trực quan hóa tiến độ hợp đồng' — nói ra và nó được tạo ngay."
+        "category": "Sales",
+        "title": "Tạo đề xuất từ ghi chú",
+        "description": "Tạo vấn đề khách hàng, hướng đề xuất, cấu trúc và bản nháp slide từ ghi chú bán hàng hoặc phỏng vấn."
       },
       {
-        "category": "Tồn kho & Đơn hàng",
-        "title": "Quản lý tồn kho & đặt hàng",
-        "description": "Chuyển tồn kho và đặt hàng từ Excel sang hệ thống chuyên dụng. Cần 'cảnh báo khi tồn kho dưới 10 đơn vị'? Chỉ cần hỏi AI."
+        "category": "Knowledge",
+        "title": "RAG chia sẻ tệp",
+        "description": "Tìm kiếm PDF, Word, Excel và PowerPoint, rồi trả lời kèm nguồn tham khảo."
       },
       {
-        "category": "Tìm kiếm nội bộ",
-        "title": "Hỏi AI về kiến thức nội bộ",
-        "description": "AI tìm kiếm đồng thời các hướng dẫn, biên bản họp và tài liệu cũ. Hỏi 'Điều gì đã được quyết định tại cuộc họp hội đồng tháng trước?' và bạn sẽ nhận được câu trả lời kèm tài liệu nguồn."
+        "category": "Global",
+        "title": "Chat phiên dịch đa ngôn ngữ",
+        "description": "Giúp các thành viên dùng ngôn ngữ khác nhau giao tiếp tự nhiên trong chat."
       },
       {
-        "category": "Bảo mật",
-        "title": "Chỉ hiển thị những gì cần hiển thị",
-        "description": "Đặt quyền chi tiết như 'dữ liệu lương chỉ HR xem được' hay 'thông tin hợp đồng chỉ người phụ trách xem được'. AI chỉ có quyền truy cập thông tin được cho phép."
-      },
-      {
-        "category": "Tích hợp",
-        "title": "Kết nối với hệ thống hiện tại",
-        "description": "Hoạt động cùng với ERP, Salesforce, Kintone hoặc file Excel hiện có. Không cần thay thế bất cứ điều gì — AIGen ONE bổ sung cho những gì bạn đã có."
+        "category": "Agent",
+        "title": "Skills và Agents",
+        "description": "Trong tương lai, marketplace có thể hỗ trợ các agent AI thực hiện quy trình nghiệp vụ nhiều bước."
       }
     ]
   },
-  "comparison": {
-    "eyebrow": "Sự khác biệt",
-    "title": "Tại sao chọn AIGen ONE?",
-    "headers": ["Dịch vụ", "Khả năng", "Hạn chế"],
-    "rows": [
-      ["Kintone / Cybozu", "Công cụ xây dựng ứng dụng nghiệp vụ", "Vẫn cần chuyên môn để thực sự xây dựng"],
-      ["ChatGPT / Claude", "AI chat đa mục đích", "Không thể xây dựng hệ thống của công ty bạn"],
-      ["Phát triển tùy chỉnh", "Xây dựng bất cứ điều gì bạn muốn", "Hàng trăm triệu, chờ đợi hàng tháng"],
-      ["AIGen ONE", "Hệ thống tùy chỉnh, chỉ cần nói chuyện", "Không cần chuyên môn — sẵn sàng ngay trong ngày"]
+  "architecture": {
+    "eyebrow": "Technical Structure",
+    "title": "Không chỉ là mô hình AI.\nLà hình thức dùng được cho nghiệp vụ.",
+    "description": "AiGen-One kết hợp mô hình, prompt, RAG, xử lý tệp, tạo màn hình, quyền và nhật ký thành lớp vận hành AI cho công việc thực tế.",
+    "layers": [
+      {
+        "title": "Portal UI",
+        "description": "Hợp nhất menu nghiệp vụ, chat và màn hình được tạo vào một điểm vào."
+      },
+      {
+        "title": "Tạo ứng dụng",
+        "description": "Hỗ trợ phỏng vấn yêu cầu, thiết kế màn hình, thiết kế dữ liệu và thiết kế quy trình."
+      },
+      {
+        "title": "AI Runtime",
+        "description": "Điều khiển LLM, RAG, tóm tắt, dịch, tạo tài liệu và agent theo từng chức năng."
+      },
+      {
+        "title": "Lớp dữ liệu",
+        "description": "Quản lý tệp tải lên, tài liệu chia sẻ, dữ liệu nghiệp vụ, tìm kiếm vector và nguồn tham chiếu."
+      },
+      {
+        "title": "Lớp quản trị",
+        "description": "Quản lý người dùng, quyền, plugin, nhật ký sử dụng và phiên bản."
+      }
     ]
   },
-  "targets": {
-    "eyebrow": "Dành cho ai",
-    "title": "Từ lãnh đạo đến nhân viên tuyến đầu —\ntất cả đều được hưởng lợi.",
-    "description": "AIGen ONE không phải cho 'một số ít người am hiểu công nghệ.' Nếu bạn có thể nói chuyện, bạn có thể sử dụng nó. Đó là cách toàn bộ công ty bạn thực sự hưởng lợi từ AI.",
+  "useCases": {
+    "eyebrow": "Use Cases",
+    "title": "Nghiệp vụ AI sẵn sàng cho từng phòng ban.",
+    "description": "Bắt đầu nhỏ mà không chờ tích hợp hệ thống lõi, kiểm chứng hiệu quả rồi mở rộng toàn công ty.",
     "items": [
       {
-        "label": "a.",
-        "title": "Dành cho lãnh đạo và ban điều hành",
-        "description": "Đừng để đầu tư AI kết thúc là 'chi phí không ai dùng.' Hệ thống nhân viên xây dựng mỗi ngày trực tiếp trở thành năng suất và lợi thế cạnh tranh của công ty. ROI đo lường được."
+        "title": "Kinh doanh",
+        "points": ["Tạo đề xuất từ ghi chú họp", "Tìm kiếm tài liệu đề xuất cũ", "Tóm tắt báo cáo bán hàng"]
       },
       {
-        "label": "b.",
-        "title": "Dành cho nhân viên tuyến đầu",
-        "description": "Bạn có thể xây dựng những hệ thống mà bạn luôn mong muốn có. Giới hạn của Excel, công việc thủ công tẻ nhạt — chỉ cần nói chuyện với AI để tìm giải pháp."
+        "title": "Hành chính",
+        "points": ["Tìm kiếm quy định nội bộ", "Soạn nháp tài liệu phê duyệt", "Hỗ trợ kiểm tra hợp đồng"]
       },
       {
-        "label": "c.",
-        "title": "Dành cho nhóm cải tiến DX",
-        "description": "Không cần nộp yêu cầu cho IT mỗi việc nhỏ. Cải tiến từ tuyến đầu tự nhiên tích lũy thành tài sản tổ chức — được thiết kế sẵn trong hệ thống."
+        "title": "Nhân sự",
+        "points": ["Tóm tắt ghi chú phỏng vấn", "Tạo mô tả tuyển dụng", "Sắp xếp nhận xét đánh giá"]
       },
       {
-        "label": "d.",
-        "title": "Dành cho IT và quản trị hệ thống",
-        "description": "Không còn đau đầu với macro Excel tự phát và shadow IT. Để tuyến đầu xây dựng trong môi trường an toàn, rồi chỉ đưa những cái tốt nhất lên hệ thống chính thức."
+        "title": "Hỗ trợ khách hàng",
+        "points": ["Phân loại yêu cầu", "Soạn gợi ý trả lời", "Cải thiện FAQ"]
+      },
+      {
+        "title": "Công việc toàn cầu",
+        "points": ["Chat đa ngôn ngữ", "Tóm tắt họp với chi nhánh nước ngoài", "Chia sẻ tài liệu có dịch"]
       }
     ]
   },
-  "security": {
-    "eyebrow": "Cam kết an toàn của chúng tôi",
-    "title": "Tiện lợi và bảo mật,\nthiết kế từ đầu.",
-    "description": "Lo lắng về việc để AI làm mọi thứ? Chúng tôi đã giải quyết lo lắng đó từ ngày đầu. Kiểm soát quyền truy cập chi tiết, nhật ký kiểm tra đầy đủ — an toàn được tích hợp trong kiến trúc.",
+  "roadmap": {
+    "eyebrow": "Các bước triển khai",
+    "title": "Bắt đầu nhỏ,\nrồi phát triển thành nền tảng AI nghiệp vụ.",
+    "description": "Bắt đầu với nghiệp vụ AI không cần thay đổi hệ thống hiện có, sau đó mở rộng sang hệ thống hóa công việc hiện trường, vận hành cổng và agent.",
+    "phases": [
+      {
+        "label": "Phase 1",
+        "title": "Plugin AI nghiệp vụ dùng ngay",
+        "description": "Triển khai biên bản họp, tạo đề xuất, RAG chia sẻ tệp và chat đa ngôn ngữ."
+      },
+      {
+        "label": "Phase 2",
+        "title": "Hệ thống hóa công việc hiện trường",
+        "description": "Tạo quản lý yêu cầu, báo cáo ngày, quản lý nhiệm vụ và checklist qua hội thoại."
+      },
+      {
+        "label": "Phase 3",
+        "title": "Vận hành cổng nội bộ",
+        "description": "Sắp xếp hệ thống và plugin theo phòng ban và vai trò."
+      },
+      {
+        "label": "Phase 4",
+        "title": "Quy trình agent",
+        "description": "Thêm các agent AI thực hiện công việc nhiều bước, không chỉ các tính năng AI đơn lẻ."
+      },
+      {
+        "label": "Phase 5",
+        "title": "Marketplace bên ngoài",
+        "description": "Mở rộng thành marketplace nơi đối tác và nhà phát triển có thể công bố plugin và agent."
+      }
+    ]
+  },
+  "governance": {
+    "eyebrow": "Security & Operations",
+    "title": "Không chỉ hữu ích,\nmà còn có thể quản trị.",
+    "description": "AI nghiệp vụ cần cho biết ai đã truy cập gì, đã tạo gì và dùng chức năng nào. AiGen-One được thiết kế để doanh nghiệp quản lý việc dùng AI như một hệ thống vận hành.",
     "items": [
       {
-        "title": "AI không trực tiếp chạm vào dữ liệu nhạy cảm",
-        "description": "Dữ liệu khách hàng và doanh số chỉ có thể truy cập qua các đường dẫn được xác định, được kiểm soát. AI không thể tự ghi đè dữ liệu."
+        "title": "AI không thấy thông tin người dùng không được xem",
+        "description": "Kiểm soát tệp và chức năng truy cập theo phòng ban, vai trò và người dùng."
       },
       {
-        "title": "Kiểm soát khả năng hiển thị chi tiết",
-        "description": "Hạn chế những gì mỗi vai trò, phòng ban hoặc người có thể xem. 'Chức danh hiển thị, lương ẩn' — mức độ kiểm soát đó dễ dàng cấu hình."
+        "title": "Quản lý nguồn theo từng chức năng",
+        "description": "Cấu hình tệp nào RAG có thể tham chiếu và cách hiển thị bằng chứng cho từng chức năng nghiệp vụ."
       },
       {
-        "title": "Bảo vệ trước các hướng dẫn độc hại",
-        "description": "Ngay cả khi ai đó cố 'xuất tất cả dữ liệu nhân viên' từ bên ngoài, hệ thống chặn lại. Sử dụng an toàn được đảm bảo."
+        "title": "Theo dõi nhật ký sử dụng",
+        "description": "Quản trị viên có thể xem ai dùng tính năng nào và thông tin nào đã được tham chiếu."
       },
       {
-        "title": "Mọi hành động đều được ghi lại và theo dõi",
-        "description": "Ai truy cập gì, khi nào và làm gì — tất cả đều được ghi lại. Trong bất kỳ sự cố nào, bạn biết chính xác điều gì đã xảy ra."
+        "title": "Quản lý phiên bản plugin",
+        "description": "Cập nhật prompt, thiết lập mô hình, màn hình và logic xử lý một cách tập trung."
       }
+    ]
+  },
+  "pricing": {
+    "eyebrow": "Pricing",
+    "title": "Gói giá",
+    "description": "AiGen-One có mô hình giá linh hoạt để doanh nghiệp chọn đúng chức năng cần thiết cho người dùng ứng dụng, người dùng AI, người tạo ứng dụng và quản trị viên.",
+    "tableHeaders": {
+      "plan": "Gói",
+      "monthly": "Hàng tháng",
+      "target": "Đối tượng chính",
+      "features": "Chức năng chính"
+    },
+    "plans": [
+      {
+        "plan": "Business User",
+        "monthly": "¥800 / người",
+        "target": "Nhân viên sử dụng ứng dụng nghiệp vụ",
+        "features": "Sử dụng menu nghiệp vụ, ứng dụng đã phát hành, nhập, tìm kiếm, chỉnh sửa và xác nhận"
+      },
+      {
+        "plan": "AI User",
+        "monthly": "¥2,800 / người",
+        "target": "Nhân viên tra cứu hoặc tư vấn với AI",
+        "features": "Chức năng Business User, AiGen-One Chat, chat LLM thông thường, tìm kiếm tri thức nội bộ, hỏi đáp dữ liệu nghiệp vụ, hướng dẫn thao tác, MCP Access"
+      },
+      {
+        "plan": "Workspace User",
+        "monthly": "¥5,800 / người",
+        "target": "Người tạo và cải thiện ứng dụng nghiệp vụ",
+        "features": "Chức năng AI User, tạo ứng dụng, cải tiến từ ứng dụng hiện có, xem trước, tinh chỉnh bằng chat, yêu cầu chia sẻ"
+      },
+      {
+        "plan": "Organization Admin",
+        "monthly": "¥6,800 / người",
+        "target": "Quản lý bộ phận và người phụ trách nghiệp vụ",
+        "features": "Chức năng AI User, tạo ứng dụng, quản lý nhân viên, quyền, giới hạn sử dụng, phê duyệt chia sẻ, quản lý menu nghiệp vụ"
+      },
+      {
+        "plan": "System Admin",
+        "monthly": "Bao gồm / tính thêm",
+        "target": "CNTT và quản trị toàn hệ thống",
+        "features": "Quản lý tổ chức, kết nối DB, tích hợp bên ngoài, Git / API / MCP / OAuth, phát hành production, plugin, bảo mật, nhật ký kiểm toán"
+      }
+    ],
+    "aiUserTitle": "Bao gồm trong AI User",
+    "aiUserDescription": "AiGen-One Chat là AI chuyên dụng cho nghiệp vụ, hỗ trợ viết, tóm tắt và tư vấn như LLM chat thông thường, đồng thời tìm kiếm tri thức nội bộ, hỏi đáp dữ liệu nghiệp vụ, hướng dẫn thao tác và hỗ trợ tạo ứng dụng. Với MCP Access, người dùng cũng có thể sử dụng tri thức nội bộ, dữ liệu nghiệp vụ và chức năng tạo ứng dụng của AiGen-One một cách an toàn từ các LLM chat hỗ trợ MCP như Claude và Codex.",
+    "aiUserQuote": "Giữ nguyên AI quen thuộc. Kết nối dữ liệu nghiệp vụ và tri thức nội bộ an toàn qua AiGen-One.",
+    "baseTitle": "Phí cơ bản",
+    "baseFees": [
+      {
+        "item": "Phí triển khai ban đầu",
+        "price": "¥500k-¥1.5M"
+      },
+      {
+        "item": "Phí nền tảng cơ bản",
+        "price": "¥150k / tháng"
+      },
+      {
+        "item": "Phí plugin",
+        "price": "¥30k-¥150k / tháng / plugin"
+      },
+      {
+        "item": "Bộ plugin theo ngành",
+        "price": "¥200k-¥500k / tháng"
+      }
+    ],
+    "policyTitle": "Cách nghĩ về gói",
+    "notes": [
+      "Giữ chi phí thấp cho nhân viên chỉ sử dụng ứng dụng nghiệp vụ.",
+      "Chỉ thêm AI, tạo ứng dụng, quản lý tổ chức và plugin khi cần.",
+      "Trong tổ chức nhỏ, Organization Admin có thể phụ trách cả tạo ứng dụng.",
+      "Trong tổ chức lớn, có thể tách Workspace User và Organization Admin để phát triển, phê duyệt và vận hành an toàn."
     ]
   },
   "cta": {
-    "eyebrow": "Từ 'nhờ ai đó xây dựng' đến 'chỉ nói và xây dựng.'",
-    "title": "Chúng tôi có tài liệu sẵn sàng\nvề cách AIGen ONE hoạt động và chi phí.",
-    "description": "Liên hệ với bất kỳ câu hỏi nào — miễn phí.",
+    "badge": "AI nghiệp vụ thành hạ tầng công ty",
+    "title": "Trước khi thêm công cụ AI,\nhãy đưa AI vào công việc.",
+    "description": "AiGen-One tạo hệ thống nghiệp vụ từ ngôn ngữ hiện trường, phân phối tính năng AI trong nội bộ và biến sự tiến hóa của AI thành giá trị vận hành.",
     "buttons": {
-      "contact": "Yêu cầu tài liệu (Miễn phí)",
-      "demo": "Đặt lịch demo trực tuyến"
+      "contact": "Trao đổi triển khai",
+      "demo": "Xem demo trực tuyến"
     }
   }
 }

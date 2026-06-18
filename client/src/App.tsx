@@ -257,7 +257,7 @@ function App() {
         { name: "EduMate", href: linkTo("/products/edumate", locale) },
         { name: "OfficeBrain", href: linkTo("/products/officebrain", locale) },
         { name: "Enterprise LLM", href: linkTo("/products/enterprise-llm", locale) },
-        { name: "AIGen ONE", href: linkTo("/products/aigen-one", locale) },
+        { name: "AiGen-One", href: linkTo("/products/aigen-one", locale) },
         { name: "Bayd-System", href: linkTo("/products/bayd-system", locale) }
       ]
     },

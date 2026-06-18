@@ -25,7 +25,7 @@ module.exports = {
   deploy: {
     production: {
       user: "admin",
-      host: "13.115.161.22",
+      host: "52.196.136.76",
       ssh_options: "StrictHostKeyChecking=no",
       key: "/Users/shin/.ssh/id_rsa",
       ref: "origin/main",

@@ -2,7 +2,7 @@
 # 初回セットアップ用スクリプト（marukana方式）
 set -e
 
-SERVER="admin@13.115.161.22"
+SERVER="admin@52.196.136.76"
 KEY="/Users/shin/.ssh/id_rsa"
 APP_DIR="/var/www/d-auchy"
 APP_NAME="dauchy-studio"

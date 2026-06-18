@@ -32,8 +32,8 @@
     "tags": ["Music", "Studio", "Management System", "Booking Management"]
   },
   "aigenone": {
-    "name": "AIGen ONE",
-    "description": "Just talk and your custom business system is ready. No coding required, available from day one. Enterprise AI platform that builds any business system — from customer management to inventory.",
-    "tags": ["Enterprise", "AI", "No-Code", "Business Systems"]
+    "name": "AiGen-One",
+    "description": "An AI operations platform that turns frontline language into business systems and distributes managed AI features through an internal portal.",
+    "tags": ["Enterprise", "AI Portal", "Plugins", "Business Systems"]
   }
 }
