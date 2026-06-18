@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { Link } from "wouter";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Card, CardContent } from "@/components/ui/card";
@@ -60,10 +59,12 @@ const architectureIcons = [Layers, Puzzle, Sparkles, Database, ShieldCheck];
 const useCaseIcons = [BarChart3, FileText, Users, MessageSquare, Languages];
 const governanceIcons = [Lock, Search, Activity, GitBranch];
 const demoUrl = "https://youtu.be/QnKgrSrNcmo";
+const contactBaseUrl = "https://d-auchy.studio";
 
 export default function AIGenOne() {
   const { t } = useTranslation("aigen-one");
   const { locale } = useLocale();
+  const contactUrl = `${contactBaseUrl}/${locale}/contact`;
 
   useEffect(() => {
     document.title = t("meta.title");
@@ -139,10 +140,10 @@ export default function AIGenOne() {
               </div>
               <div className="flex flex-wrap gap-4">
                 <Button size="lg" className="bg-primary text-white hover:bg-primary/90" asChild>
-                  <Link href={`/${locale}/contact`}>
+                  <a href={contactUrl}>
                     {t("hero.buttons.contact")}
                     <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
+                  </a>
                 </Button>
                 <Button size="lg" variant="outline" className="border-white/30 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20" asChild>
                   <a href={demoUrl} target="_blank" rel="noreferrer">
@@ -362,7 +363,7 @@ export default function AIGenOne() {
         </div>
       </section>
 
-      <section className="bg-muted/30 py-20 sm:py-28">
+      <section id="pricing" className="bg-muted/30 py-20 sm:py-28">
         <div className="container mx-auto max-w-6xl px-4">
           <div className="mb-14 grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-end">
             <div>
@@ -606,10 +607,10 @@ export default function AIGenOne() {
             <p className="mx-auto mb-10 max-w-2xl leading-relaxed text-slate-300">{t("cta.description")}</p>
             <div className="flex flex-wrap justify-center gap-4">
               <Button size="lg" className="bg-primary text-white hover:bg-primary/90" asChild>
-                <Link href={`/${locale}/contact`}>
+                <a href={contactUrl}>
                   {t("cta.buttons.contact")}
                   <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
+                </a>
               </Button>
               <Button size="lg" variant="outline" className="border-white/30 bg-white/10 text-white backdrop-blur-sm hover:bg-white/20" asChild>
                 <a href={demoUrl} target="_blank" rel="noreferrer">
