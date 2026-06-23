@@ -58,6 +58,7 @@ export interface RagChatRequest {
   context: string;
   locale: string;
   conversationHistory?: { role: 'user' | 'assistant'; content: string }[];
+  detailed?: boolean;
 }
 
 export interface RagChatResult {
@@ -66,7 +67,23 @@ export interface RagChatResult {
 }
 
 export async function generateRagChatResponse(request: RagChatRequest): Promise<RagChatResult> {
-  const { userMessage, context, locale, conversationHistory = [] } = request;
+  const messages = buildRagChatMessages(request);
+
+  const response = await openai.chat.completions.create({
+    model: 'gpt-4o-mini',
+    messages,
+    temperature: 0.35,
+    max_tokens: request.detailed ? 1100 : 420,
+  });
+
+  return {
+    response: response.choices[0]?.message?.content || '',
+    tokensUsed: response.usage?.total_tokens || 0,
+  };
+}
+
+function buildRagChatMessages(request: RagChatRequest): OpenAI.ChatCompletionMessageParam[] {
+  const { userMessage, context, locale, conversationHistory = [], detailed = false } = request;
 
   const languageInstructions: Record<string, string> = {
     ja: '日本語で回答してください。丁寧な敬語を使用してください。',
@@ -74,7 +91,11 @@ export async function generateRagChatResponse(request: RagChatRequest): Promise<
     vi: 'Vui lòng trả lời bằng tiếng Việt một cách chuyên nghiệp và thân thiện.',
   };
 
-  const systemPrompt = `あなたは「D'auchy.Studio」のAIアシスタントです。会社とその創設者「内田伸（Shin Uchida）」に関する質問に正確で親切に回答してください。
+  const lengthInstruction = detailed
+    ? 'ユーザーは詳しい説明を求めています。必要な見出しと箇条書きを使い、具体例・料金・導入観点まで丁寧に説明してください。'
+    : 'まず結論から短く答えてください。原則として2〜4文、または箇条書き3点までに収めてください。料金を聞かれた場合も代表プランと基本料だけを簡潔に示し、全プランの網羅は求められた時だけにしてください。';
+
+  const systemPrompt = `あなたは「D'auchy.Studio」のAIアシスタントです。会社、創設者「内田伸（Shin Uchida）」、および主要サービス「AiGen-One」に関する質問に正確で親切に回答してください。
 
 以下の情報を参考にして回答してください：
 
@@ -82,17 +103,25 @@ ${context}
 
 回答のガイドライン：
 - 提供された情報に基づいて正確に回答してください
-- 情報がない場合は、正直に「その情報はありません」と伝えてください
+- 情報がない場合は、推測で断定せず、分かっている範囲と不明点を分けて伝えてください
 - ${languageInstructions[locale] || languageInstructions.ja}
-- 簡潔で分かりやすい回答を心がけてください
+- ${lengthInstruction}
+- ユーザーが詳しい説明を求めている場合や、AiGen-Oneの機能・料金・導入・運用・MCP・プラグインについて聞いている場合は、箇条書きも使って具体的に説明してください
+- 質問が短い場合でも、関連する前提、対象ユーザー、導入メリット、注意点を必要に応じて補足してください
 - 会社の強みや特徴を積極的にアピールしてください
+
+AiGen-Oneについて回答する時の重点：
+- AiGen-OneはAIツールの使い方を教える研修サービスではなく、AI業務を作り、配り、運用するためのAI業務ポータルです
+- 「AIツールを配る時代から、AI業務を配る時代へ」というメッセージを軸に説明してください
+- プリセットAI機能、業務アプリ生成、Plugin Marketplace、AiGen-One Chat、MCP Access、権限管理、ログ、RAG、料金プランを必要に応じて具体的に説明してください
+- 料金を聞かれた場合は、ユーザー単価と基本料金を分けて説明してください
 
 重要：実績（achievements）や成果について質問された場合：
 - 内田伸（創設者）の個人的な実績・経歴・プロジェクト
-- D'auchy.Studioの会社としての実績・製品（LingaLink、EduMate、OfficeBrain、Bayd-System等）
+- D'auchy.Studioの会社としての実績・製品（AiGen-One、LingaLink、EduMate、OfficeBrain、Bayd-System等）
 両方を統合して回答してください。内田伸はD'auchy.Studioの創設者であり、すべてのプロダクトの開発者です。`;
 
-  const messages: OpenAI.ChatCompletionMessageParam[] = [
+  return [
     { role: 'system', content: systemPrompt },
     ...conversationHistory.map(msg => ({
       role: msg.role as 'user' | 'assistant',
@@ -100,18 +129,21 @@ ${context}
     })),
     { role: 'user', content: userMessage },
   ];
+}
 
-  const response = await openai.chat.completions.create({
+export async function* streamRagChatResponse(request: RagChatRequest): AsyncGenerator<string> {
+  const stream = await openai.chat.completions.create({
     model: 'gpt-4o-mini',
-    messages,
-    temperature: 0.7,
-    max_tokens: 1000,
+    messages: buildRagChatMessages(request),
+    temperature: 0.35,
+    max_tokens: request.detailed ? 1100 : 420,
+    stream: true,
   });
 
-  return {
-    response: response.choices[0]?.message?.content || '',
-    tokensUsed: response.usage?.total_tokens || 0,
-  };
+  for await (const chunk of stream) {
+    const content = chunk.choices[0]?.delta?.content;
+    if (content) yield content;
+  }
 }
 
 export interface TranslationRequest {

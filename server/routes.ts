@@ -77,6 +77,9 @@ const adminLoginSchema = z.object({
   password: z.string().min(1)
 });
 
+const publicNewsCache = new Map<string, { expiresAt: number; data: unknown }>();
+const publicNewsCacheTtlMs = 5 * 60 * 1000;
+
 // Use shared admin authentication middleware from lib/auth.ts
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -272,11 +275,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/news', async (req, res) => {
     try {
       const locale = (req.query.locale as string) || 'ja';
+      const limit = Number.parseInt((req.query.limit as string) || '', 10);
+      const cacheKey = `${locale}:${Number.isFinite(limit) && limit > 0 ? limit : 'all'}`;
+      const cached = publicNewsCache.get(cacheKey);
+      if (cached && cached.expiresAt > Date.now()) {
+        return res.json(cached.data);
+      }
+
       const allNews = await storage.getPublishedNews();
+      const newsForResponse = Number.isFinite(limit) && limit > 0 ? allNews.slice(0, limit) : allNews;
       
       // Fetch translations for each news item
       const newsWithTranslations = await Promise.all(
-        allNews.map(async (newsItem) => {
+        newsForResponse.map(async (newsItem) => {
           const translation = await storage.getNewsTranslation(newsItem.id, locale);
           
           // Filter out AI error messages from excerpt
@@ -301,15 +312,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
             thumbnail = imgMatch ? imgMatch[1] : '';
           }
 
-          // Strip base64 images from list content (kept for detail endpoint)
-          const rawContent = sanitizeHtmlContent(translation?.content || newsItem.content || '');
-          const listContent = rawContent.replace(/<img([^>]+)src="data:[^"]*"([^>]*)>/gi, '');
-
           return {
             id: newsItem.id,
             title: translation?.title || newsItem.title || '',
             summary,
-            content: listContent,
             thumbnail,
             publishedAt: newsItem.publishedAt?.toISOString() || new Date().toISOString(),
             category: newsItem.category || 'technology',
@@ -322,6 +328,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
         })
       );
       
+      publicNewsCache.set(cacheKey, {
+        expiresAt: Date.now() + publicNewsCacheTtlMs,
+        data: newsWithTranslations,
+      });
       res.json(newsWithTranslations);
     } catch (error) {
       console.error("Error fetching news:", error);
@@ -1159,6 +1169,65 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // =====================
   
   // Public chat endpoint - for website visitors
+  app.post('/api/chat/stream', async (req, res) => {
+    try {
+      const { streamChatResponse } = await import('./lib/ragService');
+      const { message, locale = 'ja', sessionId } = req.body;
+
+      if (!message || typeof message !== 'string') {
+        return res.status(400).json({ message: 'Message is required' });
+      }
+
+      if (!sessionId || typeof sessionId !== 'string') {
+        return res.status(400).json({ message: 'Session ID is required' });
+      }
+
+      res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
+      res.setHeader('Cache-Control', 'no-cache, no-transform');
+      res.setHeader('Connection', 'keep-alive');
+      res.setHeader('X-Accel-Buffering', 'no');
+      res.flushHeaders?.();
+
+      res.write(`event: status\ndata: ${JSON.stringify({ phase: 'preparing' })}\n\n`);
+      (res as any).flush?.();
+
+      const history = await Promise.race([
+        storage.getChatHistory(sessionId),
+        new Promise<any[]>((resolve) => setTimeout(() => {
+          console.warn('[Chat] Chat history lookup timed out; continuing without history');
+          resolve([]);
+        }, 2000))
+      ]);
+      const conversationHistory = history.slice(-4).map(h => ([
+        { role: 'user' as const, content: h.userMessage },
+        { role: 'assistant' as const, content: h.assistantMessage }
+      ])).flat();
+
+      const result = await streamChatResponse(message, locale, sessionId, conversationHistory);
+      res.write(`event: meta\ndata: ${JSON.stringify({ retrievedDocIds: result.retrievedDocIds })}\n\n`);
+      (res as any).flush?.();
+
+      let assistantMessage = '';
+      for await (const token of result.stream) {
+        assistantMessage += token;
+        res.write(`event: token\ndata: ${JSON.stringify(token)}\n\n`);
+        (res as any).flush?.();
+      }
+
+      await result.save(assistantMessage);
+      res.write(`event: done\ndata: ${JSON.stringify({ ok: true })}\n\n`);
+      (res as any).flush?.();
+      res.end();
+    } catch (error) {
+      console.error("Error in streaming chat:", error);
+      if (!res.headersSent) {
+        return res.status(500).json({ message: "Failed to generate response" });
+      }
+      res.write(`event: error\ndata: ${JSON.stringify({ message: "Failed to generate response" })}\n\n`);
+      res.end();
+    }
+  });
+
   app.post('/api/chat', async (req, res) => {
     try {
       const { rebuildRagIndex, generateChatResponse } = await import('./lib/ragService');

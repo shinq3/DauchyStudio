@@ -110,7 +110,15 @@ export default function ChatPage() {
     }
 
     try {
-      const response = await fetch('/api/chat', {
+      const assistantMessageId = `assistant_${Date.now()}`;
+      setMessages(prev => [...prev, {
+        id: assistantMessageId,
+        role: 'assistant',
+        content: '',
+        timestamp: new Date()
+      }]);
+
+      const response = await fetch('/api/chat/stream', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -121,26 +129,50 @@ export default function ChatPage() {
       });
 
       if (!response.ok) throw new Error('Failed to get response');
+      if (!response.body) throw new Error('Streaming response is not available');
 
-      const data = await response.json();
-      
-      const assistantMessage: Message = {
-        id: `assistant_${Date.now()}`,
-        role: 'assistant',
-        content: data.response,
-        timestamp: new Date()
-      };
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
 
-      setMessages(prev => [...prev, assistantMessage]);
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const events = buffer.split('\n\n');
+        buffer = events.pop() || '';
+
+        for (const eventText of events) {
+          const eventLine = eventText.split('\n').find(line => line.startsWith('event: '));
+          const dataLine = eventText.split('\n').find(line => line.startsWith('data: '));
+          if (!eventLine || !dataLine) continue;
+
+          const eventName = eventLine.slice(7);
+          if (eventName === 'token') {
+            const token = JSON.parse(dataLine.slice(6));
+            setMessages(prev => prev.map(message =>
+              message.id === assistantMessageId
+                ? { ...message, content: message.content + token }
+                : message
+            ));
+          } else if (eventName === 'error') {
+            throw new Error('Streaming chat failed');
+          }
+        }
+      }
     } catch (error) {
       console.error('Chat error:', error);
       
-      setMessages(prev => [...prev, {
-        id: `error_${Date.now()}`,
-        role: 'assistant',
-        content: t('chat.error'),
-        timestamp: new Date()
-      }]);
+      setMessages(prev => {
+        const withoutEmptyAssistant = prev.filter(message => message.content || message.role !== 'assistant');
+        return [...withoutEmptyAssistant, {
+          id: `error_${Date.now()}`,
+          role: 'assistant',
+          content: t('chat.error'),
+          timestamp: new Date()
+        }];
+      });
     } finally {
       setIsLoading(false);
     }
@@ -320,7 +352,15 @@ export default function ChatPage() {
                         }`}
                         data-testid={`text-fullscreen-message-${message.role}`}
                       >
-                        <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
+                        {message.content ? (
+                          <p className="text-sm whitespace-pre-wrap leading-relaxed">{message.content}</p>
+                        ) : (
+                          <div className="flex gap-1 py-1">
+                            <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                            <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                            <span className="w-2 h-2 bg-gray-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                          </div>
+                        )}
                       </div>
                       {message.role === 'user' && (
                         <div className="flex-shrink-0 w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center">
@@ -329,7 +369,7 @@ export default function ChatPage() {
                       )}
                     </motion.div>
                   ))}
-                  {isLoading && (
+                  {isLoading && !messages.some(message => message.role === 'assistant' && message.content === '') && (
                     <motion.div 
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}

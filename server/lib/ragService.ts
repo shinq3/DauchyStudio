@@ -1,8 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { storage } from '../storage';
-import { generateEmbedding, cosineSimilarity, generateRagChatResponse } from './openaiClient';
+import { generateEmbedding, cosineSimilarity, generateRagChatResponse, streamRagChatResponse } from './openaiClient';
 import type { RagDocument } from '@shared/schema';
+import { getAigenOneKnowledge } from './aigenOneKnowledge';
 
 interface ContentChunk {
   sourceType: string;
@@ -123,6 +124,21 @@ export async function extractAllContent(): Promise<ContentChunk[]> {
   const locales = ['ja', 'en', 'vi'];
   
   for (const locale of locales) {
+    for (const [index, item] of getAigenOneKnowledge(locale).entries()) {
+      chunks.push({
+        sourceType: 'product',
+        sourceId: `aigen-one-knowledge-${index + 1}`,
+        title: item.title,
+        content: item.content,
+        locale,
+        metadata: {
+          product: 'AiGen-One',
+          url: `/${locale}/products/aigen-one`,
+          priority: 'high',
+        },
+      });
+    }
+
     const localeDir = path.join(localesDir, locale);
     
     if (!fs.existsSync(localeDir)) {
@@ -257,27 +273,14 @@ export async function generateChatResponse(
   conversationHistory: { role: 'user' | 'assistant'; content: string }[] = []
 ): Promise<{ response: string; retrievedDocIds: string[] }> {
   try {
-    const relevantDocs = await searchRelevantDocuments(userMessage, locale, 5);
-    
-    let context = '';
-    const retrievedDocIds: string[] = [];
-    
-    for (const { document, score } of relevantDocs) {
-      if (score > 0.3) {
-        context += `\n---\n【${document.title}】\n${document.content}\n`;
-        retrievedDocIds.push(document.id);
-      }
-    }
-    
-    if (!context) {
-      context = '該当する情報が見つかりませんでした。一般的な質問にお答えします。';
-    }
+    const { context, retrievedDocIds, detailed } = await buildChatContext(userMessage, locale);
     
     const result = await generateRagChatResponse({
       userMessage,
       context,
       locale,
-      conversationHistory
+      conversationHistory,
+      detailed
     });
     
     await storage.createChatHistory({
@@ -296,4 +299,118 @@ export async function generateChatResponse(
     console.error('[RAG] Chat response generation failed:', error);
     throw error;
   }
+}
+
+function isDetailedQuestion(userMessage: string): boolean {
+  if (/短く|簡単|要約|一言|ざっくり|手短|サクッと/i.test(userMessage)) {
+    return false;
+  }
+
+  return /詳しく|詳細|具体|比較|料金|価格|プラン|導入|運用|セキュリティ|権限|mcp|MCP|プラグイン|ロードマップ|ユースケース|できること|仕組み|違い/i.test(userMessage);
+}
+
+function isAigenOneQuestion(userMessage: string): boolean {
+  return /aigen|ai\s*gen|アイジェン|ＡｉＧｅｎ|料金|プラン|mcp|プラグイン|業務システム|業務ai|業務ＡＩ|ai業務|ＡＩ業務/i.test(userMessage);
+}
+
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number, fallback: T, label: string): Promise<T> {
+  let timeout: ReturnType<typeof setTimeout> | undefined;
+
+  const timeoutPromise = new Promise<T>((resolve) => {
+    timeout = setTimeout(() => {
+      console.warn(`[RAG] ${label} timed out after ${timeoutMs}ms; using fallback context`);
+      resolve(fallback);
+    }, timeoutMs);
+  });
+
+  const guardedPromise = promise.catch((error) => {
+    console.error(`[RAG] ${label} failed; using fallback context:`, error);
+    return fallback;
+  });
+
+  return Promise.race([guardedPromise, timeoutPromise]).finally(() => {
+    if (timeout) clearTimeout(timeout);
+  });
+}
+
+function buildAigenOneDirectContext(locale: string, userMessage: string, maxDocs: number): { context: string; retrievedDocIds: string[] } {
+  const allChunks = getAigenOneKnowledge(locale);
+  const priorityTitles = /料金|価格|プラン|費用|月額/i.test(userMessage)
+    ? ['概要', '料金', 'Chat', 'Plugin']
+    : ['概要', '解決', '利用', 'Plugin'];
+  const prioritized = priorityTitles
+    .flatMap(keyword => allChunks.filter(item => item.title.includes(keyword)))
+    .filter((item, index, array) => array.findIndex(candidate => candidate.title === item.title) === index);
+  const remaining = allChunks.filter(item => !prioritized.some(candidate => candidate.title === item.title));
+  const chunks = [...prioritized, ...remaining].slice(0, maxDocs);
+  const context = chunks
+    .map(item => `\n---\n【${item.title}】\n${item.content}\n`)
+    .join('');
+
+  return {
+    context,
+    retrievedDocIds: chunks.map((_, index) => `aigen-one-direct-${locale}-${index + 1}`),
+  };
+}
+
+async function buildChatContext(userMessage: string, locale: string): Promise<{ context: string; retrievedDocIds: string[]; detailed: boolean }> {
+  const isAigenQuestion = isAigenOneQuestion(userMessage);
+  const detailed = isDetailedQuestion(userMessage);
+  const maxDocs = detailed ? 8 : 4;
+  const directAigenContext = isAigenQuestion
+    ? buildAigenOneDirectContext(locale, userMessage, maxDocs)
+    : { context: '', retrievedDocIds: [] };
+  const relevantDocs = await withTimeout(
+    searchRelevantDocuments(userMessage, locale, isAigenQuestion ? (detailed ? 8 : 5) : 5),
+    isAigenQuestion ? 2500 : 5000,
+    [],
+    'semantic document search'
+  );
+
+  let context = directAigenContext.context;
+  const retrievedDocIds: string[] = [];
+  retrievedDocIds.push(...directAigenContext.retrievedDocIds);
+
+  for (const { document, score } of relevantDocs) {
+    const threshold = isAigenQuestion ? 0.18 : 0.25;
+    if (score > threshold && retrievedDocIds.length < maxDocs) {
+      context += `\n---\n【${document.title}】\n${document.content}\n`;
+      retrievedDocIds.push(document.id);
+    }
+  }
+
+  if (!context) {
+    context = '該当する情報が見つかりませんでした。一般的な質問にお答えします。';
+  }
+
+  return { context, retrievedDocIds, detailed };
+}
+
+export async function streamChatResponse(
+  userMessage: string,
+  locale: string,
+  sessionId: string,
+  conversationHistory: { role: 'user' | 'assistant'; content: string }[] = []
+): Promise<{ stream: AsyncGenerator<string>; retrievedDocIds: string[]; save: (assistantMessage: string) => Promise<void> }> {
+  const { context, retrievedDocIds, detailed } = await buildChatContext(userMessage, locale);
+
+  return {
+    stream: streamRagChatResponse({
+      userMessage,
+      context,
+      locale,
+      conversationHistory,
+      detailed,
+    }),
+    retrievedDocIds,
+    save: async (assistantMessage: string) => {
+      await storage.createChatHistory({
+        sessionId,
+        userMessage,
+        assistantMessage,
+        locale,
+        retrievedDocIds
+      });
+    }
+  };
 }
