@@ -61,7 +61,8 @@ export interface IStorage {
   
   // News operations
   getNews(id: string): Promise<News | undefined>;
-  getAllNews(): Promise<News[]>;
+  getAllNews(limit?: number): Promise<News[]>;
+  getNewsList(limit: number): Promise<Array<Omit<News, 'content' | 'featuredImage'>>>;
   getPublishedNews(): Promise<News[]>;
   createNews(news: InsertNews & { authorId: string }): Promise<News>;
   updateNews(id: string, news: Partial<InsertNews>): Promise<News | undefined>;
@@ -93,7 +94,7 @@ export interface IStorage {
   // RSS import queue operations
   getRssImportQueueItem(id: string): Promise<RssImportQueue | undefined>;
   getRssImportQueueItemBySourceUrl(sourceUrl: string): Promise<RssImportQueue | undefined>;
-  getRssImportQueue(status?: string): Promise<RssImportQueue[]>;
+  getRssImportQueue(status?: string, limit?: number): Promise<RssImportQueue[]>;
   createRssImportQueueItem(item: InsertRssImportQueue): Promise<RssImportQueue>;
   updateRssImportQueueItem(id: string, item: Partial<InsertRssImportQueue>): Promise<RssImportQueue | undefined>;
   deleteRssImportQueueItem(id: string): Promise<void>;
@@ -230,8 +231,30 @@ export class DatabaseStorage implements IStorage {
     return newsItem;
   }
 
-  async getAllNews(): Promise<News[]> {
-    return db.select().from(news).orderBy(desc(news.createdAt));
+  async getAllNews(limit?: number): Promise<News[]> {
+    const query = db.select().from(news).orderBy(desc(news.createdAt));
+    return limit ? query.limit(limit) : query;
+  }
+
+  async getNewsList(limit: number): Promise<Array<Omit<News, 'content' | 'featuredImage'>>> {
+    return db.select({
+      id: news.id,
+      title: news.title,
+      slug: news.slug,
+      excerpt: news.excerpt,
+      category: news.category,
+      tags: news.tags,
+      isExternal: news.isExternal,
+      externalUrl: news.externalUrl,
+      sourceUrl: news.sourceUrl,
+      sourceAttribution: news.sourceAttribution,
+      originalPublishedAt: news.originalPublishedAt,
+      status: news.status,
+      publishedAt: news.publishedAt,
+      createdAt: news.createdAt,
+      updatedAt: news.updatedAt,
+      authorId: news.authorId,
+    }).from(news).orderBy(desc(news.createdAt)).limit(limit);
   }
 
   async getPublishedNews(): Promise<News[]> {
@@ -390,13 +413,15 @@ export class DatabaseStorage implements IStorage {
     });
   }
 
-  async getRssImportQueue(status?: string): Promise<RssImportQueue[]> {
+  async getRssImportQueue(status?: string, limit?: number): Promise<RssImportQueue[]> {
     if (status) {
-      return db.select().from(rssImportQueue)
+      const query = db.select().from(rssImportQueue)
         .where(eq(rssImportQueue.processingState, status))
         .orderBy(desc(rssImportQueue.createdAt));
+      return limit ? query.limit(limit) : query;
     }
-    return db.select().from(rssImportQueue).orderBy(desc(rssImportQueue.createdAt));
+    const query = db.select().from(rssImportQueue).orderBy(desc(rssImportQueue.createdAt));
+    return limit ? query.limit(limit) : query;
   }
 
   async createRssImportQueueItem(itemData: InsertRssImportQueue): Promise<RssImportQueue> {

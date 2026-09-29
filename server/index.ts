@@ -1,7 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import { startRssPolling } from "./lib/rssPoller";
 
 const app = express();
 app.use(express.json({ limit: '10mb' }));
@@ -87,11 +86,17 @@ app.use((req, res, next) => {
     port,
     host: "0.0.0.0",
     reusePort: true,
-  }, () => {
+  }, async () => {
     log(`serving on port ${port}`);
     
-    // Start RSS polling every 5 minutes
-    startRssPolling(5);
-    log('RSS polling started');
+    // Feed imports can be CPU and database intensive. They must be run by a
+    // dedicated worker, not the web process that serves the admin UI.
+    if (process.env.RSS_POLLING_ENABLED === 'true') {
+      const { startRssPolling } = await import('./lib/rssPoller');
+      startRssPolling(5);
+      log('RSS polling started');
+    } else {
+      log('RSS polling is disabled for the web process');
+    }
   });
 })();

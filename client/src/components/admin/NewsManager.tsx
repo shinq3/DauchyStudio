@@ -252,7 +252,18 @@ export default function NewsManager() {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => setEditingNews(news)}
+                    onClick={async () => {
+                      try {
+                        const response = await apiRequest(`/api/admin/news/${news.id}`);
+                        setEditingNews(await response.json());
+                      } catch (error: any) {
+                        toast({
+                          title: t('common.error'),
+                          description: error.message || 'Failed to load news article',
+                          variant: 'destructive',
+                        });
+                      }
+                    }}
                     data-testid={`button-edit-${news.id}`}
                   >
                     <Edit className="w-4 h-4" />

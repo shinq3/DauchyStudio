@@ -589,11 +589,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // News management
   app.get('/api/admin/news', isAdminAuth, async (req, res) => {
     try {
-      const news = await storage.getAllNews();
-      res.json(news);
+      const requestedLimit = Number(req.query.limit);
+      const limit = Number.isInteger(requestedLimit) && requestedLimit > 0
+        ? Math.min(requestedLimit, 100)
+        : 50;
+      const news = await storage.getNewsList(limit);
+      // The list view does not render article bodies or full-size images.
+      // Keep its response small; the complete article is fetched on edit.
+      res.json(news.map(item => ({ ...item, content: '', featuredImage: null })));
     } catch (error) {
       console.error("Error fetching news:", error);
       res.status(500).json({ message: "Failed to fetch news" });
+    }
+  });
+
+  app.get('/api/admin/news/:id', isAdminAuth, async (req, res) => {
+    try {
+      const newsItem = await storage.getNews(req.params.id);
+      if (!newsItem) {
+        return res.status(404).json({ message: 'News item not found' });
+      }
+      res.json(newsItem);
+    } catch (error) {
+      console.error('Error fetching news item:', error);
+      res.status(500).json({ message: 'Failed to fetch news item' });
     }
   });
 
@@ -1022,7 +1041,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/api/admin/rss/queue', isAdminAuth, async (req, res) => {
     try {
       const status = req.query.status as string | undefined;
-      const queueItems = await storage.getRssImportQueue(status);
+      const requestedLimit = Number(req.query.limit);
+      const limit = Number.isInteger(requestedLimit) && requestedLimit > 0
+        ? Math.min(requestedLimit, 100)
+        : 50;
+      const queueItems = await storage.getRssImportQueue(status, limit);
       res.json(queueItems);
     } catch (error) {
       console.error("Error fetching RSS import queue:", error);

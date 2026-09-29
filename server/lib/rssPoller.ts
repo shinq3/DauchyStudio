@@ -126,7 +126,18 @@ function extractThumbnailUrl(item: RssItem): string | null {
   return null;
 }
 
+let isPolling = false;
+
 export async function pollAllActiveRssFeeds(): Promise<void> {
+  // A full poll can take longer than the five-minute scheduler interval.
+  // Do not start another run while the current one is still using the shared
+  // database pool and event loop.
+  if (isPolling) {
+    console.log('RSS polling already in progress; skipping this interval');
+    return;
+  }
+
+  isPolling = true;
   try {
     const sources = await storage.getAllRssSources();
     const activeSources = sources.filter(s => s.isActive);
@@ -150,6 +161,8 @@ export async function pollAllActiveRssFeeds(): Promise<void> {
     }
   } catch (error) {
     console.error('Error polling RSS feeds:', error);
+  } finally {
+    isPolling = false;
   }
 }
 
