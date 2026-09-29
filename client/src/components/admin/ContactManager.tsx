@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Eye, Mail, Globe, Calendar, User } from "lucide-react";
 import { formatDistanceToNow, format } from "date-fns";
 import type { Contact } from "@shared/schema";
@@ -159,7 +158,7 @@ export default function ContactManager() {
                         <Eye className="w-4 h-4" />
                       </Button>
                     </DialogTrigger>
-                    <DialogContent className="max-w-2xl">
+                    <DialogContent className="w-[calc(100vw-2rem)] max-w-6xl max-h-[90vh] overflow-y-auto p-8">
                       <DialogHeader>
                         <DialogTitle>Contact Details</DialogTitle>
                       </DialogHeader>
@@ -285,9 +284,7 @@ function ContactDetails({ contact }: { contact: Contact }) {
           <CardTitle className="text-sm font-medium">Message</CardTitle>
         </CardHeader>
         <CardContent>
-          <ScrollArea className="max-h-40">
-            <p className="text-sm whitespace-pre-wrap">{contact.message}</p>
-          </ScrollArea>
+          <p className="text-sm whitespace-pre-wrap break-words">{contact.message}</p>
         </CardContent>
       </Card>
     </div>
